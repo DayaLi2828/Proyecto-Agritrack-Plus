@@ -127,3 +127,125 @@ body{
     background-color: #b9fcd9;
     outline: none;
 }
+.icono__buscador{
+  width: 35px;
+  height: 35px;
+  margin-left: 10px;
+  margin-top: 8px;
+}
+.contenedores__tareas{
+  width: 70%;
+  height: 406px;
+  background-color: white;
+  border: solid #b9fcd9;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+.contenedores__tareas h2 {
+  color: #064e3b;
+  padding: 20px;
+  margin-left: 17px;
+}
+
+.texto__tarea{
+  color: #059669;
+  margin-left: 38px;
+  padding-bottom: 10px;
+  margin-top: 14px;
+  font-size: 18px;
+}
+.fecha{
+  color: #059669;
+  margin-left: 38px;
+  padding-bottom: 10px;
+  margin-top: 14px;
+}
+.contenedores__tareas h3{
+  background-color: #ffe1ad87;
+  width: 95px;
+  height: 26px;
+  text-align: center;
+  border-radius: 5px;
+  margin-left: 306px;
+  margin-top: -45px;
+  border: solid #fab33a 2px;
+  color: #fab33a;
+}
+.contendor__asignaciones{
+  width: 95%;
+  height: 200px;
+  background-color: #b9fcd96d;
+  margin: 20px auto;
+  border-radius: 10px;
+
+}
+.logo__texto{
+  display: flex;
+  gap: 20px;
+}
+.texto__asignaciones{
+  margin-top: 20px;
+  color: #059669;
+  font-size: 18px;
+}
+.iconos__asignaciones{
+  width: 35px;
+  height: 35px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+.contenedor__usuario{
+  display: flex;
+  gap: 20px;
+
+}
+.tarjeta__usuario{
+  width: 45%;
+  height: 112px;
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 10px;
+  
+}
+.cirulo__perfil{
+  width: 40px;
+  height: 40px;
+  border-radius: 22px;
+  background-color: #059668ce;
+  margin-top: 14px;
+  margin-left: 14px;
+  position: relative;
+}
+.incial__perfil{
+    color: white;
+    position: absolute;
+    left: 31%;
+    bottom: 23%;
+    font-size: 18px;
+  }
+  div{
+    position: relative;
+  }
+  h4{
+    position: absolute;
+    color: #047857;
+    left: 13%;
+    top: 21px;
+  }
+  .texto__jornada{
+    color: #059669;
+    margin-left: 72px;
+    margin-top: -10px;
+  }
+  .estado{
+  background-color: #ffe1ad87;
+  width: 95px;
+  height: 26px;
+  text-align: center;
+  border-radius: 5px;
+  margin-left: 18px;
+  margin-top: 9px;
+  border: solid #fab33a 2px;
+  color: #fab33a;
+  }
