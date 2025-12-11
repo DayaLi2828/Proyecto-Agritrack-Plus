@@ -46,7 +46,6 @@ header{
 .contenedor__ingreso{
   width: 53%;
   height: auto;
-  background-color: var(--background-contenedores);
   box-shadow: var(--box-shadow-contenedores);
   border-radius: 10px;
   padding: 38px;
@@ -69,7 +68,7 @@ header{
 }
 .subtitulo {
   font-size: 26px;
-  color: var(--color-subtitulo);
+  color: var(--color-subtitulo-admin);
   margin: 0;
 }
 .logo {
@@ -119,7 +118,6 @@ button {
   width: 250px;
   padding: 14px 20px;
   background: var(--background-contenedores);
-  color: var(--color-texto-formulario);
   font-size: 18px;
   font-weight: bold;
   border: none;

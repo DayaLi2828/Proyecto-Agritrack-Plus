@@ -92,6 +92,9 @@ label{
 
 input{
   padding: 10px;
+  border-radius: 10px;
+  border:solid 1px var(--borde-inputs-login) ;
+  outline: none;
 }
 .registrarse__login a{
   text-decoration: none;

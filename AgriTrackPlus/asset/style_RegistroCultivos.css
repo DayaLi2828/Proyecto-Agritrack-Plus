@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 body {
-  background: var(--fondo-main);
+  background: var(--background-main);
   font-family: Arial, sans-serif;
 }
 
@@ -79,7 +79,7 @@ body {
 }
 .subtitulo {
   font-size: 26px;
-  color: var(--color-subtitulo);
+  color: var(--color-subtitulo-cultivos);
   margin: 0;
 }
 
@@ -119,13 +119,6 @@ body {
 }
 .fechas .campo {
   flex: 1;
-}
-.nombre,
-.siembra,
-.cosecha,
-.ciclo {
-  font-size: 20px;
-  color: var(--color-texto-formulario);
 }
 
 /* Supervisor */
@@ -201,25 +194,7 @@ body {
   color: var(--color-texto-formulario);
 }
 
-/* Botones */
-.boton__agregar {
-  position: relative;
-  margin-top: 20px;
-  width: 195px;
-  padding: 12px 20px;
-  background: #059669;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-.boton__agregar:hover {
-  background: #388E3C;
-}
+/* Boton */
 .boton__enviar {
   display: block;
   margin: 40px auto;
