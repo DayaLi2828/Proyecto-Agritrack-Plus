@@ -163,21 +163,38 @@ body{
     border: solid  #dbeafe;
 }
 .buscardor__tareas{
-    border: solid #b9fcd9;
     width: 50%;
     height: 121px;
     margin: 20px auto;
-    border-radius: 10px;
     display: flex;
     justify-content: space-between;
 }
 .contenedor__buscar{
-    border: solid #b9fcd9;
+    position: relative;
+    /* border: solid #b9fcd9; */
     border-radius: 10px;
     width: 38%;
     height: 55px;
     margin-top: 30px;
     margin-left: 50px;
+}
+.contenedor__buscar input{
+  width: 100%;
+  height: 100%;
+  padding-left: 68px; /* espacio para el icono */
+  border-radius: 10px;
+  border: 2px solid #b9fcd9;
+  outline: none;
+  font-size: 16px;
+}
+.icono__buscador{
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  pointer-events: none;
 }
 .select__tareas{
     width: 27%;
@@ -186,17 +203,12 @@ body{
     margin-right: 50px;
     border-radius: 10px;
     font-size: 18px;
-    padding: 19px ;
+    padding: 17px ;
     border: none;
     background-color: #b9fcd9;
     outline: none;
 }
-.icono__buscador{
-  width: 35px;
-  height: 35px;
-  margin-left: 10px;
-  margin-top: 8px;
-}
+
 .contenedores__tareas{
   width: 70%;
   height: 406px;
