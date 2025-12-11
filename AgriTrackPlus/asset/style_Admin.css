@@ -59,8 +59,6 @@ header{
   width: 45%;
   min-height: auto;
   margin-left: 50px;
-
-
 }
 
 .main__titulo{
@@ -240,4 +238,132 @@ header{
   background-color: var(--background-footer);
   text-align: center;
   padding: 10px;
+}/* =================== Pantallas intermedias (≤1079px) =================== */
+@media (max-width: 1079px) {
+  body {
+    display: grid;
+    grid-template-areas:
+      "header"
+      "sidebar"
+      "main"
+      "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: fixed;   /* 🔹 se mantiene fijo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;      /* más compacto en pantallas medianas */
+    background-color: var(--background-header);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;     /* encima del contenido */
+  }
+
+  .sidebar__barra {
+    position: fixed;   /* 🔹 se mantiene fija */
+    top: 70px;         /* justo debajo del header */
+    left: 0;
+    width: 100%;
+    height: auto;
+    background-color: var(--background-sidebar);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  .sidebar__barra nav {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .main {
+    grid-area: main;
+    padding: 20px;
+    margin-top: 120px; /* 🔹 deja espacio para header + sidebar fijos */
+  }
+
+  .footer {
+    grid-area: footer;
+    padding: 10px;
+  }
+}
+/* =================== Tablets y móviles grandes (≤768px) =================== */
+@media (max-width: 768px) {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;   /* más compacto */
+    z-index: 1000;
+  }
+
+  .sidebar__barra {
+    position: fixed;
+    top: 60px; /* debajo del header */
+    left: 0;
+    width: 100%;
+    background-color: var(--background-sidebar);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 999;
+    padding: 10px;
+  }
+
+  .main {
+    margin-top: 120px; /* espacio para header + sidebar */
+    padding: 15px;
+  }
+
+  /* 🔹 Ajuste de cajas de información */
+  .main__boxs {
+    height: 220px;       /* más pequeñas */
+    margin: 0 auto;      /* centradas */
+    width: 90%;          /* ocupan casi todo el ancho */
+  }
+
+  .caja__texto h3 {
+    font-size: 22px;     /* más compacto */
+  }
+  .caja__texto p {
+    font-size: 18px;
+  }
+
+  /* 🔹 Ajuste de tarjetas/contadores */
+  .main__contetarjetas {
+    flex-direction: column; /* apiladas en móvil */
+    gap: 20px;
+    margin-left: 0;
+  }
+
+  .main__tarjetas {
+    width: 90%;          /* ancho relativo */
+    height: 150px;       /* más pequeñas */
+    margin: 0 auto;
+  }
+
+  .main__tarjetas h4 {
+    font-size: 22px;
+  }
+
+  .main__numero {
+    width: 100px;
+    height: 80px;
+  }
+
+  .main__tarjetas h3 {
+    font-size: 40px;     /* número más pequeño */
+  }
 }
