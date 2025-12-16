@@ -1,4 +1,4 @@
-@import url(utils/global.css);
+@import url(AgriTrackPlus/asset/utils/global.css);
 *{
   margin: 0;/*elimina margenes por defecto*/
   padding: 0;/*elimina relleno interno por defecto*/
@@ -10,7 +10,7 @@
   display: flex;/*Activa Flexbox para centrar contenido */
   justify-content: center;/*Centra horizontalmente*/
   align-items: center;/*Centra verticalmente*/
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../asset/imagenes/fondo.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(AgriTrackPlus/asset/imagenes/fondo.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
