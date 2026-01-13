@@ -17,8 +17,8 @@ body{
 
 header {
   position: fixed;
-  top: 0px;
-  left: 0%;
+  top: 0;
+  left: 0;
   height: 130px;
   width: 332px;
   background-color:var(--background-header); 
@@ -26,6 +26,7 @@ header {
   align-items: center;
   gap: 15px;
   padding: 20px;
+  z-index: 1000;
 }
 
 .sidebar__barra {
@@ -34,16 +35,12 @@ header {
   left: 0;
   width: 332px;
   height: calc(100vh - 130px);
+  padding: 20px;
+  display: flex;
+  gap: 15px;
+  flex-direction: column;
   background-color: var(--background-sidebar);
 }
-
-.main {
-  margin-left: 332px; /* espacio para la sidebar */
-  margin-top: 130px;  /* espacio para el header */
-  padding: 20px;
-  background: var(--background-main);
-}
-
 
 .sidebar__barra {
   position: fixed;
@@ -76,7 +73,7 @@ header {
  /*----------------------------*/
 .main {
   grid-area: main;
-  padding: 20px;
+  padding: 31px;
   background: var(--background-main);
 }
 .contenedor__perfil{
@@ -124,6 +121,130 @@ header {
   justify-content: center;
   margin-top: 39px;
 }
+.main__header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.main__cajatexto{
+  flex: 1;
+}
+
+.main__titulo{
+  font-weight: bold;
+  font-size: 37px;
+  justify-items: center;
+  color: var(--color-titulo-admin);
+}
+.contenedor__perfil{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 35px;
+  margin-right: 22px;
+  
+}
+.main__texto{
+  margin-top: 20px;
+  font-size: 30px;
+  color: var(--color-subtitulo-admin);
+}
+
+.nombre__usuario{
+  color: var(--color-titulo-admin);
+
+}
+.descripcion__usuario{
+  color: var(--color-subtitulo-admin);
+  font-size: 18px;
+}
+.perfil__texto{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.cirulo__perfil{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-cirulo-perfil);
+  width: 60px;
+  height: 60px;
+  border-radius: 39px;
+}
+.inicial__usuario{
+  font-size: 35px;
+  color: var(--color-inicial-usuario);
+}
+.cerra_sesion img{
+  width: 50px;
+  height: 50px;
+}
+
+.contendores{
+  margin-top: 50px;
+  width: 100%;
+  height: 111vh;
+}
+.contador__tareas{
+  width: 96%;
+  margin: 20px auto;
+  height: 256px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.caja1,
+.caja2,
+.caja3{
+  width: 449px;
+  height: 256px;
+  background-color: var(--background-contadores-tareas);
+  border: solid 3px var( --color-borde-contadores-tareas);
+  border-radius: 10px;
+  box-shadow: 0 12px 10px -4px rgba(0,0,0,0.3);
+}
+.icono__tareas{
+  width: 150px;
+  height: 150px;
+  margin-top: 37px;
+  margin-left: 37px;
+}
+.numero__tarea{
+  font-size: 100px;
+  margin-top: -129px;
+  margin-left: 191px;
+  color: var(--color-numero-contador-tareas);
+}
+.total__tareas,
+.tareas__pendientes,
+.tareas__completadas{
+  font-size: 24px;
+  margin-left: 191px;
+  color: var(--color-numero-contador-tareas);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*************************************/
 .footer {
   grid-area: footer;
