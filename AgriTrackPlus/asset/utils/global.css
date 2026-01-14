@@ -30,6 +30,7 @@
   --color-cirulo-perfil:#a7f3d0;
   --background-contadores-tareas:#ffff;
   --color-borde-contadores-tareas:#d1fae5;
+  --color-borde-tarea-completa:#05553e;
   /*************** Botones ******************************/
   --color-boton:#006d07;/*color de botones de los formularios login*/
 
@@ -50,7 +51,12 @@
   --color-caja-logo-formularios-y-titulos:#d1fae5;
   --color-inicial-usuario:#065f46;
   --color-numero-contador-tareas:#064e3b;
-
+  --color-nombre-cultivo:#05553e;
+  --color-nombre-cultivo-caja:#0596688a;
+  --color-fecha-cultivo:#1d4ed8;
+  --color-fecha-cultivo-caja:#1d4fd88c;
+  --color-jornada-cultivo:#6f1efc;
+  --color-jornada-cultivo-caja:#7c3aed94;
   /************** Fondos ******************************/
   --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);/*fondo del body de la pagina admin*/
 

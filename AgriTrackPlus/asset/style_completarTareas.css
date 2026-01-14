@@ -1,0 +1,168 @@
+@import url(utils/global.css);
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+    background: var(--fondo-main);
+  }
+  
+.titulo {
+    font-size: 34px; /* igual que subtítulos del formulario */
+    color: var(--color-titulo-registro);
+    margin-top: 4px;
+  }
+  
+.contenedor__titulo {
+    display: flex;
+    gap: 20px;
+    margin-left: 85px;
+    margin-top: 50px;
+  }
+.contenedor__logo {
+    background: var(--background--caja-logo);
+    width: 91px;
+    height: 91px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -30px;
+    border-radius: 10px;
+  }
+.logo {
+    width: 70px;
+    height: 70px;
+  }
+  header {
+    width: 96%;
+    margin: 0 auto;
+    margin-top: 53px;
+    display: flex;
+    height: 141px;
+    box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  }
+/*TAREAS*/
+
+.contador__tareas{
+  width: 96%;
+  margin: 20px auto;
+  height: 256px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.caja1,
+.caja2,
+.caja3{
+  width: 449px;
+  height: 256px;
+  background-color: var(--background-contadores-tareas);
+  border: solid 3px var( --color-borde-contadores-tareas);
+  border-radius: 10px;
+  box-shadow: 0 12px 10px -4px rgba(0,0,0,0.3);
+}
+.icono__tareas{
+  width: 150px;
+  height: 150px;
+  margin-top: 37px;
+  margin-left: 37px;
+}
+.contenedor__nombre{
+    display: flex;
+    align-items: center;
+    font-size: 19px;
+    gap: 30px;
+}
+.numero__tarea{
+  font-size: 100px;
+  margin-top: -129px;
+  margin-left: 191px;
+  color: var(--color-numero-contador-tareas);
+}
+.estado__tarea{
+    margin-top: 11px;
+}
+
+.completada{
+    border: solid var(--color-borde-tarea-completa) 2px;
+    border-radius: 10px;
+}
+
+.total__tareas,
+.tareas__pendientes,
+.tareas__completadas{
+  font-size: 24px;
+  margin-left: 191px;
+  color: var(--color-numero-contador-tareas);
+}
+
+.tarjetas__tareas{
+  width: 96%;
+  height: auto;
+  margin:20px auto;
+  margin-top: 40px;
+}
+
+.tarea{
+  width: 90%;
+  height: 200px;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 10px;
+}
+.contenedor__subtitulo{
+  display: flex;
+  width: 90%;
+  margin: 20px auto;
+  justify-content: flex-start;
+  align-items: center;
+}
+.icono__reloj{
+  width: 70px;
+  height: 70px;
+}
+
+.subtitulo{
+  font-size: 30px;
+  color: var(--color-numero-contador-tareas);
+  margin-left: 15px;
+}
+.nombre__tarea{
+  font-size: 24px;
+  margin-left: 20px;
+  margin-top: 10px;
+  color: var(--color-numero-contador-tareas);
+}
+.cajas__cultivos{
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  margin-left: 20px;
+}
+
+.nombre__cultivo, 
+.fecha__cultivo, 
+.jornada__cultivo { font-size: 20px; 
+  padding: 8px 14px; /* espacio interno */ 
+  border-radius: 12px; /* esquinas redondeadas */
+}
+.nombre__cultivo{
+  color: var(--color-nombre-cultivo);
+  background-color: var(--color-nombre-cultivo-caja);
+}
+
+.fecha__cultivo{
+  color: var(--color-fecha-cultivo);
+  background-color: var(--color-fecha-cultivo-caja);
+}
+.jornada__cultivo{
+  color: var(--color-jornada-cultivo);
+  background-color: var(--color-jornada-cultivo-caja);
+}
+.descripcion__cultivo{
+  font-size: 23px;
+  color: var(--color-texto-contenedor);
+  margin-left: 20px;
+  margin-top: 20px;
+}
