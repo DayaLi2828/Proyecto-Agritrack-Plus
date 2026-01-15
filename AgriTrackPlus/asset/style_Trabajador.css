@@ -237,7 +237,12 @@ header {
   height: 200px;
   margin: 20px auto;
   border-radius: 10px;
-  border: solid #f59e0b 3px;
+}
+.tarea.pendiente{
+  border: solid var(  --color-borde-tarea-pendiente) 3px;
+}
+.tarea.completada{
+  border: solid var(--color-borde-tarea-completa) 3px;
 }
 .contenedor__subtitulo{
   display: flex;
@@ -293,9 +298,6 @@ header {
   color: var(--color-texto-contenedor);
   margin-left: 20px;
   margin-top: 20px;
-}
-.completadas{
-  margin-top: 50px;
 }
 
 
