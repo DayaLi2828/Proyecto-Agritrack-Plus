@@ -89,6 +89,12 @@ pointer-events: none;
   border: none;
   background-color: #b9fcd9;
   outline: none;
+  appearance: none; 
+  -webkit-appearance: none; 
+  -moz-appearance: none;
+background-image: url("AgriTrackPlus\asset\imagenes\flecha-hacia-abajo-para-navegar (1).png"); /* aquí pones tu ícono */ 
+  background-repeat: no-repeat; 
+  background-position: right 15px center; /* mueve la flecha hacia adentro */
 }
 .contador__tareas{
   width: 96%;

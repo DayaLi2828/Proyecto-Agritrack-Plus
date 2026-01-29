@@ -51,6 +51,7 @@
   height: 400px;
   border-radius: 10px;
   box-shadow: 0 8px 10px rgba(0,0,0,0.6);
+  margin-top: 88px;
 }
 .main__cajas a{
   text-decoration: none;
@@ -58,17 +59,20 @@
 
 .titulo__cajas{
   color: var(--letra-titulo);
-  margin-top: 65px;
   font-weight: bold;
-  font-size: 40px;
+  font-size: 47px;
   text-align: center;
   text-decoration: none;
+  padding-top: 30px;
 }
 
 
 .main__imagenes{
   width: 181px;
   height: 181px;
-  margin-top: 50px;
-  margin-left: 110px;
+  margin-top: 52px;
+  margin-left: 128px;
+}
+.a{
+  text-decoration: none;
 }
