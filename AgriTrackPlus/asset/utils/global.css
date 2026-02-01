@@ -37,6 +37,7 @@
   --background-caja-descripcion-tarea:#ecfdf5;
   --color-borde-izquierdo-estado:#064e3b;
   --color-contador-en-proceso:#1d4ed8;
+  --background-boton-cancelar:#e5e7eb;
   /*************** Botones ******************************/
   --color-boton:#006d07;/*color de botones de los formularios login*/
 
@@ -63,6 +64,8 @@
   --color-fecha-cultivo-caja:#1d4fd88c;
   --color-jornada-cultivo:#6f1efc;
   --color-jornada-cultivo-caja:#7c3aed94;
+  --color-texto-tarea-pendiente:#b45309;
+  --color-texto-boton-cancelar: #000000;
   /************** Fondos ******************************/
   --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);/*fondo del body de la pagina admin*/
 
