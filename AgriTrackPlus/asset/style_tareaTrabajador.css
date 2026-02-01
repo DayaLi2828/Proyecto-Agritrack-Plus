@@ -105,12 +105,14 @@ header {
     padding: 20px;
 }
 .estado__pendiente,
-.estado__completada{
+.estado__completada,
+.estado__proceso{
   width: 85%;
   height: auto;
   border: solid var(--color-borde-tarea-pendiente) 3px;
   border-radius: 10px;
   margin-left: 20px;
+  margin-top: 16px;
 }
 .estado__pendiente label{
   display: block;
@@ -120,6 +122,13 @@ header {
   margin-top: 10px;
 }
 .estado__completada label{
+  display: block;
+  margin-bottom: 10px;
+  cursor:pointer;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.estado__proceso label{
   display: block;
   margin-bottom: 10px;
   cursor:pointer;
