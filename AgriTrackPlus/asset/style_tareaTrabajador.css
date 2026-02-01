@@ -104,38 +104,62 @@ header {
     color: var(--color-subtitulo-cultivos);
     padding: 20px;
 }
-.estado__pendiente,
-.estado__completada,
-.estado__proceso{
-  width: 85%;
-  height: auto;
-  border: solid var(--color-borde-tarea-pendiente) 3px;
-  border-radius: 10px;
-  margin-left: 20px;
-  margin-top: 16px;
-}
-.estado__pendiente label{
-  display: block;
-  margin-bottom: 10px;
-  cursor:pointer;
-  margin-left: 10px;
-  margin-top: 10px;
-}
-.estado__completada label{
-  display: block;
-  margin-bottom: 10px;
-  cursor:pointer;
-  margin-left: 10px;
-  margin-top: 10px;
-}
+.estado__pendiente label,
+.estado__completada label,
 .estado__proceso label{
-  display: block;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
   cursor:pointer;
-  margin-left: 10px;
-  margin-top: 10px;
+  margin: 10px;
+  gap: 8px;
 }
+.estado__pendiente ,
+.estado__completada ,
+.estado__proceso{
+  width: 97%; 
+  margin: 16px 20px; /* separación entre bloques */ 
+  padding: 12px 20px; /* espacio interno */ border-radius: 10px;
+}
+
+.estado__proceso{
+  border:solid var(--color-contador-en-proceso) 3px;
+}
+.estado__pendiente{
+  border: solid var(--color-borde-tarea-pendiente) 3px;
+}
+.estado__completada{
+  border: solid var(--color-borde-tarea-completa) 3px;
+}
+
 .estado{
   display:block;
   gap: 50px;
+}
+/*texto inputs*/
+label{
+  display: flex;
+  align-items: center;
+
+}
+#proceso,
+#pendiente,
+#completada{
+  font-size: 25px;
+  margin: 0;
+}
+#proceso{
+  color:var(--color-contador-en-proceso);
+}
+#pendiente{
+  color: var( --color-borde-tarea-pendiente);
+}
+#completada{
+  color:var(  --color-borde-tarea-completa);
+}
+input[type="radio"] {
+  width: 22px;          /* tamaño del círculo */
+  height: 22px;
+  border-radius: 50%;   /* asegura que sea redondo */
+  margin-right: 10px;   /* separación respecto al texto */
+  cursor: pointer;
 }

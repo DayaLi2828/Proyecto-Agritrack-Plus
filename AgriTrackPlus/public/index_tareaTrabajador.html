@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,20 +37,24 @@
             <img class="icono__estado" src="../asset/imagenes/grafico-de-barras.png" id="imagen de un grafico de barras">
             <h2 class="subtitulo__estado">Actualizar estado de la tarea</h2>
           </div>
+          <!---Seleccionar segun el estado de la tarea--->
           <div class="estado">
             <div class="estado__pendiente">
               <label>
                 <input type="radio" name ="estado" value="pendiente"> 
+                <h3 id="pendiente">Pendiente</h3>
               </label>
             </div>
             <div class="estado__completada">
               <label>
-                <input type="radio" name ="estado" value="completada"> 
+                <input type="radio" name ="estado" value="completada">
+                <h3 id="completada">Completada</h3> 
               </label>
             </div>
             <div class="estado__proceso">
               <label>
-                <input type="radio" name ="estado" value="proceso"> 
+                <input type="radio" name ="estado" value="proceso">
+                <h3 id="proceso">En proceso</h3> 
               </label>
             </div>
           </div>

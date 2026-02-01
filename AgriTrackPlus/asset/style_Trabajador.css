@@ -246,8 +246,8 @@ header {
 .tarea.completada{
   border: solid var(--color-borde-tarea-completa) 3px;
 }
-.tarea__proceso{
-  border:solid var(--color-contador-en-proceso);
+.tarea.proceso{
+  border:solid var(--color-contador-en-proceso)3px;
 }
 .contenedor__subtitulo{
   display: flex;
