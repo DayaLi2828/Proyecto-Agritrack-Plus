@@ -1,4 +1,4 @@
-@import url(utils/global.css);
+@import url(../utils/global.css);
 *{
   margin: 0;
   padding: 0;
@@ -245,5 +245,5 @@ background-image: url("AgriTrackPlus\asset\imagenes\flecha-hacia-abajo-para-nave
   width: 50px;
   height: 50px;
   margin-left: auto; /* empuja la flecha al extremo derecho */
-  cursor: url(../asset/imagenes/puntero_tractor.png)0 0, pointer;
+  cursor: url(../../asset/imagenes/puntero_tractor.png)0 0, pointer;
 }

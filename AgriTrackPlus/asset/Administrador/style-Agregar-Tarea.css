@@ -1,4 +1,4 @@
-@import url(utils/global.css);
+@import url(../utils/global.css);
 *{
   margin: 0;
   padding: 0;
@@ -41,7 +41,7 @@ header{
   margin-top: 53px;
   display: flex;
   height: 141px;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  box-shadow: var(--borde-header);
 }
 
 /* ==================== MAIN CONTAINER ==================== */
@@ -53,10 +53,9 @@ main {
 }
 
 .contenedor__padre {
-  background: #FFFFFF;
-  border: 2px solid #d1fae5;
+  background: var(  --background-contenedor-padre);
+  border: var( --color-borde-contenedor-padre);
   border-radius: 24px;
-  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
   padding: 40px;
 }
 
@@ -65,11 +64,11 @@ main {
   margin-bottom: 40px;
   padding-left: 20px;
   margin-top: 80px;
-  border-left: 6px solid #10b981;
+  border-left: var(--color-borde-izquiero);
 }
 
 .seccion__trabajadores {
-  border-left-color: #22c55e;
+  border-left:var(--color-borde-izquiero);
 }
 
 .seccion__header {
@@ -86,7 +85,7 @@ main {
 .seccion__titulo {
   font-size: 26px;
   font-weight: bold;
-  color: #065f46;
+  color: var(--color-titulos-tareas);
   margin: 0;
 }
 
@@ -123,7 +122,7 @@ main {
 .label {
   font-size: 20px;
   font-weight: bold;
-  color: #065f46;
+  color: var(--color-titulos-tareas);
 }
 
 .label--small {
@@ -131,21 +130,21 @@ main {
 }
 
 .requerido {
-  color: #ef4444;
+  color: var(--color-boton-eliminar-tarea);
 }
 
 .input {
   padding: 14px 18px;
-  border: 2px solid #d1fae5;
+  border: var(--color-border-inputs-label);
   border-radius: 8px;
   font-size: 18px;
-  color: #064e3b;
+  color: var(--color-texto-inputs);
   transition: all 0.3s;
 }
 
 .input:focus {
   outline: none;
-  border-color: #10b981;
+  border-color: var(--color-borde-input-label-seleccionado);
 }
 
 .input--small {
@@ -171,22 +170,22 @@ select.input {
 /* ==================== ASIGNACIONES ==================== */
 .mensaje__vacio {
   text-align: center;
-  color: #059669;
+  color: var(--color-texto-mensaje-vacio);
   padding: 24px;
   font-size: 18px;
 }
 
 .asignacion__card {
-  background: #f0fdf4;
-  border: 2px solid #dcfce7;
+  background: var(--backgground-contenedor-asignacion);
+  border: var(--color-borde-contenedor-asignacion);
   border-radius: 12px;
   padding: 20px;
   font-size: 18px;
 }
 
 .btn__agregar {
-  background: #dcfce7;
-  color: #15803d;
+  background: var(--color-boton-agregar);
+  color: var(--color-letra-boton-agregar);
   border: none;
   padding: 12px 20px;
   border-radius: 8px;
@@ -200,11 +199,11 @@ select.input {
 }
 
 .btn__agregar:hover {
-  background: #bbf7d0;
+  background: var(--hover-boton-agregar);
 }
 
 .btn__eliminar {
-  background: #fee2e2;
+  background: var(--color-boton-eliminar-tarea);
   border: none;
   width: 48px;
   height: 48px;
@@ -218,7 +217,7 @@ select.input {
 }
 
 .btn__eliminar:hover {
-  background: #fecaca;
+  background: var(--hover-color-boton-eliminar);
 }
 
 /* ==================== BOTONES DE ACCIÓN ==================== */

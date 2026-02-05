@@ -38,8 +38,20 @@
   --color-borde-izquierdo-estado:#064e3b;
   --color-contador-en-proceso:#1d4ed8;
   --background-boton-cancelar:#e5e7eb;
+  --borde-header: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  --background-contenedor-padre:#ffff;
+  --color-borde-contenedor-padre:2px solid #d1fae5;
+  --color-borde-izquiero:6px solid #10b981;
+  --color-border-inputs-label:2px solid #d1fae5;
+  --color-borde-input-label-seleccionado:#10b981;
+  --backgground-contenedor-asignacion:#f0fdf4;
+  --color-borde-contenedor-asignacion:2px solid #dcfce7;
   /*************** Botones ******************************/
   --color-boton:#006d07;/*color de botones de los formularios login*/
+  --color-boton-eliminar-tarea:#fec3c3d8;
+  --color-boton-agregar:#dcfce7;
+  --hover-boton-agregar:#bbf7d0;
+  --hover-color-boton-eliminar:#feaeae;
 
 
 
@@ -66,6 +78,10 @@
   --color-jornada-cultivo-caja:#7c3aed94;
   --color-texto-tarea-pendiente:#b45309;
   --color-texto-boton-cancelar: #000000;
+  --color-titulos-tareas:#065f46;
+  --color-texto-inputs:#064e3b;
+  --color-texto-mensaje-vacio:#059669;
+  --color-letra-boton-agregar:#15803d;
   /************** Fondos ******************************/
   --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);/*fondo del body de la pagina admin*/
 

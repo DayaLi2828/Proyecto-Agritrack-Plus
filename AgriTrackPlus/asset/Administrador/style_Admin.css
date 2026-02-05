@@ -216,7 +216,7 @@ header{
   text-decoration: none;
   color:var(--color-letra-sidebar);
   font-weight: bold;
-  padding: 20px;
+  padding: 17px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
