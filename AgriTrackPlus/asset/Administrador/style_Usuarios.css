@@ -1,51 +1,65 @@
 @import url(../utils/global.css);
 *{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 /********************CONTNEDOR DEL LOGO CON EL TITULO*************************/
 body{
-  background: var(--fondo-main);
+background: var(--fondo-main);
 }
 
 .titulo{
-  font-size: 34px;
-  color: var(--color-titulo-registro);
+font-size: 34px;
+color: var(--color-titulo-registro);
 }
 header {
-  width: 96%;
-  margin: 0 auto;
-  margin-top: 53px;
-  display: flex;
-  height: 161px;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+width: 96%;
+margin: 0 auto;
+margin-top: 53px;
+display: flex;
+height: 161px;
+box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
 .contenedor__titulo {
-  display: flex;
-  width: auto;
-  gap: 20px;
-  margin-left: 85px;
-  margin-top: 50px;
+display: flex;
+width: auto;
+gap: 20px;
+margin-left: 85px;
+margin-top: 50px;
 }
 .contenedor__logo{
-  background:var(--background--caja-logo);
-  width: 91px;
-  height: 91px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: -30px;
-  border-radius: 10px;
+background:var(--background--caja-logo);
+width: 91px;
+height: 91px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: -30px;
+border-radius: 10px;
 }
 .logo {
-  width: 70px;
-  height: 70px;
+width: 70px;
+height: 70px;
 }
+
+/**********MAIN***************/
 .contenedor_tarjetas{
     background-color: aquamarine;
     width: 85%;
     height: 300px;
     margin: 0 auto;
     margin-top:70px;
+    display: flex;
+    gap: 50px;
+}
+.tarjeta__contador{
+width: 340px;
+height: 300px;
+background-color: rgba(137, 43, 226, 0.473);
+text-align: center;
+}
+.tarjeta__contador h2{
+    font-size: 100px;
+    margin:0 auto;
 }
