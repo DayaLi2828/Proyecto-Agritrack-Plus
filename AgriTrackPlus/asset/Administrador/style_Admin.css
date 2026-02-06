@@ -13,6 +13,7 @@ body{
     "footer footer";
   grid-template-columns: 332px 1fr; 
   grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
 }
 
 header{
@@ -75,18 +76,17 @@ header{
 
 .main__contenedores{
   /*background-color: #BBF451;*/
-  height: 773px;
   margin-left: 50px;
   margin-top: 40px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 60px;
 }
 
 
 .main__boxs{
   background-color: var(--background-contenedores);
-  min-width: auto;
+  width: 44%;
   height: 328px;
   box-shadow:var(--box-shadow-contenedores);
   border-radius: 10px;
@@ -148,8 +148,8 @@ header{
   align-items: center;
   width: auto;
   height: 223px;
-  /*background-color: chocolate;*/
-  margin-left: 100px;
+  margin-top: 85px;
+  margin-right: 40px;
   gap: 40px;
 }
 
@@ -236,7 +236,7 @@ header{
   grid-area: footer;
   background-color: var(--background-footer);
   text-align: center;
-  padding: 10px;
+
 }/* =================== Pantallas intermedias (≤1079px) =================== */
 @media (max-width: 1079px) {
   body {
@@ -291,6 +291,18 @@ header{
     padding: 20px;
     margin-top: 120px; /* 🔹 deja espacio para header + sidebar fijos */
   }
+.perfil__usuario{
+  height: 50px;
+  width: 50px;
+  background-color: blue;
+}
+.circulo__perfil {
+  width: 50px;
+  margin-left: 100px;
+  height: 50px;
+  border: solid 3px red;
+  background-color: rgb(226, 29, 29);
+}
 
   .footer {
     grid-area: footer;
