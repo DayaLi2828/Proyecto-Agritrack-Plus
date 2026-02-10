@@ -14,7 +14,7 @@ body{
   grid-template-columns: 332px 1fr; 
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-}
+
 
 header{
   position: fixed;
@@ -113,17 +113,18 @@ header{
 
 .main__contenedores{
   /*background-color: #BBF451;*/
-  margin-left: 101px;
+  margin-left: 31px;
   margin-top: 129px;
   display: flex;
   flex-direction: row;
-  gap: 60px;
+  gap: 26px;
+
 }
 
 
 .main__boxs{
   background-color: var(--background-contenedores);
-  width: 44%;
+  width: 48%;
   height: 328px;
   box-shadow:var(--box-shadow-contenedores);
   border-radius: 10px;
@@ -414,4 +415,5 @@ header{
   .main__tarjetas h3 {
     font-size: 40px;     /* número más pequeño */
   }
+}
 }

@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../asset/Administrador/pagos.css">
-</head>
-<body>
-    <header>
-        <div class="contenedor__titulo">
-        <div class="contenedor__logo">
-            <a href="Trabajador/index_Trabajador.html">
-            <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
-            </a>
-        </div>
-        <h1 class="titulo">Gestión de pagos</h1>
-        </div>
-    </header>
-    <main>
 
-    </main>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../../asset/Administrador/pagos.css">
+</head>
+
+<body>
+  <header>
+    <a href="index_Admin.html">
+      <div class="icono__devolver">
+        <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+      </div>
+    </a>
+    <div class="contenedor__titulo">
+      <div class="contenedor__logo">
+        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
+      </div>
+      <h1 class="titulo">Gestión de pagos</h1>
+    </div>
+  </header>
+  <main>
+    <div class="contenedor__principal">
+      <div class="cajas__usuarios">
+        <div class="titulo__caja">
+          <h2>Administrador</h2>
+          <div class="contenedor__icono">
+          <img class="iconos__usuarios" src="../../asset/imagenes/editar-texto.png" id="icono de editar">
+          </div>
+          <div class="contenedor__icono eliminar ">
+            <img class="iconos__usuarios eliminar" src="../../asset/imagenes/borrar.png" id="icono de eliminar">
+          </div>
+        </div>
+        <p>Permisos asignados:</p>
+        <p>✓ Crear usuarios</p>
+        <p>✓ Editar cultivos</p>
+        <p>✓ Ver reportes</p>
+        <p>✓ Gestionar pagos</p>
+
+      </div>
+      <div class="cajas__usuarios">
+        <h2>Supervisor</h2>
+        <p>Permisos asignados:</p>
+        <p>✓ Ver cultivos</p>
+        <p>✓ Asignar tareas</p>
+        <p>✓ Ver trabajadores</p>
+      </div>
+      <div class="cajas__usuarios">
+        <h2>Trabajador</h2>
+        <p>Permisos asignados:</p>
+        <p>✓ Ver tareas</p>
+        <p>✓ Completar tareas</p>
+        <p>✓ Ver información</p>
+      </div>
+    </div>
+  </main>
 </body>
+
 </html>
