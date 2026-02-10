@@ -44,6 +44,9 @@ height: 70px;
 }
 
 /**********MAIN***************/
+main{
+    padding-bottom: 100px;
+}
 .contenedor_tarjetas{
     width: 55%;
     height: 300px;
@@ -102,4 +105,27 @@ box-shadow: var(--box-shadow-tarjetas);
     border: 2px solid #b9fcd9;
     outline: none;
     font-size: 16px;
+}
+/*tabla de lista de usuarios*/
+table{
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 90px;   
+    padding-top: 20px;
+}
+th, td{
+    border: 1px solid #b9fcd9;
+    padding: 12px;
+    text-align: left;
+    font-size: 25px;
+}
+th{
+    background-color: var(--color-borde-contadores-tareas);
+    color: var(--color-subtitulo-cultivos);
+}
+caption{
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: var(--color-titulo-registro);
 }
