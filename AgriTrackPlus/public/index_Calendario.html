@@ -1,55 +1,476 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../asset/style_Calendario.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../asset/style_Calendario.css">
 </head>
 <body>
-    <main>
-        <div class="calendario">
-            <div class="dia" data-dia="2025-11-01">1</div>
-            <div class="dia" data-dia="2025-11-02">2</div>
-            <div class="dia" data-dia="2025-11-03">3</div>
-            <div class="dia" data-dia="2025-11-03">4</div>
-            <div class="dia" data-dia="2025-11-03">5</div>
-            <div class="dia" data-dia="2025-11-03">6</div>
-            <div class="dia" data-dia="2025-11-03">7</div>
-            <div class="dia" data-dia="2025-11-03">8</div>
-            <div class="dia" data-dia="2025-11-03">9</div>
-            <div class="dia" data-dia="2025-11-03">10</div>
-            <div class="dia" data-dia="2025-11-03">11</div>
-            <div class="dia" data-dia="2025-11-03">12</div>
-            <div class="dia" data-dia="2025-11-03">13</div>
-            <div class="dia" data-dia="2025-11-03">14</div>
-            <div class="dia" data-dia="2025-11-03">15</div>
-            <div class="dia" data-dia="2025-11-03">16</div>
-            <div class="dia" data-dia="2025-11-03">17</div>
-            <div class="dia" data-dia="2025-11-03">18</div>
-            <div class="dia" data-dia="2025-11-03">19</div>
-            <div class="dia" data-dia="2025-11-03">20</div>
-            <div class="dia" data-dia="2025-11-03">21</div>
-            <div class="dia" data-dia="2025-11-03">22</div>
-            <div class="dia" data-dia="2025-11-03">23</div>
-            <div class="dia" data-dia="2025-11-03">24</div>
-            <div class="dia" data-dia="2025-11-03">25</div>
-            <div class="dia" data-dia="2025-11-03">26</div>
-            <div class="dia" data-dia="2025-11-03">27</div>
-            <div class="dia" data-dia="2025-11-03">28</div>
-            <div class="dia" data-dia="2025-11-03">29</div>
-            <div class="dia" data-dia="2025-11-03">30</div>
-            <div class="dia" data-dia="2025-11-03">31</div>
+  <header>
+    <div class="contenedor__titulo">
+      <div class="contenedor__logo">
+        <img class="logo" src="../asset/imagenes/hoja (3).png" alt="hoja del logo" />
+      </div>
+      <h1 class="titulo">Calendario Anual</h1>
+    </div>
+  </header>
+  <main>
+    <div class="calendario-anual">
+
+      <!-- Enero (31 días) -->
+      <div class="calendario">
+        <h2>Enero</h2>
+        <div class="mes">
+          <!-- Días 1 al 31 -->
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
     
-          </div>
-          
-          <div class="campo__nota">
-            <h3>Notas del día</h3>
-            <textarea id="nota"></textarea>
-            <button id="guardar">Guardar</button>
-          </div>
-    </main>
-   
-      
+      <!-- Febrero (28 días, puedes añadir 29 si es bisiesto) -->
+      <div class="calendario">
+        <h2>Febrero</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Marzo (31 días) -->
+      <div class="calendario">
+        <h2>Marzo</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Abril (30 días) -->
+      <div class="calendario">
+        <h2>Abril</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Mayo (31 días) -->
+      <div class="calendario">
+        <h2>Mayo</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Junio (30 días) -->
+      <div class="calendario">
+        <h2>Junio</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Julio (31 días) -->
+      <div class="calendario">
+        <h2>Julio</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Agosto (31 días) -->
+      <div class="calendario">
+        <h2>Agosto</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Septiembre (30 días) -->
+      <div class="calendario">
+        <h2>Septiembre</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Octubre (31 días) -->
+      <div class="calendario">
+        <h2>Octubre</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Noviembre (30 días) -->
+      <div class="calendario">
+        <h2>Noviembre</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+      <!-- Diciembre (31 días) -->
+      <div class="calendario">
+        <h2>Diciembre</h2>
+        <div class="mes">
+          <div class="dia"><span class="numero">1</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">2</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">3</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">4</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">5</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">6</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">7</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">8</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">9</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">10</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">11</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">12</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">13</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">14</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">15</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">16</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">17</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">18</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">19</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">20</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">21</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">22</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">23</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">24</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">25</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">26</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">27</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">28</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">29</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">30</span><textarea class="nota"></textarea></div>
+          <div class="dia"><span class="numero">31</span><textarea class="nota"></textarea></div>
+        </div>
+      </div>
+    
+    </div>
+    
+  </main>
 </body>
 </html>
+
