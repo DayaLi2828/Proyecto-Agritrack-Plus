@@ -54,9 +54,11 @@ height: 70px;
 }
 .tarjeta__contador{
 width: 340px;
-height: 300px;
+height: 270px;
 background-color: var(--color-borde-contadores-tareas);
 text-align: center;
+border-radius: 10px;
+box-shadow: var(--box-shadow-tarjetas);
 }
 .tarjeta__contador h2{
     font-size: 100px;
