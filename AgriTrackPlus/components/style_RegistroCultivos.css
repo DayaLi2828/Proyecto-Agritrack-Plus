@@ -50,9 +50,28 @@ body{
 .main {
   grid-area: main;
   padding: 20px;
-  background-color: #fbf2e3
-  ;
+  background-color: #EAE4D5;
 }
+
+.main__contenedorcaja{
+  width: 90%;
+  height: 90%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: 50px;
+  margin-left: 80px;
+}
+
+.main__cajaregistro{
+  background-color: aquamarine;
+  width: 20%;
+  height: 37%;
+  border-radius: 10px;
+}
+
+
+
+/****************************************************************************************************************/
 .sidebar__barra a {
   text-decoration: none;
   color: #535A1C;
