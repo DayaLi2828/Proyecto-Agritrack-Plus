@@ -14,7 +14,8 @@ header{
     box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
 main{
-  height: 372vh;
+  height: 220vh;
+  padding-top: 50px;
 }
 .boton {
   display: inline-block;       /* permite que <a> se comporte como botón */
@@ -71,12 +72,61 @@ body{
   width: 70px;
   height: 70px;
 }
+.contenedor__cultivo__tarea{
+  width: 70%;
+  height: 230px;
+  margin: 71px auto;
+  display: flex;
+  background: linear-gradient(to right, #059669, #16a34a);
+  border-radius: 10px;
+}
 .contenedor__tareas{
     width: 80%;
     height: 230px;
     margin: 71px auto;
     display: flex;
     justify-content: space-between;
+}
+.logo__tarea{
+  margin-top: 60px;
+  margin-left: 30px;
+  background-color: #FFFFFF; /* blanco */
+  width: 100px;              /* ancho fijo */
+  height: 100px;             /* alto fijo */
+  display: flex;             /* centra contenido */
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;       /* opcional, esquinas redondeadas */
+
+}
+.titulo__cultivo{
+  color: white;
+  font-size: 40px;
+  margin-top: 60px;
+  margin-left: 20px;
+}
+.boxs{
+  background-color: rgba(255, 255, 255, 0.473);
+  border-radius: 10px;
+  margin-top: 55px;
+  margin-left: 92px;
+  width: 14%;
+  height: 115px;
+}
+#etiquetaPendientes,
+#etiquetaProceso,
+#etiquetaCompletada{
+  font-size: 25px;
+  margin-top: 10px;
+  margin-left: 40px;
+}
+#contadorPendientes,
+#contadorProceso,
+#contadorCompletadas{
+  font-size: 40px;
+  color: #064e3b;
+  margin-top: 10px;
+  margin-left: 84px;
 }
 .cajas__tareas{
     border: solid #b9fcd9;
