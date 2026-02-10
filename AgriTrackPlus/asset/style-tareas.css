@@ -81,7 +81,7 @@ body{
   border-radius: 10px;
 }
 .contenedor__tareas{
-    width: 80%;
+    width: 90%;
     height: 230px;
     margin: 71px auto;
     display: flex;
@@ -130,7 +130,7 @@ body{
 }
 .cajas__tareas{
     border: solid #b9fcd9;
-    width: 30%;
+    width: 24%;
     border-radius: 10px;
     display: flex;
 
@@ -158,6 +158,9 @@ body{
 }
 .caja__tercera{
     border:solid  #b9fcd9;
+}
+.caja__cuarta{
+    border: solid  #dbeafe;
 }
 .buscardor__tareas{
     border: solid #b9fcd9;

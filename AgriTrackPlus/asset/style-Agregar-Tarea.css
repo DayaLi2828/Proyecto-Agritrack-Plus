@@ -43,3 +43,253 @@ header{
   height: 141px;
   box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
+
+/* ==================== MAIN CONTAINER ==================== */
+main {
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+
+.contenedor__padre {
+  background: #FFFFFF;
+  border: 2px solid #d1fae5;
+  border-radius: 24px;
+  box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+}
+
+/* ==================== SECCIONES ==================== */
+.seccion {
+  margin-bottom: 40px;
+  padding-left: 20px;
+  margin-top: 80px;
+  border-left: 4px solid #10b981;
+}
+
+.seccion__trabajadores {
+  border-left-color: #22c55e;
+}
+
+.seccion__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.seccion__header--trabajadores {
+  margin-bottom: 20px;
+}
+
+.seccion__titulo {
+  font-size: 26px;
+  font-weight: bold;
+  color: #065f46;
+  margin: 0;
+}
+
+.seccion__contenido {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ==================== CAMPOS ==================== */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.campo--small {
+  flex: 1;
+}
+
+.campo__grupo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.campo__grupo--asignacion {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.label {
+  font-size: 20px;
+  font-weight: bold;
+  color: #065f46;
+}
+
+.label--small {
+  font-size: 16px;
+}
+
+.requerido {
+  color: #ef4444;
+}
+
+.input {
+  padding: 14px 18px;
+  border: 2px solid #d1fae5;
+  border-radius: 8px;
+  font-size: 18px;
+  color: #064e3b;
+  transition: all 0.3s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #10b981;
+}
+
+.input--small {
+  padding: 10px 14px;
+  font-size: 16px;
+}
+
+.textarea {
+  font-size: 18px;
+  padding: 14px 18px;
+  min-height: 100px;
+  border-radius: 10px;
+  font-family: Arial, sans-serif;
+}
+
+select.input {
+  font-size: 18px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* ==================== ASIGNACIONES ==================== */
+.mensaje__vacio {
+  text-align: center;
+  color: #059669;
+  padding: 24px;
+  font-size: 18px;
+}
+
+.asignacion__card {
+  background: #f0fdf4;
+  border: 2px solid #dcfce7;
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.btn__agregar {
+  background: #dcfce7;
+  color: #15803d;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+}
+
+.btn__agregar:hover {
+  background: #bbf7d0;
+}
+
+.btn__eliminar {
+  background: #fee2e2;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn__eliminar:hover {
+  background: #fecaca;
+}
+
+/* ==================== BOTONES DE ACCIÓN ==================== */
+.botones__contenedor {
+  display: flex;
+  gap: 16px;
+  padding-top: 32px;
+  border-top: 2px solid #d1fae5;
+  margin-top: 32px;
+}
+
+.btn {
+  padding: 18px 36px;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn__guardar {
+  flex: 1;
+  background: #059669;
+  color: #FFFFFF;
+  box-shadow: 0px 4px 12px rgba(5, 150, 105, 0.3);
+}
+
+.btn__guardar:hover {
+  background: #047857;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 16px rgba(5, 150, 105, 0.4);
+}
+
+.btn__cancelar {
+  padding: 18px 44px;
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn__cancelar:hover {
+  background: #e5e7eb;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  header {
+    padding: 24px;
+  }
+
+  .titulo {
+    font-size: 28px;
+  }
+
+  .subtitulo {
+    font-size: 14px;
+  }
+
+  .contenedor__padre {
+    padding: 50px;
+  }
+
+  .campo__grupo {
+    grid-template-columns: 1fr;
+  }
+
+  .campo__grupo--asignacion {
+    grid-template-columns: 1fr;
+  }
+
+  .btn__eliminar {
+    width: 100%;
+  }
+}
