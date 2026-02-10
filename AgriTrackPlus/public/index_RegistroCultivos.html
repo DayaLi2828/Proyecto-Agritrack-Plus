@@ -30,22 +30,29 @@
         <h2 class="subtitulo">Información Básica</h2>
       </div>
 
-      <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
-      <label for="nombre" class="nombre">Nombre del cultivo</label>
-      <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre del cultivo" required />
-      
-    <div class="fecha__siembra">
-       <label for="fecha" class="fecha">Fecha de siembra</label>
-      <input type="date" id="fecha" name="fecha" placeholder="Ingresa la fecha de siembra" required />
+<form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
+  <div class="campo">
+    <label for="nombre" class="nombre">Nombre del cultivo</label>
+    <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre del cultivo" required />
+  </div>
+
+  <div class="fechas">
+    <div class="campo">
+      <label for="siembra" class="siembra">Fecha de siembra</label>
+      <input type="date" id="siembra" name="siembra" required />
     </div>
 
-    <div class="fecha__cosecha">
-      <label for="fecha" class="fecha">Fecha de cosecha</label>
-      <input type="date" id="fecha" name="fecha" placeholder="Ingresa la fecha aproximada de cosecha"  />
+    <div class="campo">
+      <label for="cosecha" class="cosecha">Fecha de cosecha</label>
+      <input type="date" id="cosecha" name="cosecha" />
     </div>
-      
-      <label for="ciclo" class="ciclo">Ciclo del cultivo</label>
-      <input type="text" id="ciclo" name="ciclo" placeholder="Ej: Vegetativo, Floración, Maduración"  />
+  </div>
+
+  <div class="campo">
+    <label for="ciclo" class="ciclo">Ciclo del cultivo</label>
+    <input type="text" id="ciclo" name="ciclo" placeholder="Ej: Vegetativo, Floración, Maduración" />
+  </div>
+</form>
 
     </div>
     <div class="contendor__cajas">2</div>
