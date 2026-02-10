@@ -163,3 +163,74 @@ input[type="radio"] {
   margin-right: 10px;   /* separación respecto al texto */
   cursor: pointer;
 }
+.texto__pendiente,
+.texto__completada,
+.texto__proceso{
+  font-size: 23px;
+  margin-left: 32px;
+}
+
+.texto__pendiente{
+  color:var( --color-texto-tarea-pendiente);
+}
+.texto__completada{
+  color:var(  --color-numero-contador-tareas);
+}
+.texto__proceso{
+  color:var(--color-fecha-cultivo-caja);
+}
+/*contenedor obserbaciones*/
+.contenedor__observaciones{
+  background-color: var(--background-caja-descripcion-tarea);/*dfbhdg*/
+  border-left: solid 8px var(--color-borde-izquierdo-estado);
+  width: 85%;
+  margin: 0 auto;
+  height: auto;
+  margin-top: 100px;
+  border-radius: 10px;
+}
+
+.caja__observaciones{
+  width: 97%;
+  margin: 0 auto;
+  height: auto;
+}
+.texto__importante{
+  border: solid 3px var(  --color-borde-descripcion-tarea);
+  color:var(--color-numero-contador-tareas);
+  font-size: 23px;
+  padding: 15px;
+  border-radius:10px;
+}
+.contenedor__observaciones textarea {
+  width: 100%;                  /* ocupa todo el ancho disponible */
+  min-height: 150px;            /* altura mínima */
+  padding: 12px;                /* espacio interno */
+  font-size: 20px;              /* tamaño de letra */
+  color: var(--color-texto-contenedor);
+  border: solid 2px var(--color-borde-contadores-tareas);
+  border-radius: 8px;           /* esquinas redondeadas */
+  background-color: #fff;       /* fondo claro para escribir */
+  resize: vertical;             /* permite agrandar solo en vertical */
+  outline: none;                /* quita borde azul al hacer clic */
+  margin-top: 15px;             /* separación respecto al texto anterior */
+}
+.contenedor__botones{
+  display: flex; justify-content: center; /* centra ambos botones */ 
+  gap: 40px; /* espacio entre ellos */ margin-top: 40px;
+}
+.boton__guardar, 
+.boton__cancelar { 
+  padding: 18px 60px; /* ancho más razonable */ font-size: 22px; 
+  border: none;
+  border-radius: 8px; 
+  cursor: pointer; 
+}
+.boton__guardar{
+  background-color: var(--color-borde-izquierdo-estado);
+  color: var(--letra-boton); 
+}
+.boton__cancelar{
+  background-color: var(--background-boton-cancelar);
+  color:var(--color-texto-boton-cancelar);
+}

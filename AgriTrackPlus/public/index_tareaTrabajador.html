@@ -22,44 +22,66 @@
         </div>
     </header>
     <main class="main">
-        <div class="contenedor__descripcion">
-            <div class="contenedor__subtitulo">
-                <img class="icono__descripcion" src="../asset/imagenes/descripcion-del-trabajo.png" id="imagend de una libreta">
-                <h2 class="subtitulo__descripcion">Descripción de la tarea</h2>
+        <!-- FORMULARIO -->
+        <form action="procesar_tarea.php" method="POST">
+            <div class="contenedor__descripcion">
+                <div class="contenedor__subtitulo">
+                    <img class="icono__descripcion" src="../asset/imagenes/descripcion-del-trabajo.png" id="imagend de una libreta">
+                    <h2 class="subtitulo__descripcion">Descripción de la tarea</h2>
+                </div>
+                <div class="Descripcion__tarea">
+                  <p>Aplicación de NPK 10-20-10 en lechuga romana, 50kg por hectárea</p>
+                </div>
             </div>
-            <div class="Descripcion__tarea">
-              <p>Aplicación de NPK 10-20-10 en lechuga romana, 50kg por hectárea</p>
+            <!-----Actualizar estado de la tarea------->
+            <div class="contenedor__estado">
+              <div class="logo__titulo">
+                <img class="icono__estado" src="../asset/imagenes/grafico-de-barras.png" id="imagen de un grafico de barras">
+                <h2 class="subtitulo__estado">Actualizar estado de la tarea</h2>
+              </div>
+              <!---Seleccionar segun el estado de la tarea--->
+              <div class="estado">
+                <div class="estado__pendiente">
+                  <label>
+                    <input type="radio" name="estado" value="pendiente" required> 
+                    <h3 id="pendiente">Pendiente</h3>
+                    <p class="texto__pendiente">(Tarea nueva, aún no iniciada)</p>
+                  </label>
+                </div>
+                <div class="estado__completada">
+                  <label>
+                    <input type="radio" name="estado" value="completada" required>
+                    <h3 id="completada">Completada</h3>
+                    <p class="texto__completada">(Tarea finalizada con éxito)</p>
+                  </label>
+                </div>
+                <div class="estado__proceso">
+                  <label>
+                    <input type="radio" name="estado" value="proceso" required>
+                    <h3 id="proceso">En proceso</h3>
+                    <p class="texto__proceso">(Tarea aún no terminada)</p>
+                  </label>
+                </div>
+              </div>
             </div>
-        </div>
-        <!-----Actualizar estado de la tarea------->
-        <div class="contenedor__estado">
-          <div class="logo__titulo">
-            <img class="icono__estado" src="../asset/imagenes/grafico-de-barras.png" id="imagen de un grafico de barras">
-            <h2 class="subtitulo__estado">Actualizar estado de la tarea</h2>
-          </div>
-          <!---Seleccionar segun el estado de la tarea--->
-          <div class="estado">
-            <div class="estado__pendiente">
-              <label>
-                <input type="radio" name ="estado" value="pendiente"> 
-                <h3 id="pendiente">Pendiente</h3>
-              </label>
+            <!---Observaciones--->
+            <div class="contenedor__observaciones">
+              <div class="logo__titulo">
+                <img class="icono__estado" src="../asset/imagenes/mensajero.png" id="imagen de un icono de mensaje">
+                <h2 class="subtitulo__estado">Observaciones y Notas</h2>
+              </div>
+              <div class="caja__observaciones">
+                <div>
+                  <p class="texto__importante">💡 Importante: Describe como realizaste la tarea, problemas encontrados, materiales usados o cualquier dato relevante.</p>
+                </div>
+                <textarea id="observaciones" name="observaciones" placeholder="Escribe aquí tus comentarios..." rows="5" required></textarea>
+              </div>
             </div>
-            <div class="estado__completada">
-              <label>
-                <input type="radio" name ="estado" value="completada">
-                <h3 id="completada">Completada</h3> 
-              </label>
+            <div class="contenedor__botones">
+              <button type="submit" class="boton__guardar">Guardar Cambios</button>
+              <button type="reset" class="boton__cancelar">Cancelar</button>
             </div>
-            <div class="estado__proceso">
-              <label>
-                <input type="radio" name ="estado" value="proceso">
-                <h3 id="proceso">En proceso</h3> 
-              </label>
-            </div>
-          </div>
-
-        </div>
+        </form>
     </main>
 </body>
 </html>
