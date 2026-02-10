@@ -4,8 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="style_registro.css">
 </head>
 <body>
-  
+  <div class="contenedor">
+  <header>
+    <div class="contenedor__login">
+        <img class="logo" src="../hoja (2).png" alt="hoja del logo"> 
+        <h1 class="contenedor__titulo">AGRITRACK PLUS</h1>
+    </div>
+  </header>
+  <main>
+        <h2 class="contenedor__subtitulo">Únete y empieza a gestionar tus cultivos</h2>
+
+
+       <!-- ---------------------------------------------------------- -->
+      <form class="formulario__login" method="get" enctype="multipart/form-data">
+      <label for="nombre" class="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required />
+
+      <label for="apellido" class="apellido">Apellido</label>
+      <input type="text" id="apellido" name="apellido" placeholder="Ingresa tu apellido" required />
+
+      <label for="email" class="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required />
+
+      <!-- ---------------------------------------------------------- -->
+      <label for="password" class="password" >Contraseña</label>
+      <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required />
+
+
+        <div class="boton__login">
+              <button type="submit">Continuar</button>
+        </div>
+      </form>
 </body>
 </html>
