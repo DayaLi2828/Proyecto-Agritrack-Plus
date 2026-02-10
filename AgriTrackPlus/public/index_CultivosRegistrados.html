@@ -28,6 +28,7 @@
               src="../asset/imagenes/planta (2).png"
               alt="hoja del logo"
             />
+            <!--CULTIVOS REGISTRADOS-->
             <h1 class="titulo">Información del Cultivo</h1>
           </div>
           <!---desde aca empiezan las ileras horizontales-->
@@ -53,8 +54,9 @@
             </div>
           </div>
         </div>
+        <!--FERTILIZANTES APLICADOS-->
 
-        <div class="contendor__informacion  fertilizantes">
+        <div class="contendor__informacion fertilizantes">
           <div class="caja_titulo">
             <img
               class="logo"
@@ -80,7 +82,116 @@
               <p><strong>Plagas Detectadas:</strong> Ninguna</p>
             </div>
           </div>
+        </div>
+        <!--STOCK DE PRODUCTOS-->
 
+        <div class="contendor__informacion contenedor__stock">
+          <div class="caja_titulo">
+            <img
+              class="logo"
+              src="../asset/imagenes/stock.png"
+              alt="icono stock"
+            />
+            <h1 class="titulo">Stock de productos</h1>
+          </div>
+
+          <!-- Fila 1 -->
+          <div class="contendor__fila__ cultivo__fila__stock">
+            <div class="dato__cultivo dato__stock">
+              <p><strong>Producto:</strong> Fertilizante NPK</p>
+            </div>
+            <div class="informacion__producto">
+              <strong>25 kg</strong>
+              <select id="estado__producto">
+                <option value="verde" class="estado__disponible">
+                  Disponible
+                </option>
+                <option value="amarillo" class="estado__bajo">
+                  Bajo stock
+                </option>
+                <option value="rojo" class="estado__agotado">Agotado</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fila 2 -->
+          <div class="contendor__fila__ cultivo__fila__stock">
+            <div class="dato__cultivo dato__stock">
+              <p><strong>Producto:</strong> Insecticida orgánico</p>
+            </div>
+            <!------->
+            <div class="informacion__producto">
+              <strong>25 kg</strong>
+              <select id="estado__producto">
+                <option value="verde" class="estado__disponible">
+                  Disponible
+                </option>
+                <option value="amarillo" class="estado__bajo">
+                  Bajo stock
+                </option>
+                <option value="rojo" class="estado__agotado">Agotado</option>
+              </select>
+            </div>
+          </div>
+          <!-- Fila 3 -->
+          <div class="contendor__fila__ cultivo__fila__stock">
+            <div class="dato__cultivo dato__stock">
+              <p><strong>Producto:</strong> Semillas de aguacate</p>
+            </div>
+            <!------->
+            <div class="informacion__producto">
+              <strong>25 kg</strong>
+              <select id="estado__producto">
+                <option value="verde" class="estado__disponible">
+                  Disponible
+                </option>
+                <option value="amarillo" class="estado__bajo">
+                  Bajo stock
+                </option>
+                <option value="rojo" class="estado__agotado">Agotado</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!---------------ADMINISTRADOR-->
+        <div class="contendor__informacion contenedor__admin">
+          <div class="caja_titulo">
+            <img
+              class="logo"
+              src="../asset/imagenes/stock.png"
+              alt="icono stock"
+            />
+            <h1 class="titulo">Administrador</h1>
+          </div>
+          <img
+            class="logo__admin"
+            src="../asset/imagenes/admin.png"
+            id="imagen de usuario"
+          />
+          <div class="contenedor__nombre__admin">
+            <h2 class="nombre__admin">Hernesto Perez</h2>
+            <p>Administrador principal</p>
+          </div>
+        </div>
+        <!---------------TRABAJADORES-->
+        <div class="contendor__informacion contenedor__trab">
+          <div class="caja_titulo">
+            <img
+              class="logo"
+              src="../asset/imagenes/stock.png"
+              alt="icono stock"
+            />
+            <h1 class="titulo">Trabajadores</h1>
+          </div>
+          <img
+            class="logo__admin"
+            src="../asset/imagenes/admin.png"
+            id="imagen de usuario"
+          />
+          <div class="contenedor__nombre__trabajador">
+            <h2 class="nombre__trab">Hernesto Perez</h2>
+            <p>Administrador principal</p>
+          </div>
         </div>
       </div>
     </main>

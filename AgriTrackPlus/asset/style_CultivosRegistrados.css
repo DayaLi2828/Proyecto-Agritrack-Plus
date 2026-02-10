@@ -46,7 +46,7 @@ header{
 }
 .main_contenedor{
   width: 80%;
-  height: 175vh;
+  height: 428vh;
   box-shadow: 0px 0px 10px 2px rgba(16, 185, 129, 0.404);
   padding: 50px;
   margin: 0 auto;
@@ -95,4 +95,85 @@ header{
 }
 .fertilizantes {
   padding: 60px; /* espacio interno a los lados */
+}
+.contenedor__stock{
+  height: 473px;
+}
+.cultivo__fila__stock{
+  display: flex;
+  gap:354px;
+  margin-top: 30px;
+}
+
+.dato__stock{
+  display: flex;
+  margin-left: 67px;
+  width: 48%;
+}
+.informacion__producto{
+  font-size: 18px;
+}
+
+#estado__producto {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  margin-left: 42px;
+}
+
+/* Colores según estado */
+.estado__disponible{
+  background-color: green;
+}
+.estado__bajo{
+  background-color: yellow;
+}
+.estado__agotado{
+  background-color: red;
+}
+
+#select:has(opction[value="amarillo"]:checked){
+  background-color: yellow;
+}
+
+#select:has(opction[value="rojo"]:checked){
+  background-color: red;
+}
+#select:has(opction[value="verde"]:checked){
+  background-color: green;
+}
+.contenedor__admin{
+  height: 300px;
+}
+
+.nombre__admin{
+  font-size: 30px;
+  margin-top: -38px;
+  margin-left: 211px;
+
+}
+.logo__admin{
+  height: 70px;
+  width: 70px;
+  margin-left: 121px;
+  margin-top: 50px;
+}
+.contenedor__nombre__admin p{
+  font-size: 20px;
+  margin-left: 206px;
+  color: var( --color-subtitulos);
+}
+.contenedor__nombre__trabajador{
+  font-size: 20px;
+  margin-left: 206px;
+  color: var( --color-subtitulos);
+}
+.contenedor__trab{
+  height: 300px;
+}
+.nombre__trab{
+  font-size: 30px;
+  margin-top: -38px;
 }
