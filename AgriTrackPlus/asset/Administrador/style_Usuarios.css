@@ -45,8 +45,7 @@ height: 70px;
 
 /**********MAIN***************/
 .contenedor_tarjetas{
-    background-color: aquamarine;
-    width: 85%;
+    width: 55%;
     height: 300px;
     margin: 0 auto;
     margin-top:70px;
@@ -56,10 +55,49 @@ height: 70px;
 .tarjeta__contador{
 width: 340px;
 height: 300px;
-background-color: rgba(137, 43, 226, 0.473);
+background-color: var(--color-borde-contadores-tareas);
 text-align: center;
 }
 .tarjeta__contador h2{
     font-size: 100px;
     margin:0 auto;
+    margin-top: 60px;
+    color: var(--color-numero-contador-tareas);
+}
+.tarjeta__contador p{
+    font-size: 30px;
+    color: var(--color-subtitulo-cultivos);
+}
+.buscador__usuario{
+    width: 50%;
+    height: 121px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.contenedor__buscar{
+    position: relative;
+    border-radius: 10px;
+    width: 38%;
+    height: 55px;
+    margin-top: 30px;
+    margin-left: 599px;
+}
+.icono__buscador{
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    pointer-events: none;
+}
+.contenedor__buscar input{
+    width: 100%;
+    height: 100%;
+    padding-left: 68px; /* espacio para el icono */
+    border-radius: 10px;
+    border: 2px solid #b9fcd9;
+    outline: none;
+    font-size: 16px;
 }
