@@ -1,11 +1,10 @@
+@import url(utils/global.css);
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-:root{
-  --fondo-pagina-main: #70f3c333;
-}
+
 body{
   display: grid;
   grid-template-areas:
@@ -22,7 +21,7 @@ header{
   left: 0%;
   height: 130px;
   width: 332px;
-  background-color:#065f46; 
+  background-color:var(--background-header); 
   display: flex;
   align-items: center;
   gap: 15px;
@@ -45,13 +44,13 @@ header{
   height: 70px;
  }
  .titulo{
-   color: white; 
+   color: var(--letra-titulo); 
  }
  /*----------------------------*/
 .main {
   grid-area: main;
   padding: 20px;
-  background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
+  background: var(--background-main);
 
 }
 
@@ -68,13 +67,13 @@ header{
   font-weight: bold;
   font-size: 37px;
   justify-items: center;
-  color:#047857;
+  color:var(--color-titulo);
 }  
 
 .main__texto{
   margin-top: 20px;
   font-size: 30px;
-  color: #059669;
+  color: var(--color-subtitulo);
 }
 
 .main__contenedores{
@@ -89,21 +88,17 @@ header{
 
 
 .main__boxs{
-  background-color: aliceblue;
+  background-color: var(--background-contenedores);
   min-width: auto;
   height: 328px;
-  box-shadow:
-  0px -4px 6px rgba(16, 185, 129, 0.3),   /* arriba */
-  4px 0px 6px rgba(16, 185, 129, 0.3),    /* derecha */
-  -4px 0px 6px rgba(16, 185, 129, 0.3),   /* izquierda */
-  0px 10px 0px rgba(16, 185, 129, 1);     /* abajo sólida */
+  box-shadow:var(--box-shadow-contenedores);
   border-radius: 10px;
 }
 
 .main__contimagen--secundario{
   width: 173px;
   height: 134px;
-  background: linear-gradient(to bottom, #16a34a, #BBF451);
+  background: var(--background-gradiente-caja-imagen2);
   margin-left: 40px;
   margin-top: 40px;
   border-radius: 10px;
@@ -114,7 +109,7 @@ header{
 .main__contimagen{
   width: 173px;
   height: 134px;
-  background-color: #16a34a;
+  background-color: var(--background-caja-imagen1);
   margin-left: 40px;
   margin-top: 40px;
   border-radius: 10px;
@@ -138,12 +133,12 @@ header{
 
 .caja__texto h3{
   font-size: 30px;
-  color: #006d07;
+  color: var(--color-subtitulos);
 }
 .caja__texto p{
   font-size: 25px;
   margin-top: 16px;
-  color: #16a34a;
+  color: var(--color-texto-contenedor);
 }
 
 .main__contetarjetas{
@@ -164,13 +159,9 @@ header{
 .main__tarjetas{
   width: 400px;
   height: 223px;
-  background-color: white;
+  background-color: var(--background-tarjetas);
   border-radius: 10px;
-  box-shadow:
-  0px -4px 6px rgba(0, 109, 7, 0.3),   /* arriba */
-  4px 0px 6px rgba(0, 109, 7, 0.3),    /* derecha */
-  -4px 0px 6px rgba(0, 109, 7, 0.3),   /* izquierda */
-  0px 4px 6px rgba(0, 109, 7, 0.3);     /* abajo sólida */
+  box-shadow:var(--box-shadow-tarjetas);
   display: flex;              /* activa flexbox */
   flex-direction: column;     /* apila título y número */
   justify-content: center;    /* centra verticalmente */
@@ -182,13 +173,13 @@ header{
   font-weight: bold;
   font-size: 33px;
   margin-top: 13px;
-  color: #006d07;
+  color: var(--color-subtitulo);
 }
 
 .main__numero{
   width: 143px;
   height: 112px;
-  background-color:#10b981;
+  background-color:var(--background-numero);
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -198,7 +189,7 @@ header{
   margin: 0;
   font-weight: bold;
   font-size: 60px;
-  color: white;
+  color: var(--color-numero-tarjeta);
 }
 
 
@@ -210,7 +201,7 @@ header{
   left: 0%;
   width: 332px;      /* mismo ancho que definiste en el grid */
   height: 100vh; 
-  background-color: #065f46;
+  background-color: var(--background-sidebar);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -219,20 +210,20 @@ header{
 }
 
 .sidebar__barra a:first-child {
-  background-color:#a3e635;
-  color: #006d07;
+  background-color:var(--background-caja-inicio);
+  color: var(--color-texto-inicio);
 }
 
 .sidebar__barra a {
   text-decoration: none;
-  color: #ffffff;
+  color:var(--color-letra-sidebar);
   font-weight: bold;
   padding: 20px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 .sidebar__barra a:hover{
-  background-color: #40eb5cb2;
+  background-color: var(--hover-cajas-letra-sidebar);
 }
 .sidebar__barra nav {
   display: flex;
@@ -245,7 +236,7 @@ header{
 /*************************************/
 .footer {
   grid-area: footer;
-  background-color: #40eb5cb2;
+  background-color: var(--background-footer);
   text-align: center;
   padding: 10px;
 }

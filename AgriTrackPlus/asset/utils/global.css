@@ -1,0 +1,44 @@
+
+/*------------------INICIAR SESION--------------*/
+:root{
+  --color-contenedores:#FFEBC8;
+  --color-letra:#535A1C;
+  --color-subtitulos:#006d07;
+  --letra-boton:white;
+  /*--------------REGISTRO----------------------*/
+  --color-boton:#006d07;
+  /*---------------ROLES------------------------*/
+  --letra-titulo:white;
+  --color-cajas:#40eb5cb2;
+  /*---------------ADMINISTRADOR*********************/
+  --background-header:#065f46;
+  --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
+  --background-sidebar:#065f46;
+  --background-caja-inicio:#a3e635;
+  --color-texto-inicio:#006d07;
+  --color-letra-sidebar:white;
+  --hover-cajas-letra-sidebar:#40eb5cb2;
+  --color-titulo:#047857;
+  --color-subtitulo:#059669;
+  --background-contenedores:aliceblue;
+  --box-shadow-contenedores:  0px -4px 6px rgba(16, 185, 129, 0.3),   /* arriba */
+  4px 0px 6px rgba(16, 185, 129, 0.3),    /* derecha */
+  -4px 0px 6px rgba(16, 185, 129, 0.3),   /* izquierda */
+  0px 10px 0px rgba(16, 185, 129, 1);     /* abajo sólida */;
+  --background-gradiente-caja-imagen2:linear-gradient(to bottom, #16a34a, #BBF451);
+  --background-caja-imagen1:#16a34a;
+  --color-texto-contenedor:#16a34a;
+  --background-tarjetas:white;
+  --box-shadow-tarjetas:  0px -4px 6px rgba(0, 109, 7, 0.3),   /* arriba */
+  4px 0px 6px rgba(0, 109, 7, 0.3),    /* derecha */
+  -4px 0px 6px rgba(0, 109, 7, 0.3),   /* izquierda */
+  0px 4px 6px rgba(0, 109, 7, 0.3);     /* abajo sólida */;
+  --background-numero:#10b981;
+  --color-numero-tarjeta:white;
+  --background-footer:#40eb5cb2;
+  /***********************REGISTRO DE CULTIVOS****************************/
+  --fondo-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
+  --color-titulo-registro:#064e3b;
+  --background--caja-logo:linear-gradient(to bottom right, #10b981, #22c55e);
+}
+

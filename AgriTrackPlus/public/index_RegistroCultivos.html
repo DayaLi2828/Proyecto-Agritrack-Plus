@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="../components/style_RegistroCultivos.css">
+  <link rel="stylesheet" href="../asset/style_RegistroCultivos.css">
 </head>
 <body>
   
   <header>
     <div class="contenedor__titulo">
       <div class="contenedor__logo">
-        <img class="logo" src="../asset/hoja (3).png" alt="hoja del logo"> 
+        <img class="logo" src="../asset/imagenes/hoja (3).png" alt="hoja del logo"> 
       </div>
       <h1 class="titulo">Registrar Nuevo Cultivo</h1>
     </div>
@@ -20,9 +20,40 @@
   
 
   <main class="main">
-   
-    
+   <div class="contendor">
 
+    <div class="contendor__cajas">
+      <div class="contendor__subtitulo" >
+         <div class="caja__logo">
+          <img class="logo" src="../asset/imagenes/hoja (3).png" id="logo hoja">
+      </div>
+        <h2 class="subtitulo">Información Básica</h2>
+      </div>
+
+      <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
+      <label for="nombre" class="nombre">Nombre del cultivo</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre del cultivo" required />
+      
+    <div class="fecha__siembra">
+       <label for="fecha" class="fecha">Fecha de siembra</label>
+      <input type="date" id="fecha" name="fecha" placeholder="Ingresa la fecha de siembra" required />
+    </div>
+
+    <div class="fecha__cosecha">
+      <label for="fecha" class="fecha">Fecha de cosecha</label>
+      <input type="date" id="fecha" name="fecha" placeholder="Ingresa la fecha aproximada de cosecha"  />
+    </div>
+      
+      <label for="ciclo" class="ciclo">Ciclo del cultivo</label>
+      <input type="text" id="ciclo" name="ciclo" placeholder="Ej: Vegetativo, Floración, Maduración"  />
+
+    </div>
+    <div class="contendor__cajas">2</div>
+    <div class="contendor__cajas">3</div>
+    <div class="contendor__cajas">4</div>
+    <div class="contendor__cajas">5</div>
+    
+   </div>
   </main>
 
 <!--<footer class="footer">
