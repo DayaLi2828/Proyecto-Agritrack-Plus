@@ -61,7 +61,7 @@ body{
   margin-top: 10px;
  }
  .caja__logo{
-  background:var(--background--caja-logo);
+  background:#d1fae5;
   width: 91px;
   height: 91px;
   display: flex;
@@ -86,7 +86,11 @@ body{
   border-radius: 10px;
   margin: 0 auto;
   border: var(--color-borde-input-formulario);
+}
 
+.formulario__registrarcultivo input:focus{
+  border-color: var(--color-borde-input-activo);
+  outline: none;
 }
 
 .formulario__registrarcultivo {
@@ -150,5 +154,26 @@ body{
   color: var(--color-texto-formulario);
 
 }
-/*************TAREAS FERTILIZACIÓN*****************/
+
+.contenedor__campos{
+  display: flex;
+  gap: 10px;
+}
+
+.contenedor__campos input{
+  width:450px;
+  margin-right:110px ;
+}
+
+.contendor__cajas:nth-child(2){
+  height: var(--largo--contenedores);
+}
+.contendor__cajas:nth-child(3){
+  height: var(--largo--contenedores);
+}
+
+.contendor__cajas:nth-child(4){
+  height: var(--largo--contenedores);
+}
+
 

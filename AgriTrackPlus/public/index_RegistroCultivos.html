@@ -25,7 +25,7 @@
       <div class="contendor__cajas">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/hoja (3).png" id="logo hoja">
+            <img class="logo" src="../asset/imagenes/planta (2).png" id="logo hoja">
           </div>
           <h2 class="subtitulo">Información Básica</h2>
         </div>
@@ -58,32 +58,81 @@
       <div class="contendor__cajas">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/hoja (3).png" id="logo hoja">
+            <img class="logo" src="../asset/imagenes/fertilizante.png" id="logo hoja">
           </div>
           <h2 class="subtitulo">Fertilización y control</h2>
         </div>
         <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
-          <div class="campo">
-            <label for="fertilizante" class="nombre">Fetilizantes a aplicar</label>
-            <input type="text" id="fertilizante" name="fertilizante" placeholder="Ingrese los fertilizantes" />
-          </div>
 
-          <div class="campo">
-            <label for="fertilizante__nuevo" class="nombre">Agregar nuevo fertilizante</label>
-            <input type="text" id="fertilizante__nuevo" name="fertilizante__nuevo" placeholder="Ingrese el nuevo fertilizante" />
-          </div>
-
+          <div class="contenedor__campos">
             <div class="campo">
-              <label for="plagas" class="siembra">Plagas detectadas</label>
-              <input type="tex" id="plagas" name="plagas"  placeholder="Ingrese las plagas detectadas" required />
+              <label for="fertilizante" class="nombre">Tipo de Fertilizante</label>
+              <input type="text" id="fertilizante" name="fertilizante" placeholder="Ingrese el tipo de fertilizante" />
             </div>
 
-            
+            <div class="campo">
+              <label for="fertilizante__nuevo" class="nombre">Cantidad</label>
+              <input type="text" id="fertilizante__nuevo" name="fertilizante__nuevo"
+                placeholder="Ingrese la cantidad de fertilizante que desea usar" />
+            </div>
+
+            <div class="campo">
+              <label for="plagas" class="siembra">Plagas detectadas (si aplica)</label>
+              <input type="tex" id="plagas" name="plagas" placeholder="Ingrese las plagas detectadas" />
+            </div>
+          </div>
         </form>
       </div>
+      <!---------------------------------------------------------------------------------------------->
+      <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+          <div class="caja__logo">
+            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
+          </div>
+          <h2 class="subtitulo">Stock de Productos </h2>
+        </div>
+        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
 
-      <div class="contendor__cajas">3</div>
-      <div class="contendor__cajas">4</div>
+          <div class="contenedor__campos">
+            <div class="campo">
+              <label for="fertilizante" class="nombre">Producto</label>
+              <input type="text" id="fertilizante" name="fertilizante"
+                placeholder="Ingrese el producto que desea usar " />
+            </div>
+
+            <div class="campo">
+              <label for="fertilizante__nuevo" class="nombre">Tipo</label>
+              <input type="text" id="fertilizante__nuevo" name="fertilizante__nuevo"
+                placeholder="Ingrese el tipo de producto" />
+            </div>
+
+            <div class="campo">
+              <label for="plagas" class="siembra">Cantidad</label>
+              <input type="tex" id="plagas" name="plagas" placeholder="Ingrese la cantidad de productos" />
+            </div>
+          </div>
+        </form>
+      </div>
+      <!------------------------------------------------------------------------------------------------------------------------------------>
+      <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+          <div class="caja__logo">
+            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
+          </div>
+          <h2 class="subtitulo">Supervisor de campo</h2>
+        </div>
+        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
+
+          <div class="contenedor__campos">
+            <div class="campo">
+              <label for="fertilizante" class="nombre">Producto</label>
+              <input type="text" id="fertilizante" name="fertilizante"
+                placeholder="Ingrese el producto que desea usar " />
+            </div>
+          </div>
+          
+        </form>
+      </div>
       <div class="contendor__cajas">5</div>
     </div>
 
