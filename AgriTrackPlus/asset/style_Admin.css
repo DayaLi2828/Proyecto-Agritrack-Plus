@@ -51,7 +51,6 @@ header{
   grid-area: main;
   padding: 20px;
   background: var(--background-main);
-
 }
 
 .main__cajatexto{

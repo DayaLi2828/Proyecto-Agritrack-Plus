@@ -16,13 +16,44 @@ body{
 }
 
 header {
-  grid-area: header;
+  position: fixed;
+  top: 0px;
+  left: 0%;
   height: 130px;
-  background-color: var(--background-header);
+  width: 332px;
+  background-color:var(--background-header); 
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 15px;
+  padding: 20px;
 }
+
+.sidebar__barra {
+  position: fixed;
+  top: 130px;
+  left: 0;
+  width: 332px;
+  height: calc(100vh - 130px);
+  background-color: var(--background-sidebar);
+}
+
+.main {
+  margin-left: 332px; /* espacio para la sidebar */
+  margin-top: 130px;  /* espacio para el header */
+  padding: 20px;
+  background: var(--background-main);
+}
+
+
+.sidebar__barra {
+  position: fixed;
+  top: 130px;
+  left: 0;
+  width: 332px;
+  height: calc(100vh - 130px);
+  background-color: var(--background-sidebar);
+}
+
 .titulo{
   font-size: 34px;
 }
@@ -47,25 +78,26 @@ header {
   grid-area: main;
   padding: 20px;
   background: var(--background-main);
-  margin-left: 332px; /* ancho de la sidebar */
-  margin-top: 130px;  /* alto del header */
-  position: relative;
-  z-index: 1; 
 }
-
-
-.main__contenedor{
-
+.contenedor__perfil{
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 100px;
 }
 
 /**********************************************************/
 .sidebar__barra {
-  grid-area: sidebar;
+  position: fixed;
+  top: 130px;
+  left: 0%;
+  width: 332px;      /* mismo ancho que definiste en el grid */
+  height: 100vh; 
   background-color: var(--background-sidebar);
   padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  height: 100vh;
 }
 
 .sidebar__barra a:first-child {
