@@ -1,23 +1,18 @@
-
-
-
-
-
+@import url(global.css);
 *{
   margin: 0;/*elimina margenes por defecto*/
   padding: 0;/*elimina relleno interno por defecto*/
   box-sizing: border-box;/*Hace que el ancho y alto incluyan el padding y el borde*/
 }
 :root{
-  --color-contenedores:#FFEBC8;
-  --color-letra:#535A1C;
+ 
 }
  body{
   height: 100vh;/*Ocupa el 100% de la altura de la ventana del navegador */
   display: flex;/*Activa Flexbox para centrar contenido */
   justify-content: center;/*Centra horizontalmente*/
   align-items: center;/*Centra verticalmente*/
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(fondo.jpg);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url(../asset/fondo.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

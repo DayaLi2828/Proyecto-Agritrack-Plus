@@ -1,23 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="style_Admin.css">
+  <link rel="stylesheet" href="../components/style_Admin.css">
 </head>
 <body>
   <header>
     <div class="contenedor__titulo">
-        <img class="logo" src="hoja (2).png" alt="hoja del logo"> 
+        <img class="logo" src="../asset/hoja (2).png" alt="hoja del logo"> 
         <h1 class="titulo">AGRITRACK PLUS</h1>
     </div>
   </header>
 
-   <aside class="sidebar">
+   <aside class="sidebar__barra">
     <nav>
       <a href="#">Inicio</a>
-      <a href="#">Registro de cultivos</a>
+      <a href="../public/index_RegistroCultivos.html">Registro de cultivos</a>
       <a href="#">Métodos de fertilización</a>
       <a href="#">Calendario</a>
       <a href="#">Tareas</a>
@@ -25,9 +25,14 @@
   </aside>
 
   <main class="main">
-    <div>1</div>
-    <div>2</div>
-    <div>3</div>
+    <div class="main__cajaimagen">
+       <img class="main__imagen" src="../asset/campo.jpg" id="imagen de campo de la pagina principal"> 
+    </div>
+
+    <div class="main__cajatexto">
+      <h1 class="main__titulo">¿De que se trata Agritrack Plus? </h1>
+      <p class="main__texto">AgriTrack Plus es un sistema de seguimiento de cultivos agrícolas que permite llevar la contabilidad detallada de cada cultivo 🌾📊. Su objetivo principal es registrar información clave como el tipo de cultivo, fecha de siembra y ubicación, y asociarla. Con datos contables como ingresos por venta, gastos en insumos y mano de obra. Esta herramienta facilita la toma de decisiones informadas, mejora la organización del productor y ofrece una visión clara del rendimiento económico de cada cultivo, todo desde una interfaz visual, funcional y amigable.</p>
+    </div>
   </main>
 
   <footer class="footer">

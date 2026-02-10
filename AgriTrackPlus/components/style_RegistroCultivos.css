@@ -3,9 +3,6 @@
   padding: 0;
   box-sizing: border-box;
 }
-:root{
-  --fondo-pagina-main:#EAE4D5;
-}
 body{
   display: grid;
   grid-template-areas:
@@ -15,6 +12,7 @@ body{
   grid-template-columns: 250px 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
+  background-color: #EAE4D5;
 }
 
  /*Título y logo */
@@ -35,7 +33,7 @@ body{
 
 .header {
   grid-area: header;
-  background-color:var(--header-barra-navegacion);
+  background-color: #ffffff;
   padding: 20px;
 }
 
@@ -46,55 +44,15 @@ body{
   display: flex;
   flex-direction: column;
   gap: 15px;
+
 }
 
 .main {
   grid-area: main;
   padding: 20px;
-  background-color: var(--fondo-pagina-main);
+  background-color: #fbf2e3
+  ;
 }
-.main__cajaimagen{
-  background-color: #535a1c4c;
-  width: 30%;/*ancho del contenedor de la imagen*/
-  height: 55%;/*alto del contenedor de la imagen*/
-  display:flex ;
-  justify-content: center;/*centrar la imagen*/
-  align-items: center;/*centrar la imagen*/
-  border-radius: 10px;/*borde redondo*/
-}
-
-.main__imagen{
-  height: 102%;
-  width: 102%;
-  padding: 30px;
-
-}
-
-.main__cajatexto{
-   /* background-color: aqua;    */
-  width: 50%;
-  height: 32%;
-
-  margin-left: 36%;
-  margin-top: -323px;
-}
-
-.main__titulo{
- font-weight: bold;
- font-size: 30px;
- justify-items: center;
-}  
-
-.main__texto{
-  margin-top: 20px;
-  font-size: 18px;
-}
-
-
-
-
-/**********************************************************/
-
 .sidebar__barra a {
   text-decoration: none;
   color: #535A1C;
@@ -104,12 +62,12 @@ body{
   transition: background-color 0.3s ease;
 }
 .sidebar__barra a:hover{
-  background-color: #535a1c4c;
+  background-color: #535a1c9b;
 }
 .sidebar__barra nav {
   display: flex;
   flex-direction: column; 
-  gap: 20px;
+  gap: 15px;              
 }
 
 .footer {
