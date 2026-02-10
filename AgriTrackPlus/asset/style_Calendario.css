@@ -1,0 +1,32 @@
+@import url(utils/global.css);
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background: var(--fondo-main);
+  padding-bottom: 50px; /* agrega aire al final de la página */
+}
+.calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    width: 400px;
+    padding: 80px;
+}
+  
+.dia {
+    border: 1px solid #ccc;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+  
+.dia.con-nota {
+    background-color: #d1fae5; /* resalta días con nota */
+    margin-left: 50px;
+}
+.campo__nota{
+    margin-left: 80px;
+}
