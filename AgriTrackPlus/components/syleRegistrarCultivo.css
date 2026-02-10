@@ -81,6 +81,11 @@ body{
   margin-left: 100px;
 }
 
+.caja__gradiente{
+  background: linear-gradient(to bottom, #E9B4A8, #fed7aa, #E9B4A8);
+  width: 600px;
+  height: 400px;
+}
 
 /****************************************************************************************************************/
 .sidebar__barra a {

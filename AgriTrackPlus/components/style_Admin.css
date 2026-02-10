@@ -22,7 +22,7 @@ header{
   left: 0%;
   height: 130px;
   width: 332px;
-  background-color: #006d07; 
+  background-color:#065f46; 
   display: flex;
   align-items: center;
   gap: 15px;
@@ -51,7 +51,8 @@ header{
 .main {
   grid-area: main;
   padding: 20px;
-  background-color: var(--fondo-pagina-main);
+  background: linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
+
 }
 
 .main__cajatexto{
@@ -67,13 +68,13 @@ header{
   font-weight: bold;
   font-size: 37px;
   justify-items: center;
-  color: #006d07;
+  color:#047857;
 }  
 
 .main__texto{
   margin-top: 20px;
   font-size: 30px;
-  color: #16a34a;
+  color: #059669;
 }
 
 .main__contenedores{
@@ -91,11 +92,17 @@ header{
   min-width: auto;
   height: 328px;
   box-shadow:
-  0px -4px 6px rgba(22, 163, 74, 0.3),   /* arriba */
-  4px 0px 6px rgba(22, 163, 74, 0.3),    /* derecha */
-  -4px 0px 6px rgba(22, 163, 74, 0.3),   /* izquierda */
-  0px 10px 0px rgba(22, 163, 74, 1);     /* abajo sólida */
+  0px -4px 6px rgba(16, 185, 129, 0.3),   /* arriba */
+  4px 0px 6px rgba(16, 185, 129, 0.3),    /* derecha */
+  -4px 0px 6px rgba(16, 185, 129, 0.3),   /* izquierda */
+  0px 10px 0px rgba(16, 185, 129, 1);     /* abajo sólida */
+
+
   border-radius: 10px;
+}
+
+.main__boxs:hover{
+  
 }
 .main__contimagen--secundario{
   width: 173px;
@@ -154,6 +161,10 @@ header{
   gap: 40px;
 }
 
+.main__tarjetas:hover{
+  transform: scale(1.05); 
+}
+
 .main__tarjetas{
   width: 400px;
   height: 223px;
@@ -164,8 +175,36 @@ header{
   4px 0px 6px rgba(0, 109, 7, 0.3),    /* derecha */
   -4px 0px 6px rgba(0, 109, 7, 0.3),   /* izquierda */
   0px 4px 6px rgba(0, 109, 7, 0.3);     /* abajo sólida */
-
+  display: flex;              /* activa flexbox */
+  flex-direction: column;     /* apila título y número */
+  justify-content: center;    /* centra verticalmente */
+  align-items: center;        /* centra horizontalmente */
+  text-align: center;
+  gap: 20px;
 }
+.main__tarjetas h4{
+  font-weight: bold;
+  font-size: 33px;
+  margin-top: 13px;
+  color: #006d07;
+}
+
+.main__numero{
+  width: 143px;
+  height: 112px;
+  background-color:#10b981;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main__tarjetas h3{
+  margin: 0;
+  font-weight: bold;
+  font-size: 60px;
+  color: white;
+}
+
 
 
 /**********************************************************/
@@ -175,7 +214,7 @@ header{
   left: 0%;
   width: 332px;      /* mismo ancho que definiste en el grid */
   height: 100vh; 
-  background-color: #006d07;
+  background-color: #065f46;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -184,7 +223,7 @@ header{
 }
 
 .sidebar__barra a:first-child {
-  background-color: #BBF451;
+  background-color:#a3e635;
   color: #006d07;
 }
 
@@ -210,7 +249,7 @@ header{
 /*************************************/
 .footer {
   grid-area: footer;
-  background-color: #535a1c9b;
+  background-color: #40eb5cb2;
   text-align: center;
   padding: 10px;
 }
