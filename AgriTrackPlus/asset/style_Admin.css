@@ -65,13 +65,13 @@ header{
   font-weight: bold;
   font-size: 37px;
   justify-items: center;
-  color:var(--color-titulo);
+  color:var(--color-titulo-admin);
 }  
 
 .main__texto{
   margin-top: 20px;
   font-size: 30px;
-  color: var(--color-subtitulo);
+  color: var(--color-subtitulo-admin);
 }
 
 .main__contenedores{
@@ -172,7 +172,7 @@ header{
   font-weight: bold;
   font-size: 33px;
   margin-top: 13px;
-  color: var(--color-subtitulo);
+  color: var(--color-subtitulo-admin);
 }
 
 .main__numero{

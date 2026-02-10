@@ -85,6 +85,9 @@ label{
 
 input{
   padding: 10px;
+  border-radius: 10px;
+  border:solid 1px var(--borde-inputs-login);
+  outline: none;
 }
 .registrarse__login a{
   text-decoration: none;
@@ -107,7 +110,7 @@ button{
   height: 35px;
   width: 180px;
   padding: 10px;
-  background-color:var(--color-letra);
+  background-color:var(--color-boton);
   color: var(--letra-boton);
   border: none;
 }

@@ -1,49 +1,63 @@
-
-/*------------------INICIAR SESION--------------*/
 :root{
-  --color-contenedores:#FFEBC8;
-  --color-letra:#535A1C;
-  --color-subtitulos:#006d07;
-  --letra-boton:white;
-  /*--------------REGISTRO----------------------*/
-  --color-boton:#006d07;
-  /*---------------ROLES------------------------*/
-  --letra-titulo:white;
-  --color-cajas:#40eb5cb2;
-  /*---------------ADMINISTRADOR*********************/
-  --background-header:#065f46;
-  --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
-  --background-sidebar:#065f46;
-  --background-caja-inicio:#a3e635;
-  --color-texto-inicio:#006d07;
-  --color-letra-sidebar:white;
-  --hover-cajas-letra-sidebar:#40eb5cb2;
-  --color-titulo:#047857;
-  --color-subtitulo:#059669;
-  --background-contenedores:aliceblue;
-  --box-shadow-contenedores:  0px -4px 6px rgba(16, 185, 129, 0.3),   /* arriba */
+  /************* Contenedores *************/
+  --color-contenedores:#FFEBC8;/*color de contenedor de la pagina de iniciar sesion*/
+  --color-letra:#535A1C; /*color de registrarse*/
+  --borde-inputs-login:#006d07;
+  --color-cajas:#40eb5cb2;/*color de las cajas de roles*/
+  --background-header:#065f46;/*color de la header en la pagina de administrador*/
+  --background-sidebar:#065f46;/*color de la sidebar de la pagina admin*/
+  --background-caja-inicio:#a3e635;/*color de la nav en la barra sidebar incio*/
+  --hover-cajas-letra-sidebar:#40eb5cb2;/*hover de la caja de texto de inicio de la sidebar*/
+  --background-contenedores:aliceblue;/*color de los contenedores de registro y de mostrar registro de la vista admin*/
+  --box-shadow-contenedores:  0px -4px 6px rgba(16, 185, 129, 0.3), /*box shadow de los coontenedores de registro de la vista admin*/
   4px 0px 6px rgba(16, 185, 129, 0.3),    /* derecha */
   -4px 0px 6px rgba(16, 185, 129, 0.3),   /* izquierda */
   0px 10px 0px rgba(16, 185, 129, 1);     /* abajo sólida */;
-  --background-gradiente-caja-imagen2:linear-gradient(to bottom, #16a34a, #BBF451);
-  --background-caja-imagen1:#16a34a;
-  --color-texto-contenedor:#16a34a;
-  --background-tarjetas:white;
-  --box-shadow-tarjetas:  0px -4px 6px rgba(0, 109, 7, 0.3),   /* arriba */
+  --background-gradiente-caja-imagen2:linear-gradient(to bottom, #16a34a, #BBF451);/*color de gradiente de la caja del logo de cultivos registrados*/
+  --background-caja-imagen1:#16a34a;/*color de la caja del logo registrar cultivo*/
+  --background-tarjetas:white;/*color de las tarjetas de contadores de la vista admin*/
+  --box-shadow-tarjetas:  0px -4px 6px rgba(0, 109, 7, 0.3), /*sombra de las tarjetas de la vista admin*/
   4px 0px 6px rgba(0, 109, 7, 0.3),    /* derecha */
   -4px 0px 6px rgba(0, 109, 7, 0.3),   /* izquierda */
   0px 4px 6px rgba(0, 109, 7, 0.3);     /* abajo sólida */;
-  --background-numero:#10b981;
-  --color-numero-tarjeta:white;
-  --background-footer:#40eb5cb2;
-  /***********************REGISTRO DE CULTIVOS****************************/
-  --fondo-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);
-  --color-titulo-registro:#064e3b;
-  --background--caja-logo:linear-gradient(to bottom right, #10b981, #22c55e);
-  --color-texto-formulario:#065f46;
-  --color-borde-input-formulario:#10b98181 solid 2px;
-  --color-borde-input-activo:#059669;
-  --largo--contenedores:252px;
+  --background-numero:#10b981;/*color de las cajas de numeros de contadores d ela vista admin*/
+  --background-footer:#40eb5cb2;/*color del footer de la pagina admin*/
+  --background--caja-logo:linear-gradient(to bottom right, #10b981, #22c55e);/*color caja de logo de registrar cultivos*/
+  --color-borde-input-formulario:#10b98181 solid 2px;/*color de borde de los formularios de registrat cultivos*/
+  --color-borde-input-activo:#059669;/*color del borde del select activo*/
+  --largo--contenedores:252px;/*largo de los contenedores de la vista registrar cultivo*/
+  --color-caja-logo-formularios-y-titulos:#d1fae5;/*color de las cajas de los logos de cada contenedor de la vista registrar cultivos*/
+
+  /*************** Botones ******************************/
+  --color-boton:#006d07;/*color de botones de los formularios login*/
+
+
+
+  /*************** Textos y Titulos *************************/
+  --letra-titulo:white;/*titulos de la pagina de roles*/
+  --color-texto-inicio:#006d07;/*color del texto inicio de la barra sidebar*/
+  --color-subtitulos:#006d07;/*color de los subtitulos de la vista iniciar sesion*/
+  --letra-boton:white;/*color de la letra del boton de los login*/
+  --color-letra-sidebar:white;/*color letra de la sidebar*/
+  --color-titulo-admin:#047857;/*color de letra del titulo de la vista admin*/
+  --color-subtitulo-admin:#059669;/*color del subtitulo de la vista admin*/
+  --color-texto-contenedor:#16a34a;/*color del texto de los contenedores de la vista admin*/
+  --color-numero-tarjeta:white;/*color de numero de contadores de las tarjetas*/
+  --color-titulo-registro:#064e3b;/*color de titulo de la pagina de registro de cultivos*/
+  --color-subtitulo-cultivos:#064e3b;/*color de subtitulo de la vista registrar cultivos*/
   --color-caja-logo-formularios-y-titulos:#d1fae5;
+
+  /************** Fondos ******************************/
+  --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);/*fondo del body de la pagina admin*/
+
+
+
+
+
+
+
+
+
+
 }
 
