@@ -52,9 +52,10 @@ body{
  .contendor__cajas{
   background-color: var(--background-contenedores);
   box-shadow: var(--box-shadow-contenedores);
-  height: 460px;
+  padding-bottom: 20px;
   border-radius: 10px;
- }
+  height: auto; /* ✅ que se adapte al contenido */ 
+}
  .contendor__subtitulo{
   display: flex;
   margin-top: 10px;
@@ -79,7 +80,7 @@ body{
 /*estilos formulario*/
 
 .formulario__registrarcultivo input {
-  width: 124%;         /* ocupa todo el ancho disponible */
+  width: 100%;         /* ocupa todo el ancho disponible */
   max-width: 600px;    /* límite para que no se desborde */
   padding: 10px 14px;
   border-radius: 10px;
@@ -165,7 +166,7 @@ body{
 }
 
 .contendor__cajas:nth-child(2){
-  height: var(--largo--contenedores);
+  height: 500px;
 }
 .contendor__cajas:nth-child(3){
   height: var(--largo--contenedores);
@@ -178,3 +179,187 @@ body{
 .contendor__cajas:nth-child(5){
   height: var(--largo--contenedores);
 }
+/*BOTONES*/
+
+.boton__agregar {
+  position: absolute;
+  bottom: -88px;   /* lo coloca dentro del contenedor base */
+  left: 142px;     /* ajusta según tu diseño */
+  width: 195px;
+  padding: 12px 20px;
+  background: #059669;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton__agregar:hover {
+  background: #388E3C;
+}
+
+#fertilizanteBase {
+  min-height: 330px; /* más pequeño */
+  height: auto;      /* se ajusta al contenido */
+}
+
+.extra {
+  min-height: 298px; /* más pequeño */
+  height: auto;    
+  display: none;
+  opacity: 0;
+  overflow: hidden;
+  transform: scaleY(0.98);
+  transform-origin: top;
+  transition: max-height 0.6s ease, opacity 0.4s ease, transform 0.4s ease;
+}
+
+#toggleFert:checked ~ #fertilizanteExtra {
+  display: block;             /* aparece en el flujo */
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+#stockBase {
+  position: relative;
+  min-height: 330px;
+  height: auto;
+}
+
+#stockExtra {
+  min-height: 266px;
+  height: auto;
+  display: none;
+  opacity: 0;
+  overflow: hidden;
+  transform: scaleY(0.98);
+  transform-origin: top;
+  transition: max-height 0.6s ease, opacity 0.4s ease, transform 0.4s ease;
+}
+
+#toggleStock:checked ~ #stockExtra {
+  display: block;
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.boton__stock {
+  bottom: 36px;   /* ajusta según el diseño del contenedor de Stock */
+  left: 52px;     /* puedes mantener igual o ajustar si el logo está en otra posición */
+}
+
+/*SUPERVISOR*/
+
+.supervisor__caja {
+  position: relative;
+  height: auto;   /* que se adapte al contenido */
+  overflow: visible; 
+  transition: all 0.4s ease;
+  padding-bottom: 70px; /* da aire sin bloquear la expansión */
+}
+
+
+/* Ocultar el contenido desplegable */
+.contenido__desplegable {
+  max-height: 0;       /* no ocupa espacio */
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.4s ease;
+}
+
+/* Mostrar cuando el checkbox está marcado */
+#toggleSupervisor:checked ~ .contenido__desplegable {
+  max-height: 1000px; /* suficiente para que quepa todo */
+  opacity: 1;
+}
+
+/* Lista de trabajadores */
+.lista__trabajadores {
+  list-style: none;
+  padding: 20px 55px;
+  font-size: 18px;
+  color: var(--color-texto-formulario);
+}
+
+.lista__trabajadores li {
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  background: var(--background-contenedores);
+  border-radius: 6px;
+  box-shadow: var(--box-shadow-contenedores);
+}
+
+/* Input exclusivo */
+.input__supervisor {
+  margin-top: 20px;
+}
+
+.boton__supervisor {
+  display: inline-block;
+  margin-bottom: 114px;
+}
+/*TRABAJADORES*/
+.trabajadores__caja {
+  position: relative;
+  height: auto;
+  overflow: visible;
+  transition: all 0.4s ease;
+  padding-bottom: 70px;
+}
+
+.contenido__desplegable {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, opacity 0.4s ease;
+}
+
+#toggleTrabajadores:checked ~ .contenido__desplegable {
+  max-height: 1000px;
+  opacity: 1;
+}
+
+.lista__trabajadores {
+  list-style: none;
+  padding: 20px 55px;
+  font-size: 18px;
+  color: var(--color-texto-formulario);
+}
+
+.lista__trabajadores li {
+  margin-bottom: 10px;
+}
+.boton__trabajadores{
+  display: inline-block;
+  margin-bottom: 114px;
+}
+
+.nombre__trabajador{
+  margin-left: 60px;
+  margin-top: 20px;
+  font-size: 20px;
+  color: var(--color-texto-formulario);
+}
+
+.boton__enviar {
+  display: block;
+  margin: 40px auto;          /* centrado */
+  width: 250px;
+  padding: 14px 20px;
+  background: var(--background-contenedores); 
+  color: var(--color-texto-formulario);       /* texto consistente con tu diseño */
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: var(--box-shadow-contenedores);
+  transition: background 0.3s ease;
+}
+
+

@@ -79,7 +79,7 @@ header{
 .contendor__fila__cultivo{
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 50px;
   gap: 40px;
 }
 
@@ -91,7 +91,7 @@ header{
   box-shadow: 0px 0px 10px rgba(16, 185, 129, 0.3);
   font-size: 25px;
   color: #333;
-  padding: 30px;
+  padding: 20px;
 }
 .fertilizantes {
   padding: 60px; /* espacio interno a los lados */

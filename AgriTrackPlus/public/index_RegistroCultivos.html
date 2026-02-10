@@ -54,103 +54,193 @@
           </div>
         </form>
       </div>
-      <!----------------------------------FERTILIZANTES------------------------------------->
-      <div class="contendor__cajas">
+            <!-- FERTILIZANTES: primer contenedor -->
+      <div class="contendor__cajas" id="fertilizanteBase">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
             <img class="logo" src="../asset/imagenes/fertilizante.png" id="logo hoja">
           </div>
           <h2 class="subtitulo">Fertilización y control</h2>
         </div>
-        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
 
+        <form class="formulario__registrarcultivo">
           <div class="contenedor__campos">
             <div class="campo">
-              <label for="fertilizante" class="nombre">Tipo de Fertilizante</label>
-              <input type="text" id="fertilizante" name="fertilizante" placeholder="Ingrese el tipo de fertilizante" />
+              <label class="nombre">Tipo de Fertilizante</label>
+              <input type="text" placeholder="Ingrese el tipo de fertilizante" />
             </div>
-
             <div class="campo">
-              <label for="fertilizante__nuevo" class="nombre">Cantidad</label>
-              <input type="text" id="fertilizante__nuevo" name="fertilizante__nuevo"
-                placeholder="Ingrese la cantidad de fertilizante que desea usar" />
+              <label class="nombre">Cantidad</label>
+              <input type="text" placeholder="Ingrese la cantidad de fertilizante que desea usar" />
             </div>
-
             <div class="campo">
-              <label for="plagas" class="siembra">Plagas detectadas (si aplica)</label>
-              <input type="tex" id="plagas" name="plagas" placeholder="Ingrese las plagas detectadas" />
+              <label class="siembra">Plagas detectadas (si aplica)</label>
+              <input type="text" placeholder="Ingrese las plagas detectadas" />
             </div>
           </div>
         </form>
       </div>
-      <!---------------------------------------STOCK------------------------------------------------------->
-      <div class="contendor__cajas">
+
+      <!-- Botón y checkbox: al mismo nivel, fuera del form y del contenedor anterior -->
+      <label for="toggleFert" class="boton__agregar"> Añadir más datos</label>
+      <input type="checkbox" id="toggleFert" hidden>
+
+      <!-- FERTILIZANTES: segundo contenedor (hermano del primero) -->
+      <div class="contendor__cajas extra" id="fertilizanteExtra">
+        <div class="contendor__subtitulo">
+          <div class="caja__logo">
+            <img class="logo" src="../asset/imagenes/fertilizante.png" id="logo hoja">
+          </div>
+          <h2 class="subtitulo">Fertilización adicional</h2>
+        </div>
+
+        <form class="formulario__registrarcultivo">
+          <div class="contenedor__campos">
+            <div class="campo">
+              <label class="nombre">Tipo de Fertilizante</label>
+              <input type="text" placeholder="Ingrese el tipo de fertilizante" />
+            </div>
+            <div class="campo">
+              <label class="nombre">Cantidad</label>
+              <input type="text" placeholder="Ingrese la cantidad de fertilizante que desea usar" />
+            </div>
+            <div class="campo">
+              <label class="siembra">Plagas detectadas (si aplica)</label>
+              <input type="text" placeholder="Ingrese las plagas detectadas" />
+            </div>
+          </div>
+        </form>
+      </div>
+
+      
+            <!-- STOCK: contenedor base -->
+      <div class="contendor__cajas" id="stockBase">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
             <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
           </div>
-          <h2 class="subtitulo">Stock de Productos </h2>
+          <h2 class="subtitulo">Stock de Productos</h2>
         </div>
-        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
 
+        <form class="formulario__registrarcultivo">
           <div class="contenedor__campos">
             <div class="campo">
-              <label for="fertilizante" class="nombre">Producto</label>
-              <input type="text" id="fertilizante" name="fertilizante"
-                placeholder="Ingrese el producto que desea usar " />
+              <label class="nombre">Producto</label>
+              <input type="text" placeholder="Ingrese el producto que desea usar" />
             </div>
-
             <div class="campo">
-              <label for="fertilizante__nuevo" class="nombre">Tipo</label>
-              <input type="text" id="fertilizante__nuevo" name="fertilizante__nuevo"
-                placeholder="Ingrese el tipo de producto" />
+              <label class="nombre">Tipo</label>
+              <input type="text" placeholder="Ingrese el tipo de producto" />
             </div>
-
             <div class="campo">
-              <label for="plagas" class="siembra">Cantidad</label>
-              <input type="tex" id="plagas" name="plagas" placeholder="Ingrese la cantidad de productos" />
+              <label class="siembra">Cantidad</label>
+              <input type="text" placeholder="Ingrese la cantidad de productos" />
+            </div>
+          </div>
+        </form>
+
+        <!-- Botón dentro del contenedor base -->
+        <label for="toggleStock" class="boton__agregar boton__stock"> Añadir más datos</label>
+      </div>
+
+      <!-- Checkbox oculto -->
+      <input type="checkbox" id="toggleStock" hidden>
+
+      <!-- STOCK: contenedor extra -->
+      <div class="contendor__cajas extra" id="stockExtra">
+        <div class="contendor__subtitulo">
+          <div class="caja__logo">
+            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
+          </div>
+          <h2 class="subtitulo">Stock adicional</h2>
+        </div>
+
+        <form class="formulario__registrarcultivo">
+          <div class="contenedor__campos">
+            <div class="campo">
+              <label class="nombre">Producto</label>
+              <input type="text" placeholder="Ingrese el producto que desea usar" />
+            </div>
+            <div class="campo">
+              <label class="nombre">Tipo</label>
+              <input type="text" placeholder="Ingrese el tipo de producto" />
+            </div>
+            <div class="campo">
+              <label class="siembra">Cantidad</label>
+              <input type="text" placeholder="Ingrese la cantidad de productos" />
             </div>
           </div>
         </form>
       </div>
+
       <!--------------------------------------------------SUPERVISOR---------------------------------------------------------------------------------->
-      <div class="contendor__cajas">
+      <div class="contendor__cajas supervisor__caja">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/supervisor.png" id="logo hoja">
+            <img class="logo" src="../asset/imagenes/supervisor.png" alt="icono supervisor">
           </div>
           <h2 class="subtitulo">Supervisor de campo</h2>
-        </div>
-        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
 
-          <div class="contenedor__campos">
-            <div class="campo">
-              <label for="fertilizante" class="nombre">Agregar trabajador</label>
-              <input type="text" id="fertilizante" name="fertilizante" placeholder="Ingrese el supervisor asignado" />
-            </div>
+        </div>
+      
+        <label for="toggleSupervisor" class="boton__agregar boton__supervisor"> Ver trabajadores</label>
+        <input type="checkbox" id="toggleSupervisor" hidden>
+      
+        <div class="contenido__desplegable">
+          <div class="contenido__interno">
+            <form class="formulario__registrarcultivo">
+              <div class="contenedor__campos">
+                <div class="campo">
+                  <label class="nombre">Supervisor asignado</label>
+                  <input type="text" class="input__supervisor" placeholder="Seleccione un trabajador de la lista" />
+                </div>
+              </div>
+            </form>
+      
+            <ul class="lista__trabajadores">
+              <li>Juan Pérez</li>
+              <li>María Gómez</li>
+              <li>Carlos Rodríguez</li>
+              <li>Laura Martínez</li>
+              <li>Andrés López</li>
+            </ul>
           </div>
-        </form>
+        </div>
       </div>
+      
+
       <!------------------------------------------------------------------TRABADORES---------------------------------------------------------------------------------->
-      <div class="contendor__cajas">
+      <div class="contendor__cajas trabajadores__caja">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/pala.png" id="logo hoja">
+            <img class="logo" src="../asset/imagenes/pala.png" alt="icono trabajadores">
           </div>
           <h2 class="subtitulo">Trabajadores</h2>
         </div>
-        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
-
-          <div class="contenedor__campos">
-            <div class="campo">
-              <label for="fertilizante" class="nombre">Agregar trabajador</label>
-              <input type="text" id="fertilizante" name="fertilizante"
-                placeholder="Ingrese los trabajadores que van a laborar en su cultivo" />
-            </div>
+      
+        <label for="toggleTrabajadores" class="boton__agregar boton__trabajadores"> Ver lista</label>
+        <input type="checkbox" id="toggleTrabajadores" hidden>
+      
+        <!-- Contenido desplegable -->
+        <div class="contenido__desplegable">
+          <div class="contenido__interno">
+            <p class="nombre__trabajador">Seleccione los trabajadores que van a laborar en su cultivo:</p>
+            <ul class="lista__trabajadores">
+              <li><label><input type="checkbox" name="trabajadores[]" value="Juan Pérez"> Juan Pérez</label></li>
+              <li><label><input type="checkbox" name="trabajadores[]" value="María Gómez"> María Gómez</label></li>
+              <li><label><input type="checkbox" name="trabajadores[]" value="Carlos Rodríguez"> Carlos Rodríguez</label></li>
+              <li><label><input type="checkbox" name="trabajadores[]" value="Laura Martínez"> Laura Martínez</label></li>
+              <li><label><input type="checkbox" name="trabajadores[]" value="Andrés López"> Andrés López</label></li>
+            </ul>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+      
+      <div class="contenedor__boton__enviar">
+        <button type="button" class="boton__enviar">📋 Enviar</button>
+      </div>
+      
+      
 
   </main>
 
