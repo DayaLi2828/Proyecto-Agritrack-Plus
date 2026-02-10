@@ -1,49 +1,82 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../asset/style_Trabajador.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../asset/style_Trabajador.css">
-</head>
-
-<body>
-  <header>
-    <div class="contenedor__titulo">
-      <img class="logo" src="../asset/imagenes/hoja.png" alt="hoja del logo">
-      <h1 class="titulo">AGRITRACK<br> PLUS</h1>
-    </div>
-  </header>
-
-  <aside class="sidebar__barra">
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="../public/MetodosFertlización.html">Métodos de fertilización</a>
-      <a href="../public/index_Calendario.html">Calendario</a>
-      <a href="../public/index-tareas.html">Mis tareas</a>
-
-    </nav>
-  </aside>
-
-  <main class="main">
-      <div class="main__cajatexto">
-        <h1 class="main__titulo">Bienvenido a Agritrack Plus Trabajador!</h1>
-        <p class="main__texto">Aquí puedes ver y completar tus tareas asignadas por cultivo</p>
+  <body>
+    <header>
+      <div class="contenedor__titulo">
+        <img
+          class="logo"
+          src="../asset/imagenes/hoja.png"
+          alt="hoja del logo"
+        />
+        <h1 class="titulo">
+          AGRITRACK<br />
+          PLUS
+        </h1>
       </div>
+    </header>
 
-    <div class="contenedor__perfil">
-      <h2 class="nombre__usuario">Maria Lopez</h2>
-      <p class="descripcion__usuario">Trabajadora de campo</p>
-      <div class="cirulo__perfil"></div>
-    </div>
+    <aside class="sidebar__barra">
+      <nav>
+        <a href="#">Inicio</a>
+        <a href="../public/MetodosFertlización.html"
+          >Métodos de fertilización</a
+        >
+        <a href="../public/index_Calendario.html">Calendario</a>
+        <a href="../public/index-tareas.html">Mis tareas</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="main__header">
+        <div class="main__cajatexto">
+          <h1 class="main__titulo">Bienvenido a Agritrack Plus Trabajador!</h1>
+          <p class="main__texto">
+            Aquí puedes ver y completar tus tareas asignadas por cultivo
+          </p>
+        </div>
+
+        <div class="contenedor__perfil">
+          <div class="perfil__texto">
+            <h2 class="nombre__usuario">Maria Lopez</h2>
+            <p class="descripcion__usuario">Trabajadora de campo</p>
+          </div>
+          <div class="cirulo__perfil">
+            <h3 class="inicial__usuario">M</h3>
+          </div>
+          <div class="cerra_sesion">
+            <img src="../asset/imagenes/cerrar-sesion.png" alt="icono de cerrar sesion">
+          </div>
+        </div>
+        
+      </div>
 
       <div class="contendores">
-        <div class="contenedor__tareas"></div>
+        <div class="contador__tareas">
+          <div class="caja1">
+            <img class="icono__tareas" src="../asset/imagenes/comprobacion.png" alt="icono tareas">
+            <h3 class="numero__tarea">5</h3>
+            <h3 class="total__tareas">Total de tareas</h3>
+          </div>
+          <div class="caja2">
+            <img class="icono__tareas" src="../asset/imagenes/tareas_pendientes.png" alt="icono tareas">
+            <h3 class="numero__tarea">3</h3>
+            <h3 class="tareas__pendientes">Tareas pendientes</h3>
+          </div>
+          <div class="caja3">
+            <img class="icono__tareas" src="../asset/imagenes/comprobacion.png" alt="icono tareas">
+            <h3 class="numero__tarea">2</h3>
+            <h3 class="tareas__completadas">Tareas completadas</h3>
+          </div>
+        </div>
       </div>
-  </main>
 
-
-</body>
-
+    </main>
+  </body>
 </html>

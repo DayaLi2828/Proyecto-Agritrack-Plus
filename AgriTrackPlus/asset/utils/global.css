@@ -27,7 +27,9 @@
   --color-borde-input-activo:#059669;/*color del borde del select activo*/
   --largo--contenedores:252px;/*largo de los contenedores de la vista registrar cultivo*/
   --color-caja-logo-formularios-y-titulos:#d1fae5;/*color de las cajas de los logos de cada contenedor de la vista registrar cultivos*/
-
+  --color-cirulo-perfil:#a7f3d0;
+  --background-contadores-tareas:#ffff;
+  --color-borde-contadores-tareas:#d1fae5;
   /*************** Botones ******************************/
   --color-boton:#006d07;/*color de botones de los formularios login*/
 
@@ -46,6 +48,8 @@
   --color-titulo-registro:#064e3b;/*color de titulo de la pagina de registro de cultivos*/
   --color-subtitulo-cultivos:#064e3b;/*color de subtitulo de la vista registrar cultivos*/
   --color-caja-logo-formularios-y-titulos:#d1fae5;
+  --color-inicial-usuario:#065f46;
+  --color-numero-contador-tareas:#064e3b;
 
   /************** Fondos ******************************/
   --background-main:linear-gradient(135deg, #f0fdf4, #ecfdf5, #f0fdfa);/*fondo del body de la pagina admin*/
