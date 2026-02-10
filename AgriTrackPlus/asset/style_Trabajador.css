@@ -197,7 +197,8 @@ header {
 
 .caja1,
 .caja2,
-.caja3{
+.caja3,
+.caja4{
   width: 449px;
   height: 256px;
   background-color: var(--background-contadores-tareas);
@@ -219,7 +220,8 @@ header {
 }
 .total__tareas,
 .tareas__pendientes,
-.tareas__completadas{
+.tareas__completadas,
+.tareas__proceso{
   font-size: 24px;
   margin-left: 191px;
   color: var(--color-numero-contador-tareas);
@@ -243,6 +245,9 @@ header {
 }
 .tarea.completada{
   border: solid var(--color-borde-tarea-completa) 3px;
+}
+.tarea__proceso{
+  border:solid var(--color-contador-en-proceso);
 }
 .contenedor__subtitulo{
   display: flex;
