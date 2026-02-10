@@ -42,31 +42,91 @@ header {
     height: 141px;
     box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
-
+.main{
+    width: 96%;
+    height: auto;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    border-radius:10px;
+    border:solid var( --color-borde-contadores-tareas) 3px;
+}
 .contenedor__descripcion{
-    display: flex;
     border: solid var(--color-borde-descripcion-tarea) 3px;
-    background-color: var(--background-contenedores);
+    background-color: var(--background-caja-descripcion-tarea);
     width: 85%;
     margin: 0 auto;
-    height: 200px;
+    height: auto;
     margin-top: 50px;
     border-radius: 10px;
 }
 .contenedor__subtitulo{
     display: flex;
-    justify-content: center;
-    height: auto;
-    gap: 20px;
+    height: 73px;
 }
 .icono__descripcion{
-    height: 50px;
-    width: auto;
-
+  height: 50px;
+  width: auto;
+  margin-top:10px;
+  margin-left:10px;
 }
 .subtitulo__descripcion{
     font-size: 28px;
     color: var(--color-subtitulo-cultivos);
     padding: 20px;
-    margin-top: 20px;
+}
+.Descripcion__tarea{
+    font-size: 20px;
+    color: var(--color-texto-contenedor);
+    padding: 20px;
+    font-size: 23px;
+}
+.contenedor__estado{
+  background-color: var(--background-caja-descripcion-tarea);/*dfbhdg*/
+  border-left: solid 8px var(--color-borde-izquierdo-estado);
+  width: 85%;
+  margin: 0 auto;
+  height: auto;
+  margin-top: 50px;
+  border-radius: 10px;
+}
+.logo__titulo{
+  display: flex;
+}
+.icono__estado{
+  height: 50px;
+  width: auto;
+  margin-top:10px;
+  margin-left:10px;
+}
+.subtitulo__estado{
+    font-size: 28px;
+    color: var(--color-subtitulo-cultivos);
+    padding: 20px;
+}
+.estado__pendiente,
+.estado__completada{
+  width: 85%;
+  height: auto;
+  border: solid var(--color-borde-tarea-pendiente) 3px;
+  border-radius: 10px;
+  margin-left: 20px;
+}
+.estado__pendiente label{
+  display: block;
+  margin-bottom: 10px;
+  cursor:pointer;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.estado__completada label{
+  display: block;
+  margin-bottom: 10px;
+  cursor:pointer;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+.estado{
+  display:block;
+  gap: 50px;
 }
