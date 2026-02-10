@@ -86,7 +86,7 @@ header {
   border-left: solid 8px var(--color-borde-izquierdo-estado);
   width: 85%;
   margin: 0 auto;
-  height: auto;
+  height: 370px;
   margin-top: 50px;
   border-radius: 10px;
 }
