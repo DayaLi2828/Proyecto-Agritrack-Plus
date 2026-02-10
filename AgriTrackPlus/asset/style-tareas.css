@@ -13,23 +13,34 @@ header{
     height: 141px;
     box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
-.boton{
-    height: 75px;
-    width: 180px;
-    margin-top: -18px;
-    margin-left: 33px;
-    border-radius: 10px;
-    font-size: 18px;
-    background-color: #059669;
-    border: none;
-    outline: none;
-    color: white;
+main{
+  height: 372vh;
 }
-.boton:hover{
-    background-color: #047857;
-    cursor: pointer;
+.boton {
+  display: inline-block;       /* permite que <a> se comporte como botón */
+  height: 75px;
+  width: 180px;
+  margin-top: -18px;
+  margin-left: 33px;
+  border-radius: 10px;
+  font-size: 18px;
+  background-color: #059669;
+  border: none;
+  outline: none;
+  color: white;
+  text-align: center;          /* centra el texto */
+  line-height: 75px;           /* centra verticalmente el texto */
+  text-decoration: none;       /* quita subrayado del enlace */
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 
+.boton:hover {
+  background-color: #047857;
+  cursor: pointer;
+  transform: scale(1.05);      /* efecto de agrandarse al pasar el mouse */
 }
+
 body{
   background: var(--fondo-main);
 }
@@ -140,6 +151,8 @@ body{
   border: solid #b9fcd9;
   margin: 20px auto;
   border-radius: 10px;
+  margin-top: 62px;
+  padding: 20px;
 }
 .contenedores__tareas h2 {
   color: #064e3b;
@@ -160,7 +173,8 @@ body{
   padding-bottom: 10px;
   margin-top: 14px;
 }
-.contenedores__tareas h3{
+.estado_pendiente,
+.estado_proceso{
   background-color: #ffe1ad87;
   width: 95px;
   height: 26px;
@@ -171,6 +185,12 @@ body{
   border: solid #fab33a 2px;
   color: #fab33a;
 }
+.estado_proceso{
+  background-color: #dbeafe;
+  border: solid #93c5fd 2px;
+  color: #1d4ed8;
+}
+
 .contendor__asignaciones{
   width: 95%;
   height: 200px;
@@ -248,4 +268,15 @@ body{
   margin-top: 9px;
   border: solid #fab33a 2px;
   color: #fab33a;
+  }
+  .proceso{
+    background-color: #dbeafe;
+    color: #1d4ed8;
+    border: none;
+    border: solid 2px #1d4ed8;
+  }
+  .completada{
+    background-color: #dcfce7;
+    color: #15803d;
+    border: solid 2px ;
   }
