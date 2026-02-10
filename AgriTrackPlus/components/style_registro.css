@@ -58,7 +58,7 @@
   padding: 5px;
 }
 .contenedor__subtitulo{/*susbtitulo*/
-  color: var(--color-letra);
+  color:#006d07;
   margin-top: 10px;
   text-align: center;
   width: 100%;
@@ -77,19 +77,19 @@ label{
   padding: 10px;
 }
 .email{
-  color: var(--color-letra);
+  color: #006d07;
   font-size: 20px;
 }
 .password{
-    color: var(--color-letra);
+    color:#006d07;
   font-size: 20px;
 }
 .nombre{
-  color: var(--color-letra);
+  color:#006d07;
   font-size: 20px;
 }
 .apellido{
-  color: var(--color-letra);
+  color: #006d07;
   font-size: 20px;
 }
 
@@ -117,7 +117,7 @@ input{
   height: 35px;
   width: 180px;
   padding: 10px;
-  background-color:var(--color-letra);
+  background-color:#006d07;
   color: white;
   border: none;
 }

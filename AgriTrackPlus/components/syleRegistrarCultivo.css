@@ -67,10 +67,7 @@ body{
   height: 37%;
   border-radius: 10px;
 }
-.main__cajaregistro a{
-  text-decoration: none;
-  color: black;
-}
+
 .main__textocard{
   font-size: 25px;
   text-align: center;

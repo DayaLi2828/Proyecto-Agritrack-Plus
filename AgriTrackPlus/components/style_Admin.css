@@ -9,43 +9,12 @@
 body{
   display: grid;
   grid-template-areas:
-    "header header"
+    "header main"
     "sidebar main"
     "footer footer";
-  grid-template-columns: 250px 1fr;
+  grid-template-columns: 332px 1fr;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
-}
-
- /*Título y logo */
-.contenedor__titulo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  width: 150%;
-  margin-left: 83px;
-}
-
-.logo {
-  padding:10px;
-  width: 70px;
-  height: 70px;
-}
-
-.header {
-  grid-area: header;
-  background-color:var(--header-barra-navegacion);
-  padding: 20px;
-}
-
-.sidebar__barra {
-  grid-area: sidebar;
-  background-color: #ffffff;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
 }
 
 .main {
@@ -61,28 +30,29 @@ body{
   justify-content: center;/*centrar la imagen*/
   align-items: center;/*centrar la imagen*/
   border-radius: 10px;/*borde redondo*/
+  margin-top: 95px;
 }
 
 .main__imagen{
   height: 102%;
   width: 102%;
   padding: 30px;
-
+  
 }
 
 .main__cajatexto{
-   /* background-color: aqua;    */
+  /* background-color: aqua;    */
   width: 50%;
   height: 32%;
-
+  
   margin-left: 36%;
   margin-top: -323px;
 }
 
 .main__titulo{
- font-weight: bold;
- font-size: 30px;
- justify-items: center;
+  font-weight: bold;
+  font-size: 30px;
+  justify-items: center;
 }  
 
 .main__texto{
@@ -94,22 +64,57 @@ body{
 
 
 /**********************************************************/
+.sidebar__barra {
+  grid-area: sidebar;
+  background-color: #006d07;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  
+}
 
 .sidebar__barra a {
   text-decoration: none;
-  color: #535A1C;
+  color: #ffffff;
   font-weight: bold;
   padding: 8px;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  
+  
 }
 .sidebar__barra a:hover{
-  background-color: #535a1c4c;
+  background-color: #40eb5cb2;
 }
 .sidebar__barra nav {
   display: flex;
   flex-direction: column; 
   gap: 20px;
+  align-self: center;
+  margin-top: 11px;
+}
+.header {
+  grid-area: header;
+  background-color:var(--header-barra-navegacion);
+  padding: 20px;
+}
+/*Título y logo */
+.contenedor__titulo {
+ display: flex;
+ align-items: center;
+ gap: 15px;
+ width: 99%;
+ margin-right: 10px;
+}
+
+.logo {
+ padding:10px;
+ width: 70px;
+ height: 70px;
+}
+.titulo{
+  color: white; 
 }
 
 .footer {
