@@ -21,20 +21,18 @@
     </header>
     <main>
       <div class="main_contenedor">
-        <div class="contendor__informacion">
+        <!-- INFORMACIÓN DEL CULTIVO -->
+        <div class="contendor__informacion contenedor__cultivo">
           <div class="caja_titulo">
             <img
               class="logo"
               src="../asset/imagenes/planta (2).png"
               alt="hoja del logo"
             />
-            <!--CULTIVOS REGISTRADOS-->
             <h1 class="titulo">Información del Cultivo</h1>
           </div>
-          <!---desde aca empiezan las ileras horizontales-->
           <div class="contenedor__registros">
-            <!-- Primera fila -->
-            <div class="contendor__fila__cultivo">
+            <div class="fila__cultivo">
               <div class="dato__cultivo">
                 <p><strong>Nombre:</strong> Tomate Cherry</p>
               </div>
@@ -42,9 +40,7 @@
                 <p><strong>Fecha de Siembra:</strong> 15/10/2024</p>
               </div>
             </div>
-
-            <!-- Segunda fila -->
-            <div class="contendor__fila__cultivo">
+            <div class="fila__cultivo">
               <div class="dato__cultivo">
                 <p><strong>Fecha de Cosecha:</strong> 20/01/2025</p>
               </div>
@@ -54,20 +50,18 @@
             </div>
           </div>
         </div>
-        <!--FERTILIZANTES APLICADOS-->
 
-        <div class="contendor__informacion fertilizantes">
+        <!-- FERTILIZANTES -->
+        <div class="contendor__informacion contenedor__fertilizantes">
           <div class="caja_titulo">
             <img
               class="logo"
               src="../asset/imagenes/fertilizante.png"
-              alt="hoja del logo"
+              alt="icono fertilizante"
             />
             <h1 class="titulo">Fertilizantes Aplicados</h1>
           </div>
-
-          <!-- Fila 1 -->
-          <div class="contendor__fila__cultivo">
+          <div class="fila__cultivo">
             <div class="dato__cultivo">
               <p><strong>Nombre:</strong> NPK 10-20-10</p>
             </div>
@@ -75,16 +69,14 @@
               <p><strong>Cantidad:</strong> 5 kg</p>
             </div>
           </div>
-
-          <!-- Fila 2 -->
-          <div class="contendor__fila__cultivo">
+          <div class="fila__cultivo">
             <div class="dato__cultivo">
               <p><strong>Plagas Detectadas:</strong> Ninguna</p>
             </div>
           </div>
         </div>
-        <!--STOCK DE PRODUCTOS-->
 
+        <!-- STOCK -->
         <div class="contendor__informacion contenedor__stock">
           <div class="caja_titulo">
             <img
@@ -94,103 +86,152 @@
             />
             <h1 class="titulo">Stock de productos</h1>
           </div>
-
-          <!-- Fila 1 -->
-          <div class="contendor__fila__ cultivo__fila__stock">
-            <div class="dato__cultivo dato__stock">
+          <div class="fila__stock">
+            <div class="item__stock">
               <p><strong>Producto:</strong> Fertilizante NPK</p>
             </div>
-            <div class="informacion__producto">
+            <div class="cantidad__stock">
               <strong>25 kg</strong>
-              <select id="estado__producto">
-                <option value="verde" class="estado__disponible">
-                  Disponible
-                </option>
-                <option value="amarillo" class="estado__bajo">
-                  Bajo stock
-                </option>
-                <option value="rojo" class="estado__agotado">Agotado</option>
+              <select class="estado__producto">
+                <option value="disponible">Disponible</option>
+                <option value="bajo">Bajo stock</option>
+                <option value="agotado">Agotado</option>
               </select>
             </div>
           </div>
-
-          <!-- Fila 2 -->
-          <div class="contendor__fila__ cultivo__fila__stock">
-            <div class="dato__cultivo dato__stock">
+          <div class="fila__stock">
+            <div class="item__stock">
               <p><strong>Producto:</strong> Insecticida orgánico</p>
             </div>
-            <!------->
-            <div class="informacion__producto">
+            <div class="cantidad__stock">
               <strong>25 kg</strong>
-              <select id="estado__producto">
-                <option value="verde" class="estado__disponible">
-                  Disponible
-                </option>
-                <option value="amarillo" class="estado__bajo">
-                  Bajo stock
-                </option>
-                <option value="rojo" class="estado__agotado">Agotado</option>
+              <select class="estado__producto">
+                <option value="disponible">Disponible</option>
+                <option value="bajo">Bajo stock</option>
+                <option value="agotado">Agotado</option>
               </select>
             </div>
           </div>
-          <!-- Fila 3 -->
-          <div class="contendor__fila__ cultivo__fila__stock">
-            <div class="dato__cultivo dato__stock">
+          <div class="fila__stock">
+            <div class="item__stock">
               <p><strong>Producto:</strong> Semillas de aguacate</p>
             </div>
-            <!------->
-            <div class="informacion__producto">
+            <div class="cantidad__stock">
               <strong>25 kg</strong>
-              <select id="estado__producto">
-                <option value="verde" class="estado__disponible">
-                  Disponible
-                </option>
-                <option value="amarillo" class="estado__bajo">
-                  Bajo stock
-                </option>
-                <option value="rojo" class="estado__agotado">Agotado</option>
+              <select class="estado__producto">
+                <option value="disponible">Disponible</option>
+                <option value="bajo">Bajo stock</option>
+                <option value="agotado">Agotado</option>
               </select>
             </div>
           </div>
         </div>
-        <!---------------ADMINISTRADOR-->
+
+        <!-- ADMINISTRADOR -->
         <div class="contendor__informacion contenedor__admin">
           <div class="caja_titulo">
             <img
               class="logo"
               src="../asset/imagenes/stock.png"
-              alt="icono stock"
+              alt="icono admin"
             />
             <h1 class="titulo">Administrador</h1>
           </div>
           <img
             class="logo__admin"
             src="../asset/imagenes/admin.png"
-            id="imagen de usuario"
+            alt="imagen de usuario"
           />
-          <div class="contenedor__nombre__admin">
-            <h2 class="nombre__admin">Hernesto Perez</h2>
+          <div class="info__admin">
+            <h2 class="titulo__admin">Hernesto Perez</h2>
             <p>Administrador principal</p>
           </div>
         </div>
-        <!---------------TRABAJADORES-->
+
+        <!-- TRABAJADORES -->
         <div class="contendor__informacion contenedor__trab">
           <div class="caja_titulo">
             <img
               class="logo"
               src="../asset/imagenes/stock.png"
-              alt="icono stock"
+              alt="icono trabajadores"
             />
             <h1 class="titulo">Trabajadores</h1>
           </div>
-          <img
-            class="logo__admin"
-            src="../asset/imagenes/admin.png"
-            id="imagen de usuario"
-          />
-          <div class="contenedor__nombre__trabajador">
-            <h2 class="nombre__trab">Hernesto Perez</h2>
-            <p>Administrador principal</p>
+
+          <!-- Fila 1 -->
+          <div class="fila__trab">
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">Luis Villamizar</h2>
+              </div>
+            </div>
+
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">María López</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila 2 -->
+          <div class="fila__trab">
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">Carlos Gómez</h2>
+              </div>
+            </div>
+
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">Ana Rodríguez</h2>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fila 3 -->
+          <div class="fila__trab">
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">Luis Martínez</h2>
+              </div>
+            </div>
+
+            <div class="bloque__trab">
+              <img
+                class="logo__trab"
+                src="../asset/imagenes/obrero.png"
+                alt="imagen de usuario"
+              />
+              <div class="info__trabajador">
+                <h2 class="titulo__trabajador">Sofía Ramírez</h2>
+              </div>
+            </div>
           </div>
         </div>
       </div>

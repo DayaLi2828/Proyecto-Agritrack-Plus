@@ -1,14 +1,14 @@
 @import url(utils/global.css);
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-body{
+body {
   background: var(--fondo-main);
 }
 
-.titulo{
+.titulo {
   font-size: 45px;
   color: var(--color-titulo-registro);
   margin-top: 4px;
@@ -16,13 +16,12 @@ body{
 
 .contenedor__titulo {
   display: flex;
-  width: auto;
   gap: 20px;
   margin-left: 85px;
   margin-top: 50px;
 }
-.contenedor__logo{
-  background:var(--background--caja-logo);
+.contenedor__logo {
+  background: var(--background--caja-logo);
   width: 91px;
   height: 91px;
   display: flex;
@@ -35,145 +34,127 @@ body{
   width: 70px;
   height: 70px;
 }
-header{
-  width: 96%;          /* ancho más pequeño que el 100% */
-  margin: 0 auto; 
+header {
+  width: 96%;
+  margin: 0 auto;
   margin-top: 53px;
   display: flex;
-  height: 141px;         /* altura fija del header */
-  /* padding: 20px; */
+  height: 141px;
   box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
 }
-.main_contenedor{
+.main_contenedor {
   width: 80%;
-  height: 428vh;
+  min-height: 100vh;
   box-shadow: 0px 0px 10px 2px rgba(16, 185, 129, 0.404);
   padding: 50px;
   margin: 0 auto;
   margin-top: 98px;
   border-radius: 10px;
 }
-.contendor__informacion{
+.contendor__informacion {
   width: 93%;
-  height: 408px;
   background-color: #10b98134;
   margin: 0 auto;
   border-radius: 10px;
-  padding-top: 40px; /* espacio interno arriba */
+  padding: 40px;
   margin-bottom: 60px;
 }
-.caja_titulo{
+.caja_titulo {
   display: flex;
-  width: auto;
   gap: 20px;
   margin-left: 85px;
 }
 
-.contenedor__registros{
+/* Cultivo y Fertilizantes */
+.contenedor__registros {
   width: 90%;
-  height: 200px;
   margin: 0 auto;
   margin-top: 30px;
 }
-
-.contendor__fila__cultivo{
+.fila__cultivo {
   display: flex;
   justify-content: space-between;
-  margin-top: 50px;
+  margin-top: 30px;
   gap: 40px;
 }
-
 .dato__cultivo {
   width: 45%;
   background-color: #ffffff;
-  padding: 15px;
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(16, 185, 129, 0.3);
   font-size: 25px;
   color: #333;
+}
+
+/* Stock */
+.contenedor__stock {
+  min-height: 382px;
+}
+.fila__stock {
+  display: flex;
+  justify-content: space-between;
+  margin: 55px 85px;
+  background-color: white;
   padding: 20px;
 }
-.fertilizantes {
-  padding: 60px; /* espacio interno a los lados */
-}
-.contenedor__stock{
-  height: 473px;
-}
-.cultivo__fila__stock{
-  display: flex;
-  gap:354px;
-  margin-top: 30px;
-}
 
-.dato__stock{
-  display: flex;
-  margin-left: 67px;
-  width: 48%;
-}
-.informacion__producto{
-  font-size: 18px;
-}
 
-#estado__producto {
-  padding: 8px 12px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+.item__stock {
+  font-size: 25px;
+  color: #333;
+}
+.cantidad__stock {
+  font-size: 22px;
   font-weight: bold;
-  margin-left: 42px;
+  color: #333;
+}
+.estado__producto{
+  font-size: 22px;
+  color: #10b981;
 }
 
-/* Colores según estado */
-.estado__disponible{
-  background-color: green;
+/* Admin y Trabajadores */
+.contenedor__admin,
+.contenedor__trab {
+  min-height: 300px;
 }
-.estado__bajo{
-  background-color: yellow;
-}
-.estado__agotado{
-  background-color: red;
-}
-
-#select:has(opction[value="amarillo"]:checked){
-  background-color: yellow;
-}
-
-#select:has(opction[value="rojo"]:checked){
-  background-color: red;
-}
-#select:has(opction[value="verde"]:checked){
-  background-color: green;
-}
-.contenedor__admin{
-  height: 300px;
-}
-
-.nombre__admin{
-  font-size: 30px;
-  margin-top: -38px;
-  margin-left: 211px;
-
-}
-.logo__admin{
+.logo__admin,
+.logo__trab {
   height: 70px;
   width: 70px;
   margin-left: 121px;
   margin-top: 50px;
 }
-.contenedor__nombre__admin p{
-  font-size: 20px;
-  margin-left: 206px;
-  color: var( --color-subtitulos);
+.info__admin{
+    margin-top: -68px;
+    font-size: 22px;
+    margin-left: 214px;
+    color: #333;
 }
-.contenedor__nombre__trabajador{
-  font-size: 20px;
-  margin-left: 206px;
-  color: var( --color-subtitulos);
+
+.fila__trab {
+  display: flex;
+  justify-content: space-around; /* separa los dos bloques */
+  margin-top: 30px;
 }
-.contenedor__trab{
-  height: 300px;
+
+.bloque__trab {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* espacio entre imagen y texto */
+  width: 45%; /* cada bloque ocupa casi la mitad */
+  background-color: #fff; /* opcional, si quieres caja blanca */
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 8px rgba(16, 185, 129, 0.3);
 }
-.nombre__trab{
-  font-size: 30px;
-  margin-top: -38px;
+.info__trabajador {
+  font-size: 18px;
+  color: #333;
+}
+
+.titulo__trabajador {
+  font-size: 22px;
+  margin-bottom: 5px;
 }
