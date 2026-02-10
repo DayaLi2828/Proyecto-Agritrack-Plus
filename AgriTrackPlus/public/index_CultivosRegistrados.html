@@ -21,12 +21,27 @@
       </div>
     </header>
     <main>
+      <!-- Barra de búsqueda y filtro -->
+      <div class="buscador__contenedor">
+        <input
+          type="text"
+          id="buscador"
+          placeholder="🔍 Buscar cultivo por nombre..."
+        />
+        <select id="filtroEstado">
+          <option value="todos">Todos</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+      </div>
       <div class="contenedor__tarjetas">
         <div class="tarjeta__cultivo">
           <h3>Tomate Cherry</h3>
           <p>Siembra: 15/10/2024</p>
           <p>Estado: Activo</p>
-          <button class="boton__ver">Ver detalles</button>
+          <a href="../public/index-Detalles-Cultivo.html" class="boton__ver"
+            >Ver detalles</a
+          >
         </div>
 
         <div class="tarjeta__cultivo">
