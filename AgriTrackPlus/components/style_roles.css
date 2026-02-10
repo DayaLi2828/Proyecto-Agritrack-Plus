@@ -51,13 +51,19 @@
   border-radius: 10px;
   box-shadow: 0 8px 10px rgba(0,0,0,0.6);
 }
+.main__cajas a{
+  text-decoration: none;
+}
+
 .titulo__cajas{
   color: white;
   margin-top: 65px;
   font-weight: bold;
   font-size: 40px;
   text-align: center;
+  text-decoration: none;
 }
+
 
 .main__imagenes{
   width: 181px;
