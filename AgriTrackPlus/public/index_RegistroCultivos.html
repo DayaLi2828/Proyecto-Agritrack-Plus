@@ -22,174 +22,124 @@
   <main class="main">
     <div class="contendor">
 
-      <div class="contendor__cajas">
-        <div class="contendor__subtitulo">
-          <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/planta (2).png" id="logo hoja">
+      <!-- FORMULARIO PRINCIPAL -->
+      <form class="formulario__registrarcultivo" method="post" action="#">
+
+        <!-- Información básica -->
+        <div class="contendor__cajas">
+          <div class="contendor__subtitulo">
+            <div class="caja__logo">
+              <img class="logo" src="../asset/imagenes/planta (2).png" alt="logo planta">
+            </div>
+            <h2 class="subtitulo">Información Básica</h2>
           </div>
-          <h2 class="subtitulo">Información Básica</h2>
-        </div>
-        <!-----------------------------------------CULTIVO--------------------------------------------------->
-        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
+
           <div class="campo">
-            <label for="nombre" class="nombre">Nombre del cultivo</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre del cultivo" required />
+            <label for="nombre">Nombre del cultivo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ingresa el nombre del cultivo" required>
           </div>
 
           <div class="fechas">
             <div class="campo">
-              <label for="siembra" class="siembra">Fecha de siembra</label>
-              <input type="date" id="siembra" name="siembra" required />
+              <label for="fecha_siembra">Fecha de siembra</label>
+              <input type="date" id="fecha_siembra" name="fecha_siembra" required>
             </div>
 
             <div class="campo">
-              <label for="cosecha" class="cosecha">Fecha de cosecha</label>
-              <input type="date" id="cosecha" name="cosecha" />
+              <label for="fecha_cosecha">Fecha de cosecha</label>
+              <input type="date" id="fecha_cosecha" name="fecha_cosecha">
             </div>
           </div>
 
           <div class="campo">
-            <label for="ciclo" class="ciclo">Ciclo del cultivo</label>
-            <input type="text" id="ciclo" name="ciclo" placeholder="Ej: Vegetativo, Floración, Maduración" />
+            <label for="ciclo">Ciclo del cultivo</label>
+            <select id="ciclo" name="ciclo" required>
+              <option value="">Seleccione...</option>
+              <option value="Vegetativo">Vegetativo</option>
+              <option value="Floracion">Floración</option>
+              <option value="Maduracion">Maduración</option>
+            </select>
           </div>
-        </form>
-      </div>
-      
-            <!-- STOCK: contenedor base -->
-      <div class="contendor__cajas" id="stockBase">
-        <div class="contendor__subtitulo">
-          <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
+
+          <div class="campo">
+            <label for="estado">Estado</label>
+            <select id="estado" name="estado" required>
+              <option value="Activo">Activo</option>
+              <option value="Inactivo">Inactivo</option>
+            </select>
           </div>
-          <h2 class="subtitulo">Stock de Productos</h2>
         </div>
 
-        <form class="formulario__registrarcultivo">
+        <!-- Stock de productos -->
+        <div class="contendor__cajas" id="stockBase">
+          <div class="contendor__subtitulo">
+            <div class="caja__logo">
+              <img class="logo" src="../asset/imagenes/stock.png" alt="icono stock">
+            </div>
+            <h2 class="subtitulo">Stock de Productos</h2>
+          </div>
+
           <div class="contenedor__campos">
             <div class="campo">
-              <label class="nombre">Producto</label>
-              <input type="text" placeholder="Ingrese el producto que desea usar" />
+              <label>Producto</label>
+              <select name="producto_id">
+                <option value="">Seleccione...</option>
+                <!-- Aquí se cargan dinámicamente los productos -->
+              </select>
             </div>
             <div class="campo">
-              <label class="nombre">Tipo</label>
-              <input type="text" placeholder="Ingrese el tipo de producto" />
-            </div>
-            <div class="campo">
-              <label class="siembra">Cantidad</label>
-              <input type="text" placeholder="Ingrese la cantidad de productos" />
+              <label>Cantidad</label>
+              <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
             </div>
           </div>
-        </form>
-
-        <!-- Botón dentro del contenedor base -->
-        <label for="toggleStock" class="boton__agregar boton__stock"> Añadir más datos</label>
-      </div>
-
-      <!-- Checkbox oculto -->
-      <input type="checkbox" id="toggleStock" hidden>
-
-      <!-- STOCK: contenedor extra -->
-      <div class="contendor__cajas extra" id="stockExtra">
-        <div class="contendor__subtitulo">
-          <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
-          </div>
-          <h2 class="subtitulo">Stock adicional</h2>
         </div>
 
-        <form class="formulario__registrarcultivo">
-          <div class="contenedor__campos">
-            <div class="campo">
-              <label class="nombre">Producto</label>
-              <input type="text" placeholder="Ingrese el producto que desea usar" />
+        <!-- Supervisor -->
+        <div class="contendor__cajas supervisor__caja">
+          <div class="contendor__subtitulo">
+            <div class="caja__logo">
+              <img class="logo" src="../asset/imagenes/supervisor.png" alt="icono supervisor">
             </div>
-            <div class="campo">
-              <label class="nombre">Tipo</label>
-              <input type="text" placeholder="Ingrese el tipo de producto" />
+            <h2 class="subtitulo">Supervisor de campo</h2>
+          </div>
+
+          <div class="campo">
+            <label for="supervisor">Supervisor asignado</label>
+            <select id="supervisor" name="supervisor_id">
+              <option value="">Seleccione...</option>
+              <!-- Aquí se cargan dinámicamente los usuarios -->
+            </select>
+          </div>
+        </div>
+
+        <!-- Trabajadores -->
+        <div class="contendor__cajas trabajadores__caja">
+          <div class="contendor__subtitulo">
+            <div class="caja__logo">
+              <img class="logo" src="../asset/imagenes/pala.png" alt="icono trabajadores">
             </div>
-            <div class="campo">
-              <label class="siembra">Cantidad</label>
-              <input type="text" placeholder="Ingrese la cantidad de productos" />
-            </div>
+            <h2 class="subtitulo">Trabajadores</h2>
           </div>
-        </form>
-      </div>
 
-      <!--------------------------------------------------SUPERVISOR---------------------------------------------------------------------------------->
-      <div class="contendor__cajas supervisor__caja">
-        <div class="contendor__subtitulo">
-          <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/supervisor.png" alt="icono supervisor">
-          </div>
-          <h2 class="subtitulo">Supervisor de campo</h2>
+          <p>Seleccione los trabajadores que van a laborar en su cultivo:</p>
+          <ul class="lista__trabajadores">
+            <!-- Cada checkbox debería tener el ID del usuario -->
+            <li><label><input type="checkbox" name="trabajadores[]" value="1"> Juan Pérez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="2"> María Gómez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="3"> Carlos Rodríguez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="4"> Laura Martínez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="5"> Andrés López</label></li>
+          </ul>
+        </div>
 
+        <!-- Botón enviar -->
+        <div class="contenedor__boton--enviar">
+          <button type="submit" class="boton__enviar">📋 Enviar</button>
         </div>
-      
-        <label for="toggleSupervisor" class="boton__agregar boton__supervisor"> Ver trabajadores</label>
-        <input type="checkbox" id="toggleSupervisor" hidden>
-      
-        <div class="contenido__desplegable">
-          <div class="contenido__interno">
-            <form class="formulario__registrarcultivo">
-              <div class="contenedor__campos">
-                <div class="campo">
-                  <label class="nombre">Supervisor asignado</label>
-                  <input type="text" class="input__supervisor" placeholder="Seleccione un trabajador de la lista" />
-                </div>
-              </div>
-            </form>
-      
-            <ul class="lista__trabajadores">
-              <li>Juan Pérez</li>
-              <li>María Gómez</li>
-              <li>Carlos Rodríguez</li>
-              <li>Laura Martínez</li>
-              <li>Andrés López</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
 
-      <!------------------------------------------------------------------TRABADORES---------------------------------------------------------------------------------->
-      <div class="contendor__cajas trabajadores__caja">
-        <div class="contendor__subtitulo">
-          <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/pala.png" alt="icono trabajadores">
-          </div>
-          <h2 class="subtitulo">Trabajadores</h2>
-        </div>
-      
-        <label for="toggleTrabajadores" class="boton__agregar boton__trabajadores"> Ver lista</label>
-        <input type="checkbox" id="toggleTrabajadores" hidden>
-      
-        <!-- Contenido desplegable -->
-        <div class="contenido__desplegable">
-          <div class="contenido__interno">
-            <p class="nombre__trabajador">Seleccione los trabajadores que van a laborar en su cultivo:</p>
-            <ul class="lista__trabajadores">
-              <li><label><input type="checkbox" name="trabajadores[]" value="Juan Pérez"> Juan Pérez</label></li>
-              <li><label><input type="checkbox" name="trabajadores[]" value="María Gómez"> María Gómez</label></li>
-              <li><label><input type="checkbox" name="trabajadores[]" value="Carlos Rodríguez"> Carlos Rodríguez</label></li>
-              <li><label><input type="checkbox" name="trabajadores[]" value="Laura Martínez"> Laura Martínez</label></li>
-              <li><label><input type="checkbox" name="trabajadores[]" value="Andrés López"> Andrés López</label></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <div class="contenedor__boton__enviar">
-        <button type="button" class="boton__enviar">📋 Enviar</button>
-      </div>
-      
-      
-
+      </form>
+    </div>
   </main>
-
-  <!--<footer class="footer">
-    <p>© 2025 Agritrack Plus</p>
-  </footer>
-  -->
 
 </body>
 
