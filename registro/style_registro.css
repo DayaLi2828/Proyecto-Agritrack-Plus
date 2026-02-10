@@ -111,7 +111,7 @@ input{
   justify-content: center;
   padding: 30px;
 }
-button{
+.button{
   font-size: 15px;
   border-radius: 10px;
   height: 35px;
