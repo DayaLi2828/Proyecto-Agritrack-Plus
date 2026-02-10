@@ -76,11 +76,11 @@ header {
   padding: 31px;
   background: var(--background-main);
 }
-.contenedor__perfil{
+/* .contenedor__perfil{
   display: flex;
   justify-content: flex-end;
   margin-left: 100px;
-}
+} */
 
 /**********************************************************/
 .sidebar__barra {
