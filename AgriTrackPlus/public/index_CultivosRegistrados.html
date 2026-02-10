@@ -1,27 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../asset/style_CultivosRegistrados.css">
-</head>
-<body>
-
-  <header>
-    <div class="contenedor__titulo">
-      <div class="contenedor__logo">
-        <img class="logo" src="../asset/imagenes/hoja (3).png" alt="hoja del logo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../asset/style_CultivosRegistrados.css" />
+  </head>
+  <body>
+    <header>
+      <div class="contenedor__titulo">
+        <div class="contenedor__logo">
+          <img
+            class="logo"
+            src="../asset/imagenes/hoja (3).png"
+            alt="hoja del logo"
+          />
+        </div>
+        <h1 class="titulo">Cultivos Registrados</h1>
       </div>
-      <h1 class="titulo">Información del Cultivo</h1>
-    </div>
-  </header>
-  <main>
-    <div class="main_contenedor">
-      <div class="contendor__informacion">
+    </header>
+    <main>
+      <div class="main_contenedor">
+        <div class="contendor__informacion">
+          <div class="caja_titulo">
+            <img
+              class="logo"
+              src="../asset/imagenes/planta (2).png"
+              alt="hoja del logo"
+            />
+            <h1 class="titulo">Información del Cultivo</h1>
+          </div>
+          <!---desde aca empiezan las ileras horizontales-->
+          <div class="contenedor__registros">
+            <!-- Primera fila -->
+            <div class="contendor__fila__cultivo">
+              <div class="dato__cultivo">
+                <p><strong>Nombre:</strong> Tomate Cherry</p>
+              </div>
+              <div class="dato__cultivo">
+                <p><strong>Fecha de Siembra:</strong> 15/10/2024</p>
+              </div>
+            </div>
 
+            <!-- Segunda fila -->
+            <div class="contendor__fila__cultivo">
+              <div class="dato__cultivo">
+                <p><strong>Fecha de Cosecha:</strong> 20/01/2025</p>
+              </div>
+              <div class="dato__cultivo">
+                <p><strong>Ciclo Actual:</strong> Vegetativo</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contendor__informacion  fertilizantes">
+          <div class="caja_titulo">
+            <img
+              class="logo"
+              src="../asset/imagenes/fertilizante.png"
+              alt="hoja del logo"
+            />
+            <h1 class="titulo">Fertilizantes Aplicados</h1>
+          </div>
+
+          <!-- Fila 1 -->
+          <div class="contendor__fila__cultivo">
+            <div class="dato__cultivo">
+              <p><strong>Nombre:</strong> NPK 10-20-10</p>
+            </div>
+            <div class="dato__cultivo">
+              <p><strong>Cantidad:</strong> 5 kg</p>
+            </div>
+          </div>
+
+          <!-- Fila 2 -->
+          <div class="contendor__fila__cultivo">
+            <div class="dato__cultivo">
+              <p><strong>Plagas Detectadas:</strong> Ninguna</p>
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </main>
-</body>
+    </main>
+  </body>
 </html>
