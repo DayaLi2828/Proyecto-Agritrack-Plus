@@ -3,10 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Cultivos Registrados</title>
     <link rel="stylesheet" href="../asset/style_CultivosRegistrados.css" />
   </head>
   <body>
+    <!-- Encabezado -->
     <header>
       <div class="contenedor__titulo">
         <div class="contenedor__logo">
@@ -20,219 +21,31 @@
       </div>
     </header>
     <main>
-      <div class="main__contenedor">
-        <!-- INFORMACIÓN DEL CULTIVO -->
-        <div class="contendor__informacion contenedor__cultivo">
-          <div class="caja__titulo">
-            <img
-              class="logo"
-              src="../asset/imagenes/planta (2).png"
-              alt="hoja del logo"
-            />
-            <h1 class="titulo">Información del Cultivo</h1>
-          </div>
-          <div class="contenedor__registros">
-            <div class="fila__cultivo">
-              <div class="dato__cultivo">
-                <p><strong>Nombre:</strong> Tomate Cherry</p>
-              </div>
-              <div class="dato__cultivo">
-                <p><strong>Fecha de Siembra:</strong> 15/10/2024</p>
-              </div>
-            </div>
-            <div class="fila__cultivo">
-              <div class="dato__cultivo">
-                <p><strong>Fecha de Cosecha:</strong> 20/01/2025</p>
-              </div>
-              <div class="dato__cultivo">
-                <p><strong>Ciclo Actual:</strong> Vegetativo</p>
-              </div>
-            </div>
-          </div>
+      <div class="contenedor__tarjetas">
+        <div class="tarjeta__cultivo">
+          <h3>Tomate Cherry</h3>
+          <p>Siembra: 15/10/2024</p>
+          <p>Estado: Activo</p>
+          <button class="boton__ver">Ver detalles</button>
         </div>
 
-        <!-- FERTILIZANTES -->
-        <div class="contendor__informacion contenedor__fertilizantes">
-          <div class="caja__titulo">
-            <img
-              class="logo"
-              src="../asset/imagenes/fertilizante.png"
-              alt="icono fertilizante"
-            />
-            <h1 class="titulo">Fertilizantes Aplicados</h1>
-          </div>
-          <div class="fila__cultivo">
-            <div class="dato__cultivo">
-              <p><strong>Nombre:</strong> NPK 10-20-10</p>
-            </div>
-            <div class="dato__cultivo">
-              <p><strong>Cantidad:</strong> 5 kg</p>
-            </div>
-          </div>
-          <div class="fila__cultivo">
-            <div class="dato__cultivo">
-              <p><strong>Plagas Detectadas:</strong> Ninguna</p>
-            </div>
-          </div>
+        <div class="tarjeta__cultivo">
+          <h3>Aguacate Criollo</h3>
+          <p>Siembra: 15/10/2024</p>
+          <p>Estado: Activo</p>
+          <button class="boton__ver">Ver detalles</button>
         </div>
-
-        <!-- STOCK -->
-        <div class="contendor__informacion contenedor__stock">
-          <div class="caja__titulo">
-            <img
-              class="logo"
-              src="../asset/imagenes/stock.png"
-              alt="icono stock"
-            />
-            <h1 class="titulo">Stock de productos</h1>
-          </div>
-          <div class="fila__stock">
-            <div class="item__stock">
-              <p><strong>Producto:</strong> Fertilizante NPK</p>
-            </div>
-            <div class="cantidad__stock">
-              <strong>25 kg</strong>
-              <select class="estado__producto">
-                <option value="disponible">Disponible</option>
-                <option value="bajo">Bajo stock</option>
-                <option value="agotado">Agotado</option>
-              </select>
-            </div>
-          </div>
-          <div class="fila__stock">
-            <div class="item__stock">
-              <p><strong>Producto:</strong> Insecticida orgánico</p>
-            </div>
-            <div class="cantidad__stock">
-              <strong>25 kg</strong>
-              <select class="estado__producto">
-                <option value="disponible">Disponible</option>
-                <option value="bajo">Bajo stock</option>
-                <option value="agotado">Agotado</option>
-              </select>
-            </div>
-          </div>
-          <div class="fila__stock">
-            <div class="item__stock">
-              <p><strong>Producto:</strong> Semillas de aguacate</p>
-            </div>
-            <div class="cantidad__stock">
-              <strong>25 kg</strong>
-              <select class="estado__producto">
-                <option value="disponible">Disponible</option>
-                <option value="bajo">Bajo stock</option>
-                <option value="agotado">Agotado</option>
-              </select>
-            </div>
-          </div>
+        <div class="tarjeta__cultivo">
+          <h3>Piña Oromiel</h3>
+          <p>Siembra: 15/10/2024</p>
+          <p>Estado: Activo</p>
+          <button class="boton__ver">Ver detalles</button>
         </div>
-
-        <!-- ADMINISTRADOR -->
-        <div class="contendor__informacion contenedor__admin">
-          <div class="caja__titulo">
-            <img
-              class="logo"
-              src="../asset/imagenes/stock.png"
-              alt="icono admin"
-            />
-            <h1 class="titulo">Administrador</h1>
-          </div>
-          <img
-            class="logo__admin"
-            src="../asset/imagenes/admin.png"
-            alt="imagen de usuario"
-          />
-          <div class="info__admin">
-            <h2 class="titulo__admin">Luis Villamizar</h2>
-            <p>Administrador principal</p>
-          </div>
-        </div>
-
-        <!-- TRABAJADORES -->
-        <div class="contendor__informacion contenedor__trab">
-          <div class="caja__titulo">
-            <img
-              class="logo"
-              src="../asset/imagenes/stock.png"
-              alt="icono trabajadores"
-            />
-            <h1 class="titulo">Trabajadores</h1>
-          </div>
-
-          <!-- Fila 1 -->
-          <div class="fila__trab">
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">Hernesto Perez</h2>
-              </div>
-            </div>
-
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">María López</h2>
-              </div>
-            </div>
-          </div>
-
-          <!-- Fila 2 -->
-          <div class="fila__trab">
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">Carlos Gómez</h2>
-              </div>
-            </div>
-
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">Ana Rodríguez</h2>
-              </div>
-            </div>
-          </div>
-
-          <!-- Fila 3 -->
-          <div class="fila__trab">
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">Luis Martínez</h2>
-              </div>
-            </div>
-
-            <div class="bloque__trab">
-              <img
-                class="logo__trab"
-                src="../asset/imagenes/obrero.png"
-                alt="imagen de usuario"
-              />
-              <div class="info__trabajador">
-                <h2 class="titulo__trabajador">Sofía Ramírez</h2>
-              </div>
-            </div>
-          </div>
+        <div class="tarjeta__cultivo">
+          <h3>Mango Tommy</h3>
+          <p>Siembra: 15/10/2024</p>
+          <p>Estado: Activo</p>
+          <button class="boton__ver">Ver detalles</button>
         </div>
       </div>
     </main>

@@ -43,136 +43,63 @@ header {
   display: flex;
   height: 141px;
   box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
-}
-.main__contenedor {
-  width: 80%;
-  min-height: 100vh;
-  box-shadow: 0px 0px 10px 2px rgba(16, 185, 129, 0.404);
-  padding: 40px;
-  margin: 0 auto;
-  margin-top: 98px;
-  border-radius: 10px;
-}
-.contendor__informacion {
-  width: 93%;
-  background-color: #10b98134;
-  margin: 0 auto;
-  border-radius: 10px;
-  padding: 30px; /* más compacto */
-  margin-bottom: 40px;
-}
-.caja__titulo {
+}/* Contenedor de todas las tarjetas */
+.contenedor__tarjetas {
   display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-left: 40px; /* menos margen para alinearse mejor */
+  flex-wrap: wrap;          /* permite que bajen a la siguiente fila si no caben */
+  justify-content: center;  /* centra las tarjetas en la fila */
+  gap: 30px;                /* más espacio entre tarjetas */
+  margin: 40px auto;
+  max-width: 1496px;        /* área más amplia */
+  margin-top: 77px;
 }
-.caja__titulo .titulo {
-  font-size: 26px; /* subtítulos consistentes */
+
+/* Estilo de cada tarjeta */
+.tarjeta__cultivo {
+  background-color: #bbf7d0; /* verde suave */
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  padding: 40px;            /* más espacio interno */
+  width: 350px;             /* 🔹 más anchas */
+  min-height: 220px;        /* 🔹 más altas */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+}
+
+.tarjeta__cultivo:hover {
+  transform: translateY(-6px);
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Título dentro de la tarjeta */
+.tarjeta__cultivo h3 {
+  font-size: 26px;          /* 🔹 más grande */
   color: var(--color-subtitulo);
+  margin-bottom: 15px;
 }
 
-/* Cultivo y Fertilizantes */
-.contenedor__registros {
-  width: 90%;
-  margin: 0 auto;
-  margin-top: 20px;
-}
-.fila__cultivo {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  gap: 30px;
-}
-.dato__cultivo {
-  width: 45%;
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 8px rgba(16, 185, 129, 0.3);
-  font-size: 18px; /* igual que inputs/labels */
+/* Texto dentro de la tarjeta */
+.tarjeta__cultivo p {
+  font-size: 20px;          /* 🔹 más grande */
   color: var(--color-texto-formulario);
+  margin-bottom: 10px;
 }
 
-/* Stock */
-.contenedor__stock {
-  min-height: auto;
-}
-.fila__stock {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px auto;
-  background-color: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 8px rgba(16, 185, 129, 0.3);
-}
-
-.item__stock {
-  font-size: 18px;
-  color: var(--color-texto-formulario);
-}
-.cantidad__stock {
-  font-size: 18px;
+/* Botón dentro de la tarjeta */
+.boton__ver {
+  margin-top: 20px;
+  padding: 14px 22px;       /* más grande */
+  background-color: #10b981;
+  color: white;
+  font-size: 18px;          /* 🔹 más grande */
   font-weight: bold;
-  color: var(--color-texto-formulario);
-}
-.estado__producto {
-  width: 160px;
-  padding: 8px 12px;
+  border: none;
   border-radius: 10px;
-  border: var(--color-borde-input-formulario);
-  font-size: 18px;
-  color: var(--color-texto-formulario);
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-/* Admin y Trabajadores */
-.contenedor__admin,
-.contenedor__trab {
-  min-height: auto;
-}
-.logo__admin,
-.logo__trab {
-  height: 70px;
-  width: 70px;
-  margin-left: 40px;
-  margin-top: 20px;
-}
-.info__admin {
-  margin-top: -60px;
-  font-size: 18px;
-  margin-left: 140px;
-  color: var(--color-texto-formulario);
-}
-.titulo__admin {
-  font-size: 20px;
-  margin-bottom: 5px;
-  color: var(--color-texto-formulario);
-}
-
-.fila__trab {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-.bloque__trab {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  width: 45%;
-  background-color: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 8px rgba(16, 185, 129, 0.3);
-}
-.info__trabajador {
-  font-size: 18px;
-  color: var(--color-texto-formulario);
-}
-.titulo__trabajador {
-  font-size: 20px;
-  margin-bottom: 5px;
-  color: var(--color-texto-formulario);
+.boton__ver:hover {
+  background-color: #059669;
 }
