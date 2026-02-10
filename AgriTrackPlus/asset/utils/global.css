@@ -41,5 +41,6 @@
   --color-titulo-registro:#064e3b;
   --background--caja-logo:linear-gradient(to bottom right, #10b981, #22c55e);
   --color-texto-formulario:#065f46;
+  --color-borde-input-formulario:#10b98181 solid 2px;
 }
 
