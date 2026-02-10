@@ -87,6 +87,7 @@ header{
   gap: 60px;
 }
 
+
 .main__boxs{
   background-color: aliceblue;
   min-width: auto;
@@ -96,14 +97,9 @@ header{
   4px 0px 6px rgba(16, 185, 129, 0.3),    /* derecha */
   -4px 0px 6px rgba(16, 185, 129, 0.3),   /* izquierda */
   0px 10px 0px rgba(16, 185, 129, 1);     /* abajo sólida */
-
-
   border-radius: 10px;
 }
 
-.main__boxs:hover{
-  
-}
 .main__contimagen--secundario{
   width: 173px;
   height: 134px;
