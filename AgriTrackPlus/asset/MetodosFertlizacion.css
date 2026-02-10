@@ -1,0 +1,38 @@
+ @import url(utils/global.css);
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background: var(--fondo-main);
+}
+ 
+ .contendor__subtitulo{
+  display: flex;
+  margin-top: 10px;
+  margin-left: 615px;
+ }
+ .caja__logo{
+  background:var( --background--caja-logo);
+  width: 91px;
+  height: 91px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  border-radius: 10px;
+  margin-left: 28px;
+ }
+ .subtitulo{
+  font-size: 33px;
+  color:var(--color-subtitulo);
+  margin-left: 28px;
+  margin-top: 42px;
+ }
+
+  .logo {
+  width: 70px;
+  height: 70px;
+ }
+ /****/

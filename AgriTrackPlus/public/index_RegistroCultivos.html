@@ -29,7 +29,7 @@
           </div>
           <h2 class="subtitulo">Información Básica</h2>
         </div>
-
+        <!-----------------------------------------CULTIVO--------------------------------------------------->
         <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
           <div class="campo">
             <label for="nombre" class="nombre">Nombre del cultivo</label>
@@ -54,7 +54,7 @@
           </div>
         </form>
       </div>
-      <!----------------------------------------------------------------------->
+      <!----------------------------------FERTILIZANTES------------------------------------->
       <div class="contendor__cajas">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
@@ -83,7 +83,7 @@
           </div>
         </form>
       </div>
-      <!---------------------------------------------------------------------------------------------->
+      <!---------------------------------------STOCK------------------------------------------------------->
       <div class="contendor__cajas">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
@@ -113,11 +113,11 @@
           </div>
         </form>
       </div>
-      <!------------------------------------------------------------------------------------------------------------------------------------>
+      <!--------------------------------------------------SUPERVISOR---------------------------------------------------------------------------------->
       <div class="contendor__cajas">
         <div class="contendor__subtitulo">
           <div class="caja__logo">
-            <img class="logo" src="../asset/imagenes/stock.png" id="logo hoja">
+            <img class="logo" src="../asset/imagenes/supervisor.png" id="logo hoja">
           </div>
           <h2 class="subtitulo">Supervisor de campo</h2>
         </div>
@@ -125,15 +125,31 @@
 
           <div class="contenedor__campos">
             <div class="campo">
-              <label for="fertilizante" class="nombre">Producto</label>
-              <input type="text" id="fertilizante" name="fertilizante"
-                placeholder="Ingrese el producto que desea usar " />
+              <label for="fertilizante" class="nombre">Agregar trabajador</label>
+              <input type="text" id="fertilizante" name="fertilizante" placeholder="Ingrese el supervisor asignado" />
             </div>
           </div>
-          
         </form>
       </div>
-      <div class="contendor__cajas">5</div>
+      <!------------------------------------------------------------------TRABADORES---------------------------------------------------------------------------------->
+      <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+          <div class="caja__logo">
+            <img class="logo" src="../asset/imagenes/pala.png" id="logo hoja">
+          </div>
+          <h2 class="subtitulo">Trabajadores</h2>
+        </div>
+        <form class="formulario__registrarcultivo" method="get" enctype="multipart/form-data" action="#">
+
+          <div class="contenedor__campos">
+            <div class="campo">
+              <label for="fertilizante" class="nombre">Agregar trabajador</label>
+              <input type="text" id="fertilizante" name="fertilizante"
+                placeholder="Ingrese los trabajadores que van a laborar en su cultivo" />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
   </main>

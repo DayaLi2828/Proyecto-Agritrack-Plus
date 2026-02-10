@@ -95,6 +95,10 @@ header{
   border-radius: 10px;
 }
 
+.main__boxs:hover{
+    transform: scale(1.01); 
+}
+
 .main__contimagen--secundario{
   width: 173px;
   height: 134px;
@@ -152,9 +156,6 @@ header{
   gap: 40px;
 }
 
-.main__tarjetas:hover{
-  transform: scale(1.05); 
-}
 
 .main__tarjetas{
   width: 400px;
