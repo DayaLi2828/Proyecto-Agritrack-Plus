@@ -63,12 +63,25 @@ body{
 }
 
 .main__cajaregistro{
-  background-color: aquamarine;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
   width: 20%;
   height: 37%;
   border-radius: 10px;
 }
 
+.main__textocard{
+  font-size: 25px;
+  text-align: center;
+  padding: 10px;
+  margin-top: 65px;
+}
+
+.main__imagen1{
+  width: 100px;
+  height: 100px;
+  margin-left: 100px;
+}
 
 
 /****************************************************************************************************************/
