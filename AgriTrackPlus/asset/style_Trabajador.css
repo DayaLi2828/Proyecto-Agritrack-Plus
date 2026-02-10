@@ -185,7 +185,7 @@ header {
 .contendores{
   margin-top: 50px;
   width: 100%;
-  height: 111vh;
+  height: 30vh;
 }
 .contador__tareas{
   width: 96%;
@@ -225,20 +225,78 @@ header {
   color: var(--color-numero-contador-tareas);
 }
 
+.tarjetas__tareas{
+  width: 96%;
+  height: auto;
+  margin:20px auto;
+  margin-top: 40px;
+}
 
+.tarea{
+  width: 90%;
+  height: 200px;
+  margin: 20px auto;
+  border-radius: 10px;
+  border: solid #f59e0b 3px;
+}
+.contenedor__subtitulo{
+  display: flex;
+  width: 90%;
+  margin: 20px auto;
+  justify-content: flex-start;
+  align-items: center;
+}
+.icono__reloj{
+  width: 70px;
+  height: 70px;
+}
 
+.subtitulo{
+  font-size: 30px;
+  color: var(--color-numero-contador-tareas);
+  margin-left: 15px;
+}
+.nombre__tarea{
+  font-size: 24px;
+  margin-left: 20px;
+  margin-top: 10px;
+  color: var(--color-numero-contador-tareas);
+}
+.cajas__cultivos{
+  display: flex;
+  gap: 40px;
+  margin-top: 30px;
+  margin-left: 20px;
+}
 
+.nombre__cultivo, 
+.fecha__cultivo, 
+.jornada__cultivo { font-size: 20px; 
+  padding: 8px 14px; /* espacio interno */ 
+  border-radius: 12px; /* esquinas redondeadas */
+}
+.nombre__cultivo{
+  color: var(--color-nombre-cultivo);
+  background-color: var(--color-nombre-cultivo-caja);
+}
 
-
-
-
-
-
-
-
-
-
-
+.fecha__cultivo{
+  color: var(--color-fecha-cultivo);
+  background-color: var(--color-fecha-cultivo-caja);
+}
+.jornada__cultivo{
+  color: var(--color-jornada-cultivo);
+  background-color: var(--color-jornada-cultivo-caja);
+}
+.descripcion__cultivo{
+  font-size: 23px;
+  color: var(--color-texto-contenedor);
+  margin-left: 20px;
+  margin-top: 20px;
+}
+.completadas{
+  margin-top: 50px;
+}
 
 
 
