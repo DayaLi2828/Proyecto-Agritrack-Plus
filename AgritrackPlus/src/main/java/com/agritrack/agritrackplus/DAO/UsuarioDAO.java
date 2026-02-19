@@ -1,4 +1,4 @@
-package com.agritrack.agritrackplus.dao;
+package com.agritrack.agritrackplus.Dao;
 
 import com.agritrack.agritrackplus.db.Conexion;
 import com.agritrack.agritrackplus.modelo.Usuario;
@@ -76,5 +76,53 @@ public class UsuarioDAO {
                 e.printStackTrace();
             }
         }
+    }
+
+    private static final String SQL_LOGIN =
+        "SELECT u.id, u.nombre, u.documento, u.direccion, u.estado, u.pass, " +
+        "c.correo, t.telefono, r.nombre AS rol " +
+        "FROM usuarios u " +
+        "LEFT JOIN correo c ON c.usuario_id = u.id " +
+        "LEFT JOIN telefono t ON t.usuario_id = u.id " +
+        "LEFT JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
+        "LEFT JOIN roles r ON r.id = ru.rol_id " +
+        "WHERE c.correo = ? AND u.pass = ?";
+
+
+        public Usuario login(String correo, String pass) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Usuario user = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(SQL_LOGIN);
+            ps.setString(1, correo);
+            ps.setString(2, pass);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new Usuario();
+                user.setId(rs.getInt("id"));
+                user.setNombre(rs.getString("nombre"));
+                user.setDocumento(rs.getString("documento"));
+                user.setDireccion(rs.getString("direccion"));
+                user.setEstado(rs.getString("estado"));
+                user.setPass(rs.getString("pass"));
+                user.setCorreo(rs.getString("correo"));
+                user.setTelefono(rs.getString("telefono"));
+                user.setRol(rs.getString("rol"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return user;
     }
 }

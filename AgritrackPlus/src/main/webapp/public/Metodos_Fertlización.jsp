@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -8,7 +9,7 @@
   </head>
   <body>
       <header>
-        <a href="../public/Administrador/index_Admin.html">
+        <a href="../public/Administrador/Admin.jsp">
           <div class="icono__devolver">
             <img src="../asset/imagenes/devolver.png" id="icono de devolver">
           </div>
@@ -17,7 +18,7 @@
           <div class="contenedor__logo">
               <img class="logo" src="../asset/imagenes/hoja (3).png" alt="hoja del logo" />
           </div>
-          <h1 class="titulo">Metodos de Fertilización</h1>
+          <h1 class="titulo">Métodos de Fertilización</h1>
         </div>
       </header>
     <!---------------------------------------------------------------------------->
@@ -55,7 +56,7 @@
         <h4 class="intro__metodo">
           La fertilización química, especialmente a través de los fertilizantes NPK, consiste en aportar al suelo los tres macronutrientes esenciales: nitrógeno (N), fósforo (P) y potasio (K). Estos fertilizantes son de acción rápida, permiten ajustar con precisión las dosis según las necesidades del cultivo y han revolucionado la agricultura moderna. Sin embargo, su uso requiere un manejo responsable para evitar impactos negativos en el suelo y el agua.
         </h4>
-        <h3>🌱¿Qué es fertilización Química?</h3>
+        <h3>🌱 ¿Qué es fertilización Química?</h3>
         <p class="texto__metodo">
           La fertilización química se basa en el uso de productos minerales o sintéticos diseñados para suplir directamente los nutrientes que las plantas necesitan. A diferencia de los abonos orgánicos, que liberan nutrientes lentamente, los fertilizantes químicos tienen una acción inmediata, lo que permite corregir deficiencias en poco tiempo y aumentar la productividad de los cultivos.<br><br>
 
@@ -87,7 +88,6 @@
         </p>
       </div>
       <!---------------------------------ORGÁNICO------------------------------------------->
-
       <div class="contenedor__texto expandible">
         <div class="contendor__logo">
           <img
@@ -101,10 +101,8 @@
         <h4 class="segundo__subtitulo">
           Utiliza materiales orgánicos como compost, estiércol y humus para nutrir el suelo de forma sostenible.
         </h4>
-
       </div>
       <!---------------------------------QUÍMICO FOLIAR------------------------------------------->
-
       <div class="contenedor__texto expandible">
         <div class="contendor__logo">
           <img
@@ -116,8 +114,8 @@
         </div>
         <h3>Fertilización Foliar</h3>
         <h4 class="segundo__subtitulo">
-          Aplicación de nutrientes directamente sobre las hojas para absorción rápida y correción de deficiencias.
-
+          Aplicación de nutrientes directamente sobre las hojas para absorción rápida y corrección de deficiencias.
+        </h4>
       </div>
       <!----------------------------------------BIOESTIMULANTE------------------------------------------------->
       <div class="contenedor__texto expandible">
@@ -131,26 +129,7 @@
         </div>
         <h3>Bioestimulantes</h3>
         <h4 class="segundo__subtitulo">
-          Sustancias naturales que mejoran la eficiencia nutricional y aumenta la resistencia al estrés.
+          Sustancias naturales que mejoran la eficiencia nutricional y aumentan la resistencia al estrés.
         </h4>
-
       </div>
-      <!-----------------------------------------TÉCNICA AVANZADA------------------------------------->
-      <div class="contenedor__texto expandible">
-        <div class="contendor__logo">
-          <img
-            class="logo__texto"
-            src="../asset/imagenes/gotas.png"
-            id="imagen de una planta"
-          />
-          <h4>Fertirrigación</h4>
-        </div>
-        <h3>Fertilización con NPK</h3>
-        <h4 class="segundo__subtitulo">
-          Aplicación de fertilizantes disueltos en agua de riego para la próxima eficiencia.
-        </h4>
-
-      </div>
-    </main>
-  </body>
-</html>
+      <!-----------------------------------------TÉCN

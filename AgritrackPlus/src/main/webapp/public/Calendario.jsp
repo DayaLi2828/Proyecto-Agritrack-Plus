@@ -8,7 +8,7 @@
 </head>
 <body>
   <header>
-    <a href="../public/Administrador/index_Admin.html">
+    <a href="../public/Administrador/Admin.jsp">
       <div class="icono__devolver">
         <img src="../asset/imagenes/devolver.png" id="icono de devolver">
       </div>

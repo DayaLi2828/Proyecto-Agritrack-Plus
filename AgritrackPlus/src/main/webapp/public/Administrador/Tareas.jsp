@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../asset/Administrador/style-tareas.css">
+</head>
+<body>
+    <header>
+      <a href="Admin.jsp">
+        <div class="icono__devolver">
+          <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+        </div>
+      </a>
+        <div class="contenedor__titulo">
+            <div class="contenedor__logo">
+              <a href="index_Admin.html">
+              <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
+              </a>
+            </div>
+            <h1 class="titulo"> Gestión de tareas</h1>
+            <a href="Agregar_Tarea.jsp" class="boton">Agregar tarea</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="contenedor__tareas">
+            <div class="cajas__tareas">
+                <img class="logo__total" src="../../asset/imagenes/comprobacion.png" alt="Icono de tarea">
+                <h2>5</h2>
+                <p>Total de Tareas</p>
+            </div>
+
+            <div class="cajas__tareas caja__segunda">
+                <img class="logo__total" src="../../asset/imagenes/comprobacion.png" alt="Icono de tarea">
+                <h2>2</h2>
+                <p>Pendientes</p>
+            </div>
+
+            <div class="cajas__tareas caja__tercera">
+                <img class="logo__total" src="../../asset/imagenes/comprobacion.png" alt="Icono de tarea">
+                <h2>0</h2>
+                <p>Completadas</p>
+            </div>
+
+            <div class="cajas__tareas caja__cuarta">
+              <img class="logo__total" src="../../asset/imagenes/comprobacion.png" alt="Icono de tarea">
+              <h2>1</h2>
+              <p>En proceso</p>
+          </div>
+        </div>
+
+        <div class="buscardor__tareas">
+            <div class="contenedor__buscar">
+              <input type="text" class="input__buscador" placeholder="Buscar..." aria-label="Buscar">
+              <img class="icono__buscador" src="../../asset/imagenes/lupa.png" alt="Icono de búsqueda">
+            </div>
+
+            <select class="select__tareas">
+                <option value="todas">Todas las tareas</option>
+                <option value="pendientes">Tareas pendientes</option>
+                <option value="completadas">Tareas completadas</option>
+            </select>
+        </div>
+        <!-----tarea 1----->
+        <div class="contendor__padre">
+          <div class="contenedor__cultivotarea">
+            <div class="logo__tarea">
+              <img class="logo" src="../../asset/imagenes/planta (2).png" alt="hoja del logo" />
+            </div>
+            <h2 class="titulo__cultivo">Tomate<br> Cherry</h2>
+            <!----1-->
+            <div class="boxs">
+              <h2 id="contadorPendientes">2</h2>
+              <p id="etiquetaPendientes">Pendientes</p>
+            </div>
+            <!----2-->
+            <div class="boxs">
+              <h2 id="contadorProceso">0</h2>
+              <p id="etiquetaProceso">En proceso</p>
+            </div>
+            <!---3-->
+            <div class="boxs">
+              <h2 id="contadorCompletadas">0</h2>
+              <p id="etiquetaCompletada">Completadas</p>
+            </div>
+
+          </div>
+          <div class="contenedores__tareas">
+            <h2>Riego matutino-Tomate</h2>
+            <h3 class="estado__pendiente">Pendiente</h3>
+            <p class="texto__tarea">Realizar riego profundo en cultivo de tomate</p>
+            <p class="texto__tarea fecha">Creada: 01/11/2024</p>
+  
+            <div class="contendor__asignaciones">
+              <div class="logo__texto">
+                <img class="iconos__asignaciones" src="../../asset/imagenes/usuario(2).png" id="perfil de usuario">
+                <p class="texto__asignaciones">Asignaciones (2)</p>
+              </div>
+              <div class="contenedor__usuario">
+                <div class="tarjeta__usuario">
+                  <div class="cirulo__perfil">
+                    <p class="incial__perfil">M</p>
+                  </div>
+                  <h4>Maria Lopez</h4>
+                  <p class="texto__jornada">Mañana</p>
+                  <div class="estado">
+                    <p>Pendiente</p>
+                  </div>
+                </div>
+                <div class="tarjeta__usuario">
+                  <div class="cirulo__perfil">
+                    <p class="incial__perfil">P</p>
+                  </div>
+                  <h4>Pedro Jaimes</h4>
+                  <p class="texto__jornada">Tarde</p>
+                  <div class="estado">
+                    <p>Pendiente</p>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+            </div>
+          </div>
+        </div>
+        
+        <!--------tarea 2-------->
+        <div class="contendor__padre">
+          <div class="contenedor__cultivotarea">
+            <div class="logo__tarea">
+              <img class="logo" src="../../asset/imagenes/planta (2).png" alt="hoja del logo" />
+            </div>
+            <h2 class="titulo__cultivo">Lechuga<br> Romana</h2>
+            <div class="boxs">
+              <h2 id="contadorPendientes">0</h2>
+              <p id="etiquetaPendientes">Pendientes</p>
+            </div>
+            <div class="boxs">
+              <h2 id="contadorProceso">1</h2>
+              <p id="etiquetaProceso">En proceso</p>
+            </div>
+            <div class="boxs">
+              <h2 id="contadorCompletadas">1</h2>
+              <p id="etiquetaCompletada">Completadas</p>
+            </div>
+          </div>
+    
+          <div class="contenedores__tareas">
+            <h2>Aplicar fertilizante NPK</h2>
+            <h3 class="estado__proceso">En proceso</h3>
+            <p class="texto__tarea">Aplicación de NPK 10-20-10 en lechuga romana</p>
+            <p class="texto__tarea fecha">Creada: 02/11/2024</p>
+            <div class="contendor__asignaciones">
+              <div class="logo__texto">
+                <img class="iconos__asignaciones" src="../../asset/imagenes/usuario(2).png" alt="perfil de usuario">
+                <p class="texto__asignaciones">Asignaciones (2)</p>
+              </div>
+              <div class="contenedor__usuario">
+                <div class="tarjeta__usuario">
+                  <div class="cirulo__perfil"><p class="incial__perfil">M</p></div>
+                  <h4>Maria Lopez</h4>
+                  <p class="texto__jornada">Mañana</p>
+                  <div class="estado proceso"><p>En proceso</p></div>
+                </div>
+                <div class="tarjeta__usuario">
+                  <div class="cirulo__perfil"><p class="incial__perfil">P</p></div>
+                  <h4>Pedro Jaimes</h4>
+                  <p class="texto__jornada">Tarde</p>
+                  <div class="estado completada"><p>Completada</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Tarea 3 -->
+      <div class="contendor__padre">
+        <div class="contenedor__cultivotarea">
+          <div class="logo__tarea">
+            <img class="logo" src="../../asset/imagenes/planta (2).png" alt="hoja del logo" />
+          </div>
+          <h2 class="titulo__cultivo">Papaya</h2>
+          <div class="boxs">
+            <h2 id="contadorPendientes">2</h2>
+            <p id="etiquetaPendientes">Pendientes</p>
+          </div>
+          <div class="boxs">
+            <h2 id="contadorProceso">0</h2>
+            <p id="etiquetaProceso">En proceso</p>
+          </div>
+          <div class="boxs">
+            <h2 id="contadorCompletadas">0</h2>
+            <p id="etiquetaCompletada">Completadas</p>
+          </div>
+        </div>
+
+        <div class="contenedores__tareas">
+          <h2>Control Plagas</h2>
+          <h3 class="estado__pendiente">Pendiente</h3>
+          <p class="texto__tarea">Inspección y control preventivo de pulgones</p>
+          <p class="texto__tarea fecha">Creada: 03/11/2024</p>
+
+          <div class="contendor__asignaciones">
+            <div class="logo__texto">
+              <img class="iconos__asignaciones" src="../../asset/imagenes/usuario(2).png" alt="perfil de usuario">
+              <p class="texto__asignaciones">Asignaciones (2)</p>
+            </div>
+            <div class="contenedor__usuario">
+              <div class="tarjeta__usuario">
+                <div class="cirulo__perfil">
+                  <p class="incial__perfil">M</p>
+                </div>
+                <h4>Maria Lopez</h4>
+                <p class="texto__jornada">Mañana</p>
+                <div class="estado pendiente">
+                  <p>Pendiente</p>
+                </div>
+              </div>
+              <div class="tarjeta__usuario">
+                <div class="cirulo__perfil">
+                  <p class="incial__perfil">P</p>
+                </div>
+                <h4>Pedro Jaimes</h4>
+                <p class="texto__jornada">Tarde</p>
+                <div class="estado pendiente">
+                  <p>Pendiente</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+</body>
+</html>

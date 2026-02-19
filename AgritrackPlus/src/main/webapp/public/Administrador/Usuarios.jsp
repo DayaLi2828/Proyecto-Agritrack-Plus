@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="../../asset/Administrador/style_Usuarios.css"
+    />
+  </head>
+  <body>
+    <header>
+      <a href="index_Admin.html">
+      <div class="icono__devolver">
+        <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+      </div>
+      </a>
+      
+      <div class="contenedor__titulo">
+        <div class="contenedor__logo">
+            <img
+              class="logo"
+              src="../../asset/imagenes/hoja (3).png"
+              alt="hoja del logo"/>
+        </div>
+        <h1 class="titulo">Gestion de usuarios</h1>
+      </div>
+    </header>
+
+    <main>
+      <div class="contenedor__tarjetas">
+        <div class="tarjeta__contador">
+          <h2>5</h2>
+          <p>Total de usuarios</p>
+        </div>
+        <div class="tarjeta__contador">
+          <h2>3</h2>
+          <p>Usuarios activos</p>
+        </div>
+        <div class="tarjeta__contador">
+          <h2>2</h2>
+          <p>Usuarios inactivos</p>
+        </div>
+      </div>
+      <!-------BUSCADOR DE TAREAS------->
+      <div class="buscardor__usuario">
+        <div class="contenedor__buscar">
+          <input
+            type="text"
+            class="input__buscador"
+            placeholder="Buscar usuario por nombre o número de documento"
+            aria-label="Buscar"
+          />
+          <img
+            class="icono__buscador"
+            src="../../asset/imagenes/lupa.png"
+            alt="Icono de búsqueda"
+          />
+        </div>
+      </div>
+<!-----TABLA DE LISTA DE USUARIOS EN EL SISTEMA---------->
+
+    <table>
+        <caption>Lista de usuarios</caption>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Dirección</th>
+                <th>Correo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>María Lopez</td>
+                <td>10954687231</td>
+                <td>Floridablanca</td>
+                <td>marialopez@gmail.com</td>
+            </tr>
+
+            <tr>
+                <td>2</td>
+                <td>Luis Villamizar</td>
+                <td>10958974561</td>
+                <td>Bucaramanga</td>
+                <td>luis@gmail.com</td>
+            </tr>
+
+            <tr>
+                <td>3</td>
+                <td>Carlos Montero</td>
+                <td>10951236548</td>
+                <td>Piedecuesta</td>
+                <td>marialopez@gmail.com</td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td>Inés Villamizar</td>
+              <td>10958742306</td>
+              <td>Girón</td>
+              <td>inesvillamizar@gmail.com</td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td>Roberto Martinez</td>
+              <td>10950236598</td>
+              <td>Piedecuesta</td>
+              <td>robertomartinez@gmail.com</td>
+            </tr>
+        </tbody>
+    </table>
+
+    </main>
+  </body>
+</html>

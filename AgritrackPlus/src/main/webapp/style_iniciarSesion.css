@@ -103,6 +103,7 @@ input{
   display: flex;
   justify-content: center;
   padding: 20px;
+  margin-top: 55px;
 }
 button{
   font-size: 15px;
@@ -112,5 +113,5 @@ button{
   padding: 10px;
   background-color:var(--color-boton);
   color: var(--letra-boton);
-  border: none;
+  border: none; 
 }

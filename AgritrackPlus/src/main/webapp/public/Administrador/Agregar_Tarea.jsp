@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../asset/Administrador/style-Agregar-Tarea.css">
+</head>
+<body>
+    <header>
+      <a href="Tareas.jsp">
+        <div class="icono__devolver">
+          <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+        </div>
+      </a>
+        <div class="contenedor__titulo">
+            <div class="contenedor__logo">
+              <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
+            </div>
+            <h1 class="titulo">Agregar Tarea</h1>
+        </div>
+    </header>
+    <main>
+        <div class="contendor__padre">
+             <!-- Sección: Información de la Tarea -->
+             <div class="seccion">
+                <div class="seccion__header">
+                    <h3 class="seccion__titulo">Información de la Tarea</h3>
+                </div>
+                
+                <div class="seccion__contenido">
+                    <!-- Seleccionar Cultivo -->
+                    <div class="campo">
+                        <label class="label">Seleccionar Cultivo <span class="requerido"></span></label>
+                        <select class="input">
+                            <option value="">Seleccionar...</option>
+                            <option value="tomate">Tomate Cherry</option>
+                            <option value="lechuga">Lechuga Romana</option>
+                            <option value="zanahoria">Zanahoria</option>
+                            <option value="pimiento">Pimiento</option>
+                            <option value="berenjena">Berenjena</option>
+                        </select>
+                    </div>
+
+                    <!-- Nombre de la Tarea -->
+                    <div class="campo">
+                        <label class="label">Nombre de la Tarea <span class="requerido"></span></label>
+                        <input type="text" class="input" placeholder="Ej: Riego matutino">
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="campo">
+                        <label class="label">Descripción <span class="requerido"></span></label>
+                        <textarea class="input textarea" rows="3" placeholder="Describe la tarea en detalle..."></textarea>
+                    </div>
+
+                    <!-- Prioridad, Estado y Fecha -->
+                    <div class="campo__grupo">
+
+                        <div class="campo">
+                            <label class="label">Estado <span class="requerido"></span></label>
+                            <select class="input">
+                                <option value="">Seleccionar...</option>
+                                <option value="pendiente">Pendiente</option>
+                                <option value="proceso">En Proceso</option>
+                                <option value="completada">Completada</option>
+                            </select>
+                        </div>
+
+                        <div class="campo">
+                            <label class="label">Fecha Programada <span class="requerido"></span></label>
+                            <input type="date" class="input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Asignar Trabajadores -->
+            <div class="seccion seccion__trabajadores">
+                <div class="seccion__header seccion__header--trabajadores">
+                    <h3 class="seccion__titulo"> Asignar Trabajadores</h3>
+                    <button class="btn__agregar">
+                        <span>+</span> Agregar
+                    </button>
+                </div>
+
+                <div class="seccion__contenido">
+                    <p class="mensaje__vacio">No hay asignaciones. Agrega trabajadores a esta tarea.</p>
+
+                    <!-- Tarjeta de Asignación (ejemplo) -->
+                    <div class="asignacion__card">
+                        <div class="campo__grupo--asignacion">
+                            <div class="campo campo--small">
+                                <label class="label label--small">Usuario</label>
+                                <select class="input input--small">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="maria">María López</option>
+                                    <option value="pedro">Pedro Sánchez</option>
+                                    <option value="ana">Ana Torres</option>
+                                    <option value="carlos">Carlos Méndez</option>
+                                </select>
+                            </div>
+
+                            <div class="campo campo--small">
+                                <label class="label label--small">Jornada</label>
+                                <select class="input input--small">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="manana">Mañana</option>
+                                    <option value="tarde">Tarde</option>
+                                    <option value="completa">Completa</option>
+                                </select>
+                            </div>
+
+                            <div class="campo campo--small">
+                                <label class="label label--small">Estado</label>
+                                <select class="input input--small">
+                                    <option value="">Seleccionar...</option>
+                                    <option value="pendiente">Pendiente</option>
+                                    <option value="proceso">En Proceso</option>
+                                    <option value="completada">Completada</option>
+                                </select>
+                            </div>
+
+                            <button class="btn__eliminar">
+                                &#x1F5D1;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="botones__contenedor">
+                <button class="btn btn__guardar">Crear Tarea</button>
+                <button class="btn btn__cancelar">Cancelar</button>
+            </div>
+        </div>
+        </div>
+    </main>
+</body>
+</html>
