@@ -1,0 +1,136 @@
+@import url(../utils/global.css);
+*{
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+/********************CONTNEDOR DEL LOGO CON EL TITULO*************************/
+body{
+background: var(--fondo-main);
+}
+
+.titulo{
+font-size: 34px;
+color: var(--color-titulo-registro);
+}
+header {
+width: 96%;
+margin: 0 auto;
+margin-top: 53px;
+display: flex;
+height: 161px;
+box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+}
+.contenedor__titulo {
+display: flex;
+width: auto;
+gap: 20px;
+margin-left: 64px;
+margin-top: 50px;
+}
+.contenedor__logo{
+background:var(--background--caja-logo);
+width: 91px;
+height: 91px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-top: -30px;
+border-radius: 10px;
+}
+.logo {
+width: 70px;
+height: 70px;
+}
+.icono__devolver img{
+  width: 50px;
+  height: 50px;
+  margin-top: 45px;
+  margin-left: 38px;
+}
+/**********MAIN***************/
+main{
+    padding-bottom: 100px;
+}
+.contenedor__tarjetas{
+    width: 55%;
+    height: 300px;
+    margin: 0 auto;
+    margin-top:70px;
+    display: flex;
+    gap: 50px;
+}
+.tarjeta__contador{
+width: 340px;
+height: 270px;
+background-color: var(--color-borde-contadores-tareas);
+text-align: center;
+border-radius: 10px;
+box-shadow: var(--box-shadow-tarjetas);
+}
+.tarjeta__contador h2{
+    font-size: 100px;
+    margin:0 auto;
+    margin-top: 60px;
+    color: var(--color-numero-contador-tareas);
+}
+.tarjeta__contador p{
+    font-size: 30px;
+    color: var(--color-subtitulo-cultivos);
+}
+.buscador__usuario{
+    width: 50%;
+    height: 121px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: space-between;
+}
+.contenedor__buscar{
+    position: relative;
+    border-radius: 10px;
+    width: 38%;
+    height: 55px;
+    margin-top: 30px;
+    margin-left: 599px;
+}
+.icono__buscador{
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 25px;
+    height: 25px;
+    pointer-events: none;
+}
+.contenedor__buscar input{
+    width: 100%;
+    height: 100%;
+    padding-left: 68px; /* espacio para el icono */
+    border-radius: 10px;
+    border: 2px solid #b9fcd9;
+    outline: none;
+    font-size: 16px;
+}
+/*tabla de lista de usuarios*/
+table{
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 90px;   
+    padding-top: 20px;
+}
+th, td{
+    border: 1px solid #b9fcd9;
+    padding: 12px;
+    text-align: left;
+    font-size: 25px;
+}
+th{
+    background-color: var(--color-borde-contadores-tareas);
+    color: var(--color-subtitulo-cultivos);
+}
+caption{
+    font-size: 26px;
+    margin-bottom: 10px;
+    color: var(--color-titulo-registro);
+}

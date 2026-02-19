@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../asset/Trabajador/style_tareaTrabajador.css">
+</head>
+<body>
+    <header>
+        <div class="contenedor__titulo">
+          <div class="contenedor__logo">
+            <a href="index_completarTareas.html">
+              <img
+                class="logo"
+                src="../../asset/imagenes/hoja (3).png"
+                alt="hoja del logo"
+              />
+            </a>
+          </div>
+          <h1 class="titulo">Aplicar fertilizantes APK</h1>
+        </div>
+    </header>
+    <main class="main">
+        <!-- FORMULARIO -->
+        <form action="procesar_tarea" method="POST">
+            <div class="contenedor__descripcion">
+                <div class="contenedor__subtitulo">
+                    <img class="icono__descripcion" src="../../asset/imagenes/descripcion-del-trabajo.png" id="imagend de una libreta">
+                    <h2 class="subtitulo__descripcion">Descripción de la tarea</h2>
+                </div>
+                <div class="Descripcion__tarea">
+                  <p>Aplicación de NPK 10-20-10 en lechuga romana, 50kg por hectárea</p>
+                </div>
+            </div>
+            <!-----Actualizar estado de la tarea------->
+            <div class="contenedor__estado">
+              <div class="logo__titulo">
+                <img class="icono__estado" src="../../asset/imagenes/grafico-de-barras.png" id="imagen de un grafico de barras">
+                <h2 class="subtitulo__estado">Actualizar estado de la tarea</h2>
+              </div>
+              <!---Seleccionar segun el estado de la tarea--->
+              <div class="estado">
+                <div class="estado__pendiente">
+                  <label>
+                    <input type="radio" name="estado" value="pendiente" required> 
+                    <h3 id="pendiente">Pendiente</h3>
+                    <p class="texto__pendiente">(Tarea nueva, aún no iniciada)</p>
+                  </label>
+                </div>
+                <div class="estado__completada">
+                  <label>
+                    <input type="radio" name="estado" value="completada" required>
+                    <h3 id="completada">Completada</h3>
+                    <p class="texto__completada">(Tarea finalizada con éxito)</p>
+                  </label>
+                </div>
+                <div class="estado__proceso">
+                  <label>
+                    <input type="radio" name="estado" value="proceso" required>
+                    <h3 id="proceso">En proceso</h3>
+                    <p class="texto__proceso">(Tarea aún no terminada)</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!---Observaciones--->
+            <div class="contenedor__observaciones">
+              <div class="logo__titulo">
+                <img class="icono__estado" src="../../asset/imagenes/mensajero.png" id="imagen de un icono de mensaje">
+                <h2 class="subtitulo__estado">Observaciones y Notas</h2>
+              </div>
+              <div class="caja__observaciones">
+                <div>
+                  <p class="texto__importante">💡 Importante: Describe como realizaste la tarea, problemas encontrados, materiales usados o cualquier dato relevante.</p>
+                </div>
+                <textarea id="observaciones" name="observaciones" placeholder="Escribe aquí tus comentarios..." rows="5" required></textarea>
+              </div>
+            </div>
+            <div class="contenedor__botones">
+              <button type="submit" class="boton__guardar">Guardar Cambios</button>
+              <button type="reset" class="boton__cancelar">Cancelar</button>
+            </div>
+        </form>
+    </main>
+</body>
+</html>
