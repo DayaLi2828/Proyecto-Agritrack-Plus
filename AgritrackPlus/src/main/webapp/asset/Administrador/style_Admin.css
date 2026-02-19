@@ -14,7 +14,7 @@ body{
   grid-template-columns: 332px 1fr; 
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-
+}
 
 header{
   position: fixed;
@@ -126,7 +126,7 @@ header{
   background-color: var(--background-contenedores);
   width: 48%;
   height: 328px;
-  box-shadow:var(--box-shadow-contenedores);
+  box-shadow: var(--box-shadow-contenedores);
   border-radius: 10px;
 }
 
@@ -197,7 +197,7 @@ header{
   height: 223px;
   background-color: var(--background-tarjetas);
   border-radius: 10px;
-  box-shadow:var(--box-shadow-tarjetas);
+  box-shadow: var(--box-shadow-tarjetas);
   display: flex;              /* activa flexbox */
   flex-direction: column;     /* apila título y número */
   justify-content: center;    /* centra verticalmente */
@@ -275,8 +275,8 @@ header{
   background-color: var(--background-footer);
   text-align: center;
 }
-/* =================== Pantallas intermedias (≤1079px) =================== */
-/*@media (max-width: 1079px) {
+/*=================== Pantallas intermedias (≤1079px) =================== */
+@media (max-width: 1079px) {
   body {
     display: grid;
     grid-template-areas:
@@ -290,21 +290,21 @@ header{
   }
 
   header {
-    position: fixed;    🔹 se mantiene fijo 
+    position: fixed;    
     top: 0;
     left: 0;
     width: 100%;
-    height: 70px;       más compacto en pantallas medianas 
+    height: 70px;       
     background-color: var(--background-header);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;      encima del contenido 
+    z-index: 1000;      
   }
 
   .sidebar__barra {
-    position: fixed;    🔹 se mantiene fija 
-    top: 70px;          justo debajo del header 
+    position: fixed;    
+    top: 70px;         
     left: 0;
     width: 100%;
     height: auto;
@@ -327,7 +327,7 @@ header{
   .main {
     grid-area: main;
     padding: 20px;
-    margin-top: 120px;  🔹 deja espacio para header + sidebar fijos 
+    margin-top: 120px; 
   }
 .perfil__usuario{
   height: 50px;
@@ -347,20 +347,20 @@ header{
     padding: 10px;
   }
 
- =================== Tablets y móviles grandes (≤768px) =================== 
+ /*=================== Tablets y móviles grandes (≤768px) =================== */
 @media (max-width: 768px) {
   header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 60px;    más compacto 
+    height: 60px; 
     z-index: 1000;
   }
 
   .sidebar__barra {
     position: fixed;
-    top: 60px;  debajo del header 
+    top: 60px; 
     left: 0;
     width: 100%;
     background-color: var(--background-sidebar);
@@ -372,34 +372,34 @@ header{
   }
 
   .main {
-    margin-top: 120px;  espacio para header + sidebar 
+    margin-top: 120px;   
     padding: 15px;
   }
 
    🔹 Ajuste de cajas de información 
   .main__boxs {
-    height: 220px;        más pequeñas 
-    margin: 0 auto;       centradas 
-    width: 90%;           ocupan casi todo el ancho 
+    height: 220px;      
+    margin: 0 auto;       
+    width: 90%;           
   }
 
   .caja__texto h3 {
-    font-size: 22px;      más compacto 
+    font-size: 22px;     
   }
   .caja__texto p {
     font-size: 18px;
   }
 
-   🔹 Ajuste de tarjetas/contadores 
+  
   .main__contetarjetas {
-    flex-direction: column;  apiladas en móvil 
+    flex-direction: column;  
     gap: 20px;
     margin-left: 0;
   }
 
   .main__tarjetas {
-    width: 90%;           ancho relativo 
-    height: 150px;        más pequeñas 
+    width: 90%;          
+    height: 150px;       
     margin: 0 auto;
   }
 
@@ -413,6 +413,7 @@ header{
   }
 
   .main__tarjetas h3 {
-    font-size: 40px;      número más pequeño 
+    font-size: 40px;     
   }
-}*/
+    }
+}

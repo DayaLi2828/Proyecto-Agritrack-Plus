@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cultivos Registrados</title>
+  <title>Detalle del cultivo</title>
   <link rel="stylesheet" href="../../asset/Administrador/style-Detalles-cultivo.css" />
 </head>
 <body>
   <!-- Encabezado -->
   <header>
-       <div class="icono__devolver">
+      <a href="Cultivos_Registrados.jsp">
+      <div class="icono__devolver">
         <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>
+    </a>
     <div class="contenedor__titulo">
       <div class="contenedor__logo">
         <a href="index_CultivosRegistrados.html">
