@@ -1,9 +1,12 @@
-package com.agritrack.agritrackplus.Dao;
+package com.agritrack.agritrackplus.DAO;
 
 import com.agritrack.agritrackplus.db.Conexion;
 import com.agritrack.agritrackplus.modelo.Usuario;
 import java.sql.*;
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class UsuarioDAO {
 
     // Consultas SQL
@@ -125,4 +128,46 @@ public class UsuarioDAO {
         }
         return user;
     }
+        public List<Map<String, String>> listarUsuarios() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "SELECT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
+                "c.correo, t.telefono, r.nombre AS rol " +
+                "FROM usuarios u " +
+                "LEFT JOIN correo c ON c.usuario_id = u.id " +
+                "LEFT JOIN telefono t ON t.usuario_id = u.id " +
+                "LEFT JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
+                "LEFT JOIN roles r ON r.id = ru.rol_id"
+            );
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> usuario = new HashMap<>();
+                usuario.put("id", String.valueOf(rs.getInt("id")));
+                usuario.put("nombre", rs.getString("nombre"));
+                usuario.put("documento", rs.getString("documento"));
+                usuario.put("direccion", rs.getString("direccion"));
+                usuario.put("estado", rs.getString("estado"));
+                usuario.put("correo", rs.getString("correo"));
+                usuario.put("telefono", rs.getString("telefono"));
+                usuario.put("rol", rs.getString("rol"));
+                lista.add(usuario);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+}
 }

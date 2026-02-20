@@ -1,78 +1,66 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="../../asset/Administrador/style_a�adir_producto.css">
+  <title>Añadir Producto</title>
+  <link rel="stylesheet" href="../../asset/Administrador/style_añadir_producto.css">
 </head>
-
 <body>
   <header>
-    <a href="index_Productos.html">
+    <a href="Productos.jsp">
       <div class="icono__devolver">
         <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>
     </a>
     <div class="contenedor__titulo">
       <div class="contenedor__logo">
-        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
+        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
-      <h1 class="titulo"> A�adir Nuevo Producto</h1>
+      <h1 class="titulo">Añadir Nuevo Producto</h1>
     </div>
   </header>
-
   <main>
     <div class="contenedor__ingreso">
       <div class="contendor__subtitulo">
         <div class="caja__logo">
           <img class="logo" src="../../asset/imagenes/stock.png" alt="logo planta">
         </div>
-        <h2 class="subtitulo">A�adir producto</h2>
+        <h2 class="subtitulo">Añadir producto</h2>
       </div>
 
-      <form class="form__producto" method="post" action="#">
-        <!-------- Nombre del producto ---->
+      <% if ("true".equals(request.getParameter("error"))) { %>
+        <p style="color:red;">Hubo un error al agregar el producto. Intenta de nuevo.</p>
+      <% } %>
+
+      <form class="form__producto" method="post" action="../../AgregarProductoServlet">
         <div class="campo">
           <label>Nombre del producto</label>
           <input type="text" name="nombre" required>
         </div>
-
-        <!--------- Unidad de medida --------->
         <div class="campo">
           <label>Unidad de medida</label>
-          <select name="unidad">
-            <option value="kg">Kg</option>
-            <option value="litros">Litros</option>
-            <option value="unidades">Unidades</option>
+          <select name="unidad_medida">
+            <option value="1">Kg</option>
+            <option value="2">Litros</option>
+            <option value="3">Unidades</option>
           </select>
         </div>
-
-        <!--------- Precio--------->
         <div class="campo">
           <label>Precio</label>
           <input type="number" name="precio" required>
         </div>
-
-        <!--------- Fecha de compra--------->
         <div class="contenedor__fechas">
           <div class="campo input__fechas">
             <label>Fecha de compra</label>
             <input type="date" name="fecha_compra" required>
-
           </div>
-
-          <!--------- Fecha de vencimiento --------->
-          <div class="campo input__fechas
-        ">
+          <div class="campo input__fechas">
             <label>Fecha de Vencimiento</label>
             <input type="date" name="fecha_vencimiento">
           </div>
         </div>
-
-
-        <!--------- Estado--------->
         <div class="campo">
           <label>Estado</label>
           <select name="estado" required>
@@ -81,20 +69,18 @@
             <option value="Vencido">Vencido</option>
           </select>
         </div>
-        <!--------- Tipo de producto--------->
-        <label>Tipo de producto</label>
         <div class="campo">
+          <label>Tipo de producto</label>
           <select name="tipo_producto_id" required>
-            <option value="1">Semilla</option>
+            <option value="1">Fertilizante</option>
             <option value="2">Herramienta</option>
-            <option value="3">Fertilizante</option>
+            <option value="3">Semilla</option>
             <option value="4">Pesticida</option>
           </select>
         </div>
-        <button>Agregar Producto</button>
+        <button type="submit">Agregar Producto</button>
       </form>
     </div>
   </main>
 </body>
-
 </html>

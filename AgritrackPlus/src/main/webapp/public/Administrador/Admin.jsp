@@ -22,12 +22,13 @@
       <a href="../Metodos_Fertlización.jsp">Métodos de fertilización</a>
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Tareas</a>
+      <a href="Usuarios.jsp">Usuarios</a>
       <a href="#">Stock</a>
       <a href="Productos.jsp">Inventario de Productos</a>
       <a href="Pagos.jsp">Pagos</a>
       <a href="#">Supervisores</a>
       <a href="#">Asignación de roles</a>
-      <a href="Usuarios.jsp">Usuarios</a>
+      
 
 
     </nav>

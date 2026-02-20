@@ -235,13 +235,12 @@ header{
   position: fixed;
   top: 130px;
   left: 0%;
-  width: 332px;      /* mismo ancho que definiste en el grid */
-  height: 100vh; 
+  width: 332px;      /* mismo ancho que definiste en el grid */ 
   background-color: var(--background-sidebar);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 13px;
   height: 100vh;
 }
 
@@ -267,7 +266,6 @@ header{
   gap: 20px;
   align-self: center;
   justify-content: center;
-  margin-top: 39px;
 }
 /*************************************/
 .footer {

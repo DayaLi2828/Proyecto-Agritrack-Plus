@@ -1,15 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Registrar Cultivo</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_RegistroCultivos.css">
 </head>
-
 <body>
-
   <header>
     <a href="Admin.jsp">
       <div class="icono__devolver">
@@ -27,16 +25,19 @@
   <main class="main">
     <div class="contendor">
 
-      <!-- FORMULARIO PRINCIPAL -->
-      <form class="formulario__registrarcultivo" method="post" action="#">
+      <% if ("true".equals(request.getParameter("error"))) { %>
+        <p style="color:red;">Hubo un error al registrar el cultivo. Intenta de nuevo.</p>
+      <% } %>
 
-        <!-- Información básica -->
+      <form class="formulario__registrarcultivo" method="post" action="../../RegistroCultivoServlet">
+
+        <!-- InformaciÃ³n bÃ¡sica -->
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
               <img class="logo" src="../../asset/imagenes/planta (2).png" alt="logo planta">
             </div>
-            <h2 class="subtitulo">Información Básica</h2>
+            <h2 class="subtitulo">InformaciÃ³n BÃ¡sica</h2>
           </div>
 
           <div class="campo">
@@ -49,7 +50,6 @@
               <label for="fecha_siembra">Fecha de siembra</label>
               <input type="date" id="fecha_siembra" name="fecha_siembra" required>
             </div>
-
             <div class="campo">
               <label for="fecha_cosecha">Fecha de cosecha</label>
               <input type="date" id="fecha_cosecha" name="fecha_cosecha">
@@ -61,8 +61,8 @@
             <select id="ciclo" name="ciclo" required>
               <option value="">Seleccione...</option>
               <option value="Vegetativo">Vegetativo</option>
-              <option value="Floracion">Floración</option>
-              <option value="Maduracion">Maduración</option>
+              <option value="Floracion">FloraciÃ³n</option>
+              <option value="Maduracion">MaduraciÃ³n</option>
             </select>
           </div>
 
@@ -89,7 +89,6 @@
               <label>Producto</label>
               <select name="producto_id">
                 <option value="">Seleccione...</option>
-                <!-- Aquí se cargan dinámicamente los productos -->
               </select>
             </div>
             <div class="campo">
@@ -112,7 +111,6 @@
             <label for="supervisor">Supervisor asignado</label>
             <select id="supervisor" name="supervisor_id">
               <option value="">Seleccione...</option>
-              <!-- Aquí se cargan dinámicamente los usuarios -->
             </select>
           </div>
         </div>
@@ -128,24 +126,21 @@
 
           <p>Seleccione los trabajadores que van a laborar en su cultivo:</p>
           <ul class="lista__trabajadores">
-            <!-- Cada checkbox debería tener el ID del usuario -->
-            <li><label><input type="checkbox" name="trabajadores[]" value="1"> Juan Pérez</label></li>
-            <li><label><input type="checkbox" name="trabajadores[]" value="2"> María Gómez</label></li>
-            <li><label><input type="checkbox" name="trabajadores[]" value="3"> Carlos Rodríguez</label></li>
-            <li><label><input type="checkbox" name="trabajadores[]" value="4"> Laura Martínez</label></li>
-            <li><label><input type="checkbox" name="trabajadores[]" value="5"> Andrés López</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="1"> Juan PÃ©rez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="2"> MarÃ­a GÃ³mez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="3"> Carlos RodrÃ­guez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="4"> Laura MartÃ­nez</label></li>
+            <li><label><input type="checkbox" name="trabajadores[]" value="5"> AndrÃ©s LÃ³pez</label></li>
           </ul>
         </div>
 
-        <!-- Botón enviar -->
+        <!-- BotÃ³n enviar -->
         <div class="contenedor__boton--enviar">
-          <button type="submit" class="boton__enviar">? Enviar</button>
+          <button type="submit" class="boton__enviar">&#128640; Enviar</button>
         </div>
 
       </form>
     </div>
   </main>
-
 </body>
-
 </html>

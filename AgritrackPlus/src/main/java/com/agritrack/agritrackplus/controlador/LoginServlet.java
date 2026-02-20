@@ -1,5 +1,5 @@
 package com.agritrack.agritrackplus.controlador;
-import com.agritrack.agritrackplus.Dao.UsuarioDAO;
+import com.agritrack.agritrackplus.DAO.UsuarioDAO;
 import com.agritrack.agritrackplus.modelo.Usuario;
 import java.io.IOException;
 import jakarta.servlet.ServletException;

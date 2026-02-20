@@ -1,120 +1,100 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="../../asset/Administrador/style_Usuarios.css"
-    />
-  </head>
-  <body>
-    <header>
-      <a href="index_Admin.html">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gesti贸n de Usuarios</title>
+  <link rel="stylesheet" href="../../asset/Administrador/style_Usuarios.css"/>
+</head>
+<body>
+  <header>
+    <a href="Admin.jsp">
       <div class="icono__devolver">
         <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>
-      </a>
-      
-      <div class="contenedor__titulo">
-        <div class="contenedor__logo">
-            <img
-              class="logo"
-              src="../../asset/imagenes/hoja (3).png"
-              alt="hoja del logo"/>
-        </div>
-        <h1 class="titulo">Gestion de usuarios</h1>
+    </a>
+    <div class="contenedor__titulo">
+      <div class="contenedor__logo">
+        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
-    </header>
+      <h1 class="titulo">Gesti贸n de Usuarios</h1>
+      <a href="CrearUsuario.jsp" class="boton">Agregar Usuario</a>
+    </div>
+  </header>
 
-    <main>
-      <div class="contenedor__tarjetas">
-        <div class="tarjeta__contador">
-          <h2>5</h2>
-          <p>Total de usuarios</p>
-        </div>
-        <div class="tarjeta__contador">
-          <h2>3</h2>
-          <p>Usuarios activos</p>
-        </div>
-        <div class="tarjeta__contador">
-          <h2>2</h2>
-          <p>Usuarios inactivos</p>
-        </div>
-      </div>
-      <!-------BUSCADOR DE TAREAS------->
-      <div class="buscardor__usuario">
-        <div class="contenedor__buscar">
-          <input
-            type="text"
-            class="input__buscador"
-            placeholder="Buscar usuario por nombre o n鷐ero de documento"
-            aria-label="Buscar"
-          />
-          <img
-            class="icono__buscador"
-            src="../../asset/imagenes/lupa.png"
-            alt="Icono de b鷖queda"
-          />
-        </div>
-      </div>
-<!-----TABLA DE LISTA DE USUARIOS EN EL SISTEMA---------->
+  <main>
+    <div class="buscador__contenedor">
+      <input type="text" id="buscador" placeholder=" Buscar usuario por nombre o documento..."/>
+      <select id="filtroEstado">
+        <option value="todos">Todos</option>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+    </div>
 
-    <table>
-        <caption>Lista de usuarios</caption>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Documento</th>
-                <th>Direcci髇</th>
-                <th>Correo</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>Mar韆 Lopez</td>
-                <td>10954687231</td>
-                <td>Floridablanca</td>
-                <td>marialopez@gmail.com</td>
-            </tr>
-
-            <tr>
-                <td>2</td>
-                <td>Luis Villamizar</td>
-                <td>10958974561</td>
-                <td>Bucaramanga</td>
-                <td>luis@gmail.com</td>
-            </tr>
-
-            <tr>
-                <td>3</td>
-                <td>Carlos Montero</td>
-                <td>10951236548</td>
-                <td>Piedecuesta</td>
-                <td>marialopez@gmail.com</td>
-            </tr>
-
-            <tr>
-              <td>4</td>
-              <td>In閟 Villamizar</td>
-              <td>10958742306</td>
-              <td>Gir髇</td>
-              <td>inesvillamizar@gmail.com</td>
-            </tr>
-
-            <tr>
-              <td>5</td>
-              <td>Roberto Martinez</td>
-              <td>10950236598</td>
-              <td>Piedecuesta</td>
-              <td>robertomartinez@gmail.com</td>
-            </tr>
-        </tbody>
-    </table>
-
-    </main>
-  </body>
+    <div class="main__contenedor">
+      <%
+        UsuarioDAO dao = new UsuarioDAO();
+        List<Map<String, String>> usuarios = dao.listarUsuarios();
+        if (usuarios.isEmpty()) {
+      %>
+        <p>No hay usuarios registrados.</p>
+      <%
+        } else {
+          for (Map<String, String> usuario : usuarios) {
+      %>
+        <section class="contendor__informacion contenedor__usuario">
+          <div class="caja__titulo">
+            <img class="logo" src="../../asset/imagenes/supervisor.png" alt="icono usuario"/>
+            <h2 class="titulo">Informaci贸n del Usuario</h2>
+          </div>
+          <div class="contenedor__registros">
+            <div class="fila__producto">
+              <div class="dato__producto">
+                <p><strong>ID:</strong> <%= usuario.get("id") %></p>
+              </div>
+              <div class="dato__producto">
+                <p><strong>Nombre:</strong> <%= usuario.get("nombre") %></p>
+              </div>
+            </div>
+            <div class="fila__producto">
+              <div class="dato__producto">
+                <p><strong>Documento:</strong> <%= usuario.get("documento") %></p>
+              </div>
+              <div class="dato__producto">
+                <p><strong>Direcci贸n:</strong> <%= usuario.get("direccion") %></p>
+              </div>
+            </div>
+            <div class="fila__producto">
+              <div class="dato__producto">
+                <p><strong>Correo:</strong> <%= usuario.get("correo") %></p>
+              </div>
+              <div class="dato__producto">
+                <p><strong>Tel茅fono:</strong> <%= usuario.get("telefono") %></p>
+              </div>
+            </div>
+            <div class="fila__producto">
+              <div class="dato__producto">
+                <p><strong>Estado:</strong> <%= usuario.get("estado") %></p>
+              </div>
+              <div class="dato__producto">
+                <p><strong>Rol:</strong> <%= usuario.get("rol") %></p>
+              </div>
+            </div>
+            <div class="fila__producto botones__acciones">
+              <a href="EditarUsuario.jsp?id=<%= usuario.get("id") %>" class="boton__editar">Editar</a>
+              <a href="../../EliminarUsuarioServlet?id=<%= usuario.get("id") %>" class="boton__eliminar" onclick="return confirm('驴Est谩s seguro de eliminar este usuario?')">Eliminar</a>
+            </div>
+          </div>
+        </section>
+      <%
+          }
+        }
+      %>
+    </div>
+  </main>
+</body>
 </html>
