@@ -10,7 +10,7 @@
 
 <body>
   <header>
-    <a href="index_Admin.html">
+    <a href="Admin.jsp">
       <div class="icono__devolver">
         <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>

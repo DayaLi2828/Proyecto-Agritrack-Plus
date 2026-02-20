@@ -1,69 +1,61 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cultivos Registrados</title>
-    <link rel="stylesheet" href="../../asset/Administrador/style_CultivosRegistrados.css" />
-  </head>
-  <body>
-    <!-- Encabezado -->
-    <header>
-      <a href="Admin.jsp">
-        <div class="icono__devolver">
-          <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
-        </div>
-      </a>
-      <div class="contenedor__titulo">
-        <div class="contenedor__logo">
-          <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
-        </div>
-        <h1 class="titulo">Cultivos Registrados</h1>
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cultivos Registrados</title>
+  <link rel="stylesheet" href="../../asset/Administrador/style_CultivosRegistrados.css"/>
+</head>
+<body>
+  <header>
+    <a href="Admin.jsp">
+      <div class="icono__devolver">
+        <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>
-    </header>
-    <main>
-      <!-- Barra de búsqueda y filtro -->
-      <div class="buscador__contenedor">
-        <input
-          type="text"
-          id="buscador"
-          placeholder=" Buscar cultivo por nombre..."
-        />
-        <select id="filtroEstado">
-          <option value="todos">Todos</option>
-          <option value="activo">Activo</option>
-          <option value="inactivo">Inactivo</option>
-        </select>
+    </a>
+    <div class="contenedor__titulo">
+      <div class="contenedor__logo">
+        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
-      <div class="contenedor__tarjetas">
-        <div class="tarjeta__cultivo">
-          <h3>Tomate Cherry</h3>
-          <p>Siembra: 15/10/2024</p>
-          <p>Estado: Activo</p>
-          <a href="Detalles_Cultivo.jsp" class="boton__ver"
-            >Ver detalles</a
-          >
-        </div>
+      <h1 class="titulo">Cultivos Registrados</h1>
+    </div>
+  </header>
 
+  <main>
+    <div class="buscador__contenedor">
+      <input type="text" id="buscador" placeholder=" Buscar cultivo por nombre..."/>
+      <select id="filtroEstado">
+        <option value="todos">Todos</option>
+        <option value="Activo">Activo</option>
+        <option value="Inactivo">Inactivo</option>
+      </select>
+    </div>
+
+    <div class="contenedor__tarjetas">
+      <%
+        Registro_CultivoDAO dao = new Registro_CultivoDAO();
+        List<Map<String, String>> cultivos = dao.listarCultivos();
+        if (cultivos.isEmpty()) {
+      %>
+        <p>No hay cultivos registrados.</p>
+      <%
+        } else {
+          for (Map<String, String> cultivo : cultivos) {
+      %>
         <div class="tarjeta__cultivo">
-          <h3>Aguacate Criollo</h3>
-          <p>Siembra: 15/10/2024</p>
-          <p>Estado: Activo</p>
-          <button class="boton__ver">Ver detalles</button>
+          <h3><%= cultivo.get("nombre") %></h3>
+          <p>Siembra: <%= cultivo.get("fecha_siembra") %></p>
+          <p>Estado: <%= cultivo.get("estado") %></p>
+          <a href="Detalles_Cultivo.jsp?id=<%= cultivo.get("id") %>" class="boton__ver">Ver detalles</a>
         </div>
-        <div class="tarjeta__cultivo">
-          <h3>Piña Oromiel</h3>
-          <p>Siembra: 15/10/2024</p>
-          <p>Estado: Activo</p>
-          <button class="boton__ver">Ver detalles</button>
-        </div>
-        <div class="tarjeta__cultivo">
-          <h3>Mango Tommy</h3>
-          <p>Siembra: 15/10/2024</p>
-          <p>Estado: Activo</p>
-          <button class="boton__ver">Ver detalles</button>
-        </div>
-      </div>
-    </main>
-  </body>
+      <%
+          }
+        }
+      %>
+    </div>
+  </main>
+</body>
 </html>

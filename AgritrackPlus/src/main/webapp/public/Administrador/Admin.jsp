@@ -18,7 +18,7 @@
 
   <aside class="sidebar__barra">
     <nav>
-      <a href="index_Admin.html">Inicio</a>
+      <a href="Admin.jsp">Inicio</a>
       <a href="../Metodos_Fertlización.jsp">Métodos de fertilización</a>
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Tareas</a>
