@@ -225,3 +225,37 @@ header {
   box-shadow: var(--box-shadow-contenedores);
   transition: background 0.3s ease;
 }
+.boton__agregar__producto {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: var(--color-boton-agregar);
+  color: var(--color-letra-boton-agregar);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.boton__agregar__producto:hover {
+  background-color: var(--hover-boton-agregar);
+}
+.boton__eliminar__fila {
+  padding: 10px 15px;
+  background-color: var(--color-boton-eliminar-tarea);
+  color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  align-self: flex-end;
+}
+.boton__eliminar__fila:hover {
+  background-color: var(--hover-color-boton-eliminar);
+}
+.fila__stock {
+  display: flex;
+  gap: 20px;
+  align-items: flex-end;
+  margin-bottom: 15px;
+}

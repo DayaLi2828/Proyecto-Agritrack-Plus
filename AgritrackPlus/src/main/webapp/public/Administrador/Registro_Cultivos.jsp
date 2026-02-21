@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="java.util.List, java.util.Map" %>
 <%
@@ -91,18 +90,31 @@
             <h2 class="subtitulo">Stock de Productos</h2>
           </div>
 
-          <div class="contenedor__campos">
-            <div class="campo">
-              <label>Producto</label>
-              <select name="producto_id">
-                <option value="">Seleccione...</option>
-              </select>
-            </div>
-            <div class="campo">
-              <label>Cantidad</label>
-              <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
+          <div id="contenedor__productos">
+            <div class="contenedor__campos fila__stock">
+              <div class="campo">
+                <label>Producto</label>
+                <select name="producto_id[]">
+                  <option value="">Seleccione...</option>
+                  <%
+                    for (Map<String, String> producto : productos) {
+                  %>
+                    <option value="<%= producto.get("id") %>">
+                      <%= producto.get("nombre") %> - <%= producto.get("tipo") %>
+                    </option>
+                  <%
+                    }
+                  %>
+                </select>
+              </div>
+              <div class="campo">
+                <label>Cantidad</label>
+                <input type="number" name="cantidad_producto[]" min="1" placeholder="Ingrese la cantidad">
+              </div>
             </div>
           </div>
+
+          <button type="button" class="boton__agregar__producto" onclick="agregarProducto()">+ Agregar otro producto</button>
         </div>
 
         <!-- Supervisor -->
@@ -149,5 +161,32 @@
       </form>
     </div>
   </main>
+        <script>
+            function agregarProducto() {
+              var opciones = `<option value="">Seleccione...</option>
+              <%
+                for (Map<String, String> producto : productos) {
+              %>
+                <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo") %></option>
+              <%
+                }
+              %>`;
+
+              var nuevaFila = document.createElement("div");
+              nuevaFila.classList.add("contenedor__campos", "fila__stock");
+              nuevaFila.innerHTML = `
+                <div class="campo">
+                  <label>Producto</label>
+                  <select name="producto_id[]">` + opciones + `</select>
+                </div>
+                <div class="campo">
+                  <label>Cantidad</label>
+                  <input type="number" name="cantidad_producto[]" min="1" placeholder="Ingrese la cantidad">
+                </div>
+                <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
+              `;
+              document.getElementById("contenedor__productos").appendChild(nuevaFila);
+            }
+        </script>
 </body>
 </html>
