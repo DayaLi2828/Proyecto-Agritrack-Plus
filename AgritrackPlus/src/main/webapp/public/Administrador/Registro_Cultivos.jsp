@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="java.util.List, java.util.Map" %>
+<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
 <%
   ProductoDAO productoDAO = new ProductoDAO();
   List<Map<String, String>> productos = productoDAO.listarProductos();
+  
+  UsuarioDAO usuarioDAO = new UsuarioDAO();
+  List<Map<String, String>> usuarios = usuarioDAO.listarUsuarios();
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -130,8 +134,17 @@
             <label for="supervisor">Supervisor asignado</label>
             <select id="supervisor" name="supervisor_id">
               <option value="">Seleccione...</option>
+              <%
+                for (Map<String, String> usuario : usuarios) {
+              %>
+                <option value="<%= usuario.get("id") %>">
+                  <%= usuario.get("nombre") %>
+                </option>
+              <%
+                }
+              %>
             </select>
-          </div>
+</div>
         </div>
 
         <!-- Trabajadores -->

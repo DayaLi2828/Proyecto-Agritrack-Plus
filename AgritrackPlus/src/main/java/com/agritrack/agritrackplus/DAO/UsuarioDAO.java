@@ -169,5 +169,69 @@ public class UsuarioDAO {
             }
         }
         return lista;
-}
+    }
+        public boolean crear(String nombre, String pass, String documento, String direccion, String estado, String correo, String telefono, int rolId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+
+            // Insertar usuario
+            ps = conn.prepareStatement(
+                "INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES (?, ?, ?, ?, ?)",
+                PreparedStatement.RETURN_GENERATED_KEYS
+            );
+            ps.setString(1, nombre);
+            ps.setString(2, pass);
+            ps.setString(3, documento);
+            ps.setString(4, direccion);
+            ps.setString(5, estado);
+            ps.executeUpdate();
+
+            // Obtener el id generado
+            rs = ps.getGeneratedKeys();
+            int usuarioId = 0;
+            if (rs.next()) {
+                usuarioId = rs.getInt(1);
+            }
+
+            // Insertar correo
+            PreparedStatement psCorreo = conn.prepareStatement(
+                "INSERT INTO correo (correo, usuario_id) VALUES (?, ?)"
+            );
+            psCorreo.setString(1, correo);
+            psCorreo.setInt(2, usuarioId);
+            psCorreo.executeUpdate();
+
+            // Insertar telefono
+            PreparedStatement psTelefono = conn.prepareStatement(
+                "INSERT INTO telefono (telefono, usuario_id) VALUES (?, ?)"
+            );
+            psTelefono.setString(1, telefono);
+            psTelefono.setInt(2, usuarioId);
+            psTelefono.executeUpdate();
+
+            // Insertar rol
+            PreparedStatement psRol = conn.prepareStatement(
+                "INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES (?, ?)"
+            );
+            psRol.setInt(1, usuarioId);
+            psRol.setInt(2, rolId);
+            psRol.executeUpdate();
+
+            return true;
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
