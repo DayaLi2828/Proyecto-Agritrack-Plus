@@ -43,7 +43,11 @@
         List<Map<String, String>> productos = dao.listarProductos();
         if (productos.isEmpty()) {
       %>
-        <p>No hay productos registrados.</p>
+      <div class="contenedor__mensaje">
+           <p class="mensaje__vacio">+ Agregar producto.</p>
+           <img class="icono_vacio" src="../../asset/imagenes/caja.png"  id="imagen de una caja vacia">
+      </div>
+     
       <%
         } else {
           for (Map<String, String> producto : productos) {
@@ -91,5 +95,29 @@
       %>
     </div>
   </main>
+    <script>
+        function filtrar() {
+          let texto = document.getElementById("buscador").value.toLowerCase();
+          let tipo = document.getElementById("filtroTipo").value.toLowerCase();
+          let productos = document.querySelectorAll(".contenedor__producto");
+
+          productos.forEach(function(producto) {
+            let nombre = producto.querySelectorAll(".dato__producto")[0].textContent.toLowerCase();
+            let tipoProd = producto.querySelectorAll(".dato__producto")[6].textContent.toLowerCase();
+
+            let coincideNombre = nombre.includes(texto);
+            let coincideTipo = tipo === "todos" || tipoProd.includes(tipo);
+
+            if (coincideNombre && coincideTipo) {
+              producto.style.display = "block";
+            } else {
+              producto.style.display = "none";
+            }
+          });
+        }
+
+        document.getElementById("buscador").addEventListener("input", filtrar);
+        document.getElementById("filtroTipo").addEventListener("change", filtrar);
+</script>
 </body>
 </html>

@@ -1,25 +1,35 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
+<%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
+<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Admin</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_Admin.css">
 </head>
-
 <body>
+<%
+  Registro_CultivoDAO cultivoDAO = new Registro_CultivoDAO();
+  ProductoDAO productoDAO = new ProductoDAO();
+  UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+  int totalCultivos = cultivoDAO.listarCultivos().size();
+  int totalProductos = productoDAO.listarProductos().size();
+  int totalUsuarios = usuarioDAO.listarUsuarios().size();
+%>
   <header>
     <div class="contenedor__titulo">
       <img class="logo" src="../../asset/imagenes/hoja.png" alt="hoja del logo">
       <h1 class="titulo">AGRITRACK<br> PLUS</h1>
     </div>
   </header>
-
   <aside class="sidebar__barra">
     <nav>
       <a href="Admin.jsp">Inicio</a>
-      <a href="../Metodos_Fertlización.jsp">Métodos de fertilización</a>
+      <a href="../Metodos_FertlizaciÃ³n.jsp">MÃ©todos de fertilizaciÃ³n</a>
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Tareas</a>
       <a href="Usuarios.jsp">Usuarios</a>
@@ -27,18 +37,13 @@
       <a href="Productos.jsp">Inventario de Productos</a>
       <a href="Pagos.jsp">Pagos</a>
       <a href="#">Supervisores</a>
-      <a href="#">Asignación de roles</a>
-      
-
-
+      <a href="#">AsignaciÃ³n de roles</a>
     </nav>
   </aside>
-
   <main class="main">
     <div class="main__cajatexto">
       <h1 class="main__titulo">Bienvenido a Agritrack Plus Administrador</h1>
       <p class="main__texto">Gestiona tus cultivos de manera eficiente y profesional!</p>
-
       <div class="contenedor__perfil">
         <div class="perfil__texto">
           <h2 class="nombre__usuario">Hernesto Perez</h2>
@@ -48,13 +53,11 @@
           <h3 class="inicial__usuario">H</h3>
         </div>
         <div class="cerrar__sesion">
-          <img src="../../asset/imagenes/cerrar-sesion.png" alt="icono de cerrar sesion" />
+          <img src="../../asset/imagenes/cerrar-sesion.png" alt="icono de cerrar sesion"/>
         </div>
       </div>
     </div>
 
-
-    <!---------------REGISTRAR CULTIVO---------------------->
     <div class="main__contenedores">
       <div class="main__boxs" onclick="location.href='Registro_Cultivos.jsp'">
         <div class="main__contimagen">
@@ -62,10 +65,9 @@
         </div>
         <div class="caja__texto">
           <h3>Registrar cultivo</h3>
-          <p>Añade nuevos cultivos a tu sistema de gestión con información detallada</p>
+          <p>AÃ±ade nuevos cultivos a tu sistema de gestiÃ³n con informaciÃ³n detallada</p>
         </div>
       </div>
-      <!-- CULTIVOS REGISTRADOS  -->
       <div class="main__boxs" onclick="location.href='Cultivos_Registrados.jsp'">
         <div class="main__contimagen--secundario">
           <img src="../../asset/imagenes/bloc.png" id="imagen de un bloc de notas">
@@ -80,28 +82,20 @@
     <div class="main__contetarjetas">
       <div class="main__tarjetas">
         <h4>Total Cultivos Registrados</h4>
-        <h3 class="main__numero">24</h3>
+        <h3 class="main__numero"><%= totalCultivos %></h3>
       </div>
       <div class="main__tarjetas">
         <h4>Productos Disponibles</h4>
-        <h3 class="main__numero">156</h3>
+        <h3 class="main__numero"><%= totalProductos %></h3>
       </div>
       <div class="main__tarjetas">
         <h4>Usuarios del sistema</h4>
-        <h3 class="main__numero">18</h3>
+        <h3 class="main__numero"><%= totalUsuarios %></h3>
       </div>
-
     </div>
-
-
-
-
-
   </main>
-
   <footer class="footer">
-    <p>© 2025 Agritrack Plus</p>
+    <p>Â© 2025 Agritrack Plus</p>
   </footer>
 </body>
-
 </html>

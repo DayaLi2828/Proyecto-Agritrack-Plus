@@ -25,6 +25,7 @@
               alt="hoja del logo"/>
         </div>
         <h1 class="titulo">Gestion de usuarios</h1>
+         <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
       </div>
     </header>
     <main>

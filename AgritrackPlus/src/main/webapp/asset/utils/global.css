@@ -48,6 +48,7 @@
   --color-borde-contenedor-asignacion:2px solid #dcfce7;
   --background-tarjetas-usuarios:#bbf7d0;
   --sombra-tarjetas-usuarios: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  --background-select:#bbf7d0;
   /*************** Botones ******************************/
   --color-boton:#006d07;/*color de botones de los formularios login*/
   --color-boton-eliminar-tarea:#fec3c3d8;

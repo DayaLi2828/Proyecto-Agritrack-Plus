@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
+<%@ page import="java.util.List, java.util.Map" %>
+<%
+  ProductoDAO productoDAO = new ProductoDAO();
+  List<Map<String, String>> productos = productoDAO.listarProductos();
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
