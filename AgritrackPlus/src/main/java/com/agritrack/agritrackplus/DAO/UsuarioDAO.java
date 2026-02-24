@@ -7,77 +7,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class UsuarioDAO {
 
-    // Consultas SQL
-    private static final String SQL_INSERT_USUARIO = "INSERT INTO usuarios (nombre, documento, direccion, estado) VALUES (?, ?, ?, ?)";
-    private static final String SQL_INSERT_CORREO = "INSERT INTO correo (correo, usuario_id) VALUES (?, ?)";
-    private static final String SQL_INSERT_TELEFONO = "INSERT INTO telefono (telefono, usuario_id) VALUES (?, ?)";
-
-    public boolean registrar(Usuario user) {
-        Connection conn = null;
-        PreparedStatement psUser = null;
-        PreparedStatement psCorreo = null;
-        PreparedStatement psTelefono = null;
-        ResultSet rs = null;
-
+    private String encriptarMD5(String pass) {
         try {
-            conn = Conexion.getConnection();
-            conn.setAutoCommit(false); // IMPORTANTE: Para que si algo falla, no guarde nada (Transacción)
-
-            // 1. Insertar en la tabla 'usuarios'
-            psUser = conn.prepareStatement(SQL_INSERT_USUARIO, Statement.RETURN_GENERATED_KEYS);
-            psUser.setString(1, user.getNombre());
-            psUser.setString(2, user.getDocumento());
-            psUser.setString(3, user.getDireccion());
-            psUser.setString(4, "Activo"); // Estado por defecto
-            psUser.executeUpdate();
-
-            // Obtener el ID que MySQL le asignó a este usuario
-            rs = psUser.getGeneratedKeys();
-            int idGenerado = 0;
-            if (rs.next()) {
-                idGenerado = rs.getInt(1);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hash = md.digest(pass.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
             }
-
-            // 2. Insertar el Correo usando el ID generado
-            psCorreo = conn.prepareStatement(SQL_INSERT_CORREO);
-            psCorreo.setString(1, user.getCorreo());
-            psCorreo.setInt(2, idGenerado);
-            psCorreo.executeUpdate();
-
-            // 3. Insertar el Teléfono usando el ID generado
-            psTelefono = conn.prepareStatement(SQL_INSERT_TELEFONO);
-            psTelefono.setString(1, user.getTelefono());
-            psTelefono.setInt(2, idGenerado);
-            psTelefono.executeUpdate();
-
-            // Si todo salió bien, guardamos los cambios definitivamente
-            conn.commit();
-            return true;
-
-        } catch (SQLException | ClassNotFoundException e) {
-            // Si hubo un error, cancelamos todo lo que se alcanzó a hacer
-            if (conn != null) {
-                try {
-                    conn.rollback();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
-            return false;
-        } finally {
-            // Cerramos todas las conexiones
-            try {
-                if (rs != null) rs.close();
-                if (psUser != null) psUser.close();
-                if (psCorreo != null) psCorreo.close();
-                if (psTelefono != null) psTelefono.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            return pass;
         }
     }
 
@@ -91,8 +37,7 @@ public class UsuarioDAO {
         "LEFT JOIN roles r ON r.id = ru.rol_id " +
         "WHERE c.correo = ? AND u.pass = ?";
 
-
-        public Usuario login(String correo, String pass) {
+    public Usuario login(String correo, String pass) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -101,7 +46,7 @@ public class UsuarioDAO {
             conn = Conexion.getConnection();
             ps = conn.prepareStatement(SQL_LOGIN);
             ps.setString(1, correo);
-            ps.setString(2, pass);
+            ps.setString(2, encriptarMD5(pass));
             rs = ps.executeQuery();
             if (rs.next()) {
                 user = new Usuario();
@@ -128,7 +73,8 @@ public class UsuarioDAO {
         }
         return user;
     }
-        public List<Map<String, String>> listarUsuarios() {
+
+    public List<Map<String, String>> listarUsuarios() {
         List<Map<String, String>> lista = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -170,33 +116,30 @@ public class UsuarioDAO {
         }
         return lista;
     }
-        public boolean crear(String nombre, String pass, String documento, String direccion, String estado, String correo, String telefono, int rolId) {
+
+    public boolean crear(String nombre, String pass, String documento, String direccion, String estado, String correo, String telefono, int rolId) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-
-            // Insertar usuario
             ps = conn.prepareStatement(
                 "INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES (?, ?, ?, ?, ?)",
                 PreparedStatement.RETURN_GENERATED_KEYS
             );
             ps.setString(1, nombre);
-            ps.setString(2, pass);
+            ps.setString(2, encriptarMD5(pass));
             ps.setString(3, documento);
             ps.setString(4, direccion);
             ps.setString(5, estado);
             ps.executeUpdate();
 
-            // Obtener el id generado
             rs = ps.getGeneratedKeys();
             int usuarioId = 0;
             if (rs.next()) {
                 usuarioId = rs.getInt(1);
             }
 
-            // Insertar correo
             PreparedStatement psCorreo = conn.prepareStatement(
                 "INSERT INTO correo (correo, usuario_id) VALUES (?, ?)"
             );
@@ -204,7 +147,6 @@ public class UsuarioDAO {
             psCorreo.setInt(2, usuarioId);
             psCorreo.executeUpdate();
 
-            // Insertar telefono
             PreparedStatement psTelefono = conn.prepareStatement(
                 "INSERT INTO telefono (telefono, usuario_id) VALUES (?, ?)"
             );
@@ -212,7 +154,6 @@ public class UsuarioDAO {
             psTelefono.setInt(2, usuarioId);
             psTelefono.executeUpdate();
 
-            // Insertar rol
             PreparedStatement psRol = conn.prepareStatement(
                 "INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES (?, ?)"
             );

@@ -16,7 +16,7 @@ public class CrearUsuarioServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String nombre = request.getParameter("nombre");
-        String pass = request.getParameter("pass");
+        String pass = request.getParameter("pass");//contraseña que se le asigna a un usuario trabajador
         String documento = request.getParameter("documento");
         String direccion = request.getParameter("direccion");
         String estado = request.getParameter("estado");

@@ -129,27 +129,58 @@ box-shadow: var(--box-shadow-tarjetas);
     border: 2px solid #b9fcd9;
     outline: none;
     font-size: 16px;
+}/*TABLA DE USUARIOS*/
+table {
+  width: 90%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px 2px rgba(16, 185, 129, 0.3);
 }
-/*tabla de lista de usuarios*/
-table{
-    width: 80%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    margin-top: 90px;   
-    padding-top: 20px;
+caption {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--color-titulo-registro);
+  margin-bottom: 15px;
 }
-th, td{
-    border: 1px solid #b9fcd9;
-    padding: 12px;
-    text-align: left;
-    font-size: 25px;
+thead tr {
+  background-color: #059669;
+  color: white;
 }
-th{
-    background-color: var(--color-borde-contadores-tareas);
-    color: var(--color-subtitulo-cultivos);
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 15px;
 }
-caption{
-    font-size: 26px;
-    margin-bottom: 10px;
-    color: var(--color-titulo-registro);
+tbody tr:nth-child(even) {
+  background-color: #f0fdf4;
+}
+tbody tr:hover {
+  background-color: #d1fae5;
+}
+.boton__editar {
+  padding: 6px 14px;
+  background-color: #059669;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 5px;
+}
+.boton__editar:hover {
+  background-color: #047857;
+}
+.boton__eliminar {
+  padding: 6px 14px;
+  background-color: #dc2626;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+.boton__eliminar:hover {
+  background-color: #b91c1c;
 }

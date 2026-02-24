@@ -60,10 +60,7 @@
               <label for="fecha_siembra">Fecha de siembra</label>
               <input type="date" id="fecha_siembra" name="fecha_siembra" required>
             </div>
-            <div class="campo">
-              <label for="fecha_cosecha">Fecha de cosecha</label>
-              <input type="date" id="fecha_cosecha" name="fecha_cosecha">
-            </div>
+            
           </div>
 
           <div class="campo">

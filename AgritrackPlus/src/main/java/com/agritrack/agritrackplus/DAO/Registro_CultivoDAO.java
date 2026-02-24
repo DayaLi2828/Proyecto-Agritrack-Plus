@@ -9,9 +9,9 @@ import java.util.Map;
 public class Registro_CultivoDAO {
 
     private static final String SQL_INSERT_CULTIVO =
-    "INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo, estado) VALUES (?, ?, ?, ?, ?)";
+    "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, estado) VALUES (?, ?, ?, ?)";
 
-    public boolean registrar(String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado) {
+    public boolean registrar(String nombre, String fechaSiembra, String ciclo, String estado) {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
@@ -19,9 +19,8 @@ public class Registro_CultivoDAO {
             ps = conn.prepareStatement(SQL_INSERT_CULTIVO);
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
-            ps.setString(3, fechaCosecha);
-            ps.setString(4, ciclo);
-            ps.setString(5, estado);
+            ps.setString(3, ciclo);
+            ps.setString(4, estado);
             ps.executeUpdate();
             return true;
         } catch (SQLException | ClassNotFoundException e) {
@@ -36,6 +35,8 @@ public class Registro_CultivoDAO {
             }
         }
     }
+
+    
     public List<Map<String, String>> listarCultivos() {
     List<Map<String, String>> lista = new ArrayList<>();
     Connection conn = null;

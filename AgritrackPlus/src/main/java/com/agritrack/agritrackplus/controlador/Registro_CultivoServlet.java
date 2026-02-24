@@ -17,12 +17,11 @@ public class Registro_CultivoServlet extends HttpServlet {
 
         String nombre = request.getParameter("nombre");
         String fechaSiembra = request.getParameter("fecha_siembra");
-        String fechaCosecha = request.getParameter("fecha_cosecha");
         String ciclo = request.getParameter("ciclo");
         String estado = request.getParameter("estado");
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
-        boolean exito = dao.registrar(nombre, fechaSiembra, fechaCosecha, ciclo, estado);
+        boolean exito = dao.registrar(nombre, fechaSiembra, ciclo, estado);
 
         if (exito) {
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Cultivos_Registrados.jsp?registro=exitoso");
