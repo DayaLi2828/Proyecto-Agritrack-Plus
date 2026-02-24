@@ -57,5 +57,29 @@
       %>
     </div>
   </main>
+    <script>
+        function filtrar() {
+          let texto = document.getElementById("buscador").value.toLowerCase();
+          let estado = document.getElementById("filtroEstado").value.toLowerCase();
+          let tarjetas = document.querySelectorAll(".tarjeta__cultivo");
+
+          tarjetas.forEach(function(tarjeta) {
+            let nombre = tarjeta.querySelector("h3").textContent.toLowerCase();
+            let estadoCultivo = tarjeta.querySelector("p:nth-child(3)").textContent.toLowerCase().trim();
+
+            let coincideNombre = nombre.includes(texto);
+            let coincideEstado = estado === "todos" || estadoCultivo === "estado: " + estado;
+
+            if (coincideNombre && coincideEstado) {
+              tarjeta.style.display = "block";
+            } else {
+              tarjeta.style.display = "none";
+            }
+          });
+        }
+
+        document.getElementById("buscador").addEventListener("input", filtrar);
+        document.getElementById("filtroEstado").addEventListener("change", filtrar);
+    </script>
 </body>
 </html>

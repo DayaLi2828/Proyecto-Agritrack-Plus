@@ -2,7 +2,6 @@ package com.agritrack.agritrackplus.controlador;
 
 import com.agritrack.agritrackplus.DAO.ProductoDAO;
 import java.io.IOException;
-import java.sql.Date;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,54 +15,37 @@ public class AgregarProductoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.setCharacterEncoding("UTF-8"); // ✅ Para evitar problemas con tildes
+        request.setCharacterEncoding("UTF-8");
 
         try {
-            // 1. Obtener parámetros
             String nombre = request.getParameter("nombre");
-            
-            String unidadMedida = request.getParameter("unidad_medida");
-            
-            double precio = Double.parseDouble(request.getParameter("precio"));
-            
-            String estado = request.getParameter("estado");
-            
             int tipoProductoId = Integer.parseInt(request.getParameter("tipo_producto_id"));
+            double unidadMedida = Double.parseDouble(request.getParameter("unidad_medida"));
+            double precio = Double.parseDouble(request.getParameter("precio"));
+            String fechaCompra = request.getParameter("fecha_compra");
+           String fechaVencimiento = request.getParameter("fecha_vencimiento");
+                if (fechaVencimiento == null || fechaVencimiento.isEmpty()) {
+                    fechaVencimiento = null; // o manejarlo como quieras
+                }
 
-          // En doPost() del Servlet:
-            String fechaCompraStr = request.getParameter("fecha_compra");
-            java.sql.Date fechaCompra = java.sql.Date.valueOf(fechaCompraStr);
+            String estado = request.getParameter("estado");
+            int cantidad = Integer.parseInt(request.getParameter("cantidad"));
 
-            String fechaVencimientoStr = request.getParameter("fecha_vencimiento");
-            java.sql.Date fechaVencimiento = null;
-            if (fechaVencimientoStr != null && !fechaVencimientoStr.trim().isEmpty()) {
-                fechaVencimiento = java.sql.Date.valueOf(fechaVencimientoStr);
-            }
-
-            // Luego llamar al DAO con los tipos correctos:
             ProductoDAO dao = new ProductoDAO();
-            boolean exito = dao.agregar(nombre, unidadMedida, precio, 
-                                        fechaCompra, fechaVencimiento, 
-                                        estado, tipoProductoId);
+            boolean exito = dao.agregar(nombre, unidadMedida, precio, fechaCompra, 
+                                       fechaVencimiento, estado, tipoProductoId, cantidad);
 
-            // 3. Redirigir según resultado
             if (exito) {
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Productos.jsp?registro=exitoso");
+                response.sendRedirect(request.getContextPath() + "/webapp/public/Administrador/Productos.jsp?exito=true");
+
             } else {
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Añadir_Producto.jsp?error=true");
+                response.sendRedirect(request.getContextPath() + "/webapp/public/Administrador/Añadir_Producto.jsp?error=true");
+
             }
             
-        }catch (IllegalArgumentException e) {
-            // Captura errores de conversión de fechas (Date.valueOf con formato inválido)
+        } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Añadir_Producto.jsp?error=fecha_invalida");
-            
-        }
-        // Captura errores de conversión de números (precio, tipo_producto_id)
-         catch (Exception e) {
-            // Cualquier otro error inesperado
-            e.printStackTrace();
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Añadir_Producto.jsp?error=desconocido");
+            response.sendRedirect("Añadir_Producto.jsp?error=true");
         }
     }
 }

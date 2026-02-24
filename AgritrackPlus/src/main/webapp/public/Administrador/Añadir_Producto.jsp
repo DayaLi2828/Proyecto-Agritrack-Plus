@@ -34,53 +34,76 @@
         <p style="color:red;">Hubo un error al agregar el producto. Intenta de nuevo.</p>
       <% } %>
 
-      <form class="form__producto" method="post" action="../../AgregarProductoServlet">
-        <div class="campo">
-          <label>Nombre del producto</label>
-          <input type="text" name="nombre" required>
-        </div>
-        <div class="campo">
-          <label>Unidad de medida</label>
-          <select name="unidad_medida">
-            <option value="1">Kg</option>
-            <option value="2">Litros</option>
-            <option value="3">Unidades</option>
-          </select>
-        </div>
-        <div class="campo">
-          <label>Precio</label>
-          <input type="number" name="precio" required>
-        </div>
-        <div class="contenedor__fechas">
-          <div class="campo input__fechas">
-            <label>Fecha de compra</label>
-            <input type="date" name="fecha_compra" required>
-          </div>
-          <div class="campo input__fechas">
-            <label>Fecha de Vencimiento</label>
-            <input type="date" name="fecha_vencimiento">
-          </div>
-        </div>
-        <div class="campo">
-          <label>Estado</label>
-          <select name="estado" required>
-            <option value="Disponible">Disponible</option>
-            <option value="Agotado">Agotado</option>
-            <option value="Vencido">Vencido</option>
-          </select>
-        </div>
-        <div class="campo">
-          <label>Tipo de producto</label>
-          <select name="tipo_producto_id" required>
-            <option value="1">Fertilizante</option>
-            <option value="2">Herramienta</option>
-            <option value="3">Semilla</option>
-            <option value="4">Pesticida</option>
-          </select>
-        </div>
-        <button type="submit">Agregar Producto</button>
+   
+        <form class="form__producto" method="post" action="${pageContext.request.contextPath}/AgregarProductoServlet">
+            <div class="campo">
+              <label>Nombre del producto</label>
+              <input type="text" name="nombre" required>
+            </div>
+            <div class="campo">
+                <label>Tipo de producto</label>
+                    <select name="tipo_producto_id" id="tipo_producto" required onchange="mostrarFechaVencimiento()">
+                        <option value="">Seleccione...</option>
+                        <option value="1">Fertilizante</option>
+                        <option value="2">Herramienta</option>
+                        <option value="3">Semilla</option>
+                        <option value="4">Pesticida</option>
+                    </select>
+            </div>
+            <div class="campo">
+              <label>Unidad de medida</label>
+              <select name="unidad_medida">
+                <option value="1">Kg</option>
+                <option value="2">Litros</option>
+                <option value="3">Unidades</option>
+              </select>
+            </div>
+            <div class="campo">
+              <label>Precio</label>
+              <input type="number" name="precio" required>
+            </div>
+            <div class="contenedor__fechas">
+              <div class="campo input__fechas">
+                <label>Fecha de compra</label>
+                <input type="date" name="fecha_compra" required>
+              </div>
+              <div class="campo input__fechas" id="campo__fecha_vencimiento" style="display:none;">
+                <label>Fecha de Vencimiento</label>
+                <input type="date" name="fecha_vencimiento" id="fecha_vencimiento">
+              </div>
+            </div>
+            <div class="campo">
+              <label>Estado</label>
+              <select name="estado" required>
+                <option value="Disponible">Disponible</option>
+                <option value="Agotado">Agotado</option>
+                <option value="Vencido">Vencido</option>
+              </select>
+            </div>
+                <div class="campo">
+                    <label>Cantidad</label>
+                    <input type="number" name="cantidad" min="1" placeholder="Ingrese la cantidad" required>
+                </div>
+            <button type="submit">Agregar Producto</button>
       </form>
     </div>
   </main>
+      <script>
+        function mostrarFechaVencimiento() {
+          let tipo = document.getElementById("tipo_producto").value;
+          let campofecha = document.getElementById("campo__fecha_vencimiento");
+          let inputFecha = document.getElementById("fecha_vencimiento");
+
+          // Solo Fertilizante (1) y Pesticida (4) tienen fecha de vencimiento
+          if (tipo === "1" || tipo === "4") {
+            campofecha.style.display = "block";
+            inputFecha.required = true;
+          } else {
+            campofecha.style.display = "none";
+            inputFecha.required = false;
+            inputFecha.value = "";
+          }
+        }
+     </script>
 </body>
 </html>

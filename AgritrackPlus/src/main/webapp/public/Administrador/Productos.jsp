@@ -63,7 +63,12 @@
                 <p><strong>Nombre:</strong> <%= producto.get("nombre") %></p>
               </div>
               <div class="dato__producto">
-                <p><strong>Unidad de medida:</strong> <%= producto.get("unidad_medida") %></p>
+                <%
+                  String unidad = producto.get("unidad_medida");
+                  String unidadTexto = "1".equals(unidad) || "1.0".equals(unidad) ? "Kg" :
+                                       "2".equals(unidad) || "2.0".equals(unidad) ? "Litros" : "Unidades";
+                %>
+                <p><strong>Unidad de medida:</strong> <%= unidadTexto %></p>
               </div>
             </div>
             <div class="fila__producto">
@@ -81,6 +86,11 @@
               <div class="dato__producto">
                 <p><strong>Fecha de vencimiento:</strong> <%= producto.get("fecha_vencimiento") %></p>
               </div>
+            </div>
+            <div class="fila__producto">
+                <div class="dato__producto">
+                  <p><strong>Cantidad:</strong> <%= producto.get("cantidad") %></p>
+                </div>
             </div>
             <div class="fila__producto">
               <div class="dato__producto">
@@ -116,8 +126,10 @@
           });
         }
 
-        document.getElementById("buscador").addEventListener("input", filtrar);
-        document.getElementById("filtroTipo").addEventListener("change", filtrar);
-</script>
+            document.getElementById("buscador").addEventListener("input", filtrar);
+            document.getElementById("filtroTipo").addEventListener("change", filtrar);
+    </script>
+</body>
+</html>
 </body>
 </html>
