@@ -1,50 +1,59 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
+<%@ page import="java.util.Map" %>
+<%
+  String id = request.getParameter("id");
+  Registro_CultivoDAO dao = new Registro_CultivoDAO();
+  Map<String, String> cultivo = dao.obtenerPorId(id);
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Detalle del cultivo</title>
-  <link rel="stylesheet" href="../../asset/Administrador/style-Detalles-cultivo.css" />
+  <link rel="stylesheet" href="../../asset/Administrador/style-Detalles-cultivo.css"/>
 </head>
 <body>
-  <!-- Encabezado -->
   <header>
-      <a href="Cultivos_Registrados.jsp">
+    <a href="Cultivos_Registrados.jsp">
       <div class="icono__devolver">
         <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
       </div>
     </a>
     <div class="contenedor__titulo">
       <div class="contenedor__logo">
-        <a href="index_CultivosRegistrados.html">
-        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
-        </a>
+        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
       <h1 class="titulo">Detalle del Cultivo</h1>
+      <a href="Editar_Cultivo.jsp?id=<%= id %>" class="boton">Editar Cultivo</a>
     </div>
   </header>
 
-  <!-- Contenido principal -->
   <main>
     <div class="main__contenedor">
 
-      <!-- Información del cultivo -->
+      <!-- InformaciÃ³n del cultivo -->
       <section class="contendor__informacion contenedor__cultivo">
         <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/planta (2).png" alt="icono cultivo" />
-          <h2 class="titulo">Información del Cultivo</h2>
+          <img class="logo" src="../../asset/imagenes/planta (2).png" alt="icono cultivo"/>
+          <h2 class="titulo">InformaciÃ³n del Cultivo</h2>
         </div>
         <div class="contenedor__registros">
           <div class="fila__cultivo">
-            <div class="dato__cultivo"><p><strong>Nombre:</strong> Tomate Cherry</p></div>
-            <div class="dato__cultivo"><p><strong>Fecha de Siembra:</strong> 15/10/2024</p></div>
+            <div class="dato__cultivo"><p><strong>Nombre:</strong> <%= cultivo.get("nombre") %></p></div>
+            <div class="dato__cultivo"><p><strong>Fecha de Siembra:</strong> <%= cultivo.get("fecha_siembra") %></p></div>
           </div>
           <div class="fila__cultivo">
-            <div class="dato__cultivo"><p><strong>Fecha de Cosecha:</strong> 20/01/2025</p></div>
-            <div class="dato__cultivo"><p><strong>Ciclo Actual:</strong> Vegetativo</p></div>
+            <div class="dato__cultivo">
+              <p><strong>Fecha de Cosecha:</strong> 
+                <%= cultivo.get("fecha_cosecha") != null && !cultivo.get("fecha_cosecha").equals("null") ? cultivo.get("fecha_cosecha") : "No definida aÃºn" %>
+              </p>
+            </div>
+            <div class="dato__cultivo"><p><strong>Ciclo Actual:</strong> <%= cultivo.get("ciclo") %></p></div>
           </div>
           <div class="fila__cultivo">
-            <div class="dato__cultivo"><p><strong>Estado:</strong> Activo</p></div>
+            <div class="dato__cultivo"><p><strong>Estado:</strong> <%= cultivo.get("estado") %></p></div>
           </div>
         </div>
       </section>
@@ -52,98 +61,34 @@
       <!-- Stock -->
       <section class="contendor__informacion contenedor__stock">
         <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/stock.png" alt="icono stock" />
+          <img class="logo" src="../../asset/imagenes/stock.png" alt="icono stock"/>
           <h2 class="titulo">Stock de Productos</h2>
         </div>
         <div class="fila__stock">
-          <div class="item__stock"><p><strong>Producto:</strong> Fertilizante NPK</p></div>
-          <div class="cantidad__stock">
-            <strong>25 kg</strong>
-            <select class="estado__producto">
-              <option value="disponible">Disponible</option>
-              <option value="bajo">Bajo stock</option>
-              <option value="agotado">Agotado</option>
-            </select>
-          </div>
-        </div>
-        <div class="fila__stock">
-          <div class="item__stock"><p><strong>Producto:</strong> Insecticida orgánico</p></div>
-          <div class="cantidad__stock">
-            <strong>25 kg</strong>
-            <select class="estado__producto">
-              <option value="disponible">Disponible</option>
-              <option value="bajo">Bajo stock</option>
-              <option value="agotado">Agotado</option>
-            </select>
-          </div>
-        </div>
-        <div class="fila__stock">
-          <div class="item__stock"><p><strong>Producto:</strong> Semillas de aguacate</p></div>
-          <div class="cantidad__stock">
-            <strong>25 kg</strong>
-            <select class="estado__producto">
-              <option value="disponible">Disponible</option>
-              <option value="bajo">Bajo stock</option>
-              <option value="agotado">Agotado</option>
-            </select>
-          </div>
+          <div class="item__stock"><p>No hay productos asignados aÃºn.</p></div>
         </div>
       </section>
 
       <!-- Supervisor -->
       <section class="contendor__informacion contenedor__admin">
         <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/supervisor.png" alt="icono supervisor" />
+          <img class="logo" src="../../asset/imagenes/supervisor.png" alt="icono supervisor"/>
           <h2 class="titulo">Supervisor de Campo</h2>
         </div>
-        <img class="logo__admin" src="../../asset/imagenes/admin.png" alt="imagen de usuario" />
+        <img class="logo__admin" src="../../asset/imagenes/admin.png" alt="imagen de usuario"/>
         <div class="info__admin">
-          <h3 class="titulo__admin">Luis Villamizar</h3>
-          <p>Supervisor asignado</p>
+          <p>No hay supervisor asignado aÃºn.</p>
         </div>
       </section>
 
       <!-- Trabajadores -->
       <section class="contendor__informacion contenedor__trab">
         <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/obrero.png" alt="icono trabajadores" />
+          <img class="logo" src="../../asset/imagenes/obrero.png" alt="icono trabajadores"/>
           <h2 class="titulo">Trabajadores</h2>
         </div>
-
-        <!-- Fila 1 -->
         <div class="fila__trab">
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">Hernesto Perez</h3></div>
-          </div>
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">María López</h3></div>
-          </div>
-        </div>
-
-        <!-- Fila 2 -->
-        <div class="fila__trab">
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">Carlos Gómez</h3></div>
-          </div>
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">Ana Rodríguez</h3></div>
-          </div>
-        </div>
-
-        <!-- Fila 3 -->
-        <div class="fila__trab">
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">Luis Martínez</h3></div>
-          </div>
-          <div class="bloque__trab">
-            <img class="logo__trab" src="../../asset/imagenes/obrero.png" alt="imagen trabajador" />
-            <div class="info__trabajador"><h3 class="titulo__trabajador">Sofía Ramírez</h3></div>
-          </div>
+          <p>No hay trabajadores asignados aÃºn.</p>
         </div>
       </section>
 

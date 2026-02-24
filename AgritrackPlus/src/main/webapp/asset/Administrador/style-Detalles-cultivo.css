@@ -51,6 +51,24 @@ header {
   margin-top: 45px;
   margin-left: 38px;
 }
+.boton {
+  display: inline-block;       /* permite que <a> se comporte como botón */
+  height: 75px;
+  width: 180px;
+  margin-top: -18px;
+  margin-left: 33px;
+  border-radius: 10px;
+  font-size: 18px;
+  background-color: #059669;
+  border: none;
+  outline: none;
+  color: white;
+  text-align: center;          /* centra el texto */
+  line-height: 75px;           /* centra verticalmente el texto */
+  text-decoration: none;       /* quita subrayado del enlace */
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
   .main__contenedor {
     width: 80%;
     min-height: 100vh;
