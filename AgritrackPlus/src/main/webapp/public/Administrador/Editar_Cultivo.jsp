@@ -1,10 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
 <%@ page import="java.util.Map" %>
+<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <%
   String id = request.getParameter("id");
   Registro_CultivoDAO dao = new Registro_CultivoDAO();
   Map<String, String> cultivo = dao.obtenerPorId(id);
+  
+  UsuarioDAO usuarioDAO = new UsuarioDAO();
+  List<Map<String, String>> trabajadores = usuarioDAO.listarTrabajadores();
+  List<Map<String, String>> trabajadoresAsignados = dao.obtenerTrabajadoresCultivo(Integer.parseInt(id));
+  
+  // Crear lista de ids asignados para verificar
+  java.util.List<String> idsAsignados = new java.util.ArrayList<>();
+  for (Map<String, String> t : trabajadoresAsignados) {
+      idsAsignados.add(t.get("id"));
+  }
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -83,14 +95,21 @@
             </select>
           </div>
         </div>
-            <div class="campo">
-                <label>Trabajadores asignados</label>
-                <c:forEach var="trabajador" items="${listaTrabajadores}">
-                  <input type="checkbox" name="trabajadores" value="${trabajador.id}"
-                    <c:if test="${trabajador.asignado}">checked</c:if> >
-                  ${trabajador.nombre}
-                </c:forEach>
-            </div>
+            <div class="campo trabajadores__caja">
+            <label>Trabajadores asignados</label>
+                <ul class="lista__trabajadores">
+                  <% for (Map<String, String> trabajador : trabajadores) { %>
+                    <li>
+                      <label class="nombre__trabajador">
+                        <input type="checkbox" name="trabajadores" value="<%= trabajador.get("id") %>"
+                               <%= idsAsignados.contains(trabajador.get("id")) ? "checked" : "" %>>
+                        <%= trabajador.get("nombre") %>
+                      </label>
+                    </li>
+                  <% } %>
+            </ul>
+          </div>
+
 
         <div class="contenedor__boton--enviar">
           <button type="submit" class="boton__enviar">Guardar cambios</button>

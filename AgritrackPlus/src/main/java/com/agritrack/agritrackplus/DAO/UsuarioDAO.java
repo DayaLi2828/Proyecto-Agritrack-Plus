@@ -216,4 +216,102 @@ public class UsuarioDAO {
             }
         }
     }
+    public Map<String, String> obtenerPorId(String id) {
+        Map<String, String> usuario = new HashMap<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "SELECT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
+                "c.correo, t.telefono, r.nombre AS rol " +
+                "FROM usuarios u " +
+                "LEFT JOIN correo c ON c.usuario_id = u.id " +
+                "LEFT JOIN telefono t ON t.usuario_id = u.id " +
+                "LEFT JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
+                "LEFT JOIN roles r ON r.id = ru.rol_id " +
+                "WHERE u.id = ?"
+            );
+            ps.setInt(1, Integer.parseInt(id));
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                usuario.put("id", String.valueOf(rs.getInt("id")));
+                usuario.put("nombre", rs.getString("nombre"));
+                usuario.put("documento", rs.getString("documento"));
+                usuario.put("direccion", rs.getString("direccion"));
+                usuario.put("estado", rs.getString("estado"));
+                usuario.put("correo", rs.getString("correo"));
+                usuario.put("telefono", rs.getString("telefono"));
+                usuario.put("rol", rs.getString("rol"));
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+            return usuario;
 }
+
+   public boolean editarUsuario(String id, String nombre, String documento, String direccion,
+                             String correo, String telefono, String pass, String rolId, String estado) {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    try {
+        conn = Conexion.getConnection();
+
+        // Actualizar tabla usuarios
+        ps = conn.prepareStatement(
+            "UPDATE usuarios SET nombre=?, documento=?, direccion=?, estado=?, pass=? WHERE id=?"
+        );
+        ps.setString(1, nombre);
+        ps.setString(2, documento);
+        ps.setString(3, direccion);
+        ps.setString(4, estado);
+        ps.setString(5, encriptarMD5(pass));
+        ps.setInt(6, Integer.parseInt(id));
+        ps.executeUpdate();
+        ps.close();
+
+        // Actualizar correo
+        ps = conn.prepareStatement("UPDATE correo SET correo=? WHERE usuario_id=?");
+        ps.setString(1, correo);
+        ps.setInt(2, Integer.parseInt(id));
+        ps.executeUpdate();
+        ps.close();
+
+        // Actualizar teléfono
+        ps = conn.prepareStatement("UPDATE telefono SET telefono=? WHERE usuario_id=?");
+        ps.setString(1, telefono);
+        ps.setInt(2, Integer.parseInt(id));
+        ps.executeUpdate();
+        ps.close();
+
+        // Actualizar rol
+        ps = conn.prepareStatement("UPDATE roles_usuarios SET rol_id=? WHERE usuario_id=?");
+        ps.setInt(1, Integer.parseInt(rolId));
+        ps.setInt(2, Integer.parseInt(id));
+        ps.executeUpdate();
+
+        return true;
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+        return false;
+    } finally {
+        try {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+}
+

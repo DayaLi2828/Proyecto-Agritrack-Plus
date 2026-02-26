@@ -98,7 +98,7 @@
             <td><%= usuario.get("rol") %></td>
             <td><%= usuario.get("estado") %></td>
             <td>
-              <a href="EditarUsuario.jsp?id=<%= usuario.get("id") %>" class="boton__editar">Editar</a>
+              <a href="Agregar_Usuario.jsp?id=<%= usuario.get("id") %>" class="boton__editar">Editar</a>
               <a href="../../EliminarUsuarioServlet?id=<%= usuario.get("id") %>"
                  class="boton__eliminar"
                  onclick="return confirm('¿Estás seguro de eliminar este usuario?')">Eliminar</a>

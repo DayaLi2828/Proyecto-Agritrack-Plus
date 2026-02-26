@@ -66,7 +66,26 @@ public class Registro_CultivoDAO {
                 e.printStackTrace();
             }
         }
-}
+        }   public void eliminarTrabajadoresCultivo(int cultivoId) {
+            Connection conn = null;
+            PreparedStatement ps = null;
+            try {
+                conn = Conexion.getConnection();
+                ps = conn.prepareStatement("DELETE FROM cultivo_trabajador WHERE cultivo_id = ?");
+                ps.setInt(1, cultivoId);
+                ps.executeUpdate();
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (ps != null) ps.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
         public List<Map<String, String>> obtenerTrabajadoresCultivo(int cultivoId) {
             List<Map<String, String>> lista = new ArrayList<>();
