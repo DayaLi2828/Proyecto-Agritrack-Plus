@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
-<%@ page import="java.util.Map" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <%
   String id = request.getParameter("id");
   Registro_CultivoDAO dao = new Registro_CultivoDAO();
   Map<String, String> cultivo = dao.obtenerPorId(id);
+  List<Map<String, String>> productos = dao.obtenerProductosCultivo(Integer.parseInt(id));
+  Map<String, String> supervisor = dao.obtenerSupervisorCultivo(Integer.parseInt(id));
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -59,27 +61,46 @@
       </section>
 
       <!-- Stock -->
-      <section class="contendor__informacion contenedor__stock">
-        <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/stock.png" alt="icono stock"/>
-          <h2 class="titulo">Stock de Productos</h2>
-        </div>
-        <div class="fila__stock">
-          <div class="item__stock"><p>No hay productos asignados aún.</p></div>
-        </div>
-      </section>
+        <section class="contendor__informacion contenedor__stock">
+          <div class="caja__titulo">
+            <img class="logo" src="../../asset/imagenes/stock.png" alt="icono stock"/>
+            <h2 class="titulo">Stock de Productos</h2>
+          </div>
+          <% if (productos.isEmpty()) { %>
+            <div class="fila__stock">
+              <div class="item__stock"><p>No hay productos asignados aún.</p></div>
+            </div>
+          <% } else {
+              for (Map<String, String> producto : productos) {
+                String unidad = producto.get("unidad_medida");
+                String unidadTexto = "1".equals(unidad) || "1.0".equals(unidad) ? "Kg" :
+                                     "2".equals(unidad) || "2.0".equals(unidad) ? "Litros" : "Unidades";
+          %>
+            <div class="fila__stock">
+              <div class="item__stock"><p><strong>Producto:</strong> <%= producto.get("nombre") %></p></div>
+              <div class="cantidad__stock">
+                <strong><%= producto.get("cantidad") %> <%= unidadTexto %></strong>
+              </div>
+            </div>
+          <% } } %>
+        </section>
 
-      <!-- Supervisor -->
-      <section class="contendor__informacion contenedor__admin">
-        <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/supervisor.png" alt="icono supervisor"/>
-          <h2 class="titulo">Supervisor de Campo</h2>
-        </div>
-        <img class="logo__admin" src="../../asset/imagenes/admin.png" alt="imagen de usuario"/>
-        <div class="info__admin">
-          <p>No hay supervisor asignado aún.</p>
-        </div>
-      </section>
+        <!-- Supervisor -->
+        <section class="contendor__informacion contenedor__admin">
+          <div class="caja__titulo">
+            <img class="logo" src="../../asset/imagenes/supervisor.png" alt="icono supervisor"/>
+            <h2 class="titulo">Supervisor de Campo</h2>
+          </div>
+          <img class="logo__admin" src="../../asset/imagenes/admin.png" alt="imagen de usuario"/>
+          <div class="info__admin">
+            <% if (supervisor.isEmpty()) { %>
+              <p>No hay supervisor asignado aún.</p>
+            <% } else { %>
+              <h3 class="titulo__admin"><%= supervisor.get("nombre") %></h3>
+              <p>Supervisor asignado</p>
+            <% } %>
+          </div>
+        </section>
 
       <!-- Trabajadores -->
       <section class="contendor__informacion contenedor__trab">
