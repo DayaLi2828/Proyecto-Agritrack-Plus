@@ -40,7 +40,7 @@
         <p style="color:red;">Hubo un error al registrar el cultivo. Intenta de nuevo.</p>
       <% } %>
 
-      <form class="formulario__registrarcultivo" method="post" action="../../RegistroCultivoServlet">
+      <form class="formulario__registrarcultivo" method="post" action="../../Registro_CultivoServlet">
 
         <!-- Información básica -->
         <div class="contendor__cajas">

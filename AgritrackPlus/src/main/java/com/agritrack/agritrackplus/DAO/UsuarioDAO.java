@@ -86,6 +86,26 @@ public class UsuarioDAO {
         } catch (Exception e) { e.printStackTrace(); }
         return lista;
     }
+    public List<Map<String, String>> listarTrabajadores() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                "SELECT u.id, u.nombre " +
+                "FROM usuarios u " +
+                "JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
+                "JOIN roles r ON r.id = ru.rol_id " +
+                "WHERE r.nombre = 'Trabajador'")) {
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, String> trabajador = new HashMap<>();
+                    trabajador.put("id", String.valueOf(rs.getInt("id")));
+                    trabajador.put("nombre", rs.getString("nombre"));
+                    lista.add(trabajador);
+                }
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return lista;
+    }
 
     public boolean crear(String nombre, String pass, String documento, String direccion,
                          String estado, String correo, String telefono, int rolId, String rutaFoto) {

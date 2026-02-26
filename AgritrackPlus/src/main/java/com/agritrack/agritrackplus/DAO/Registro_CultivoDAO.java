@@ -87,73 +87,73 @@ public class Registro_CultivoDAO {
         }
 
 
-        public List<Map<String, String>> obtenerTrabajadoresCultivo(int cultivoId) {
-            List<Map<String, String>> lista = new ArrayList<>();
-            Connection conn = null;
-            PreparedStatement ps = null;
-            ResultSet rs = null;
-            try {
-                conn = Conexion.getConnection();
-                ps = conn.prepareStatement(
-                    "SELECT u.id, u.nombre, u.foto FROM cultivo_trabajador ct " +
-                    "JOIN usuarios u ON u.id = ct.usuario_id " +
-                    "WHERE ct.cultivo_id = ?"
-                );
-                ps.setInt(1, cultivoId);
-                rs = ps.executeQuery();
-                while (rs.next()) {
-                    Map<String, String> trabajador = new HashMap<>();
-                    trabajador.put("id", String.valueOf(rs.getInt("id")));
-                    trabajador.put("nombre", rs.getString("nombre"));
-                    trabajador.put("foto", rs.getString("foto"));
-                    lista.add(trabajador);
-                }
-            } catch (SQLException | ClassNotFoundException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) rs.close();
-                    if (ps != null) ps.close();
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            return lista;
-        }
-     public List<Map<String, String>> obtenerProductosCultivo(int cultivoId) {
-    List<Map<String, String>> lista = new ArrayList<>();
-    Connection conn = null;
-    PreparedStatement ps = null;
-    ResultSet rs = null;
-    try {
-        conn = Conexion.getConnection();
-        ps = conn.prepareStatement(
-            "SELECT p.nombre, sc.cantidad, p.unidad_medida " +
-            "FROM stock_cultivo sc " +
-            "JOIN productos p ON p.id = sc.producto_id " +
-            "WHERE sc.cultivo_id = ?"
-        );
-        ps.setInt(1, cultivoId);
-        rs = ps.executeQuery();
-        while (rs.next()) {
-            Map<String, String> producto = new HashMap<>();
-            producto.put("nombre", rs.getString("nombre"));
-            producto.put("cantidad", String.valueOf(rs.getInt("cantidad")));
-            producto.put("unidad_medida", rs.getString("unidad_medida"));
-            lista.add(producto);
-        }
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace();
-    } finally {
+    public List<Map<String, String>> obtenerTrabajadoresCultivo(int cultivoId) {
+        List<Map<String, String>> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            if (rs != null) rs.close();
-            if (ps != null) ps.close();
-            if (conn != null) conn.close();
-        } catch (SQLException e) { e.printStackTrace(); }
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "SELECT u.id, u.nombre, u.foto FROM cultivo_trabajador ct " +
+                "JOIN usuarios u ON u.id = ct.usuario_id " +
+                "WHERE ct.cultivo_id = ?"
+            );
+            ps.setInt(1, cultivoId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> trabajador = new HashMap<>();
+                trabajador.put("id", String.valueOf(rs.getInt("id")));
+                trabajador.put("nombre", rs.getString("nombre"));
+                trabajador.put("foto", rs.getString("foto"));
+                lista.add(trabajador);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+        }
+    public List<Map<String, String>> obtenerProductosCultivo(int cultivoId) {
+        List<Map<String, String>> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "SELECT p.nombre, sc.cantidad, p.unidad_medida " +
+                "FROM stock_cultivo sc " +
+                "JOIN productos p ON p.id = sc.producto_id " +
+                "WHERE sc.cultivo_id = ?"
+            );
+            ps.setInt(1, cultivoId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> producto = new HashMap<>();
+                producto.put("nombre", rs.getString("nombre"));
+                producto.put("cantidad", String.valueOf(rs.getInt("cantidad")));
+                producto.put("unidad_medida", rs.getString("unidad_medida"));
+                lista.add(producto);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) { e.printStackTrace(); }
+        }
+        return lista;
     }
-    return lista;
-}
 
     public Map<String, String> obtenerSupervisorCultivo(int cultivoId) {
         Map<String, String> supervisor = new HashMap<>();
@@ -184,27 +184,27 @@ public class Registro_CultivoDAO {
         return supervisor;
     }
          // Asignar supervisor al cultivo
-        public void asignarSupervisor(int cultivoId, int usuarioId) {
-            Connection conn = null;
-            PreparedStatement ps = null;
+    public void asignarSupervisor(int cultivoId, int usuarioId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "INSERT INTO supervisor (cultivo_id, usuario_id) VALUES (?, ?)"
+            );
+            ps.setInt(1, cultivoId);
+            ps.setInt(2, usuarioId);
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
             try {
-                conn = Conexion.getConnection();
-                ps = conn.prepareStatement(
-                    "INSERT INTO supervisor (cultivo_id, usuario_id) VALUES (?, ?)"
-                );
-                ps.setInt(1, cultivoId);
-                ps.setInt(2, usuarioId);
-                ps.executeUpdate();
-            } catch (SQLException | ClassNotFoundException e) {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
                 e.printStackTrace();
-            } finally {
-                try {
-                    if (ps != null) ps.close();
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
             }
+        }
     }
      // Asignar producto al cultivo
     public void asignarProducto(int cultivoId, int productoId, int cantidad) {
