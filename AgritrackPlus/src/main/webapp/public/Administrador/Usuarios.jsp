@@ -67,6 +67,7 @@
       <thead>
         <tr>
           <th>ID</th>
+          <th>Foto</th>
           <th>Nombre</th>
           <th>Documento</th>
           <th>Dirección</th>
@@ -82,14 +83,22 @@
           if (usuarios.isEmpty()) {
         %>
           <tr>
-            <td colspan="9" style="text-align:center;">No hay usuarios registrados.</td>
+            <td colspan="10" style="text-align:center;">No hay usuarios registrados.</td>
           </tr>
         <%
           } else {
             for (Map<String, String> usuario : usuarios) {
+              String fotoRuta = dao.obtenerFoto(Integer.parseInt(usuario.get("id")));
         %>
           <tr>
             <td><%= usuario.get("id") %></td>
+            <td>
+              <% if (fotoRuta != null) { %>
+                <img src="../../<%= fotoRuta %>" alt="Foto usuario" style="width:50px; height:50px; object-fit:cover;">
+              <% } else { %>
+                <span>Sin foto</span>
+              <% } %>
+            </td>
             <td><%= usuario.get("nombre") %></td>
             <td><%= usuario.get("documento") %></td>
             <td><%= usuario.get("direccion") %></td>
@@ -117,8 +126,8 @@
       let texto = this.value.toLowerCase();
       let filas = document.querySelectorAll("#tablaUsuarios tbody tr");
       filas.forEach(function(fila) {
-        let nombre = fila.cells[1] ? fila.cells[1].textContent.toLowerCase() : "";
-        let documento = fila.cells[2] ? fila.cells[2].textContent.toLowerCase() : "";
+        let nombre = fila.cells[2] ? fila.cells[2].textContent.toLowerCase() : "";
+        let documento = fila.cells[3] ? fila.cells[3].textContent.toLowerCase() : "";
         if (nombre.includes(texto) || documento.includes(texto)) {
           fila.style.display = "";
         } else {

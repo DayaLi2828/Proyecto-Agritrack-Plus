@@ -1,5 +1,7 @@
 package com.agritrack.agritrackplus.controlador;
+
 import com.agritrack.agritrackplus.DAO.UsuarioDAO;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import jakarta.servlet.ServletException;
@@ -13,9 +15,11 @@ import jakarta.servlet.http.Part;
 @WebServlet(name = "CrearUsuarioServlet", urlPatterns = {"/CrearUsuarioServlet"})
 @MultipartConfig
 public class CrearUsuarioServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         request.setCharacterEncoding("UTF-8");
 
         String nombre = request.getParameter("nombre");
@@ -25,18 +29,30 @@ public class CrearUsuarioServlet extends HttpServlet {
         String estado = request.getParameter("estado");
         String correo = request.getParameter("correo");
         String telefono = request.getParameter("telefono");
-        int rolId = Integer.parseInt(request.getParameter("rol_id"));
 
-        // Manejar foto
+        // Validar rol_id para evitar NumberFormatException
+        String rolIdStr = request.getParameter("rol_id");
+        int rolId = 0;
+        if (rolIdStr != null && !rolIdStr.isEmpty()) {
+            rolId = Integer.parseInt(rolIdStr);
+        }
+
+        // Manejo de la foto
         String nombreFoto = null;
         Part fotoPart = request.getPart("foto");
         if (fotoPart != null && fotoPart.getSize() > 0) {
             String nombreArchivo = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
+
+            // Carpeta donde se guardarán las fotos (ajusta según tu proyecto)
             String uploadPath = getServletContext().getRealPath("") + "asset/imagenes/trabajadores/";
-            java.io.File uploadDir = new java.io.File(uploadPath);
+            File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdirs();
+
+            // Guardar archivo en disco
             fotoPart.write(uploadPath + nombreArchivo);
-            nombreFoto = nombreArchivo;
+
+            // Guardar solo el nombre del archivo en BD
+            nombreFoto = "asset/imagenes/trabajadores/" + nombreArchivo;
         }
 
         UsuarioDAO dao = new UsuarioDAO();
