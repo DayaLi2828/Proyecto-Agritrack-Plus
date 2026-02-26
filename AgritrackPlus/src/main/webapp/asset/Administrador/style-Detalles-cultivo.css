@@ -162,6 +162,8 @@ header {
     width: 70px;
     margin-left: 40px;
     margin-top: 20px;
+    border-radius: 45px;
+    object-fit: cover;
   }
   .info__admin {
     margin-top: -60px;

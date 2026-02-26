@@ -83,6 +83,14 @@
             </select>
           </div>
         </div>
+            <div class="campo">
+                <label>Trabajadores asignados</label>
+                <c:forEach var="trabajador" items="${listaTrabajadores}">
+                  <input type="checkbox" name="trabajadores" value="${trabajador.id}"
+                    <c:if test="${trabajador.asignado}">checked</c:if> >
+                  ${trabajador.nombre}
+                </c:forEach>
+            </div>
 
         <div class="contenedor__boton--enviar">
           <button type="submit" class="boton__enviar">Guardar cambios</button>
