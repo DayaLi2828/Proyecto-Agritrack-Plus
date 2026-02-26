@@ -1,12 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
 <%@ page import="java.util.List, java.util.Map" %>
+<%@ page import="java.util.List, java.util.Map" %>
 <%
   String id = request.getParameter("id");
   Registro_CultivoDAO dao = new Registro_CultivoDAO();
   Map<String, String> cultivo = dao.obtenerPorId(id);
   List<Map<String, String>> productos = dao.obtenerProductosCultivo(Integer.parseInt(id));
   Map<String, String> supervisor = dao.obtenerSupervisorCultivo(Integer.parseInt(id));
+  List<Map<String, String>> trabajadores = dao.obtenerTrabajadoresCultivo(Integer.parseInt(id));
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -103,15 +105,32 @@
         </section>
 
       <!-- Trabajadores -->
-      <section class="contendor__informacion contenedor__trab">
-        <div class="caja__titulo">
-          <img class="logo" src="../../asset/imagenes/obrero.png" alt="icono trabajadores"/>
-          <h2 class="titulo">Trabajadores</h2>
-        </div>
-        <div class="fila__trab">
-          <p>No hay trabajadores asignados aún.</p>
-        </div>
-      </section>
+        <section class="contendor__informacion contenedor__trab">
+            <div class="caja__titulo">
+              <img class="logo" src="../../asset/imagenes/obrero.png" alt="icono trabajadores"/>
+              <h2 class="titulo">Trabajadores</h2>
+            </div>
+            <% if (trabajadores.isEmpty()) { %>
+              <p>No hay trabajadores asignados aún.</p>
+            <% } else { %>
+              <div class="fila__trab">
+                <% for (Map<String, String> trabajador : trabajadores) { %>
+                  <div class="bloque__trab">
+                    <%
+                      String foto = trabajador.get("foto");
+                      String imgSrc = (foto != null && !foto.equals("null") && !foto.isEmpty())
+                        ? "../../asset/imagenes/trabajadores/" + foto
+                        : "../../asset/imagenes/obrero.png";
+                    %>
+                    <img class="logo__trab" src="<%= imgSrc %>" alt="imagen trabajador"/>
+                    <div class="info__trabajador">
+                      <h3 class="titulo__trabajador"><%= trabajador.get("nombre") %></h3>
+                    </div>
+                  </div>
+                <% } %>
+              </div>
+            <% } %>
+        </section>
 
     </div>
   </main>

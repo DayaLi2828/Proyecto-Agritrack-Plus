@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Agregar Usuario</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_RegistroCultivos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -29,7 +30,7 @@
         <p style="color:red; text-align:center;">Hubo un error al crear el usuario. Intenta de nuevo.</p>
       <% } %>
 
-      <form class="formulario__registrarcultivo" method="post" action="../../CrearUsuarioServlet">
+      <form class="formulario__registrarcultivo" method="post" action="../../CrearUsuarioServlet" enctype="multipart/form-data">
 
         <!-- Información personal -->
         <div class="contendor__cajas">
@@ -64,6 +65,17 @@
               <label>Teléfono</label>
               <input type="text" name="telefono" placeholder="Ingresa el teléfono" required>
             </div>
+              <div class="campo">
+                <label></label>
+                <div class="custom-file-upload">
+                  <label for="imagenInput" class="btn-upload">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Subir Foto
+                  </label>
+                  <input type="file" name="foto" id="imagenInput" 
+                         accept="image/*" onchange="handleImageChange(this)">
+                  <span id="file-name" class="file-name">Ningún archivo seleccionado</span>
+                </div>
+              </div>
           </div>
         </div>
 
@@ -107,5 +119,15 @@
       </form>
     </div>
   </main>
+    <script>
+        function handleImageChange(input) {
+          const fileName = document.getElementById("file-name");
+          if (input.files && input.files.length > 0) {
+            fileName.textContent = input.files[0].name;
+          } else {
+            fileName.textContent = "Ningún archivo seleccionado";
+          }
+        }
+    </script>
 </body>
 </html>

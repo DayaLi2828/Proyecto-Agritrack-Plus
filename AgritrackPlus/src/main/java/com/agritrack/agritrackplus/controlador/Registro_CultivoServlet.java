@@ -12,6 +12,7 @@ public class Registro_CultivoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String nombre = request.getParameter("nombre");
         String fechaSiembra = request.getParameter("fecha_siembra");
         String ciclo = request.getParameter("ciclo");
@@ -19,6 +20,7 @@ public class Registro_CultivoServlet extends HttpServlet {
         String supervisorId = request.getParameter("supervisor_id");
         String[] productoIds = request.getParameterValues("producto_id[]");
         String[] cantidades = request.getParameterValues("cantidad_producto[]");
+        String[] trabajadoresIds = request.getParameterValues("trabajadores[]");
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
         int cultivoId = dao.registrar(nombre, fechaSiembra, ciclo, estado);
@@ -32,6 +34,13 @@ public class Registro_CultivoServlet extends HttpServlet {
                     if (productoIds[i] != null && !productoIds[i].isEmpty()) {
                         int cantidad = (cantidades != null && i < cantidades.length) ? Integer.parseInt(cantidades[i]) : 1;
                         dao.asignarProducto(cultivoId, Integer.parseInt(productoIds[i]), cantidad);
+                    }
+                }
+            }
+            if (trabajadoresIds != null) {
+                for (String trabajadorId : trabajadoresIds) {
+                    if (trabajadorId != null && !trabajadorId.isEmpty()) {
+                        dao.asignarTrabajador(cultivoId, Integer.parseInt(trabajadorId));
                     }
                 }
             }

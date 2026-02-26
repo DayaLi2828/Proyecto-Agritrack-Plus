@@ -45,6 +45,63 @@ public class Registro_CultivoDAO {
              }
          }
      }
+     public void asignarTrabajador(int cultivoId, int usuarioId) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(
+                "INSERT INTO cultivo_trabajador (cultivo_id, usuario_id) VALUES (?, ?)"
+            );
+            ps.setInt(1, cultivoId);
+            ps.setInt(2, usuarioId);
+            ps.executeUpdate();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+}
+
+        public List<Map<String, String>> obtenerTrabajadoresCultivo(int cultivoId) {
+            List<Map<String, String>> lista = new ArrayList<>();
+            Connection conn = null;
+            PreparedStatement ps = null;
+            ResultSet rs = null;
+            try {
+                conn = Conexion.getConnection();
+                ps = conn.prepareStatement(
+                    "SELECT u.id, u.nombre, u.foto FROM cultivo_trabajador ct " +
+                    "JOIN usuarios u ON u.id = ct.usuario_id " +
+                    "WHERE ct.cultivo_id = ?"
+                );
+                ps.setInt(1, cultivoId);
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    Map<String, String> trabajador = new HashMap<>();
+                    trabajador.put("id", String.valueOf(rs.getInt("id")));
+                    trabajador.put("nombre", rs.getString("nombre"));
+                    trabajador.put("foto", rs.getString("foto"));
+                    lista.add(trabajador);
+                }
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (rs != null) rs.close();
+                    if (ps != null) ps.close();
+                    if (conn != null) conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            return lista;
+        }
      public List<Map<String, String>> obtenerProductosCultivo(int cultivoId) {
     List<Map<String, String>> lista = new ArrayList<>();
     Connection conn = null;

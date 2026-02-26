@@ -259,3 +259,34 @@ header {
   align-items: flex-end;
   margin-bottom: 15px;
 }
+/*Secccion de foto del trabajador*/
+.custom-file-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-upload {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-upload:hover {
+  background-color: var(--color-primary-dark);
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.file-name {
+  font-size: 13px;
+  color: #666;
+}

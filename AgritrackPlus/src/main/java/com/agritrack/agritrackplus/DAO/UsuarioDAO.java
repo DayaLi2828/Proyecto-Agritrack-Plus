@@ -11,7 +11,47 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class UsuarioDAO {
-
+    
+    //-----------------------------------------------------------//
+    //Método para listar los usuarios(trabajadores) en el sistema//
+    //-----------------------------------------------------------//
+    public List<Map<String, String>> listarTrabajadores() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+           ps = conn.prepareStatement(
+            "SELECT u.id, u.nombre, u.foto FROM usuarios u " +
+            "JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
+            "JOIN roles r ON r.id = ru.rol_id " +
+            "WHERE r.nombre = 'trabajador'"
+        );
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> usuario = new HashMap<>();
+                usuario.put("id", String.valueOf(rs.getInt("id")));
+                usuario.put("nombre", rs.getString("nombre"));
+                usuario.put("foto", rs.getString("foto"));
+                lista.add(usuario);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+    }
+    //---------------------------------------------------------------------------//
+    //Método para encriptar las contraseñas de los usuario spara mejor seguridad //
+    //---------------------------------------------------------------------------//
     private String encriptarMD5(String pass) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -36,7 +76,8 @@ public class UsuarioDAO {
         "LEFT JOIN roles_usuarios ru ON ru.usuario_id = u.id " +
         "LEFT JOIN roles r ON r.id = ru.rol_id " +
         "WHERE c.correo = ? AND u.pass = ?";
-
+    
+        //Método para logeo de uauarios
     public Usuario login(String correo, String pass) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -73,7 +114,7 @@ public class UsuarioDAO {
         }
         return user;
     }
-
+    //Método para listar todos los uauarios del sistema
     public List<Map<String, String>> listarUsuarios() {
         List<Map<String, String>> lista = new ArrayList<>();
         Connection conn = null;
@@ -116,28 +157,28 @@ public class UsuarioDAO {
         }
         return lista;
     }
-
-    public boolean crear(String nombre, String pass, String documento, String direccion, String estado, String correo, String telefono, int rolId) {
+    //Método para crear usuarios, con sus datos personales
+    public boolean crear(String nombre, String pass, String documento, String direccion, String estado, String correo, String telefono, int rolId, String foto) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            ps = conn.prepareStatement(
-                "INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES (?, ?, ?, ?, ?)",
-                PreparedStatement.RETURN_GENERATED_KEYS
-            );
-            ps.setString(1, nombre);
-            ps.setString(2, encriptarMD5(pass));
-            ps.setString(3, documento);
-            ps.setString(4, direccion);
-            ps.setString(5, estado);
-            ps.executeUpdate();
-
-            rs = ps.getGeneratedKeys();
-            int usuarioId = 0;
-            if (rs.next()) {
-                usuarioId = rs.getInt(1);
+           ps = conn.prepareStatement(
+            "INSERT INTO usuarios (nombre, pass, documento, direccion, estado, foto) VALUES (?, ?, ?, ?, ?, ?)",
+            PreparedStatement.RETURN_GENERATED_KEYS
+                );
+                ps.setString(1, nombre);
+                ps.setString(2, encriptarMD5(pass));
+                ps.setString(3, documento);
+                ps.setString(4, direccion);
+                ps.setString(5, estado);
+                ps.setString(6, foto);
+                ps.executeUpdate();
+                rs = ps.getGeneratedKeys();
+                int usuarioId = 0;
+                if (rs.next()) {
+                    usuarioId = rs.getInt(1);
             }
 
             PreparedStatement psCorreo = conn.prepareStatement(
