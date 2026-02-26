@@ -7,9 +7,9 @@ USE AgritrackPlus;
 CREATE TABLE usuarios (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
-  pass VARCHAR(50) NOT NULL,
+  pass VARCHAR(50) NOT NULL UNIQUE,
   documento VARCHAR(20) NOT NULL,
-  direccion VARCHAR(50) NOT NULL,
+  direccion VARCHAR(50) NOT NULL UNIQUE,
   estado VARCHAR(20) NOT NULL,
   foto VARCHAR(255) NULL
 );
@@ -17,10 +17,18 @@ INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES
 ('Maria Lopez', MD5('test123'), '10957456981', 'Bucaramanga', 'Activo');
 SELECT * FROM usuarios;
 
+-- =============== FOTO USUARIO ====================
+CREATE TABLE fotos_usuario (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  ruta VARCHAR(255) NOT NULL,
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+SELECT * FROM fotos_usuario;
 -- ===================== CORREO =====================
 CREATE TABLE correo (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  correo VARCHAR(50) NOT NULL,
+  correo VARCHAR(50) NOT NULL UNIQUE,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
@@ -30,7 +38,7 @@ SELECT * FROM correo;
 -- ===================== TELEFONO =====================
 CREATE TABLE telefono (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  telefono VARCHAR(50) NOT NULL,
+  telefono VARCHAR(50) NOT NULL UNIQUE,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
