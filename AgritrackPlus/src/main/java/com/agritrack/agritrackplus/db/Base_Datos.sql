@@ -15,6 +15,7 @@ CREATE TABLE usuarios (
 INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES
 ("Maria Lopez","test123", "10957456981", "Bucaramanga", "Activo");
 SELECT * FROM usuarios;
+UPDATE usuarios SET pass = MD5('test123') WHERE id = 1;
 -- ===================== CORREO =====================
 CREATE TABLE correo (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -43,12 +44,9 @@ CREATE TABLE cultivos (
   estado ENUM('Activo', 'Inactivo') NOT NULL DEFAULT 'Activo'
 );
 INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo, estado) VALUES
-('Tomate Cherry', '2024-01-15', '2024-04-15', 'Vegetativo', 'Activo'),
-('Aguacate Criollo', '2024-02-01', '2024-08-01', 'Floracion', 'Activo'),
-('Piña Oromiel', '2024-03-10', '2024-09-10', 'Maduracion', 'Activo'),
 ('Mango Tommy', '2024-04-05', '2024-10-05', 'Vegetativo', 'Inactivo');
 SELECT * FROM cultivos;
-
+ALTER TABLE cultivos MODIFY fecha_cosecha DATE NULL;
 -- ===================== PAGOS =====================
 CREATE TABLE pagos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

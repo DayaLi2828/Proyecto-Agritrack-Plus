@@ -13,45 +13,38 @@ public class ProductoDAO {
     private static final String SQL_INSERT =
         "INSERT INTO productos (nombre, unidad_medida, precio, fecha_compra, fecha_vencimiento, estado, tipo_producto_id, cantidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public boolean agregar(String nombre, double unidadMedida, double precio, String fechaCompra, 
-                          String fechaVencimiento, String estado, int tipoProductoId, int cantidad) {
-        Connection conn = null;
-        PreparedStatement ps = null;
+    public boolean agregar(String nombre, double unidadMedida, double precio, String fechaCompra, String fechaVencimiento, String estado, int tipoProductoId, int cantidad) {
+    Connection conn = null;
+    PreparedStatement ps = null;
+    try {
+        conn = Conexion.getConnection();
+        ps = conn.prepareStatement(SQL_INSERT);
+        ps.setString(1, nombre);
+        ps.setDouble(2, unidadMedida);
+        ps.setDouble(3, precio);
+        ps.setDate(4, java.sql.Date.valueOf(fechaCompra));
+        if (fechaVencimiento != null && !fechaVencimiento.trim().isEmpty()) {
+            ps.setDate(5, java.sql.Date.valueOf(fechaVencimiento));
+        } else {
+            ps.setNull(5, java.sql.Types.DATE);
+        }
+        ps.setString(6, estado);
+        ps.setInt(7, tipoProductoId);
+        ps.setInt(8, cantidad);
+        ps.executeUpdate();
+        return true;
+    } catch (SQLException | ClassNotFoundException e) {
+        e.printStackTrace();
+        return false;
+    } finally {
         try {
-            conn = Conexion.getConnection();
-            ps = conn.prepareStatement(SQL_INSERT);
-            ps.setString(1, nombre);
-            ps.setDouble(2, unidadMedida);
-            ps.setDouble(3, precio);
-
-            // Fecha de compra siempre requerida
-            ps.setDate(4, java.sql.Date.valueOf(fechaCompra));
-
-            // Fecha de vencimiento puede ser opcional
-            if (fechaVencimiento != null && !fechaVencimiento.trim().isEmpty()) {
-                ps.setDate(5, java.sql.Date.valueOf(fechaVencimiento));
-            } else {
-                ps.setNull(5, java.sql.Types.DATE);
-            }
-
-            ps.setString(6, estado);
-            ps.setInt(7, tipoProductoId);
-            ps.setInt(8, cantidad);
-
-            int filas = ps.executeUpdate();
-            return filas > 0;
-        } catch (Exception e) {
+            if (ps != null) ps.close();
+            if (conn != null) conn.close();
+        } catch (SQLException e) {
             e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                if (ps != null) ps.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
+}
 
 
 
@@ -66,7 +59,7 @@ public class ProductoDAO {
              // ✅ AGREGAR CANTIDAD AL SELECT
              ps = conn.prepareStatement(
                  "SELECT p.id, p.nombre, p.unidad_medida, p.precio, p.fecha_compra, " +
-                 "p.fecha_vencimiento, p.estado, p.cantidad, t.tipo_nombre " +  // ✅ CANTIDAD AQUÍ
+                 "p.fecha_vencimiento, p.estado, p.cantidad, t.tipo_nombre " + 
                  "FROM productos p " +
                  "JOIN tipo_producto t ON t.id = p.tipo_producto_id"
              );
@@ -79,7 +72,7 @@ public class ProductoDAO {
                  producto.put("unidad_medida", rs.getString("unidad_medida"));
                  producto.put("precio", String.valueOf(rs.getDouble("precio")));
                  // ✅ CANTIDAD CORREGIDO
-                 producto.put("cantidad", String.valueOf(rs.getInt("cantidad")));  // Línea 70
+                 producto.put("cantidad", String.valueOf(rs.getInt("cantidad"))); 
                  producto.put("fecha_compra", rs.getString("fecha_compra") != null ? rs.getString("fecha_compra") : "");
                  producto.put("fecha_vencimiento", rs.getString("fecha_vencimiento") != null ? rs.getString("fecha_vencimiento") : "");
                  producto.put("estado", rs.getString("estado"));
@@ -115,11 +108,11 @@ public class ProductoDAO {
             // Construir consulta dinámica con parámetros seguros
             StringBuilder sql = new StringBuilder(
                 "SELECT p.id, p.nombre, p.unidad_medida, p.precio, p.fecha_compra, " +
-                "p.fecha_vencimiento, p.estado, t.tipo_nombre " +
+                "p.fecha_vencimiento, p.estado, p.cantidad, t.tipo_nombre " +
                 "FROM productos p " +
                 "JOIN tipo_producto t ON t.id = p.tipo_producto_id " +
                 "WHERE 1=1"
-            );
+            );;
             
             List<Object> parametros = new ArrayList<>();
             

@@ -21,7 +21,7 @@
         <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
       <h1 class="titulo">Gestión de Inventario de Productos</h1>
-      <a href="Añadir_Producto.jsp" class="boton">Añadir Producto</a>
+      <a href="Agregar_Producto.jsp" class="boton">Añadir Producto</a>
     </div>
   </header>
 
