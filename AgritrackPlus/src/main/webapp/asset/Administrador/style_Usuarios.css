@@ -49,39 +49,20 @@ height: 70px;
   margin-top: 45px;
   margin-left: 38px;
 }
-.boton {
-  display: inline-block;       /* permite que <a> se comporte como botón */
-  height: 75px;
-  width: 180px;
-  margin-top: -18px;
-  margin-left: 33px;
-  border-radius: 10px;
-  font-size: 18px;
-  background-color: #059669;
-  border: none;
-  outline: none;
-  color: white;
-  text-align: center;          /* centra el texto */
-  line-height: 75px;           /* centra verticalmente el texto */
-  text-decoration: none;       /* quita subrayado del enlace */
-  font-weight: bold;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
+
 /**********MAIN***************/
-main{
-    padding-bottom: 100px;
-}
 .contenedor__tarjetas{
     width: 55%;
     height: 300px;
     margin: 0 auto;
     margin-top:70px;
     display: flex;
+    justify-content: center;
     gap: 50px;
 }
 .tarjeta__contador{
-width: 340px;
-height: 270px;
+width: 256px;
+height: 227px;
 background-color: var(--color-borde-contadores-tareas);
 text-align: center;
 border-radius: 10px;
@@ -90,46 +71,70 @@ box-shadow: var(--box-shadow-tarjetas);
 .tarjeta__contador h2{
     font-size: 100px;
     margin:0 auto;
-    margin-top: 60px;
+    margin-top: 33px;
     color: var(--color-numero-contador-tareas);
 }
 .tarjeta__contador p{
     font-size: 30px;
     color: var(--color-subtitulo-cultivos);
 }
-.buscador__usuario{
-    width: 50%;
-    height: 121px;
+
+.buscardor__usuario {
+    width: 37%;
     margin: 20px auto;
-    display: flex;
-    justify-content: space-between;
+    display: flex;                  /* activa flexbox */
+    justify-content: space-between; /* separa buscador y botón */
+    align-items: center;            /* centra verticalmente */
 }
-.contenedor__buscar{
+
+.contenedor__buscar {
     position: relative;
-    border-radius: 10px;
-    width: 38%;
+    margin: 20px auto;
+    gap: 50px;                      /* ocupa espacio disponible */
+    width: 432px;               /* ancho máximo del buscador */
     height: 55px;
-    margin-top: 30px;
-    margin-left: 599px;
-}
-.icono__buscador{
-    position: absolute;
-    left: 22px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 25px;
-    height: 25px;
-    pointer-events: none;
-}
-.contenedor__buscar input{
-    width: 100%;
-    height: 100%;
-    padding-left: 68px; /* espacio para el icono */
     border-radius: 10px;
     border: 2px solid #b9fcd9;
+    display: flex;
+    align-items: center;
+}
+
+.contenedor__buscar input {
+    flex: 1;
+    height: 100%;
+    padding-left: 40px;             /* espacio para la lupa */
+    border: none;
+    border-radius: 10px;
     outline: none;
     font-size: 16px;
-}/*TABLA DE USUARIOS*/
+}
+
+.icono__buscador {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.boton {
+    display: flex; 
+    height: 55px;                   /* mismo alto que el buscador */
+    width: 180px;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    background-color: #059669;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    line-height: 55px;              /* centra verticalmente el texto */
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;              /* separa del buscador */
+}
+
+/*TABLA DE USUARIOS*/
 table {
   width: 90%;
   margin: 30px auto;

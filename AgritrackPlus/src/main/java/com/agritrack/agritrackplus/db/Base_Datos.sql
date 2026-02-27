@@ -7,11 +7,10 @@ USE AgritrackPlus;
 CREATE TABLE usuarios (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
-  pass VARCHAR(50) NOT NULL UNIQUE,
-  documento VARCHAR(20) NOT NULL,
-  direccion VARCHAR(50) NOT NULL UNIQUE,
-  estado VARCHAR(20) NOT NULL,
-  foto VARCHAR(255) NULL
+  pass VARCHAR(50) NOT NULL,
+  documento VARCHAR(20) NOT NULL UNIQUE,
+  direccion VARCHAR(50) NOT NULL,
+  estado VARCHAR(20) NOT NULL
 );
 INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES
 ('Maria Lopez', MD5('test123'), '10957456981', 'Bucaramanga', 'Activo');
@@ -20,11 +19,12 @@ SELECT * FROM usuarios;
 -- =============== FOTO USUARIO ====================
 CREATE TABLE fotos_usuario (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  usuario_id INT NOT NULL,
+  usuario_id INT NOT NULL UNIQUE,
   ruta VARCHAR(255) NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
 SELECT * FROM fotos_usuario;
+
 -- ===================== CORREO =====================
 CREATE TABLE correo (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +38,7 @@ SELECT * FROM correo;
 -- ===================== TELEFONO =====================
 CREATE TABLE telefono (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  telefono VARCHAR(50) NOT NULL UNIQUE,
+  telefono VARCHAR(50) NOT NULL,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
@@ -53,7 +53,7 @@ CREATE TABLE roles (
 INSERT INTO roles (nombre) VALUES
 ('superAdmin'),
 ('administrador'),
-('trabajador');
+('Trabajador');
 SELECT * FROM roles;
 
 -- ===================== ROLES_USUARIOS =====================
@@ -93,7 +93,7 @@ CREATE TABLE cultivos (
 );
 SELECT * FROM cultivos;
 
--- =================== CULTIVO SUPERVISOR ==============
+-- =================== CULTIVO TRABAJADOR ==============
 CREATE TABLE cultivo_trabajador (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   cultivo_id INT NOT NULL,

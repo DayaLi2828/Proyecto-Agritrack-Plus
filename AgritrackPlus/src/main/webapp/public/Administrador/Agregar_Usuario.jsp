@@ -142,15 +142,33 @@
       </form>
     </div>
   </main>
-    <script>
-        function handleImageChange(input) {
-          const fileName = document.getElementById("file-name");
-          if (input.files && input.files.length > 0) {
-            fileName.textContent = input.files[0].name;
-          } else {
-            fileName.textContent = "Ningún archivo seleccionado";
-          }
+   <script>
+        function filtrar() {
+            let texto = document.getElementById("buscador").value.toLowerCase();
+            let filas = document.querySelectorAll("tbody tr");
+
+            filas.forEach(function(fila) {
+                // Buscar en NOMBRE (columna 2) y CORREO (columna 4)
+                let nombre = fila.cells[2].textContent.toLowerCase();
+                let correo = fila.cells[4].textContent.toLowerCase();
+
+                // Mostrar si coincide nombre O correo
+                if (nombre.includes(texto) || correo.includes(texto)) {
+                    fila.style.display = "";
+                } else {
+                    fila.style.display = "none";
+                }
+            });
         }
+
+        //  EVENT LISTENERS para tu buscador
+        document.addEventListener("DOMContentLoaded", function() {
+            let buscador = document.getElementById("buscador");
+            if (buscador) {
+                buscador.addEventListener("input", filtrar);
+            }
+        });
     </script>
+
 </body>
 </html>

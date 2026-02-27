@@ -21,7 +21,6 @@
         <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
       </div>
       <h1 class="titulo">Gestión de Usuarios</h1>
-      <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
     </div>
   </header>
 
@@ -55,11 +54,10 @@
 
     <div class="buscardor__usuario">
       <div class="contenedor__buscar">
-        <input type="text" id="buscador" class="input__buscador"
-               placeholder="Buscar usuario por nombre o número de documento"
-               aria-label="Buscar"/>
+        <input type="text" id="buscador" class="input__buscador" placeholder="Buscar usuario por nombre o número de documento" aria-label="Buscar"/>
         <img class="icono__buscador" src="../../asset/imagenes/lupa.png" alt="Icono de búsqueda"/>
       </div>
+        <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
     </div>
 
     <table id="tablaUsuarios">
@@ -88,7 +86,7 @@
         <%
           } else {
             for (Map<String, String> usuario : usuarios) {
-              String fotoRuta = dao.obtenerFoto(Integer.parseInt(usuario.get("id")));
+             String fotoRuta = usuario.get("foto");
         %>
           <tr>
             <td><%= usuario.get("id") %></td>
