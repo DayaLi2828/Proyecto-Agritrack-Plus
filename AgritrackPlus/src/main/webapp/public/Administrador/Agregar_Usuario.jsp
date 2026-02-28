@@ -10,6 +10,7 @@
       usuario = usuarioDAO.obtenerPorId(idUsuario);
   }
 %>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,8 +42,9 @@
         <p style="color:red; text-align:center;">Hubo un error al <%= usuario != null ? "editar" : "crear" %> el usuario. Intenta de nuevo.</p>
       <% } %>
 
+      <!-- ✅ ACTION CORREGIDO - ESTA ES LA CLAVE -->
       <form class="formulario__registrarcultivo" method="post" 
-            action="<%= usuario != null ? "../../EditarUsuarioServlet" : "../../CrearUsuarioServlet" %>" 
+            action="<%= request.getContextPath() %>/<%= usuario != null ? "EditarUsuarioServlet" : "CrearUsuarioServlet" %>" 
             enctype="multipart/form-data">
 
         <% if (usuario != null) { %>
@@ -93,8 +95,9 @@
                   <label for="imagenInput" class="btn-upload">
                     <i class="fa-solid fa-cloud-arrow-up"></i> Subir Foto
                   </label>
+                  <!-- ✅ FUNCIÓN JS CORREGIDA -->
                   <input type="file" name="foto" id="imagenInput" 
-                         accept="image/*" onchange="handleImageChange(this)">
+                         accept="image/*" onchange="mostrarNombreArchivo(this)">
                   <span id="file-name" class="file-name">Ningún archivo seleccionado</span>
                 </div>
               </div>
@@ -142,33 +145,40 @@
       </form>
     </div>
   </main>
-   <script>
-        function filtrar() {
-            let texto = document.getElementById("buscador").value.toLowerCase();
-            let filas = document.querySelectorAll("tbody tr");
 
-            filas.forEach(function(fila) {
-                // Buscar en NOMBRE (columna 2) y CORREO (columna 4)
-                let nombre = fila.cells[2].textContent.toLowerCase();
-                let correo = fila.cells[4].textContent.toLowerCase();
+  <script>
 
-                // Mostrar si coincide nombre O correo
-                if (nombre.includes(texto) || correo.includes(texto)) {
-                    fila.style.display = "";
-                } else {
-                    fila.style.display = "none";
-                }
-            });
+    function mostrarNombreArchivo(input) {
+        const nombreArchivo = document.getElementById("file-name");
+        if (input.files && input.files[0]) {
+            nombreArchivo.textContent = input.files[0].name;
+        } else {
+            nombreArchivo.textContent = "Ningún archivo seleccionado";
         }
+    }
 
-        //  EVENT LISTENERS para tu buscador
-        document.addEventListener("DOMContentLoaded", function() {
-            let buscador = document.getElementById("buscador");
-            if (buscador) {
-                buscador.addEventListener("input", filtrar);
+    function filtrar() {
+        let texto = document.getElementById("buscador").value.toLowerCase();
+        let filas = document.querySelectorAll("tbody tr");
+
+        filas.forEach(function(fila) {
+            let nombre = fila.cells[2].textContent.toLowerCase();
+            let correo = fila.cells[4].textContent.toLowerCase();
+
+            if (nombre.includes(texto) || correo.includes(texto)) {
+                fila.style.display = "";
+            } else {
+                fila.style.display = "none";
             }
         });
-    </script>
+    }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        let buscador = document.getElementById("buscador");
+        if (buscador) {
+            buscador.addEventListener("input", filtrar);
+        }
+    });
+  </script>
 </body>
 </html>

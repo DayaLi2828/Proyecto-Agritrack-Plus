@@ -80,6 +80,7 @@ box-shadow: var(--box-shadow-tarjetas);
 }
 
 .buscardor__usuario {
+    display: flex;
     width: 37%;
     margin: 20px auto;
     display: flex;                  /* activa flexbox */
