@@ -43,6 +43,7 @@
             <div class="campo">
                 <label>Tipo de producto</label>
                     <select name="tipo_producto_id" id="tipo_producto" required onchange="mostrarFechaVencimiento()">
+                        <option value="">Selecciona...</option>
                         <option value="1">Fertilizante</option>
                         <option value="2">Herramienta</option>
                         <option value="3">Semilla</option>

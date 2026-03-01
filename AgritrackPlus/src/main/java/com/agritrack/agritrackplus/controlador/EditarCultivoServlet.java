@@ -20,16 +20,27 @@ public class EditarCultivoServlet extends HttpServlet {
         String fechaCosecha = request.getParameter("fecha_cosecha");
         String ciclo = request.getParameter("ciclo");
         String estado = request.getParameter("estado");
-        String[] trabajadoresIds = request.getParameterValues("trabajadores");
+        
+        // CORRECCIÓN: Usar "trabajadores[]" para que coincida con el formulario JSP
+        String[] trabajadoresIds = request.getParameterValues("trabajadores[]");
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
+        
+        // Intentar actualizar los datos básicos del cultivo
         boolean exito = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
 
         if (exito) {
-            dao.eliminarTrabajadoresCultivo(Integer.parseInt(id));
+            int idCultivo = Integer.parseInt(id);
+            
+            // 1. Limpiamos los trabajadores actuales para actualizar la lista
+            dao.eliminarTrabajadoresCultivo(idCultivo);
+            
+            // 2. Asignamos los nuevos trabajadores seleccionados
             if (trabajadoresIds != null) {
                 for (String trabajadorId : trabajadoresIds) {
-                    dao.asignarTrabajador(Integer.parseInt(id), Integer.parseInt(trabajadorId));
+                    if (trabajadorId != null && !trabajadorId.isEmpty()) {
+                        dao.asignarTrabajador(idCultivo, Integer.parseInt(trabajadorId));
+                    }
                 }
             }
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Detalles_Cultivo.jsp?id=" + id);

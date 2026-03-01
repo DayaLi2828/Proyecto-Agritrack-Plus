@@ -444,23 +444,48 @@ public class UsuarioDAO {
             cerrar(null, ps, conn);
         }
 }
-
-    //  MÉTODO 2: ELIMINAR USUARIO
     public boolean eliminarUsuario(int usuarioId) {
-        java.sql.Connection conn = null;
-        java.sql.PreparedStatement ps = null;
+        Connection conn = null;
+        PreparedStatement ps = null;
         try {
             conn = Conexion.getConnection();
+            conn.setAutoCommit(false); // Transacción para seguridad
+
+            // 1. Borrar de tablas dependientes
+            String[] tablasRelacionadas = {
+                "DELETE FROM cultivo_trabajador WHERE usuario_id = ?",
+                "DELETE FROM supervisor WHERE usuario_id = ?",
+                "DELETE FROM roles_usuarios WHERE usuario_id = ?",
+                "DELETE FROM correo WHERE usuario_id = ?",
+                "DELETE FROM telefono WHERE usuario_id = ?",
+                "DELETE FROM fotos_usuario WHERE usuario_id = ?",
+                "DELETE FROM pagos WHERE usuario_id = ?"
+            };
+
+            for (String sql : tablasRelacionadas) {
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, usuarioId);
+                ps.executeUpdate();
+                ps.close();
+            }
+
+            // 2. Borrar de la tabla usuarios
             ps = conn.prepareStatement("DELETE FROM usuarios WHERE id = ?");
             ps.setInt(1, usuarioId);
             int filas = ps.executeUpdate();
+
+            conn.commit();
             return filas > 0;
         } catch (Exception e) {
-            System.err.println("Error eliminar usuario: " + e.getMessage());
+            if (conn != null) try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
             e.printStackTrace();
             return false;
         } finally {
-            cerrar(null, ps, conn);
+            try {
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) { e.printStackTrace(); }
         }
     }
 }
+

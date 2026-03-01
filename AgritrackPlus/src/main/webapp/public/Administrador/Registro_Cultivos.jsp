@@ -40,8 +40,7 @@
         <p style="color:red;">Hubo un error al registrar el cultivo. Intenta de nuevo.</p>
       <% } %>
 
-      <form class="formulario__registrarcultivo" method="post" action="../../Registro_CultivoServlet">
-
+    <form class="formulario__registrarcultivo" method="post" action="<%= request.getContextPath() %>/RegistroCultivoServlet">
         <!-- Información básica -->
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
@@ -159,8 +158,7 @@
             %>
               <li>
                 <label>
-                  <input type="checkbox" name="trabajadores[]" value="<%= trabajador.get("id") %>">
-                  <%= trabajador.get("nombre") %>
+                    <input type="checkbox" name="trabajadores[]" value="<%= trabajador.get("id") %>">                  <%= trabajador.get("nombre") %>
                 </label>
               </li>
             <%

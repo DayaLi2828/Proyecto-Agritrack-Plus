@@ -49,7 +49,7 @@
           <h3><%= cultivo.get("nombre") %></h3>
           <p>Siembra: <%= cultivo.get("fecha_siembra") %></p>
           <p>Estado: <%= cultivo.get("estado") %></p>
-          <a href="Detalles_Cultivo.jsp?id=<%= cultivo.get("id") %>" class="boton__ver">Ver detalles</a>
+          <a href="Detalles_Cultivo.jsp?id=<%= cultivo.get("id") %>" class="boton__ver">Ver cultivo</a>
         </div>
       <%
           }
