@@ -424,4 +424,43 @@ public class UsuarioDAO {
         }
         return lista;
     }
+
+        // MÉTODO 1: CAMBIAR ESTADO (Toggle Activo/Inactivo)
+    public boolean actualizarEstado(int usuarioId, String nuevoEstado) {
+        java.sql.Connection conn = null;
+        java.sql.PreparedStatement ps = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement("UPDATE usuarios SET estado = ? WHERE id = ?");
+            ps.setString(1, nuevoEstado);
+            ps.setInt(2, usuarioId);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (Exception e) {
+            System.err.println("Error actualizar estado: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrar(null, ps, conn);
+        }
+}
+
+    //  MÉTODO 2: ELIMINAR USUARIO
+    public boolean eliminarUsuario(int usuarioId) {
+        java.sql.Connection conn = null;
+        java.sql.PreparedStatement ps = null;
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement("DELETE FROM usuarios WHERE id = ?");
+            ps.setInt(1, usuarioId);
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (Exception e) {
+            System.err.println("Error eliminar usuario: " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        } finally {
+            cerrar(null, ps, conn);
+        }
+    }
 }
