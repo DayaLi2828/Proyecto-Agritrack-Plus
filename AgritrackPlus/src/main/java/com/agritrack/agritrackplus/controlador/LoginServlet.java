@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
 public class LoginServlet extends HttpServlet {
@@ -20,7 +22,8 @@ public class LoginServlet extends HttpServlet {
         String pass = request.getParameter("password");
 
         UsuarioDAO dao = new UsuarioDAO();
-        Usuario user = dao.login(correo, pass);
+        Usuario user = null;
+        user = dao.login(correo, pass);
 
         if (user != null) {
             HttpSession session = request.getSession();

@@ -158,7 +158,24 @@
             </div>
           </div>
         </div>
+            
+        <div class="contendor__cajas">
+            <div class="contendor__subtitulo">
+                <h2 class="subtitulo">Seguridad y Acceso</h2>
+            </div>
 
+            <% if (usuario == null) { %>
+                <div class="campo <%= "true".equals(request.getParameter("error_pass")) ? "campo-error" : "" %>">
+                    <label> Contraseña <span style="color:#dc3545;">*</span></label>
+                    <input type="password" name="pass" placeholder="Mínimo 6 caracteres" required>
+                    <% if ("true".equals(request.getParameter("error_pass"))) { %>
+                        <span class="error-mensaje"> La contraseña debe tener al menos 6 caracteres</span>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <input type="hidden" name="id" value="<%= usuario.get("id") %>">
+                <input type="hidden" name="pass" value=""> <% } %>
+        </div>
         <!-- ROL -->
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
@@ -173,10 +190,10 @@
             <label> Rol <span style="color:#dc3545;">*</span></label>
             <select name="rol_id" required>
               <option value="">Selecciona...</option>
-              <option value="2" <%= "2".equals(paramRol) || 
-                  (usuario != null && ("Trabajador".equals(usuario.get("rol")) || "2".equals(usuario.get("rol")) || "2".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Trabajador</option>
-              <option value="3" <%= "3".equals(paramRol) || 
-                  (usuario != null && ("Supervisor".equals(usuario.get("rol")) || "3".equals(usuario.get("rol")) || "3".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Supervisor</option>
+              <option value="2" <%= "1".equals(paramRol) || 
+                  (usuario != null && ("Trabajador".equals(usuario.get("rol")) || "1".equals(usuario.get("rol")) || "1".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Trabajador</option>
+              <option value="3" <%= "2".equals(paramRol) || 
+                  (usuario != null && ("Supervisor".equals(usuario.get("rol")) || "2".equals(usuario.get("rol")) || "2".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Supervisor</option>
             </select>
             <% if ("true".equals(errorRol)) { %>
               <span class="error-mensaje"> Selecciona un rol</span>

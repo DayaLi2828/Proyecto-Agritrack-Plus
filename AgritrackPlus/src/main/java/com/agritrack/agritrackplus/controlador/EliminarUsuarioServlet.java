@@ -16,17 +16,26 @@ public class EliminarUsuarioServlet extends HttpServlet {
             throws ServletException, IOException {
         
         request.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
+        String idStr = request.getParameter("id");
         
-        if (id != null) {
-            UsuarioDAO dao = new UsuarioDAO();
-            boolean eliminado = dao.eliminarUsuario(Integer.parseInt(id));
-            
-            if (eliminado) {
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=eliminado");
-            } else {
+        if (idStr != null && !idStr.trim().isEmpty()) {
+            try {
+                int usuarioId = Integer.parseInt(idStr);
+                UsuarioDAO dao = new UsuarioDAO();
+                
+                boolean eliminado = dao.eliminarUsuario(usuarioId);
+                
+                if (eliminado) {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=eliminado");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?error=eliminado");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?error=eliminado");
             }
+        } else {
+            response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp");
         }
     }
 }

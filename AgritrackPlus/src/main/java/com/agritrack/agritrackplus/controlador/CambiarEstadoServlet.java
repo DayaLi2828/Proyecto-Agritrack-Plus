@@ -9,36 +9,34 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet(name = "CambiarEstadoServlet", urlPatterns = {"/CambiarEstadoServlet"})  
+@WebServlet(name = "CambiarEstadoServlet", urlPatterns = {"/CambiarEstadoServlet"})
 public class CambiarEstadoServlet extends HttpServlet {
 
-    @Override
+   @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        request.setCharacterEncoding("UTF-8");
+
+        // 1. Evitar que cualquier filtro previo ensucie la respuesta
+        if (response.isCommitted()) return;
+
         String idStr = request.getParameter("id");
-        
-        if (idStr != null && !idStr.trim().isEmpty()) {
-            try {
-                int usuarioId = Integer.parseInt(idStr);
-                UsuarioDAO dao = new UsuarioDAO();
-                
+        UsuarioDAO dao = new UsuarioDAO();
+
+        try {
+            if (idStr != null && !idStr.isEmpty()) {
                 Map<String, String> usuario = dao.obtenerPorId(idStr);
                 if (usuario != null) {
-                    String estadoActual = usuario.get("estado");
-                    String nuevoEstado = "Activo".equals(estadoActual) ? "Inactivo" : "Activo";
-                    
-                    boolean exito = dao.actualizarEstado(usuarioId, nuevoEstado);
-                    
-                    if (exito) {
-                        response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=estado");
-                    }
+                    String nuevoEstado = "Activo".equalsIgnoreCase(usuario.get("estado")) ? "Inactivo" : "Activo";
+                    dao.actualizarEstado(Integer.parseInt(idStr), nuevoEstado);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        // 2. REDIRECCIÓN MANUAL (Más segura que sendRedirect en algunos entornos)
+        response.setStatus(HttpServletResponse.SC_SEE_OTHER);
+        response.setHeader("Location", request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=estado");
+        return; //  AQUÍ SE TERMINA TODO. No puede haber nada más abajo.
     }
 }

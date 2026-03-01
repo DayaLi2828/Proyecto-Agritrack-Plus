@@ -77,7 +77,7 @@
       <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
     </div>
 
-    <!-- TABLA -->
+    <!-- TABLA ✅ CORREGIDA COMPLETA -->
     <table id="tablaUsuarios">
       <caption>Lista de usuarios</caption>
       <thead>
@@ -124,31 +124,30 @@
               <td><%= usuario.get("direccion") != null ? usuario.get("direccion") : "-" %></td>
               <td><%= usuario.get("correo") != null ? usuario.get("correo") : "-" %></td>
               <td><%= usuario.get("telefono") != null ? usuario.get("telefono") : "-" %></td>
+              <!-- ✅ ROL -->
               <td>
                 <span class="rol-badge <%= "Trabajador".equals(usuario.get("rol")) ? "rol-trabajador" : "rol-supervisor" %>">
                   <%= usuario.get("rol") != null ? usuario.get("rol") : "-" %>
                 </span>
               </td>
+              <!-- ✅ ESTADO -->
               <td>
-                <!-- ✅ BOTÓN TOGGLE ESTADO -->
                 <form method="POST" action="<%= request.getContextPath() %>/CambiarEstadoServlet" style="display:inline;">
                   <input type="hidden" name="id" value="<%= usuario.get("id") %>">
-                  <button type="submit" class="btn-estado <%= esActivo ? "btn-activo" : "btn-inactivo" %>"
-                          title="<%= esActivo ? "Click para desactivar" : "Click para activar" %>">
+                  <button type="submit" class="btn-estado <%= esActivo ? "btn-activo" : "btn-inactivo" %>">
                     <%= esActivo ? "🟢 ACTIVO" : "🔴 INACTIVO" %>
                   </button>
                 </form>
               </td>
+              <!-- ✅ ACCIONES -->
               <td class="acciones">
-                <!-- ✅ EDITAR -->
-                <a href="Agregar_Usuario.jsp?id=<%= usuario.get("id") %>" class="btn-editar" title="Editar">
+                <a href="Agregar_Usuario.jsp?id=<%= usuario.get("id") %>" class="btn-editar">
                   <i class="fas fa-edit"></i> Editar
                 </a>
-                <!-- ✅ ELIMINAR -->
-                <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" 
-                      style="display:inline;" onsubmit="return confirm('¿Eliminar a <%= usuario.get("nombre") %>?\nEsta acción NO se puede deshacer.')">
+                <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" style="display:inline;" 
+                      onsubmit="return confirm('¿Eliminar a <%= usuario.get("nombre") %>?')">
                   <input type="hidden" name="id" value="<%= usuario.get("id") %>">
-                  <button type="submit" class="btn-eliminar" title="Eliminar permanentemente">
+                  <button type="submit" class="btn-eliminar">
                     <i class="fas fa-trash"></i> Eliminar
                   </button>
                 </form>
