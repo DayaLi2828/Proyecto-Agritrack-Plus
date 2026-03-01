@@ -51,9 +51,10 @@ CREATE TABLE roles (
   nombre VARCHAR(50) NOT NULL
 );
 INSERT INTO roles (nombre) VALUES
-('superAdmin'),
 ('administrador'),
-('Trabajador');
+('Trabajador'),
+('supervisor'),
+('superAdmin');
 SELECT * FROM roles;
 
 -- ===================== ROLES_USUARIOS =====================
@@ -64,7 +65,7 @@ CREATE TABLE roles_usuarios (
   FOREIGN KEY (rol_id) REFERENCES roles(id),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES (1, 2);
+INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES (1, 1);
 SELECT * FROM roles_usuarios;
 
 -- ===================== PERMISOS =====================
