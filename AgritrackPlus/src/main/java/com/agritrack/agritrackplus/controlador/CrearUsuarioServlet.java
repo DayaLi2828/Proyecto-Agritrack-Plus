@@ -27,27 +27,30 @@ public class CrearUsuarioServlet extends HttpServlet {
         String direccion = request.getParameter("direccion");
         String correo = request.getParameter("correo");
         String telefono = request.getParameter("telefono");
-        String rolStr = request.getParameter("rol");  // ✅ CAMBIO: "Trabajador" o "Administrador"
 
-        // ✅ CORRECCIÓN: Mapear STRING ROL → INT rolId
+        // 1. Capturamos el ID del rol que viene del JSP (name="rol_id")
+        String rolIdStr = request.getParameter("rol_id"); 
         int rolId;
-        if ("Trabajador".equals(rolStr)) {
-            rolId = 2;  //  ROL TRABAJADOR = ID 2
-        } else {
-            rolId = 1;  //  ROL ADMIN = ID 1
-        }
-        
-        System.out.println(" DEBUG - Rol recibido: " + rolStr + " → rolId: " + rolId);
 
-        // VALIDACIÓN DE CONTRASEÑA (El motivo por el cual no creaba antes)
+        try {
+            if (rolIdStr != null && !rolIdStr.isEmpty()) {
+                rolId = Integer.parseInt(rolIdStr);
+            } else {
+                rolId = 2; // Por defecto Trabajador si llega nulo
+            }
+        } catch (NumberFormatException e) {
+            rolId = 2; 
+        }
+
+        // 2. VALIDACIÓN DE CONTRASEÑA
         if (pass == null || pass.trim().length() < 6) {
-            redirigirConErrores(request, response, "error_pass", nombre, documento, direccion, correo, telefono, rolStr, pass);
+            redirigirConErrores(request, response, "error_pass", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
-        // Validaciones de negocio (simplificadas para el ejemplo)
+        // 3. VALIDACIÓN DE DUPLICADOS
         if (dao.existeDocumento(documento)) {
-            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolStr, pass);
+            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
@@ -68,21 +71,20 @@ public class CrearUsuarioServlet extends HttpServlet {
             System.out.println(" Error foto: " + e.getMessage()); 
         }
 
+        // 4. CREAR EN LA BASE DE DATOS
         boolean exito = dao.crear(nombre, pass, documento, direccion, "Activo", correo, telefono, rolId, nombreFoto);
-
-        System.out.println(" USUARIO CREADO: " + exito + " con rolId=" + rolId);
 
         if (exito) {
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=creado");
         } else {
-            redirigirConErrores(request, response, "error_db", nombre, documento, direccion, correo, telefono, rolStr, pass);
+            // LÍNEA 85 CORREGIDA: Se cambió 'rolStr' por 'rolIdStr'
+            redirigirConErrores(request, response, "error_db", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
         }
     }
 
-    // ✅ MÉTODO AUXILIAR PARA REDIRIGIR CON ERRORES Y MANTENER DATOS
     private void redirigirConErrores(HttpServletRequest request, HttpServletResponse response, 
                                    String tipoError, String nombre, String documento, String direccion, 
-                                   String correo, String telefono, String rolStr, String pass) throws IOException {
+                                   String correo, String telefono, String rolIdStr, String pass) throws IOException {
         response.sendRedirect(request.getContextPath() + 
             "/public/Administrador/Agregar_Usuario.jsp?" +
             "nombre=" + URLEncoder.encode(nombre != null ? nombre : "", "UTF-8") +
@@ -90,7 +92,7 @@ public class CrearUsuarioServlet extends HttpServlet {
             "&direccion=" + URLEncoder.encode(direccion != null ? direccion : "", "UTF-8") +
             "&correo=" + URLEncoder.encode(correo != null ? correo : "", "UTF-8") +
             "&telefono=" + URLEncoder.encode(telefono != null ? telefono : "", "UTF-8") +
-            "&rol=" + URLEncoder.encode(rolStr != null ? rolStr : "", "UTF-8") +
+            "&rol_id=" + URLEncoder.encode(rolIdStr != null ? rolIdStr : "2", "UTF-8") + // Sincronizado con el JSP
             "&pass=" + URLEncoder.encode(pass != null ? pass : "", "UTF-8") +
             "&" + tipoError + "=true");
     }

@@ -59,7 +59,7 @@
       <!-- ✅ INFO EDICIÓN -->
       <% if (usuario != null) { %>
         <div class="info-edicion">
-           <strong>Contraseña:</strong> La contraseña actual se mantiene. Para cambiarla contacta al administrador.
+           <strong>Contraseña:</strong> La contraseña actual se mantiene. Para cambiarla contacta al Trabajador.
         </div>
       <% } %>
 
@@ -173,10 +173,11 @@
                     <% } %>
                 </div>
             <% } else { %>
-                <input type="hidden" name="id" value="<%= usuario.get("id") %>">
-                <input type="hidden" name="pass" value=""> <% } %>
+                <input type="hidden" name="pass" value=""> 
+            <% } %>
         </div>
-        <!-- ROL -->
+
+        <!-- ✅ ROL CORREGIDO -->
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -185,20 +186,18 @@
             <h2 class="subtitulo">Rol del Usuario</h2>
           </div>
 
-          <!-- ROL - SIEMPRE PRESELECCIONADO -->
-          <div class="campo <%= "true".equals(errorRol) ? "campo-error" : "" %>">
+          <!-- ✅ ROL CORREGIDO: value="1"=Admin, value="2"=Trabajador -->
+        <div class="campo <%= "true".equals(errorRol) ? "campo-error" : "" %>">
             <label> Rol <span style="color:#dc3545;">*</span></label>
-            <select name="rol_id" required>
-              <option value="">Selecciona...</option>
-              <option value="2" <%= "1".equals(paramRol) || 
-                  (usuario != null && ("Trabajador".equals(usuario.get("rol")) || "1".equals(usuario.get("rol")) || "1".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Trabajador</option>
-              <option value="3" <%= "2".equals(paramRol) || 
-                  (usuario != null && ("Supervisor".equals(usuario.get("rol")) || "2".equals(usuario.get("rol")) || "2".equals(usuario.get("rol_id")))) ? "selected" : "" %>>Supervisor</option>
+            <select name="rol_id" id="rol_id" required>
+                <option value="">Selecciona...</option>
+                <option value="2" <%= "2".equals(paramRol) || (usuario != null && "Trabajador".equals(usuario.get("rol"))) ? "selected" : "" %>>Trabajador</option>
+                <option value="3" <%= "3".equals(paramRol) || (usuario != null && "Supervisor".equals(usuario.get("rol"))) ? "selected" : "" %>>Supervisor</option>
             </select>
             <% if ("true".equals(errorRol)) { %>
-              <span class="error-mensaje"> Selecciona un rol</span>
+                <span class="error-mensaje"> Selecciona un rol</span>
             <% } %>
-          </div>
+        </div>
         </div>
 
         <div class="contenedor__boton--enviar">
