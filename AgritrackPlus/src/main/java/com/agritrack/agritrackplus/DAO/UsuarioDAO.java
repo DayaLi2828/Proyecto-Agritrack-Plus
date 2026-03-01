@@ -336,6 +336,7 @@ public class UsuarioDAO {
             cerrar(null, null, conn);
         }
     }
+
     public Map<String, String> obtenerPorId(String id) {
         Map<String, String> usuario = new HashMap<>();
         Connection conn = null;
@@ -423,5 +424,4 @@ public class UsuarioDAO {
         }
         return lista;
     }
-
 }

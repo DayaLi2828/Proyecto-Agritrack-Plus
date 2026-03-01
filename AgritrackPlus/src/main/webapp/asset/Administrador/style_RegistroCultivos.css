@@ -106,7 +106,7 @@ header {
   border: var(--color-borde-input-formulario);
   font-size: 18px;
   color: var(--color-texto-formulario);
-  margin-bottom: 20px;
+  margin-bottom: 8px; /* ✅ Reducido para pegar errores al campo */
 }
 .formulario__registrarcultivo input:focus,
 .formulario__registrarcultivo select:focus {
@@ -121,8 +121,9 @@ header {
 .campo {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 8px; /* ✅ Reducido para pegar errores al campo */
   width: 100%;
+  position: relative; /* ✅ Para posicionamiento preciso */
 }
 
 /* Fechas */
@@ -133,6 +134,58 @@ header {
 }
 .fechas .campo {
   flex: 1;
+}
+
+/* ✅ ESTILOS DE ERRORES - CENTrados y PEGADOS */
+.error-mensaje {
+  color: #dc3545 !important;
+  font-size: 14px; /* ✅ Tamaño más legible */
+  font-weight: 600;
+  margin: 0; /* ✅ Sin margen extra */
+  padding: 4px 8px;
+  text-align: center; /* ✅ CENTRADO */
+  background: rgba(220, 53, 69, 0.1); /* ✅ Fondo sutil rojo */
+  border-radius: 6px;
+  border-left: 3px solid #dc3545;
+  display: block;
+  line-height: 1.4;
+}
+
+.campo-error input,
+.campo-error select {
+  border-color: #dc3545 !important;
+  background-color: #fff5f5 !important;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.alerta-error {
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%) !important;
+  color: #dc3545 !important;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  border-left: 6px solid #dc3545 !important;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+}
+
+.ayuda-texto {
+  color: #dc3545 !important;
+  font-size: 13px;
+  opacity: 0.9;
+  font-weight: 500;
+  text-align: center;
+  padding: 4px 8px;
+  background: rgba(220, 53, 69, 0.05);
+  border-radius: 4px;
+  display: block;
+  margin-top: 2px;
 }
 
 /* Supervisor */

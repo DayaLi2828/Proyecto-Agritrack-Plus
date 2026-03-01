@@ -4,6 +4,7 @@ import com.agritrack.agritrackplus.DAO.UsuarioDAO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.net.URLEncoder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,117 +22,113 @@ public class CrearUsuarioServlet extends HttpServlet {
             throws ServletException, IOException {
 
         request.setCharacterEncoding("UTF-8");
-        System.out.println("===  CREAR USUARIO INICIADO ===");
+        UsuarioDAO dao = new UsuarioDAO();
+        boolean hayErrores = false;
 
-        // 1. OBTENER DATOS
+        // 1. OBTENER DATOS DEL FORMULARIO
         String nombre = request.getParameter("nombre");
         String pass = request.getParameter("pass");
         String documento = request.getParameter("documento");
         String direccion = request.getParameter("direccion");
-        String estado = request.getParameter("estado");
+        String estado = "Activo"; // Valor por defecto
         String correo = request.getParameter("correo");
         String telefono = request.getParameter("telefono");
         String rolIdStr = request.getParameter("rol_id");
 
-        // LOGS DEBUG
-        System.out.println(" nombre: '" + nombre + "'");
-        System.out.println(" documento: '" + documento + "'");
-        System.out.println(" correo: '" + correo + "'");
-        System.out.println(" telefono: '" + telefono + "'");
-        System.out.println(" rol_id: '" + rolIdStr + "'");
-
-        // 2. VALIDAR ROL
-        int rolId = 0;
-        if (rolIdStr != null && !rolIdStr.trim().isEmpty()) {
-            try {
-                rolId = Integer.parseInt(rolIdStr);
-                System.out.println(" Rol válido: " + rolId);
-            } catch (NumberFormatException e) {
-                System.err.println(" ERROR rol inválido: " + rolIdStr);
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=rol_invalido");
-                return;
-            }
-        }
-
-        // 3. VALIDACIONES CORREGIDAS 
-        if (nombre == null || nombre.trim().isEmpty() || nombre.length() < 2 || nombre.length() > 50) {
-            System.err.println(" ERROR nombre inválido");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=nombre_invalido");
+        // 2. VALIDACIONES CLIENT-SERVER CON PARÁMETROS GET
+        // Validación de Nombre (Sin números)
+        if (nombre == null || nombre.trim().isEmpty() || nombre.matches(".*\\d.*")) {
+            response.sendRedirect(request.getContextPath() + 
+                "/public/Administrador/Agregar_Usuario.jsp?" +
+                "nombre=" + URLEncoder.encode(nombre != null ? nombre : "", "UTF-8") +
+                "&documento=" + URLEncoder.encode(documento != null ? documento : "", "UTF-8") +
+                "&direccion=" + URLEncoder.encode(direccion != null ? direccion : "", "UTF-8") +
+                "&correo=" + URLEncoder.encode(correo != null ? correo : "", "UTF-8") +
+                "&telefono=" + URLEncoder.encode(telefono != null ? telefono : "", "UTF-8") +
+                "&rol_id=" + URLEncoder.encode(rolIdStr != null ? rolIdStr : "", "UTF-8") +
+                "&pass=" + URLEncoder.encode(pass != null ? pass : "", "UTF-8") +
+                "&error_nombre=true");
             return;
         }
 
+        // Validación de Documento (Exactamente 10 dígitos)
+        if (documento == null || !documento.matches("\\d{10}") || documento.length() != 10) {
+            redirigirConErrores(request, response, "error_doc", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        } else if (dao.existeDocumento(documento)) {
+            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
+
+        // Validación de Correo
+        if (correo == null || !correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+            redirigirConErrores(request, response, "error_correo", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        } else if (dao.existeCorreo(correo)) {
+            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
+
+        // Validación de Teléfono (Exactamente 10 dígitos)
+        if (telefono == null || !telefono.matches("\\d{10}")) {
+            redirigirConErrores(request, response, "error_tel", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
+
+        // Validación de Contraseña
         if (pass == null || pass.length() < 6) {
-            System.err.println(" ERROR pass corta");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=pass_corto");
+            redirigirConErrores(request, response, "error_pass", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
-        // REGEX CORREGIDO - SOLO NÚMEROS
-        if (documento == null || !documento.matches("\\d+") || documento.length() < 6 || documento.length() > 15) {
-            System.err.println("ERROR documento inválido: '" + documento + "'");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=documento_invalido");
+        // Validación de Rol
+        if (rolIdStr == null || rolIdStr.trim().isEmpty() || (!"2".equals(rolIdStr) && !"3".equals(rolIdStr))) {
+            redirigirConErrores(request, response, "error_rol", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
-        if (direccion == null || direccion.trim().isEmpty() || direccion.length() > 200) {
-            System.err.println(" ERROR dirección inválida");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=direccion_invalida");
-            return;
-        }
+        // 3. TODAS VALIDACIONES OK - PROCESAR FOTO
+        int rolId = Integer.parseInt(rolIdStr);
+        String nombreFoto = "asset/imagenes/default-avatar.png";
 
-        // ✅ REGEX CORREGIDO - CORREO
-        if (correo == null || !correo.matches("^[A-Za-z0-9+_.-]+@([A-Za-z0-9.-]+\\.[A-Za-z]{2,})$")) {
-            System.err.println(" ERROR correo inválido: '" + correo + "'");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=correo_invalido");
-            return;
-        }
-
-        // ✅ REGEX CORREGIDO - TELÉFONO 10 DÍGITOS
-        if (telefono == null || !telefono.matches("\\d+") || telefono.length() != 10) {
-            System.err.println(" ERROR teléfono inválido: '" + telefono + "'");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=telefono_invalido");
-            return;
-        }
-
-        if (rolId <= 0) {
-            System.err.println(" ERROR rol obligatorio");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=rol_obligatorio");
-            return;
-        }
-
-        // 4. FOTO (SIN CAMBIOS)
-        String nombreFoto = null;
         try {
             Part fotoPart = request.getPart("foto");
             if (fotoPart != null && fotoPart.getSize() > 0) {
-                String nombreArchivo = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
-                String uploadPath = getServletContext().getRealPath("") + "asset/imagenes/trabajadores/";
-                
+                String fileName = Paths.get(fotoPart.getSubmittedFileName()).getFileName().toString();
+                String uploadPath = getServletContext().getRealPath("") + File.separator + "asset" + File.separator + "imagenes" + File.separator + "trabajadores" + File.separator;
                 File uploadDir = new File(uploadPath);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();
-                }
-                fotoPart.write(uploadPath + nombreArchivo);
-                nombreFoto = "asset/imagenes/trabajadores/" + nombreArchivo;
-                System.out.println(" Foto guardada: " + nombreFoto);
+                if (!uploadDir.exists()) uploadDir.mkdirs();
+                
+                fotoPart.write(uploadPath + fileName);
+                nombreFoto = "asset/imagenes/trabajadores/" + fileName;
             }
         } catch (Exception e) {
-            System.err.println(" Sin foto: " + e.getMessage());
+            System.err.println("Error al subir foto: " + e.getMessage());
         }
 
-        // 5. GUARDAR
-        System.out.println("Guardando usuario...");
-        UsuarioDAO dao = new UsuarioDAO();
-        boolean exito = dao.crear(nombre, pass, documento, direccion, estado, correo, telefono, rolId, nombreFoto);
-
-        System.out.println(" RESULTADO: " + exito);
+        // 4. GUARDAR EN BD
+        boolean exito = dao.crear(nombre.trim(), pass, documento, direccion.trim(), estado, correo.trim(), telefono, rolId, nombreFoto);
 
         if (exito) {
-            System.out.println(" USUARIO CREADO!");
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?registro=exitoso");
         } else {
-            System.err.println(" DAO.crear() FALLÓ");
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Usuario.jsp?error=duplicado");
+            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
         }
+    }
+
+    // ✅ MÉTODO AUXILIAR PARA REDIRIGIR CON ERRORES Y MANTENER DATOS
+    private void redirigirConErrores(HttpServletRequest request, HttpServletResponse response, 
+                                   String tipoError, String nombre, String documento, String direccion, 
+                                   String correo, String telefono, String rolIdStr, String pass) throws IOException {
+        response.sendRedirect(request.getContextPath() + 
+            "/public/Administrador/Agregar_Usuario.jsp?" +
+            "nombre=" + URLEncoder.encode(nombre != null ? nombre : "", "UTF-8") +
+            "&documento=" + URLEncoder.encode(documento != null ? documento : "", "UTF-8") +
+            "&direccion=" + URLEncoder.encode(direccion != null ? direccion : "", "UTF-8") +
+            "&correo=" + URLEncoder.encode(correo != null ? correo : "", "UTF-8") +
+            "&telefono=" + URLEncoder.encode(telefono != null ? telefono : "", "UTF-8") +
+            "&rol_id=" + URLEncoder.encode(rolIdStr != null ? rolIdStr : "", "UTF-8") +
+            "&pass=" + URLEncoder.encode(pass != null ? pass : "", "UTF-8") +
+            "&" + tipoError + "=true");
     }
 }
