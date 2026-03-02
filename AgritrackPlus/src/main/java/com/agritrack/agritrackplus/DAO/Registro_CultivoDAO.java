@@ -15,10 +15,9 @@ public class Registro_CultivoDAO {
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            ps = conn.prepareStatement(
-                "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, estado) VALUES (?, ?, ?, ?)",
-                PreparedStatement.RETURN_GENERATED_KEYS
-            );
+            // Agregamos fecha_cosecha como NULL por defecto en el registro inicial
+            String sql = "INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo, estado) VALUES (?, ?, NULL, ?, ?)";
+            ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
             ps.setString(3, ciclo);
@@ -36,7 +35,28 @@ public class Registro_CultivoDAO {
             cerrarRecursos(conn, ps, rs);
         }
     }
+    public boolean editar(String id, String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado) {
+        String sql = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=? WHERE id=?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ps.setString(2, fechaSiembra);
 
+            // Lógica para que si la cosecha está vacía, en la DB se guarde NULL
+            if (fechaCosecha == null || fechaCosecha.trim().isEmpty()) {
+                ps.setNull(3, java.sql.Types.DATE);
+            } else {
+                ps.setString(3, fechaCosecha);
+            }
+            ps.setString(4, ciclo);
+            ps.setString(5, estado);
+            ps.setInt(6, Integer.parseInt(id));
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public void asignarTrabajador(int cultivoId, int usuarioId) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -175,29 +195,6 @@ public class Registro_CultivoDAO {
             if (conn != null) conn.close();
         } catch (SQLException e) { e.printStackTrace(); }
     }
-    // AGREGAR ESTO A Registro_CultivoDAO.java
-
-public boolean editar(String id, String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado) {
-    String sql = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=? WHERE id=?";
-    try (Connection conn = Conexion.getConnection();
-         PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, nombre);
-        ps.setString(2, fechaSiembra);
-        // Manejo de fecha de cosecha nula
-        if (fechaCosecha == null || fechaCosecha.isEmpty()) {
-            ps.setNull(3, java.sql.Types.DATE);
-        } else {
-            ps.setString(3, fechaCosecha);
-        }
-        ps.setString(4, ciclo);
-        ps.setString(5, estado);
-        ps.setInt(6, Integer.parseInt(id));
-        return ps.executeUpdate() > 0;
-    } catch (Exception e) {
-        e.printStackTrace();
-        return false;
-    }
-}
 
     public void eliminarTrabajadoresCultivo(int cultivoId) {
         String sql = "DELETE FROM cultivo_trabajador WHERE cultivo_id = ?";
@@ -208,5 +205,22 @@ public boolean editar(String id, String nombre, String fechaSiembra, String fech
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void eliminarProductosCultivo(int cultivoId) {
+        String sql = "DELETE FROM stock_cultivo WHERE cultivo_id = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cultivoId);
+            ps.executeUpdate();
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    public void eliminarSupervisorCultivo(int cultivoId) {
+        String sql = "DELETE FROM supervisor WHERE cultivo_id = ?";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cultivoId);
+            ps.executeUpdate();
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

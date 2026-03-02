@@ -12,8 +12,22 @@ CREATE TABLE usuarios (
   direccion VARCHAR(50) NOT NULL,
   estado VARCHAR(20) NOT NULL
 );
-INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES
-('Maria Lopez', MD5('test123'), '10957456981', 'Bucaramanga', 'Activo');
+INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES 
+( 'Dayana Lisarazo', MD5('Admin2026*'), '1095745698', 'Calle 36 #12-05, Bucaramanga', 'Activo'),
+( 'Ana Maria Gomez', MD5('An4.Gom3z#9'), '1098765432', 'Carrera 27 #54-10, Floridablanca', 'Activo'),
+( 'Juan David Perez', MD5('Jperez_88*Q'), '1050403020', 'Av. Quebradaseca #15-20, Bucaramanga', 'Activo'),
+( 'Lucia Fernanda Diaz', MD5('LuCi4$2024&'), '1010203045', 'Calle 105 #22-14, Girón', 'Activo'),
+( 'Luis Eduardo Mora', MD5('Lucho#M0r4!'), '1092345678', 'Carrera 15 #33-45, Piedecuesta', 'Activo'),
+( 'Elena Sofia Sanz', MD5('Elen4.Sanz*'), '1088776655', 'Calle 56 #9-12, Bucaramanga', 'Activo'),
+( 'Pedro Jose Gil', MD5('P3dro_Gil$2'), '1077665544', 'Trans. 39 #10-50, Floridablanca', 'Activo'),
+( 'Rosa Elena Meza', MD5('R0s4_M3z4#9'), '1066554433', 'Calle 20 #18-05, Lebrija', 'Activo'),
+( 'Jose Antonio Toro', MD5('J0se*Toro!2'), '1055443322', 'Carrera 9 #45-67, Bucaramanga', 'Activo'),
+( 'Clara Ines Luz', MD5('Cl4r4.Luz*2'), '1044332211', 'Calle 12 #14-16, Girón', 'Activo'),
+( 'Hugo Armando Paz', MD5('Hug0_Paz$20'), '1033221100', 'Carrera 33 #52-10, Bucaramanga', 'Activo'),
+( 'Nora Cecilia Rey', MD5('Nor4#R3y*20'), '1022110099', 'Calle 200 #12-44, Floridablanca', 'Activo'),
+( 'Ivan Dario Rios', MD5('Iv4n.Rios!8'), '1011009988', 'Av. Los Samanes #4-12, Bucaramanga', 'Activo'),
+( 'Sara Isabel Lee', MD5('S4r4_Lee*99'), '1000998877', 'Carrera 12 #10-30, Piedecuesta', 'Activo'),
+( 'Beto Alejandro Cue', MD5('B3to_Cue$20'), '1099887766', 'Calle 5 #8-10, Zapatoca', 'Activo');
 SELECT * FROM usuarios;
 
 -- =============== FOTO USUARIO ====================
@@ -23,6 +37,12 @@ CREATE TABLE fotos_usuario (
   ruta VARCHAR(255) NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+INSERT INTO fotos_usuario (usuario_id, ruta) VALUES
+(1, 'perfil_dayana.jpg'), (2, 'perfil_ana.jpg'), (3, 'perfil_juan.jpg'),
+(4, 'perfil_lucia.jpg'), (5, 'perfil_luis.jpg'), (6, 'perfil_elena.jpg'),
+(7, 'perfil_pedro.jpg'), (8, 'perfil_rosa.jpg'), (9, 'perfil_jose.jpg'),
+(10, 'perfil_clara.jpg'), (11, 'perfil_hugo.jpg'), (12, 'perfil_nora.jpg'),
+(13, 'perfil_ivan.jpg'), (14, 'perfil_sara.jpg'), (15, 'perfil_beto.jpg');
 SELECT * FROM fotos_usuario;
 
 -- ===================== CORREO =====================
@@ -32,9 +52,23 @@ CREATE TABLE correo (
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO correo (correo, usuario_id) VALUES ('lisarazodayana84@gmail.com', 1);
+INSERT INTO correo (correo, usuario_id)  VALUES
+('lisarazodayana84@gmail.com', 1),
+('am.gomez@agritrack.com', 2),
+('j.perez_dav@agritrack.com', 3),
+('lucia.diaz.f@agritrack.com', 4),
+('lucho.mora@agritrack.com', 5),
+('elena.sanz.s@agritrack.com', 6),
+('pj.gil_campos@agritrack.com', 7),
+('rosa.meza.elena@agritrack.com', 8),
+('jose.toro.ant@agritrack.com', 9),
+('clara.ines.luz@agritrack.com', 10),
+('hugo.paz.armando@agritrack.com', 11),
+('nora.rey.cecilia@agritrack.com', 12),
+('ivan.rios.d@agritrack.com', 13),
+('sara.lee.isabel@agritrack.com', 14),
+('beto.cue.alejo@agritrack.com', 15);
 SELECT * FROM correo;
-
 -- ===================== TELEFONO =====================
 CREATE TABLE telefono (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -42,7 +76,22 @@ CREATE TABLE telefono (
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO telefono (telefono, usuario_id) VALUES ('3001234567', 1);
+INSERT INTO telefono (telefono, usuario_id) VALUES 
+('3001234567', 1),
+('3104758291', 2),
+('3158294031', 3),
+('3209182736', 4),
+('3127364510', 5),
+('3182930415', 6),
+('3115647382', 7),
+('3149028173', 8),
+('3138475629', 9),
+('3172635401', 10),
+('3216549870', 11),
+('3164758293', 12),
+('3109283746', 13),
+('3157463521', 14),
+('3228374650', 15);
 SELECT * FROM telefono;
 
 -- ===================== ROLES =====================
@@ -65,7 +114,10 @@ CREATE TABLE roles_usuarios (
   FOREIGN KEY (rol_id) REFERENCES roles(id),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES (1, 1);
+INSERT INTO roles_usuarios (usuario_id, rol_id) VALUES 
+(1, 1), (2, 2), (3, 2), (4, 3), (5, 2), 
+(6, 2), (7, 3), (8, 2), (9, 2), (10, 1), 
+(11, 2), (12, 3), (13, 2), (14, 2), (15, 3);
 SELECT * FROM roles_usuarios;
 
 -- ===================== PERMISOS =====================
@@ -73,7 +125,12 @@ CREATE TABLE permisos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL
 );
-
+INSERT INTO permisos (nombre) VALUES 
+('VER_USUARIOS'), ('CREAR_USUARIOS'), ('EDITAR_USUARIOS'),
+('VER_PRODUCTOS'), ('CREAR_PRODUCTOS'), ('EDITAR_PRODUCTOS'),
+('VER_CULTIVOS'), ('CREAR_CULTIVOS'), ('EDITAR_CULTIVOS'),
+('CREAR_TAREAS'), ('VER_TAREAS_PENDIENTES'), ('COMPLETAR_TAREAS'), ('VER_HISTORIAL_TAREAS');
+SELECT * FROM permisos;
 -- ===================== PERMISOS_ROLES =====================
 CREATE TABLE permisos_roles (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -82,16 +139,49 @@ CREATE TABLE permisos_roles (
   FOREIGN KEY (rol_id) REFERENCES roles(id),
   FOREIGN KEY (permiso_id) REFERENCES permisos(id)
 );
+-- 1. Asignar TODO al Administrador (Rol 1)
+INSERT INTO permisos_roles (permiso_id, rol_id) 
+SELECT id, 1 FROM permisos;
 
+-- 2. Asignar permisos específicos al SUPERVISOR (Rol 2)
+INSERT INTO permisos_roles (permiso_id, rol_id) VALUES 
+(1, 2), -- Ver usuarios
+(4, 2), -- Ver productos
+(7, 2), -- Ver cultivos
+(10, 2), -- Crear tareas
+(11, 2), -- Ver tareas (él también debe verlas para supervisar)
+(13, 2); -- Ver historial
+
+-- 3. Asignar permisos específicos al TRABAJADOR (Rol 3)
+INSERT INTO permisos_roles (permiso_id, rol_id) VALUES 
+(11, 3), -- Ver tareas pendientes
+(12, 3), -- Completar tareas
+(13, 3); -- Ver historial de sus propias tareas
+SELECT * FROM permisos_roles;
 -- ===================== CULTIVOS =====================
 CREATE TABLE cultivos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
   fecha_siembra DATE NOT NULL,
   fecha_cosecha DATE NULL,
-  ciclo VARCHAR(50) NOT NULL,
-  estado ENUM('Activo', 'Inactivo') NOT NULL DEFAULT 'Activo'
+  ciclo VARCHAR(50) NOT NULL
 );
+INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo) VALUES 
+('Tomate Chonto', '2026-02-10', NULL, 'Floración'),
+('Cebolla Cabezona', '2026-01-15', NULL, 'Maduración'),
+('Pimentón Rojo', '2026-02-20', NULL, 'Vegetativo'),
+('Papa Pastusa', '2026-01-05', NULL, 'Maduración'),
+('Zanahoria Nantes', '2026-02-25', NULL, 'Vegetativo'),
+('Lechuga Batavia', '2026-02-28', NULL, 'Vegetativo'),
+('Maíz Amarillo', '2026-01-20', NULL, 'Floración'),
+('Frijol Cargamanto', '2026-02-05', NULL, 'Floración'),
+('Arveja Verde', '2026-02-12', NULL, 'Vegetativo'),
+('Cilantro España', '2026-03-01', NULL, 'Vegetativo'),
+('Pepino Cohombro', '2026-02-18', NULL, 'Floración'),
+('Brócoli de Verano', '2026-01-30', NULL, 'Floración'),
+('Espinaca Baby', '2026-03-02', NULL, 'Vegetativo'),
+('Ajo Rosado', '2025-11-20', NULL, 'Maduración'),
+('Remolacha Roja', '2026-02-08', NULL, 'Vegetativo');
 SELECT * FROM cultivos;
 
 -- =================== CULTIVO TRABAJADOR ==============
@@ -102,6 +192,22 @@ CREATE TABLE cultivo_trabajador (
   FOREIGN KEY (cultivo_id) REFERENCES cultivos(id),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+INSERT INTO cultivo_trabajador (cultivo_id, usuario_id) VALUES 
+(1, 2), (1, 3), -- Tomate tiene 2 trabajadores
+(2, 4),         -- Cebolla tiene 1
+(3, 2), (3, 5), -- Pimentón tiene 2
+(4, 3), (4, 4), -- Papa tiene 2
+(5, 5),         -- Zanahoria tiene 1
+(6, 2),         -- Lechuga
+(7, 3), (7, 4), -- Maíz
+(8, 5),         -- Frijol
+(9, 2),         -- Arveja
+(10, 3),        -- Cilantro
+(11, 4),        -- Pepino
+(12, 5),        -- Brócoli
+(13, 2),        -- Espinaca
+(14, 3),        -- Ajo
+(15, 4);        -- Remolacha
 SELECT * FROM cultivo_trabajador;
 
 -- ===================== TIPO_PRODUCTO =====================
@@ -124,11 +230,26 @@ CREATE TABLE productos (
   precio DOUBLE NOT NULL,
   fecha_compra DATE NOT NULL,
   fecha_vencimiento DATE NULL,
-  estado VARCHAR(50) NOT NULL,
   tipo_producto_id INT NOT NULL,
   cantidad INT NOT NULL DEFAULT 1,
   FOREIGN KEY (tipo_producto_id) REFERENCES tipo_producto(id)
 );
+INSERT INTO productos (nombre, unidad_medida, precio, fecha_compra, fecha_vencimiento, tipo_producto_id, cantidad) VALUES
+( 'Urea 46%', 'Kilogramo', 185000, '2024-01-10', '2026-01-10', 1, 20),
+( 'Machete Bellota', 'Unidad', 38000, '2024-01-15', NULL, 2, 12),
+( 'Semilla Tomate Híbrido', 'Kilogramo', 125000, '2024-02-01', NULL, 3, 10),
+( 'Fungicida Ridomil Gold', 'Litro', 98000, '2024-02-10', '2025-08-10', 4, 8),
+( 'Abono Orgánico Compost', 'Kilogramo', 42000, '2024-01-20', '2024-12-20', 1, 40),
+( 'Pala Herragro Redonda', 'Unidad', 52000, '2024-01-05', NULL, 2, 6),
+( 'Semilla Maíz Dekalb', 'Kilogramo', 480000, '2024-02-15', NULL, 3, 5),
+( 'Herbicida Roundup', 'Litro', 215000, '2024-02-20', '2026-02-20', 4, 4),
+( 'Fertilizante NPK 15-15-15', 'Kilogramo', 198000, '2024-01-25', '2026-01-25', 1, 15),
+( 'Tijeras de Poda Pro', 'Unidad', 72000, '2024-02-05', NULL, 2, 8),
+( 'Semilla Cilantro Patriota', 'Kilogramo', 28000, '2024-03-01', NULL, 3, 25),
+( 'Insecticida Karate Zeon', 'Litro', 115000, '2024-03-05', '2025-09-05', 4, 10),
+( 'Sulfato de Magnesio', 'Kilogramo', 82000, '2024-02-28', '2026-02-28', 1, 10),
+( 'Azadón de Acero Forjado', 'Unidad', 45000, '2024-01-12', NULL, 2, 10),
+( 'Semilla Frijol Bolón', 'Kilogramo', 68000, '2024-02-18', NULL, 3, 15);
 SELECT * FROM productos;
 
 -- ===================== STOCK_CULTIVO =====================

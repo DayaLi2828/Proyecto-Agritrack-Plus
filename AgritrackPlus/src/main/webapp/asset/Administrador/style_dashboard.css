@@ -1,0 +1,110 @@
+@import url(../utils/global.css);
+/* style_dashboard.css */
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    /* Usamos tu gradiente de fondo del body */
+    background: var(--background-main);
+    margin: 0;
+    color: var(--color-letra);
+}
+
+header {
+    /* Usamos tu color de header de la vista admin */
+    background-color: var(--background-header);
+    color: var(--letra-boton); /* Blanco según tus variables */
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Usamos tu sombra de header definida */
+    box-shadow: var(--borde-header);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilo de cada Tarjeta (Card) */
+.card {
+    /* Usamos tu color de tarjetas y sombras de la vista admin */
+    background: var(--background-tarjetas);
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: var(--box-shadow-tarjetas);
+    transition: all 0.3s ease;
+    /* Borde sutil usando tus colores de borde */
+    border: var(--color-borde-contenedor-padre);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    /* Al hacer hover, usamos una sombra más marcada si la tienes, 
+       o reforzamos la actual */
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+}
+
+.card img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    /* Caja de fondo para el logo usando tu variable de formularios */
+    background: var(--color-caja-logo-formularios-y-titulos);
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.card h3 {
+    /* Usamos tu color de títulos de la vista admin */
+    color: var(--color-titulo-admin);
+    margin: 10px 0;
+}
+
+.card p {
+    /* Color de texto de los contenedores */
+    color: var(--color-texto-contenedor);
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+/* Botones */
+.btn {
+    display: inline-block;
+    /* Usamos tu color de botón principal */
+    background-color: var(--color-boton);
+    color: var(--letra-boton);
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    /* Usamos tu color de hover de cajas */
+    background-color: var(--background-caja-inicio);
+    color: var(--color-texto-inicio);
+}
+
+.logout {
+    color: var(--letra-boton);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 15px;
+    border: 1px solid var(--letra-boton);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.logout:hover {
+    background: var(--letra-boton);
+    color: var(--background-header);
+}

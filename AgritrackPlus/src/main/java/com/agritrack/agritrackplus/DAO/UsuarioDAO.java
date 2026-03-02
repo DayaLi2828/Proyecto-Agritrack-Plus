@@ -136,7 +136,52 @@ public class UsuarioDAO {
             cerrar(rs, ps, conn);
         }
     }
+    public Map<String, Object> validarAcceso(String emailRecibido, String passRecibido) throws SQLException, ClassNotFoundException {
+        Map<String, Object> usuarioData = null;
 
+        // Consulta que une: correo -> usuarios -> roles_usuarios -> roles -> permisos_roles -> permisos
+        String sql = "SELECT u.id, u.nombre, r.nombre AS rol_nombre, p.nombre AS permiso_nombre " +
+                     "FROM correo c " +
+                     "JOIN usuarios u ON c.usuario_id = u.id " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
+                     "LEFT JOIN permisos_roles pr ON r.id = pr.rol_id " +
+                     "LEFT JOIN permisos p ON pr.permiso_id = p.id " +
+                     "WHERE c.correo = ? AND u.pass = MD5(?)";
+
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, emailRecibido);
+            ps.setString(2, passRecibido);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                List<String> permisos = new ArrayList<>();
+
+                while (rs.next()) {
+                    if (usuarioData == null) {
+                        usuarioData = new HashMap<>();
+                        usuarioData.put("id", rs.getInt("id"));
+                        usuarioData.put("nombre", rs.getString("nombre"));
+                        usuarioData.put("rol", rs.getString("rol_nombre"));
+                    }
+
+                    String nombrePermiso = rs.getString("permiso_nombre");
+                    if (nombrePermiso != null) {
+                        permisos.add(nombrePermiso);
+                    }
+                }
+
+                if (usuarioData != null) {
+                    usuarioData.put("permisos", permisos);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error en validarAcceso: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return usuarioData;
+    }
     public boolean crear(String nombre, String pass, String documento, String direccion,
                         String estado, String correo, String telefono, int rolId, String foto) {
         if (existeCorreo(correo)) {

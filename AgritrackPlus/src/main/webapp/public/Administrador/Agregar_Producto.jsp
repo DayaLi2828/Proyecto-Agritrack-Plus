@@ -34,7 +34,6 @@
         <p style="color:red;">Hubo un error al agregar el producto. Intenta de nuevo.</p>
       <% } %>
 
-   
         <form class="form__producto" method="post" action="${pageContext.request.contextPath}/AgregarProductoServlet">
             <div class="campo">
               <label>Nombre del producto</label>
@@ -52,15 +51,15 @@
             </div>
             <div class="campo">
               <label>Unidad de medida</label>
-              <select name="unidad_medida">
-                <option value="1">Kg</option>
-                <option value="2">Litros</option>
-                <option value="3">Unidades</option>
+              <select name="unidad_medida" required>
+                <option value="Kilogramo">Kilogramo (Kg)</option>
+                <option value="Litro">Litro (Lt)</option>
+                <option value="Unidad">Unidad (Un)</option>
               </select>
             </div>
             <div class="campo">
               <label>Precio</label>
-              <input type="number" name="precio" required>
+              <input type="number" name="precio" step="0.01" required>
             </div>
             <div class="contenedor__fechas">
               <div class="campo input__fechas">
@@ -73,17 +72,9 @@
               </div>
             </div>
             <div class="campo">
-              <label>Estado</label>
-              <select name="estado" required>
-                <option value="Disponible">Disponible</option>
-                <option value="Agotado">Agotado</option>
-                <option value="Vencido">Vencido</option>
-              </select>
+                <label>Cantidad</label>
+                <input type="number" name="cantidad" min="1" placeholder="Ingrese la cantidad" required>
             </div>
-                <div class="campo">
-                    <label>Cantidad</label>
-                    <input type="number" name="cantidad" min="1" placeholder="Ingrese la cantidad" required>
-                </div>
             <button type="submit">Agregar Producto</button>
       </form>
     </div>
@@ -94,7 +85,7 @@
           let campofecha = document.getElementById("campo__fecha_vencimiento");
           let inputFecha = document.getElementById("fecha_vencimiento");
 
-          // Solo Fertilizante (1) y Pesticida (4) tienen fecha de vencimiento
+          // Solo Fertilizante (1) y Pesticida (4) requieren fecha de vencimiento
           if (tipo === "1" || tipo === "4") {
             campofecha.style.display = "block";
             inputFecha.required = true;
