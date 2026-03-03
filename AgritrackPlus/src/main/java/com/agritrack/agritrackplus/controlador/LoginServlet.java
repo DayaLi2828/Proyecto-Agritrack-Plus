@@ -29,23 +29,31 @@ public class LoginServlet extends HttpServlet {
                 int idUsuario = (int) user.get("id");
                 String rol = (String) user.get("rol");
 
-                // Datos comunes para todos
+                // Datos comunes guardados en sesión
                 session.setAttribute("usuario_id", idUsuario);
                 session.setAttribute("usuario_nombre", user.get("nombre"));
                 session.setAttribute("rol", rol);
+
+                // --- Lógica de redirección por Roles ---
 
                 if ("trabajador".equalsIgnoreCase(rol)) {
                     session.setAttribute("datosGrafico", dao.obtenerResumenTareas(idUsuario));
                     response.sendRedirect(request.getContextPath() + "/public/Trabajador/Trabajador.jsp");
                 } 
-                else if ("administrador".equalsIgnoreCase(rol) || "supervisor".equalsIgnoreCase(rol)) {
-                    // Ambos van al Admin.jsp, pero el JSP filtrará por el atributo "rol"
+                else if ("administrador".equalsIgnoreCase(rol)) {
+                    // El Administrador va a su panel global
                     response.sendRedirect(request.getContextPath() + "/public/Administrador/Admin.jsp");
                 } 
+                else if ("supervisor".equalsIgnoreCase(rol)) {
+                    // El Supervisor va a su nueva página dedicada
+                    response.sendRedirect(request.getContextPath() + "/public/Supervisor/Supervisor.jsp");
+                } 
                 else {
+                    // Si el rol no coincide con ninguno de los anteriores
                     response.sendRedirect(request.getContextPath() + "/index.jsp?error=role");
                 }
             } else {
+                // Usuario o contraseña incorrectos
                 response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
             }
         } catch (Exception e) {

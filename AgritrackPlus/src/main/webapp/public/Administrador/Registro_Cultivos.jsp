@@ -4,11 +4,12 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
 <%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
 <%
-  ProductoDAO productoDAO = new ProductoDAO();
-  List<Map<String, String>> productos = productoDAO.listarProductos();
-
-  UsuarioDAO usuarioDAO = new UsuarioDAO();
-  List<Map<String, String>> trabajadores = usuarioDAO.listarTrabajadores();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+    List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores();
+    List<Map<String, String>> trabajadores = usuarioDAO.listarSoloTrabajadores();
+    
+    ProductoDAO productoDAO = new ProductoDAO();
+    List<Map<String, String>> productos = productoDAO.listarProductos();
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -127,15 +128,13 @@
             <h2 class="subtitulo">Supervisor de campo</h2>
           </div>
 
-        <div class="campo">
+       <div class="campo">
             <label for="supervisor">Supervisor asignado</label>
-            <select id="supervisor" name="supervisor_id">
-              <option value="">Seleccione...</option>
-              <% for (Map<String, String> trabajador : trabajadores) { %>
-                <option value="<%= trabajador.get("id") %>">
-                  <%= trabajador.get("nombre") %>
-                </option>
-              <% } %>
+            <select id="supervisor" name="supervisor_id" required>
+                <option value="">Seleccione un supervisor...</option>
+                <% for (Map<String, String> s : supervisores) { %>
+                    <option value="<%= s.get("id") %>"><%= s.get("nombre") %></option>
+                <% } %>
             </select>
         </div>
     </div>
@@ -150,22 +149,19 @@
           </div>
 
           <p>Seleccione los trabajadores que van a laborar en su cultivo:</p>
-          <ul class="lista__trabajadores">
-            <% if (trabajadores.isEmpty()) { %>
-              <li>No hay trabajadores registrados en el sistema.</li>
-            <% } else {
-                for (Map<String, String> trabajador : trabajadores) {
-            %>
-              <li>
-                <label>
-                    <input type="checkbox" name="trabajadores[]" value="<%= trabajador.get("id") %>">                  <%= trabajador.get("nombre") %>
-                </label>
-              </li>
-            <%
-                }
-              }
-            %>
-          </ul>
+             <ul class="lista__trabajadores">
+                <% if (trabajadores.isEmpty()) { %>
+                    <li>No hay trabajadores activos disponibles.</li>
+                <% } else {
+                    for (Map<String, String> t : trabajadores) { %>
+                    <li>
+                        <label>
+                            <input type="checkbox" name="trabajadores[]" value="<%= t.get("id") %>"> 
+                            <%= t.get("nombre") %>
+                        </label>
+                    </li>
+                <% } } %>
+            </ul>
         </div>
 
         <!-- Botón enviar -->

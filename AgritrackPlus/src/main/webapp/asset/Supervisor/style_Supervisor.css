@@ -1,0 +1,219 @@
+@import url(../utils/global.css);
+
+/* --- ESTRUCTURA BASE --- */
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  display: grid;
+  grid-template-areas:
+    "header main"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 332px 1fr; 
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* --- HEADER PRINCIPAL (LOGO IZQUIERDA) --- */
+header{
+  position: fixed;
+  top: 0px;
+  left: 0%;
+  height: 130px;
+  width: 332px;
+  background-color:var(--background-header); 
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.contenedor__titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+ 
+.logo {
+  padding:10px;
+  width: 70px;
+  height: 70px;
+}
+
+.titulo{
+  font-size: 34px;
+  color: var(--letra-titulo); 
+}
+
+/* --- MAIN: ESPACIO DE TRABAJO --- */
+.main {
+  grid-area: main;
+  background: var(--background-main);
+  position: relative; 
+}
+
+/* --- SECCIÓN DE BIENVENIDA Y PERFIL (DENTRO DEL MAIN) --- */
+.main__cajatexto{
+  margin-top: 20px;
+  min-height: auto;
+  margin-left: 50px;
+}
+
+.main__titulo{
+  font-weight: bold;
+  font-size: 37px;
+  color:var(--color-titulo-admin);
+}  
+
+.main__texto{
+  margin-top: 20px;
+  font-size: 30px;
+  color: var(--color-subtitulo-admin);
+}
+
+.contenedor__perfil{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: flex-end;
+  gap: 35px;
+  margin-right: 50px;
+  margin-top: -94px;
+}
+
+.perfil__texto{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.nombre__usuario{
+  color: var(--color-titulo-admin);
+}
+
+.descripcion__usuario{
+  color: var(--color-subtitulo-admin);
+  font-size: 18px;
+}
+
+.cirulo__perfil{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-cirulo-perfil);
+  width: 60px;
+  height: 60px;
+  border-radius: 39px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cirulo__perfil:hover {
+    background-color: #4CAF50;
+    transform: scale(1.1);
+}
+
+.inicial__usuario{
+  font-size: 35px;
+  color: var(--color-inicial-usuario);
+}
+
+.cerrar__sesion img{
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cerrar__sesion:hover {
+    transform: scale(1.1);
+}
+
+/* --- TARJETA DE PERFIL (MODAL/FLOTANTE) --- */
+.perfil__card {
+    display: none;
+    position: absolute;
+    top: 100px;
+    right: 50px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    padding: 25px;
+    z-index: 1001;
+    border: 1px solid #ddd;
+    width: 280px;
+    text-align: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.perfil__card.activo { display: block; }
+
+.perfil__card h3 { color: #2e7d32; margin-bottom: 15px; }
+
+.btn-cerrar-card {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* --- SIDEBAR --- */
+.sidebar__barra {
+  position: fixed;
+  top: 130px;
+  left: 0%;
+  width: 332px; 
+  background-color: var(--background-sidebar);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  height: 100vh;
+}
+
+.sidebar__barra a {
+  text-decoration: none;
+  color:var(--color-letra-sidebar);
+  font-weight: bold;
+  padding: 17px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+.sidebar__barra a:first-child {
+  background-color:var(--background-caja-inicio);
+  color: var(--color-texto-inicio);
+}
+
+.sidebar__barra a:hover{
+  background-color: var(--hover-cajas-letra-sidebar);
+}
+
+.sidebar__barra nav {
+  display: flex;
+  flex-direction: column; 
+  gap: 20px;
+  align-self: center;
+}
+
+/* --- FOOTER --- */
+.footer {
+  grid-area: footer;
+  background-color: var(--background-footer);
+  text-align: center;
+  padding: 10px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

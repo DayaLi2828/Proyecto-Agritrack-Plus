@@ -467,4 +467,66 @@ public class UsuarioDAO {
         }
         return resumen;
     }
+    public List<Map<String, String>> listarTrabajadores() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        String sql = "SELECT u.id, u.nombre " +
+                     "FROM usuarios u " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
+                     "WHERE r.nombre IN ('trabajador', 'supervisor') AND u.estado = 'Activo'";
+
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Map<String, String> t = new HashMap<>();
+                t.put("id", String.valueOf(rs.getInt("id")));
+                t.put("nombre", rs.getString("nombre"));
+                lista.add(t);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+        // Método para obtener solo Supervisores
+    public List<Map<String, String>> listarSoloSupervisores() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        String sql = "SELECT u.id, u.nombre FROM usuarios u " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
+                     "WHERE r.nombre = 'supervisor' AND u.estado = 'Activo'";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, String> m = new HashMap<>();
+                m.put("id", String.valueOf(rs.getInt("id")));
+                m.put("nombre", rs.getString("nombre"));
+                lista.add(m);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return lista;
+    }
+
+    // Método para obtener solo Trabajadores
+    public List<Map<String, String>> listarSoloTrabajadores() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        String sql = "SELECT u.id, u.nombre FROM usuarios u " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
+                     "WHERE r.nombre = 'trabajador' AND u.estado = 'Activo'";
+        try (Connection conn = Conexion.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Map<String, String> m = new HashMap<>();
+                m.put("id", String.valueOf(rs.getInt("id")));
+                m.put("nombre", rs.getString("nombre"));
+                lista.add(m);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return lista;
+    }
 }
