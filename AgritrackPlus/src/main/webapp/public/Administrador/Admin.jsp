@@ -2,30 +2,60 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
+<%@ page import="java.util.List" %>
+<%
+    // 1. VALIDACIÓN DE SEGURIDAD
+    HttpSession sesion = request.getSession(false);
+    String nombreUsuario = (sesion != null) ? (String) sesion.getAttribute("usuario_nombre") : null;
+    String rol = (sesion != null) ? (String) sesion.getAttribute("rol") : null;
+
+    if (nombreUsuario == null || (!"administrador".equalsIgnoreCase(rol) && !"supervisor".equalsIgnoreCase(rol))) {
+        response.sendRedirect("../../index.jsp?error=acceso_denegado");
+        return;
+    }
+
+    // 2. OBTENCIÓN DE DATOS PARA LAS TARJETAS
+    Registro_CultivoDAO cultivoDAO = new Registro_CultivoDAO();
+    ProductoDAO productoDAO = new ProductoDAO();
+    UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+    int totalCultivos = 0;
+    int totalProductos = 0;
+    int totalUsuarios = 0;
+
+    try {
+        List listaC = cultivoDAO.listarCultivos();
+        if(listaC != null) totalCultivos = listaC.size();
+
+        List listaP = productoDAO.listarProductos();
+        if(listaP != null) totalProductos = listaP.size();
+
+        List listaU = usuarioDAO.listarUsuarios();
+        if(listaU != null) totalUsuarios = listaU.size();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    // Inicial para el círculo
+    String inicial = (nombreUsuario != null && !nombreUsuario.isEmpty()) ? nombreUsuario.substring(0, 1).toUpperCase() : "?";
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin</title>
+  <title>Admin | AgriTrack Plus</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_Admin.css">
 </head>
 <body>
-<%
-  Registro_CultivoDAO cultivoDAO = new Registro_CultivoDAO();
-  ProductoDAO productoDAO = new ProductoDAO();
-  UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-  int totalCultivos = cultivoDAO.listarCultivos().size();
-  int totalProductos = productoDAO.listarProductos().size();
-  int totalUsuarios = usuarioDAO.listarUsuarios().size();
-%>
   <header>
     <div class="contenedor__titulo">
-      <img class="logo" src="../../asset/imagenes/hoja.png" alt="hoja del logo">
+      <img class="logo" src="../../asset/imagenes/hoja.png" alt="logo">
       <h1 class="titulo">AGRITRACK<br> PLUS</h1>
     </div>
   </header>
+
   <aside class="sidebar__barra">
     <nav>
       <a href="Admin.jsp">Inicio</a>
@@ -33,69 +63,83 @@
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Tareas</a>
       <a href="Usuarios.jsp">Usuarios</a>
-      <a href="#">Stock</a>
-      <a href="Productos.jsp">Inventario de Productos</a>
+      <a href="Productos.jsp">Inventario</a>
       <a href="Pagos.jsp">Pagos</a>
-      <a href="#">Supervisores</a>
-      <a href="#">Asignación de roles</a>
     </nav>
   </aside>
+
   <main class="main">
     <div class="main__cajatexto">
-      <h1 class="main__titulo">Bienvenido a Agritrack Plus Administrador</h1>
-      <p class="main__texto">Gestiona tus cultivos de manera eficiente y profesional!</p>
+      <h1 class="main__titulo">Bienvenido, <%= nombreUsuario %></h1>
+      <p class="main__texto">Gestiona tus cultivos de manera eficiente!</p>
+      
       <div class="contenedor__perfil">
         <div class="perfil__texto">
-          <h2 class="nombre__usuario">Hernesto Perez</h2>
-          <p class="descripcion__usuario">Administrador de campo</p>
+          <h2 class="nombre__usuario"><%= nombreUsuario %></h2>
+          <p class="descripcion__usuario"><%= rol %></p>
         </div>
-        <div class="cirulo__perfil">
-          <h3 class="inicial__usuario">H</h3>
+        
+        <div class="cirulo__perfil" onclick="togglePerfil()">
+          <h3 class="inicial__usuario"><%= inicial %></h3>
         </div>
-        <div class="cerrar__sesion">
-          <img src="../../asset/imagenes/cerrar-sesion.png" alt="icono de cerrar sesion"/>
+
+        <div class="cerrar__sesion" onclick="location.href='../../LogoutServlet'">
+          <img src="../../asset/imagenes/cerrar-sesion.png" alt="cerrar"/>
         </div>
       </div>
     </div>
 
+    <div id="cardDatos" class="perfil__card">
+        <h3>Mi Perfil</h3>
+        <p><strong>Usuario:</strong> <%= nombreUsuario %></p>
+        <p><strong>Cargo:</strong> <%= rol %></p>
+        <p><strong>Estado:</strong> Activo</p>
+        <button class="btn-cerrar-card" onclick="togglePerfil()">Cerrar</button>
+    </div>
+
     <div class="main__contenedores">
       <div class="main__boxs" onclick="location.href='Registro_Cultivos.jsp'">
-        <div class="main__contimagen">
-          <img src="../../asset/imagenes/te-verde.png" id="imagen de una planta">
-        </div>
+        <div class="main__contimagen"><img src="../../asset/imagenes/te-verde.png"></div>
         <div class="caja__texto">
           <h3>Registrar cultivo</h3>
-          <p>Añade nuevos cultivos a tu sistema de gestión con información detallada</p>
+          <p>Añade nuevos cultivos al sistema.</p>
         </div>
       </div>
+
       <div class="main__boxs" onclick="location.href='Cultivos_Registrados.jsp'">
-        <div class="main__contimagen--secundario">
-          <img src="../../asset/imagenes/bloc.png" id="imagen de un bloc de notas">
-        </div>
+        <div class="main__contimagen--secundario"><img src="../../asset/imagenes/bloc.png"></div>
         <div class="caja__texto">
           <h3>Cultivos Registrados</h3>
-          <p>Visualiza y gestiona todos los cultivos que tienes actualmente</p>
+          <p>Visualiza tus cultivos actuales.</p>
         </div>
       </div>
     </div>
 
     <div class="main__contetarjetas">
       <div class="main__tarjetas">
-        <h4>Total Cultivos Registrados</h4>
+        <h4>Cultivos Registrados</h4>
         <h3 class="main__numero"><%= totalCultivos %></h3>
       </div>
       <div class="main__tarjetas">
-        <h4>Productos Disponibles</h4>
+        <h4>Productos</h4>
         <h3 class="main__numero"><%= totalProductos %></h3>
       </div>
       <div class="main__tarjetas">
-        <h4>Usuarios del sistema</h4>
+        <h4>Usuarios</h4>
         <h3 class="main__numero"><%= totalUsuarios %></h3>
       </div>
     </div>
   </main>
+
   <footer class="footer">
-    <p>© 2025 Agritrack Plus</p>
+    <p>© 2026 Agritrack Plus</p>
   </footer>
+
+  <script>
+    function togglePerfil() {
+        var card = document.getElementById("cardDatos");
+        card.classList.toggle("activo");
+    }
+  </script>
 </body>
 </html>

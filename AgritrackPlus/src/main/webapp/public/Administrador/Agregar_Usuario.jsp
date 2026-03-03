@@ -91,14 +91,18 @@
           </div>
 
           <!-- NOMBRE -->
-          <div class="campo <%= "true".equals(errorNombre) ? "campo-error" : "" %>">
+         <div class="campo <%= "true".equals(errorNombre) ? "campo-error" : "" %>">
             <label> Nombre completo <span style="color:#dc3545;">*</span></label>
             <input type="text" name="nombre" placeholder="Juan Pérez" 
-                   value="<%= paramNombre != null ? paramNombre : (usuario != null ? usuario.get("nombre") : "") %>" required>
+                   value="<%= paramNombre != null ? paramNombre : (usuario != null ? usuario.get("nombre") : "") %>" 
+                   required
+                   pattern="^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$"
+                   oninput="this.value=this.value.replace(/[0-9]/g,'')"
+                   title="El nombre solo puede contener letras">
             <% if ("true".equals(errorNombre)) { %>
               <span class="error-mensaje"> Solo letras, máximo 50 caracteres (sin números)</span>
             <% } %>
-          </div>
+        </div>
 
           <!-- DOCUMENTO -->
           <div class="campo <%= "true".equals(errorDoc) ? "campo-error" : "" %>">

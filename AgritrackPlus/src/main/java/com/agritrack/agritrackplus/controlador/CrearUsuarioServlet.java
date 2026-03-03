@@ -17,46 +17,49 @@ import jakarta.servlet.http.Part;
 @MultipartConfig
 public class CrearUsuarioServlet extends HttpServlet {
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         UsuarioDAO dao = new UsuarioDAO();
 
+        // Recepción de parámetros
         String nombre = request.getParameter("nombre");
         String pass = request.getParameter("pass");
         String documento = request.getParameter("documento");
         String direccion = request.getParameter("direccion");
         String correo = request.getParameter("correo");
         String telefono = request.getParameter("telefono");
+        String rolIdStr = request.getParameter("rol_id");
 
-        // 1. Capturamos el ID del rol que viene del JSP (name="rol_id")
-        String rolIdStr = request.getParameter("rol_id"); 
-        int rolId;
-
-        try {
-            if (rolIdStr != null && !rolIdStr.isEmpty()) {
-                rolId = Integer.parseInt(rolIdStr);
-            } else {
-                rolId = 2; // Por defecto Trabajador si llega nulo
-            }
-        } catch (NumberFormatException e) {
-            rolId = 2; 
+        // --- VALIDACIÓN 1: NOMBRE (Solo letras y espacios) ---
+        // Expresión regular: permite letras (con tildes y ñ) y espacios. No permite números.
+        if (nombre == null || !nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
+            redirigirConErrores(request, response, "error_nombre", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
         }
 
-        // 2. VALIDACIÓN DE CONTRASEÑA
+        // --- VALIDACIÓN 2: ROL ---
+        int rolId;
+        try {
+            rolId = (rolIdStr != null && !rolIdStr.isEmpty()) ? Integer.parseInt(rolIdStr) : 2;
+        } catch (NumberFormatException e) {
+            rolId = 2;
+        }
+
+        // --- VALIDACIÓN 3: CONTRASEÑA ---
         if (pass == null || pass.trim().length() < 6) {
             redirigirConErrores(request, response, "error_pass", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
-        // 3. VALIDACIÓN DE DUPLICADOS
+        // --- VALIDACIÓN 4: DUPLICADOS ---
         if (dao.existeDocumento(documento)) {
             redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
+        // --- PROCESAMIENTO DE FOTO ---
         String nombreFoto = "asset/imagenes/default-avatar.png";
-
-        // PROCESAR FOTO
         try {
             Part fotoPart = request.getPart("foto");
             if (fotoPart != null && fotoPart.getSize() > 0) {
@@ -67,17 +70,16 @@ public class CrearUsuarioServlet extends HttpServlet {
                 fotoPart.write(uploadPath + fileName);
                 nombreFoto = "asset/imagenes/trabajadores/" + fileName;
             }
-        } catch (Exception e) { 
-            System.out.println(" Error foto: " + e.getMessage()); 
+        } catch (Exception e) {
+            System.out.println("Error procesando foto: " + e.getMessage());
         }
 
-        // 4. CREAR EN LA BASE DE DATOS
-        boolean exito = dao.crear(nombre, pass, documento, direccion, "Activo", correo, telefono, rolId, nombreFoto);
+        // --- PERSISTENCIA EN BD ---
+        boolean exito = dao.crear(nombre.trim(), pass, documento.trim(), direccion, "Activo", correo, telefono, rolId, nombreFoto);
 
         if (exito) {
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=creado");
         } else {
-            // LÍNEA 85 CORREGIDA: Se cambió 'rolStr' por 'rolIdStr'
             redirigirConErrores(request, response, "error_db", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
         }
     }
@@ -92,7 +94,7 @@ public class CrearUsuarioServlet extends HttpServlet {
             "&direccion=" + URLEncoder.encode(direccion != null ? direccion : "", "UTF-8") +
             "&correo=" + URLEncoder.encode(correo != null ? correo : "", "UTF-8") +
             "&telefono=" + URLEncoder.encode(telefono != null ? telefono : "", "UTF-8") +
-            "&rol_id=" + URLEncoder.encode(rolIdStr != null ? rolIdStr : "2", "UTF-8") + // Sincronizado con el JSP
+            "&rol_id=" + URLEncoder.encode(rolIdStr != null ? rolIdStr : "2", "UTF-8") +
             "&pass=" + URLEncoder.encode(pass != null ? pass : "", "UTF-8") +
             "&" + tipoError + "=true");
     }

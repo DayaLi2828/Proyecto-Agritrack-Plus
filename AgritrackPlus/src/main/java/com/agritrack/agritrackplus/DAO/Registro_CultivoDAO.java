@@ -223,4 +223,31 @@ public class Registro_CultivoDAO {
             ps.executeUpdate();
         } catch (Exception e) { e.printStackTrace(); }
     }
+    public List<Map<String, String>> listarCultivos() {
+        List<Map<String, String>> lista = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            conn = Conexion.getConnection();
+            String sql = "SELECT * FROM cultivos";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, String> cultivo = new HashMap<>();
+                cultivo.put("id", String.valueOf(rs.getInt("id")));
+                cultivo.put("nombre", rs.getString("nombre"));
+                cultivo.put("fecha_siembra", rs.getString("fecha_siembra"));
+                cultivo.put("fecha_cosecha", rs.getString("fecha_cosecha"));
+                cultivo.put("ciclo", rs.getString("ciclo"));
+                cultivo.put("estado", rs.getString("estado"));
+                lista.add(cultivo);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            cerrarRecursos(conn, ps, rs);
+        }
+        return lista;
+    }
 }

@@ -17,49 +17,56 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
 
-        // 1. Recibir parámetros del formulario en index.jsp
         String email = request.getParameter("email");
         String pass = request.getParameter("password");
 
-        System.out.println("Intentando login con: " + email); 
-
         try {
             UsuarioDAO dao = new UsuarioDAO();
-            // 2. Validar acceso con el método que usa JOIN
             Map<String, Object> user = dao.validarAcceso(email, pass);
 
             if (user != null) {
-                System.out.println("Usuario encontrado: " + user.get("nombre")); 
-
-                // 3. Crear sesión y guardar datos del usuario
                 HttpSession session = request.getSession();
-                session.setAttribute("usuario_id", user.get("id"));
+                
+                // 1. Guardamos datos básicos en sesión
+                int idUsuario = (int) user.get("id");
+                session.setAttribute("usuario_id", idUsuario);
                 session.setAttribute("usuario_nombre", user.get("nombre"));
                 session.setAttribute("rol", user.get("rol"));
-                session.setAttribute("permisos", user.get("permisos"));
 
                 String rol = (String) user.get("rol");
 
-                // 4. Redirección según el ROL (Ignorando Mayúsculas/Minúsculas)
-                if ("administrador".equalsIgnoreCase(rol) || "supervisor".equalsIgnoreCase(rol)) {
-                    // Ruta hacia tu carpeta public/Administrador
-                    response.sendRedirect("public/Administrador/dashboard.jsp");
-                } else {
-                    // Ruta hacia tu carpeta de Trabajador
-                    response.sendRedirect("public/Trabajador/Trabajador.jsp");
+                // 2. Lógica específica para TRABAJADOR (Cargar datos de gráficas)
+                if ("trabajador".equalsIgnoreCase(rol)) {
+                    // Llamamos al método que añadiste en UsuarioDAO
+                    Map<String, Integer> estadisticas = dao.obtenerResumenTareas(idUsuario);
+                    
+                    // Guardamos el mapa en la sesión para que el JSP lo lea al cargar
+                    session.setAttribute("datosGrafico", estadisticas);
+                    
+                    response.sendRedirect(request.getContextPath() + "/public/Trabajador/Trabajador.jsp");
+                } 
+                
+                // 3. Lógica para ADMINISTRADOR
+                else if ("administrador".equalsIgnoreCase(rol)) {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Admin.jsp");
+                } 
+                
+                // 4. Lógica para SUPERVISOR
+                else if ("supervisor".equalsIgnoreCase(rol)) {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Admin.jsp");
+                } 
+                
+                else {
+                    response.sendRedirect(request.getContextPath() + "/index.jsp?error=role");
                 }
                 
             } else {
-                // 5. Si las credenciales no coinciden, volver al index.jsp
-                System.out.println("Credenciales incorrectas.");
-                response.sendRedirect("index.jsp?error=true");
+                response.sendRedirect(request.getContextPath() + "/index.jsp?error=true");
             }
             
         } catch (Exception e) {
-            // 6. Manejo de errores de base de datos o nulos
-            System.out.println("ERROR CRÍTICO EN LOGIN: " + e.getMessage());
             e.printStackTrace();
-            response.sendRedirect("index.jsp?error=db");
+            response.sendRedirect(request.getContextPath() + "/index.jsp?error=db");
         }
     }
 }
