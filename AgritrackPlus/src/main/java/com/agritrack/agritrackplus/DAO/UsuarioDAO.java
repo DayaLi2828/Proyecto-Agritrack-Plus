@@ -320,15 +320,13 @@ public class UsuarioDAO {
             return false;
         } finally { cerrar(null, null, conn); }
     }
-    // En UsuarioDAO.java
+
     public boolean actualizarPerfil(int id, String nombre, String documento, String direccion, String pass, String correo, String telefono) {
         Connection conn = null;
         try {
             conn = Conexion.getConnection();
             conn.setAutoCommit(false);
 
-            // Si el campo pass viene vacío, NO actualizamos la contraseña (mantiene la del admin)
-            // Si trae algo, la encriptamos con MD5
             String sqlUser;
             if (pass == null || pass.trim().isEmpty()) {
                 sqlUser = "UPDATE usuarios SET nombre = ?, documento = ?, direccion = ? WHERE id = ?";
@@ -349,14 +347,12 @@ public class UsuarioDAO {
                 ps.executeUpdate();
             }
 
-            // Actualizar Correo
             try (PreparedStatement ps = conn.prepareStatement("UPDATE correo SET correo = ? WHERE usuario_id = ?")) {
                 ps.setString(1, correo);
                 ps.setInt(2, id);
                 ps.executeUpdate();
             }
 
-            // Actualizar Telefono
             try (PreparedStatement ps = conn.prepareStatement("UPDATE telefono SET telefono = ? WHERE usuario_id = ?")) {
                 ps.setString(1, telefono);
                 ps.setInt(2, id);
@@ -373,29 +369,7 @@ public class UsuarioDAO {
             try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
     }
-   public Map<String, Integer> obtenerResumenTareas(int idUsuario) {
-        Map<String, Integer> resumen = new HashMap<>();
-        resumen.put("Completada", 0);
-        resumen.put("Proceso", 0);
-        resumen.put("Pendiente", 0);
 
-        String sql = "SELECT estado, COUNT(*) as total FROM tareas WHERE id_usuario = ? GROUP BY estado";
-
-        // Cambiado a Conexion.getConnection() y añadido catch para ClassNotFoundException
-        try (Connection con = Conexion.getConnection(); 
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, idUsuario);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                resumen.put(rs.getString("estado"), rs.getInt("total"));
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return resumen;
-    }
     public Map<String, Integer> obtenerProgresoPorCultivo(int idUsuario) {
         Map<String, Integer> progreso = new HashMap<>();
         String sql = "SELECT nombre_cultivo, " +
@@ -403,19 +377,94 @@ public class UsuarioDAO {
                      "FROM tareas WHERE id_usuario = ? " +
                      "GROUP BY nombre_cultivo";
 
-        // Cambiado a Conexion.getConnection() y añadido catch para ClassNotFoundException
         try (Connection con = Conexion.getConnection(); 
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, idUsuario);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                progreso.put(rs.getString("nombre_cultivo"), rs.getInt("porcentaje"));
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    progreso.put(rs.getString("nombre_cultivo"), rs.getInt("porcentaje"));
+                }
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return progreso;
+    }
+
+    public List<Map<String, Object>> obtenerTareasPorRol(int idUsuario, String rol) {
+        List<Map<String, Object>> lista = new ArrayList<>();
+        String sql;
+
+        if ("administrador".equalsIgnoreCase(rol)) {
+            sql = "SELECT ut.id, t.nombre as tarea, c.nombre as cultivo, u.nombre as trabajador, " +
+                  "ut.descripcion_actividad, ut.estado, ut.jornada, ut.fecha_asignacion " +
+                  "FROM usuario_tarea ut " +
+                  "JOIN tareas t ON ut.tarea_id = t.id " +
+                  "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                  "JOIN usuarios u ON ut.usuario_id = u.id";
+        } else {
+            sql = "SELECT ut.id, t.nombre as tarea, c.nombre as cultivo, u.nombre as trabajador, " +
+                  "ut.descripcion_actividad, ut.estado, ut.jornada, ut.fecha_asignacion " +
+                  "FROM usuario_tarea ut " +
+                  "JOIN tareas t ON ut.tarea_id = t.id " +
+                  "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                  "JOIN usuarios u ON ut.usuario_id = u.id " +
+                  "JOIN supervisor s ON s.cultivo_id = c.id " +
+                  "WHERE s.usuario_id = ?";
+        }
+
+        try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            if (!"administrador".equalsIgnoreCase(rol)) ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("tarea", rs.getString("tarea"));
+                    map.put("cultivo", rs.getString("cultivo"));
+                    map.put("trabajador", rs.getString("trabajador"));
+                    map.put("descripcion", rs.getString("descripcion_actividad"));
+                    map.put("estado", rs.getString("estado"));
+                    map.put("jornada", rs.getString("jornada"));
+                    map.put("fecha", rs.getString("fecha_asignacion"));
+                    lista.add(map);
+                }
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return lista;
+    }
+
+    public int contarCultivosPorRol(int idUsuario, String rol) {
+        String sql = "administrador".equalsIgnoreCase(rol) ? "SELECT COUNT(*) FROM cultivos" : 
+                     "SELECT COUNT(*) FROM supervisor WHERE usuario_id = ?";
+        try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            if (!"administrador".equalsIgnoreCase(rol)) ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) return rs.getInt(1);
+            }
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0;
+    }
+
+    public Map<String, Integer> obtenerResumenTareas(int idUsuario) {
+        Map<String, Integer> resumen = new HashMap<>();
+        resumen.put("Completada", 0); 
+        resumen.put("Proceso", 0); 
+        resumen.put("Pendiente", 0);
+        
+        // Uso la tabla usuario_tarea que es la más específica según tu código
+        String sql = "SELECT estado, COUNT(*) as total FROM usuario_tarea WHERE usuario_id = ? GROUP BY estado";
+        
+        try (Connection con = Conexion.getConnection(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) { 
+                    resumen.put(rs.getString("estado"), rs.getInt("total")); 
+                }
+            }
+        } catch (Exception e) { 
+            e.printStackTrace(); 
+        }
+        return resumen;
     }
 }

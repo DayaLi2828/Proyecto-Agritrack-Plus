@@ -8,13 +8,14 @@
     HttpSession sesion = request.getSession(false);
     String nombreUsuario = (sesion != null) ? (String) sesion.getAttribute("usuario_nombre") : null;
     String rol = (sesion != null) ? (String) sesion.getAttribute("rol") : null;
+    Integer idUsuario = (sesion != null) ? (Integer) sesion.getAttribute("usuario_id") : null;
 
     if (nombreUsuario == null || (!"administrador".equalsIgnoreCase(rol) && !"supervisor".equalsIgnoreCase(rol))) {
         response.sendRedirect("../../index.jsp?error=acceso_denegado");
         return;
     }
 
-    // 2. OBTENCIÓN DE DATOS PARA LAS TARJETAS
+    // 2. OBTENCIÓN DE DATOS DINÁMICOS
     Registro_CultivoDAO cultivoDAO = new Registro_CultivoDAO();
     ProductoDAO productoDAO = new ProductoDAO();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
@@ -24,19 +25,21 @@
     int totalUsuarios = 0;
 
     try {
-        List listaC = cultivoDAO.listarCultivos();
-        if(listaC != null) totalCultivos = listaC.size();
-
+        // Lógica de conteo basada en el ROL
+        totalCultivos = usuarioDAO.contarCultivosPorRol(idUsuario, rol);
+        
         List listaP = productoDAO.listarProductos();
         if(listaP != null) totalProductos = listaP.size();
 
-        List listaU = usuarioDAO.listarUsuarios();
-        if(listaU != null) totalUsuarios = listaU.size();
+        // Solo el admin ve el total global de usuarios
+        if ("administrador".equalsIgnoreCase(rol)) {
+            List listaU = usuarioDAO.listarUsuarios();
+            if(listaU != null) totalUsuarios = listaU.size();
+        }
     } catch (Exception e) {
         e.printStackTrace();
     }
     
-    // Inicial para el círculo
     String inicial = (nombreUsuario != null && !nombreUsuario.isEmpty()) ? nombreUsuario.substring(0, 1).toUpperCase() : "?";
 %>
 <!DOCTYPE html>
@@ -62,7 +65,9 @@
       <a href="../Metodos_Fertlización.jsp">Métodos de fertilización</a>
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Tareas</a>
-      <a href="Usuarios.jsp">Usuarios</a>
+      <% if ("administrador".equalsIgnoreCase(rol)) { %>
+        <a href="Usuarios.jsp">Usuarios</a>
+      <% } %>
       <a href="Productos.jsp">Inventario</a>
       <a href="Pagos.jsp">Pagos</a>
     </nav>
@@ -117,17 +122,25 @@
 
     <div class="main__contetarjetas">
       <div class="main__tarjetas">
-        <h4>Cultivos Registrados</h4>
+        <h4><%= "supervisor".equalsIgnoreCase(rol) ? "Mis Cultivos" : "Cultivos Totales" %></h4>
         <h3 class="main__numero"><%= totalCultivos %></h3>
       </div>
       <div class="main__tarjetas">
         <h4>Productos</h4>
         <h3 class="main__numero"><%= totalProductos %></h3>
       </div>
+      
+      <% if ("administrador".equalsIgnoreCase(rol)) { %>
       <div class="main__tarjetas">
         <h4>Usuarios</h4>
         <h3 class="main__numero"><%= totalUsuarios %></h3>
       </div>
+      <% } else { %>
+      <div class="main__tarjetas">
+          <h4>Rol Acceso</h4>
+          <h3 class="main__numero" style="font-size: 1.2rem;"><%= rol %></h3>
+      </div>
+      <% } %>
     </div>
   </main>
 
