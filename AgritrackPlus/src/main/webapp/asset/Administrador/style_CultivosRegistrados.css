@@ -1,27 +1,48 @@
 @import url(../utils/global.css);
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
-  background: var(--fondo-main);
+  background: var(--background-main); /* Usando tu variable de gradiente */
   font-family: Arial, sans-serif;
 }
 
-/* Títulos principales */
-.titulo {
-  font-size: 34px; /* igual que subtítulos del formulario */
-  color: var(--color-titulo-registro);
-  margin-top: 4px;
+/* --- Header y Títulos --- */
+
+header {
+  width: 96%;
+  margin: 53px auto 0 auto;
+  display: flex;
+  align-items: center;
+  height: 141px;
+  background-color: var(--background-header); /* Variable de tu header */
+  border-radius: 15px;
+  box-shadow: var(--borde-header);
+}
+
+.icono__devolver img {
+  width: 50px;
+  height: 50px;
+  margin-left: 38px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.icono__devolver img:hover {
+  transform: scale(1.1);
 }
 
 .contenedor__titulo {
   display: flex;
+  align-items: center;
   gap: 20px;
-  margin-left: 85px;
-  margin-top: 50px;
+  margin-left: 64px;
 }
+
 .contenedor__logo {
   background: var(--background--caja-logo);
   width: 91px;
@@ -29,34 +50,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
   border-radius: 10px;
 }
+
 .logo {
   width: 70px;
   height: 70px;
 }
-.contenedor__titulo {
-display: flex;
-width: auto;
-gap: 20px;
-margin-left: 64px;
-margin-top: 50px;
+
+.titulo {
+  font-size: 34px;
+  color: var(--letra-titulo); /* Blanco para resaltar sobre el header verde */
 }
-.icono__devolver img{
-  width: 50px;
-  height: 50px;
-  margin-top: 45px;
-  margin-left: 38px;
-}
-header {
-  width: 96%;
-  margin: 0 auto;
-  margin-top: 53px;
-  display: flex;
-  height: 141px;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
-}
+
+/* --- Buscador y Filtros --- */
+
 .buscador__contenedor {
   display: flex;
   justify-content: center;
@@ -69,81 +77,121 @@ header {
   flex: 1;
   padding: 12px 16px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: var(--color-border-inputs-label);
   font-size: 18px;
+  color: var(--color-texto-inputs);
+}
+
+#buscador:focus {
+  outline: none;
+  border-color: var(--color-borde-input-label-seleccionado);
 }
 
 #filtroEstado {
   padding: 12px 16px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  border: var(--color-border-inputs-label);
   font-size: 18px;
-  background-color: #bbf7d0; /* verde claro */
-  color: #065f46;           /* verde más oscuro para contraste */
+  background-color: var(--background-select);
+  color: var(--color-inicial-usuario);
   cursor: pointer;
 }
 
-/* Contenedor de todas las tarjetas */
+/* --- Contenedor de Tarjetas --- */
+
 .contenedor__tarjetas {
   display: flex;
-  flex-wrap: wrap;          /* permite que bajen a la siguiente fila si no caben */
-  justify-content: center;  /* centra las tarjetas en la fila */
-  gap: 30px;                /* más espacio entre tarjetas */
-  margin: 40px auto;
-  max-width: 1496px;        /* área más amplia */
-  margin-top: 77px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 77px auto 40px auto;
+  max-width: 1496px;
 }
 
-/* Estilo de cada tarjeta */
+/* --- Estilo de cada Tarjeta --- */
+
 .tarjeta__cultivo {
-  background-color: #bbf7d0; /* verde suave */
-  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.15);
+  background-color: var(--background-tarjetas-usuarios);
+  box-shadow: var(--sombra-tarjetas-usuarios);
   border-radius: 14px;
-  padding: 40px;            /* más espacio interno */
-  width: 350px;             /* 🔹 más anchas */
-  min-height: 220px;        /* 🔹 más altas */
+  padding: 40px;
+  width: 350px;
+  min-height: 220px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  cursor: default; /* Cambiado a default porque ahora hay botones dentro */
 }
 
 .tarjeta__cultivo:hover {
   transform: translateY(-6px);
-  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Título dentro de la tarjeta */
 .tarjeta__cultivo h3 {
-  font-size: 26px;          /* 🔹 más grande */
-  color: var(--color-subtitulo);
+  font-size: 26px;
+  color: var(--color-nombre-cultivo);
   margin-bottom: 15px;
 }
 
-/* Texto dentro de la tarjeta */
 .tarjeta__cultivo p {
-  font-size: 20px;          /* 🔹 más grande */
-  color: var(--color-texto-formulario);
+  font-size: 20px;
+  color: var(--color-texto-inputs);
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+/* --- Botón de Estado (Interactivo) --- */
+
+.form-estado {
+  display: inline-block;
+}
+
+.btn-estado-toggle {
+  border: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-estado-toggle.activo {
+  background-color: var(--background-caja-imagen1); /* Tu verde fuerte */
+}
+
+.btn-estado-toggle.inactivo {
+  background-color: var(--color-borde-tarea-pendiente); /* Tu naranja/rojo de pendientes */
+}
+
+.btn-estado-toggle:hover {
+  filter: brightness(1.1);
+  transform: scale(1.05);
+}
+
+/* --- Botón Ver Detalles --- */
 
 .boton__ver {
   display: inline-block;
   margin-top: 20px;
   padding: 14px 24px;
-  background-color: #10b981;   /* verde principal */
+  background-color: var(--background-numero);
   color: white;
-  font-size: 18px;             /* letra más grande */
+  font-size: 18px;
   font-weight: bold;
   border: none;
   border-radius: 10px;
   text-align: center;
   cursor: pointer;
-  text-decoration: none;       /* quita subrayado si usas <a> */
+  text-decoration: none;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .boton__ver:hover {
-  background-color: #059669;   /* verde más oscuro */
-  transform: scale(1.05);      /* efecto de agrandarse */
+  background-color: var(--color-borde-input-activo);
+  transform: scale(1.05);
 }
-

@@ -29,8 +29,8 @@
       <input type="text" id="buscador" placeholder=" Buscar cultivo por nombre..."/>
       <select id="filtroEstado">
         <option value="todos">Todos</option>
-        <option value="Activo">Activo</option>
-        <option value="Inactivo">Inactivo</option>
+        <option value="activo">Activo</option>
+        <option value="inactivo">Inactivo</option>
       </select>
     </div>
 
@@ -44,11 +44,24 @@
       <%
         } else {
           for (Map<String, String> cultivo : cultivos) {
+            String estado = cultivo.get("estado");
+            // Aseguramos que el estado no sea nulo para evitar errores
+            if(estado == null) estado = "Activo"; 
       %>
         <div class="tarjeta__cultivo">
           <h3><%= cultivo.get("nombre") %></h3>
           <p>Siembra: <%= cultivo.get("fecha_siembra") %></p>
-          <p>Estado: <%= cultivo.get("estado") %></p>
+          
+          <p>Estado: 
+            <form action="<%= request.getContextPath() %>/CambiarEstadoCultivoServlet" method="post" class="form-estado">
+                <input type="hidden" name="id" value="<%= cultivo.get("id") %>">
+                <input type="hidden" name="estadoActual" value="<%= estado %>">
+                <button type="submit" class="btn-estado-toggle <%= estado.toLowerCase() %>">
+                    <%= estado %>
+                </button>
+            </form>
+          </p>
+
           <a href="Detalles_Cultivo.jsp?id=<%= cultivo.get("id") %>" class="boton__ver">Ver cultivo</a>
         </div>
       <%
@@ -57,29 +70,31 @@
       %>
     </div>
   </main>
-    <script>
-        function filtrar() {
+
+  <script>
+      function filtrar() {
           let texto = document.getElementById("buscador").value.toLowerCase();
-          let estado = document.getElementById("filtroEstado").value.toLowerCase();
+          let estadoFiltro = document.getElementById("filtroEstado").value.toLowerCase();
           let tarjetas = document.querySelectorAll(".tarjeta__cultivo");
 
           tarjetas.forEach(function(tarjeta) {
-            let nombre = tarjeta.querySelector("h3").textContent.toLowerCase();
-            let estadoCultivo = tarjeta.querySelector("p:nth-child(3)").textContent.toLowerCase().trim();
+              let nombre = tarjeta.querySelector("h3").textContent.toLowerCase();
+              // Ajustamos la captura del estado buscando el texto dentro del botón
+              let estadoCultivo = tarjeta.querySelector(".btn-estado-toggle").textContent.toLowerCase().trim();
 
-            let coincideNombre = nombre.includes(texto);
-            let coincideEstado = estado === "todos" || estadoCultivo === "estado: " + estado;
+              let coincideNombre = nombre.includes(texto);
+              let coincideEstado = (estadoFiltro === "todos" || estadoCultivo === estadoFiltro);
 
-            if (coincideNombre && coincideEstado) {
-              tarjeta.style.display = "block";
-            } else {
-              tarjeta.style.display = "none";
-            }
+              if (coincideNombre && coincideEstado) {
+                  tarjeta.style.display = "block";
+              } else {
+                  tarjeta.style.display = "none";
+              }
           });
-        }
+      }
 
-        document.getElementById("buscador").addEventListener("input", filtrar);
-        document.getElementById("filtroEstado").addEventListener("change", filtrar);
-    </script>
+      document.getElementById("buscador").addEventListener("input", filtrar);
+      document.getElementById("filtroEstado").addEventListener("change", filtrar);
+  </script>
 </body>
 </html>

@@ -119,7 +119,7 @@ header {
     color: var(--color-texto-formulario);
   }
   
-  /* Stock */
+  /* Stock / Insumos */
   .contenedor__stock {
     min-height: auto;
   }
@@ -137,6 +137,17 @@ header {
     font-size: 18px;
     color: var(--color-texto-formulario);
   }
+
+  /* --- CORRECCIÓN INSUMOS (Letra normal como supervisor) --- */
+  .contenedor__stock .item__stock p {
+    margin-left: 40px;
+    margin-top: 10px;
+    font-size: 20px; /* Tamaño similar al H3 de supervisor */
+    font-weight: bold;
+    color: var(--color-texto-formulario);
+    font-style: normal; /* Quitamos el italic */
+  }
+
   .cantidad__stock {
     font-size: 18px;
     font-weight: bold;
@@ -151,55 +162,72 @@ header {
     color: var(--color-texto-formulario);
   }
   
-  /* Admin y Trabajadores */
-  .contenedor__admin,
-  .contenedor__trab {
+  /* --- SECCIÓN ADMIN (SUPERVISOR) CORREGIDA --- */
+  .contenedor__admin {
     min-height: auto;
   }
-  .logo__admin,
-  .logo__trab {
+
+  .info__admin {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-left: 40px; 
+    color: var(--color-texto-formulario);
+  }
+
+  .logo__admin {
     height: 70px;
     width: 70px;
-    margin-left: 40px;
-    margin-top: 20px;
     border-radius: 45px;
     object-fit: cover;
   }
-  .info__admin {
-    margin-top: -60px;
-    font-size: 18px;
-    margin-left: 140px;
-    color: var(--color-texto-formulario);
-  }
-  .titulo__admin {
-    font-size: 20px;
-    margin-bottom: 5px;
+
+  .info__admin h3 {
+    font-size: 22px;
+    font-weight: bold;
     color: var(--color-texto-formulario);
   }
   
+  /* --- SECCIÓN TRABAJADORES CORREGIDA --- */
+  .contenedor__trab {
+    min-height: auto;
+  }
+
   .fila__trab {
     display: flex;
-    justify-content: space-around;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     margin-top: 20px;
     gap: 20px;
+    margin-left: 40px;
   }
   
   .bloque__trab {
     display: flex;
     align-items: center;
     gap: 15px;
-    width: 45%;
+    width: calc(45% - 10px);
     background-color: #fff;
     padding: 12px;
     border-radius: 10px;
     box-shadow: 0px 0px 8px rgba(16, 185, 129, 0.3);
   }
+
+  .logo__trab {
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
   .info__trabajador {
     font-size: 18px;
     color: var(--color-texto-formulario);
   }
+
   .titulo__trabajador {
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: bold;
     color: var(--color-texto-formulario);
   }

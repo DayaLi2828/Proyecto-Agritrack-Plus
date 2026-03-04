@@ -2,7 +2,6 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="java.util.List, java.util.Map" %>
 <%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
-<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
 <%
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores();
@@ -38,11 +37,11 @@
     <div class="contendor">
 
       <% if ("true".equals(request.getParameter("error"))) { %>
-        <p style="color:red;">Hubo un error al registrar el cultivo. Intenta de nuevo.</p>
+        <p style="color:red; font-weight: bold;">Hubo un error al registrar el cultivo. Intenta de nuevo.</p>
       <% } %>
 
     <form class="formulario__registrarcultivo" method="post" action="<%= request.getContextPath() %>/RegistroCultivoServlet">
-        <!-- Información básica -->
+        
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -61,7 +60,6 @@
               <label for="fecha_siembra">Fecha de siembra</label>
               <input type="date" id="fecha_siembra" name="fecha_siembra" required>
             </div>
-            
           </div>
 
           <div class="campo">
@@ -73,17 +71,8 @@
               <option value="Maduracion">Maduración</option>
             </select>
           </div>
-
-          <div class="campo">
-            <label for="estado">Estado</label>
-            <select id="estado" name="estado" required>
-              <option value="Activo">Activo</option>
-              <option value="Inactivo">Inactivo</option>
-            </select>
-          </div>
         </div>
 
-        <!-- Stock de productos -->
         <div class="contendor__cajas" id="stockBase">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -96,22 +85,18 @@
             <div class="contenedor__campos fila__stock">
               <div class="campo">
                 <label>Producto</label>
-                <select name="producto_id[]">
+                <select name="producto_id">
                   <option value="">Seleccione...</option>
-                  <%
-                    for (Map<String, String> producto : productos) {
-                  %>
+                  <% for (Map<String, String> producto : productos) { %>
                     <option value="<%= producto.get("id") %>">
                       <%= producto.get("nombre") %> - <%= producto.get("tipo") %>
                     </option>
-                  <%
-                    }
-                  %>
+                  <% } %>
                 </select>
               </div>
               <div class="campo">
                 <label>Cantidad</label>
-                <input type="number" name="cantidad_producto[]" min="1" placeholder="Ingrese la cantidad">
+                <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
               </div>
             </div>
           </div>
@@ -119,7 +104,6 @@
           <button type="button" class="boton__agregar__producto" onclick="agregarProducto()">+ Agregar otro producto</button>
         </div>
 
-        <!-- Supervisor -->
         <div class="contendor__cajas supervisor__caja">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -128,7 +112,7 @@
             <h2 class="subtitulo">Supervisor de campo</h2>
           </div>
 
-       <div class="campo">
+          <div class="campo">
             <label for="supervisor">Supervisor asignado</label>
             <select id="supervisor" name="supervisor_id" required>
                 <option value="">Seleccione un supervisor...</option>
@@ -136,10 +120,9 @@
                     <option value="<%= s.get("id") %>"><%= s.get("nombre") %></option>
                 <% } %>
             </select>
+          </div>
         </div>
-    </div>
 
-        <!-- Trabajadores -->
         <div class="contendor__cajas trabajadores__caja">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -156,7 +139,7 @@
                     for (Map<String, String> t : trabajadores) { %>
                     <li>
                         <label>
-                            <input type="checkbox" name="trabajadores[]" value="<%= t.get("id") %>"> 
+                            <input type="checkbox" name="trabajadores" value="<%= t.get("id") %>"> 
                             <%= t.get("nombre") %>
                         </label>
                     </li>
@@ -164,7 +147,6 @@
             </ul>
         </div>
 
-        <!-- Botón enviar -->
         <div class="contenedor__boton--enviar">
           <button type="submit" class="boton__enviar">&#128640; Enviar</button>
         </div>
@@ -172,32 +154,29 @@
       </form>
     </div>
   </main>
-        <script>
-            function agregarProducto() {
-              var opciones = `<option value="">Seleccione...</option>
-              <%
-                for (Map<String, String> producto : productos) {
-              %>
-                <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo") %></option>
-              <%
-                }
-              %>`;
 
-              var nuevaFila = document.createElement("div");
-              nuevaFila.classList.add("contenedor__campos", "fila__stock");
-              nuevaFila.innerHTML = `
-                <div class="campo">
-                  <label>Producto</label>
-                  <select name="producto_id[]">` + opciones + `</select>
-                </div>
-                <div class="campo">
-                  <label>Cantidad</label>
-                  <input type="number" name="cantidad_producto[]" min="1" placeholder="Ingrese la cantidad">
-                </div>
-                <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
-              `;
-              document.getElementById("contenedor__productos").appendChild(nuevaFila);
-            }
-        </script>
+  <script>
+    function agregarProducto() {
+      var opciones = `<option value="">Seleccione...</option>
+      <% for (Map<String, String> producto : productos) { %>
+        <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo") %></option>
+      <% } %>`;
+
+      var nuevaFila = document.createElement("div");
+      nuevaFila.classList.add("contenedor__campos", "fila__stock");
+      nuevaFila.innerHTML = `
+        <div class="campo">
+          <label>Producto</label>
+          <select name="producto_id">` + opciones + `</select>
+        </div>
+        <div class="campo">
+          <label>Cantidad</label>
+          <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
+        </div>
+        <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
+      `;
+      document.getElementById("contenedor__productos").appendChild(nuevaFila);
+    }
+  </script>
 </body>
 </html>

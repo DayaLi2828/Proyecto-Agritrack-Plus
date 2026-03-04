@@ -31,10 +31,9 @@
         List listaP = productoDAO.listarProductos();
         if(listaP != null) totalProductos = listaP.size();
 
-        // Solo el admin ve el total global de usuarios
+        // CORRECCIÓN: Uso del método directo contarUsuarios para evitar cargar listas pesadas
         if ("administrador".equalsIgnoreCase(rol)) {
-            List listaU = usuarioDAO.listarUsuarios();
-            if(listaU != null) totalUsuarios = listaU.size();
+            totalUsuarios = usuarioDAO.contarUsuarios(); 
         }
     } catch (Exception e) {
         e.printStackTrace();
@@ -88,7 +87,7 @@
           <h3 class="inicial__usuario"><%= inicial %></h3>
         </div>
 
-        <div class="cerrar__sesion" onclick="location.href='../../LogoutServlet'">
+        <div class="cerrar__sesion" onclick="location.href='${pageContext.request.contextPath}/LogoutServlet'">
           <img src="../../asset/imagenes/cerrar-sesion.png" alt="cerrar"/>
         </div>
       </div>

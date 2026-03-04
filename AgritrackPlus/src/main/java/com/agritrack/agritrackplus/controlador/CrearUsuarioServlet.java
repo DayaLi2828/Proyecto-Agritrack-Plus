@@ -74,9 +74,17 @@ public class CrearUsuarioServlet extends HttpServlet {
             System.out.println("Error procesando foto: " + e.getMessage());
         }
 
-        // --- PERSISTENCIA EN BD ---
-        boolean exito = dao.crear(nombre.trim(), pass, documento.trim(), direccion, "Activo", correo, telefono, rolId, nombreFoto);
-
+                // --- PERSISTENCIA EN BD ---
+        boolean exito = dao.crear(
+            nombre.trim(), 
+            pass, 
+            documento.trim(), 
+            direccion, 
+            correo,      // El correo ahora es el 5to parámetro
+            telefono,    // El teléfono el 6to
+            rolId,       // El rol el 7mo
+            nombreFoto   // La foto el 8vo
+        );
         if (exito) {
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Usuarios.jsp?mensaje=creado");
         } else {

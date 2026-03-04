@@ -59,15 +59,18 @@
                     <img class="logo" src="../../asset/imagenes/stock.png" alt="stock"/>
                     <h2 class="titulo">Insumos Utilizados</h2>
                 </div>
-                <% if (productos.isEmpty()) { %>
-                    <p>No hay productos registrados.</p>
-                <% } else { 
-                    for (Map<String, String> p : productos) { %>
-                    <div class="fila__stock">
-                        <div class="item__stock"><p><%= p.get("nombre") %></p></div>
-                        <div class="cantidad__stock"><strong><%= p.get("cantidad") %></strong></div>
-                    </div>
-                <% } } %>
+                <div class="contenedor__registros"> <% if (productos == null || productos.isEmpty()) { %>
+                        <div class="item__stock">
+                            <p>No hay productos registrados en este cultivo.</p>
+                        </div>
+                    <% } else { 
+                        for (Map<String, String> p : productos) { %>
+                        <div class="fila__stock">
+                            <div class="item__stock"><p><%= p.get("nombre") %></p></div>
+                            <div class="cantidad__stock"><strong><%= p.get("cantidad") %></strong></div>
+                        </div>
+                    <% } } %>
+                </div>
             </section>
 
             <section class="contendor__informacion contenedor__admin">
@@ -76,11 +79,15 @@
                     <h2 class="titulo">Responsable</h2>
                 </div>
                 <div class="info__admin">
-                    <% if (supervisor.isEmpty()) { %>
-                        <p>Sin supervisor asignado.</p>
-                    <% } else { %>
-                        <h3><%= supervisor.get("nombre") %></h3>
-                    <% } %>
+                    <% 
+                        // Validamos si el mapa existe y si contiene el nombre
+                        String nombreSupervisor = (supervisor != null && supervisor.containsKey("nombre")) 
+                                                   ? supervisor.get("nombre") 
+                                                   : "Sin supervisor asignado";
+                    %>
+                    <div class="detalle__responsable">
+                        <h3><%= nombreSupervisor %></h3>
+                    </div>
                 </div>
             </section>
 
