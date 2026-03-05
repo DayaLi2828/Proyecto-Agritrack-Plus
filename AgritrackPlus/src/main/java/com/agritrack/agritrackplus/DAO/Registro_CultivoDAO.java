@@ -4,6 +4,7 @@ import com.agritrack.agritrackplus.db.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=? WHERE id=?";
 
@@ -41,7 +42,7 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "DELETE FROM cultivo_trabajador WHERE cultivo_id=?";
 
@@ -61,7 +62,7 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "INSERT INTO cultivo_trabajador(cultivo_id, usuario_id) VALUES(?,?)";
 
@@ -82,7 +83,7 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "DELETE FROM cultivo_producto WHERE cultivo_id=?";
 
@@ -102,7 +103,7 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "INSERT INTO cultivo_producto(cultivo_id, producto_id) VALUES(?,?)";
 
@@ -120,7 +121,7 @@ public class Registro_CultivoDAO {
 
     public void eliminarSupervisorCultivo(int cultivoId) {
         try {
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
             String sql = "UPDATE cultivos SET supervisor_id=NULL WHERE id=?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, cultivoId);
@@ -129,9 +130,10 @@ public class Registro_CultivoDAO {
             e.printStackTrace();
         }
     }
+    
     public void asignarSupervisor(int cultivoId, int supervisorId) {
         try {
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
             String sql = "UPDATE cultivos SET supervisor_id=? WHERE id=?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, supervisorId);
@@ -141,9 +143,10 @@ public class Registro_CultivoDAO {
             e.printStackTrace();
         }
     }
+    
     public void asignarProducto(int cultivoId, int productoId, int cantidad) {
         try {
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
             String sql = "INSERT INTO cultivo_producto(cultivo_id, producto_id, cantidad) VALUES(?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, cultivoId);
@@ -154,6 +157,7 @@ public class Registro_CultivoDAO {
             e.printStackTrace();
         }
     }
+    
     public boolean registrarCultivoCompleto(String nombre,
         String fechaSiembra,
         String ciclo,
@@ -164,11 +168,11 @@ public class Registro_CultivoDAO {
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, supervisor_id) VALUES (?,?,?,?)";
 
-            PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
@@ -228,13 +232,14 @@ public class Registro_CultivoDAO {
         }
 
     }
+    
     public List<Map<String, String>> listarCultivos() {
 
         List<Map<String, String>> lista = new ArrayList<>();
 
         try {
 
-            Connection conn = Conexion.getConexion();
+            Connection conn = Conexion.getConnection();
 
             String sql = "SELECT * FROM cultivos";
 
@@ -249,7 +254,7 @@ public class Registro_CultivoDAO {
                 cultivo.put("id", rs.getString("id"));
                 cultivo.put("nombre", rs.getString("nombre"));
                 cultivo.put("fecha_siembra", rs.getString("fecha_siembra"));
-                cultivo.put("fecha_cosecha", rs.getString("fecha_cosecha"));
+                cultivo.put("fecha_cosecha", rs.getString("fecha_cosecha") != null ? rs.getString("fecha_cosecha") : "Pendiente");
                 cultivo.put("estado", rs.getString("estado"));
 
                 lista.add(cultivo);

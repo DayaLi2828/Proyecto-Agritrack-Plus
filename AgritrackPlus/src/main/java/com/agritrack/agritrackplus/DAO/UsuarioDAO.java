@@ -125,10 +125,10 @@ public class UsuarioDAO {
             conn.setAutoCommit(false);
             int usuarioId = 0;
 
-            String sqlU = "INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES (?, ?, ?, ?, 'Activo')";
+            String sqlU = "INSERT INTO usuarios (nombre, pass, documento, direccion, estado) VALUES (?, MD5(?), ?, ?, 'Activo')";
             try (PreparedStatement ps = conn.prepareStatement(sqlU, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, nombre);
-                ps.setString(2, encriptarMD5(pass));
+                ps.setString(2, pass);
                 ps.setString(3, documento);
                 ps.setString(4, direccion);
                 ps.executeUpdate();
@@ -174,6 +174,7 @@ public class UsuarioDAO {
             cerrar(null, null, conn);
         }
     }
+    
     public List<Map<String, String>> listarUsuarios() {
         List<Map<String, String>> lista = new ArrayList<>();
         Connection conn = null;
@@ -182,7 +183,7 @@ public class UsuarioDAO {
         try {
             conn = Conexion.getConnection();
             // Usamos LEFT JOIN en todas para que si falta un dato, el usuario NO desaparezca
-            String sql = "SELECT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
+            String sql = "SELECT DISTINCT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
                          "COALESCE(f.ruta, 'asset/imagenes/default-avatar.png') AS foto, " +
                          "COALESCE(c.email, 'Sin correo') AS email, " +
                          "COALESCE(t.numero, 'Sin teléfono') AS telefono, " +
@@ -251,8 +252,8 @@ public class UsuarioDAO {
             }
 
             if (pass != null && !pass.trim().isEmpty()) {
-                try (PreparedStatement ps = conn.prepareStatement("UPDATE usuarios SET pass=? WHERE id=?")) {
-                    ps.setString(1, encriptarMD5(pass)); ps.setInt(2, usuarioId); ps.executeUpdate();
+                try (PreparedStatement ps = conn.prepareStatement("UPDATE usuarios SET pass=MD5(?) WHERE id=?")) {
+                    ps.setString(1, pass); ps.setInt(2, usuarioId); ps.executeUpdate();
                 }
             }
 
@@ -473,8 +474,6 @@ public class UsuarioDAO {
         }
         return total;
     }
-
-
 
     public Map<String, Integer> obtenerResumenTareas(int idUsuario) {
         Map<String, Integer> resumen = new HashMap<>();
