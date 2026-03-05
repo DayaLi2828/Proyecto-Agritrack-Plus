@@ -261,6 +261,10 @@ CREATE TABLE stock_cultivo (
   FOREIGN KEY (cultivo_id) REFERENCES cultivos(id),
   FOREIGN KEY (producto_id) REFERENCES productos(id)
 );
+INSERT INTO stock_cultivo (cultivo_id, producto_id, cantidad) VALUES 
+(1, 1, 2), (2, 4, 1), (3, 5, 3), (4, 9, 2), (5, 8, 1),
+(6, 12, 1), (7, 13, 2), (8, 2, 4), (9, 6, 2), (10, 14, 2),
+(11, 10, 3), (12, 1, 1), (13, 4, 2), (14, 5, 5), (15, 9, 2);
 SELECT * FROM stock_cultivo;
 
 -- ===================== SUPERVISOR =====================
@@ -273,6 +277,22 @@ CREATE TABLE supervisor (
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
   FOREIGN KEY (cultivo_id) REFERENCES cultivos(id)
 );
+INSERT INTO supervisor (descripcion_trabajo, nombre_cargo, usuario_id, cultivo_id) VALUES 
+('Control de calidad del fruto', 'Supervisor de Zona', 4, 1),
+('Revisión de hidratación', 'Líder de Campo', 7, 2),
+('Monitoreo de PH suelo', 'Agrónomo Jr', 12, 3),
+('Gestión de cuadrilla', 'Capatáz', 15, 4),
+('Reporte de crecimiento', 'Supervisor de Zona', 4, 5),
+('Control biológico', 'Líder de Campo', 7, 6),
+('Supervisión de abono', 'Agrónomo Jr', 12, 7),
+('Auditoría de riego', 'Capatáz', 15, 8),
+('Inspección de plagas', 'Supervisor de Zona', 4, 9),
+('Coordinación de siembra', 'Líder de Campo', 7, 10),
+('Control de temperatura', 'Agrónomo Jr', 12, 11),
+('Gestión de insumos', 'Capatáz', 15, 12),
+('Verificación de ciclos', 'Supervisor de Zona', 4, 13),
+('Optimización de cosecha', 'Líder de Campo', 7, 14),
+('Mantenimiento preventivo', 'Agrónomo Jr', 12, 15);
 SELECT * FROM supervisor;
 
 -- ===================== PAGOS =====================
@@ -284,6 +304,15 @@ CREATE TABLE pagos (
   pago DOUBLE NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES 
+(1, '2026-03-01', 'Activo', 2500000), (2, '2026-03-01', 'Activo', 1200000),
+(3, '2026-03-01', 'Activo', 1200000), (4, '2026-03-01', 'Activo', 1800000),
+(5, '2026-03-01', 'Activo', 1200000), (6, '2026-03-01', 'Activo', 1200000),
+(7, '2026-03-01', 'Activo', 1800000), (8, '2026-03-01', 'Activo', 1200000),
+(9, '2026-03-01', 'Activo', 1200000), (10, '2026-03-01', 'Activo', 2500000),
+(11, '2026-03-01', 'Activo', 1200000), (12, '2026-03-01', 'Activo', 1800000),
+(13, '2026-03-01', 'Activo', 1200000), (14, '2026-03-01', 'Activo', 1200000),
+(15, '2026-03-01', 'Activo', 1800000);
 SELECT * FROM pagos;
 
 -- ===================== TAREAS =====================
@@ -291,6 +320,12 @@ CREATE TABLE tareas (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL
 );
+INSERT INTO tareas (nombre) VALUES 
+('Riego Manual'), ('Fumigación Controlada'), ('Poda de Formación'), 
+('Fertilización Foliar'), ('Control de Malezas'), ('Monitoreo de Plagas'), 
+('Cosecha Selectiva'), ('Preparación de Terreno'), ('Siembra Directa'), 
+('Aplicación de Abono'), ('Limpieza de Canales'), ('Tutorado de Plantas'), 
+('Deshije'), ('Recolección de Residuos'), ('Mantenimiento de Herramientas');
 SELECT * FROM tareas;
 
 -- ===================== USUARIO_TAREA =====================
@@ -302,4 +337,20 @@ CREATE TABLE usuario_tarea (
   FOREIGN KEY (cultivo_id) REFERENCES cultivos(id),
   FOREIGN KEY (tarea_id) REFERENCES tareas(id)
 );
+INSERT INTO usuario_tarea (cultivo_id, descripcion_actividad, tarea_id, jornada) VALUES 
+(1, 'Regar lote central 50L agua', 1, 'Mañana'),
+(2, 'Aplicar insecticida preventivo', 2, 'Mañana'),
+(3, 'Podar ramas secas bajas', 3, 'Tarde'),
+(4, 'Disolver NPK en tanques', 4, 'Mañana'),
+(5, 'Retirar maleza de surcos 1-5', 5, 'Tarde'),
+(6, 'Buscar presencia de pulgón', 6, 'Mañana'),
+(7, 'Recolectar frutos rojos', 7, 'Mañana'),
+(8, 'Nivelar terreno sector B', 8, 'Tarde'),
+(9, 'Sembrar semillas faltantes', 9, 'Mañana'),
+(10, 'Esparcir composta orgánica', 10, 'Tarde'),
+(11, 'Retirar lodo de drenajes', 11, 'Mañana'),
+(12, 'Amarrar tallos a estacas', 12, 'Tarde'),
+(13, 'Quitar brotes laterales', 13, 'Mañana'),
+(14, 'Limpiar área de acopio', 14, 'Tarde'),
+(15, 'Aceitar tijeras y machetes', 15, 'Tarde');
 SELECT * FROM usuario_tarea;

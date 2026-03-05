@@ -1,7 +1,8 @@
+<%@page import="com.agritrack.agritrackplus.DAO.UsuarioDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.agritrack.agritrackplus.DAO.Registro_CultivoDAO" %>
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
-<%@ page import="com.agritrack.agritrackplus.DAO.UsuarioDAO" %>
+<%@ page import="com.agritrack.agritrackplus.DAO.CultivoDAO" %>
 <%@ page import="java.util.List" %>
 <%
     // 1. VALIDACIÓN DE SEGURIDAD
@@ -16,18 +17,16 @@
     }
 
     // 2. OBTENCIÓN DE DATOS DINÁMICOS
-    Registro_CultivoDAO cultivoDAO = new Registro_CultivoDAO();
+    CultivoDAO cultivoDAO = new CultivoDAO(); 
     ProductoDAO productoDAO = new ProductoDAO();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-
     int totalCultivos = 0;
     int totalProductos = 0;
     int totalUsuarios = 0;
 
     try {
         // Lógica de conteo basada en el ROL
-        totalCultivos = usuarioDAO.contarCultivosPorRol(idUsuario, rol);
-        
+        totalCultivos = cultivoDAO.contarCultivosPorRol(idUsuario, rol);        
         List listaP = productoDAO.listarProductos();
         if(listaP != null) totalProductos = listaP.size();
 
@@ -154,4 +153,5 @@
     }
   </script>
 </body>
+
 </html>

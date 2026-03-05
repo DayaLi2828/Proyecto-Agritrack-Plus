@@ -3,17 +3,30 @@
 <%@ page import="java.util.List, java.util.Map" %>
 
 <%
-  UsuarioDAO dao = new UsuarioDAO();
-  List<Map<String, String>> usuarios = dao.listarUsuarios();
-  int totalUsuarios = usuarios.size();
-  int totalActivos = 0;
-  int totalInactivos = 0;
-  String mensaje = request.getParameter("mensaje");
-  
-  for (Map<String, String> u : usuarios) {
-    if ("Activo".equals(u.get("estado"))) totalActivos++;
-    else totalInactivos++;
-  }
+    UsuarioDAO dao = new UsuarioDAO();
+        List<Map<String, String>> usuarios = dao.listarUsuarios();
+
+    if (usuarios == null) {
+        usuarios = new java.util.ArrayList<>();
+    }
+
+        int totalUsuarios = usuarios.size();
+        int totalActivos = 0;
+        int totalInactivos = 0;
+
+    String mensaje = request.getParameter("mensaje");
+
+    for (Map<String, String> u : usuarios) {
+
+        String estado = u.get("estado");
+
+        if ("Activo".equalsIgnoreCase(estado)) {
+            totalActivos++;
+        } else {
+            totalInactivos++;
+        }
+
+    }
 %>
 
 <!DOCTYPE html>
@@ -44,11 +57,11 @@
     <!-- ✅ MENSAJES ÉXITO -->
     <% if ("estado".equals(mensaje)) { %>
       <div class="alerta-exito">
-        ✅ Estado actualizado correctamente
+         Estado actualizado correctamente
       </div>
     <% } else if ("eliminado".equals(mensaje)) { %>
       <div class="alerta-exito">
-        ✅ Usuario eliminado correctamente
+         Usuario eliminado correctamente
       </div>
     <% } %>
 
@@ -59,11 +72,11 @@
         <p>Total de usuarios</p>
       </div>
       <div class="tarjeta__contador">
-        <h2 style="color: #10b981;"><%= totalActivos %></h2>
+        <h2><%= totalActivos %></h2>
         <p>Usuarios activos</p>
       </div>
       <div class="tarjeta__contador">
-        <h2 style="color: #ef4444;"><%= totalInactivos %></h2>
+        <h2><%= totalInactivos %></h2>
         <p>Usuarios inactivos</p>
       </div>
     </div>
@@ -77,7 +90,7 @@
       <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
     </div>
 
-    <!-- TABLA ✅ CORREGIDA COMPLETA -->
+    <!-- TABLA  CORREGIDA COMPLETA -->
     <table id="tablaUsuarios">
       <caption>Lista de usuarios</caption>
       <thead>
@@ -98,7 +111,7 @@
   <% if (usuarios == null || usuarios.isEmpty()) { %>
     <tr>
       <td colspan="10" style="text-align:center; padding: 40px; color: #6b7280;">
-        <i class="fas fa-users" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
+        <i class="fas fa-users"></i>
         No hay usuarios registrados
       </td>
     </tr>
@@ -122,7 +135,7 @@
             <img src="../../<%= fotoRuta %>" alt="Foto" class="foto-usuario" 
                  onerror="this.src='../../asset/imagenes/default-avatar.png';">
           <% } else { %>
-            <div style="width:50px;height:50px;background:#e5e7eb;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#6b7280;font-size:12px;">S/F</div>
+            <div >S/F</div>
           <% } %>
         </td>
         <td><%= nombre %></td>
@@ -136,7 +149,7 @@
           </span>
         </td>
         <td>
-          <form method="POST" action="<%= request.getContextPath() %>/CambiarEstadoServlet" style="display:inline;">
+          <form method="POST" action="<%= request.getContextPath() %>/CambiarEstadoServlet">
             <input type="hidden" name="id" value="<%= id %>">
             <button type="submit" class="btn-estado <%= esActivo ? "btn-activo" : "btn-inactivo" %>">
               <%= esActivo ? "🟢 ACTIVO" : "🔴 INACTIVO" %>
@@ -147,7 +160,7 @@
           <a href="Agregar_Usuario.jsp?id=<%= id %>" class="btn-editar">
             <i class="fas fa-edit"></i> Editar
           </a>
-          <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" style="display:inline;" 
+          <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" 
                 onsubmit="return confirm('¿Eliminar a <%= nombre %>?')">
             <input type="hidden" name="id" value="<%= id %>">
             <button type="submit" class="btn-eliminar">

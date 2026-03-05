@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "EditarCultivoServlet", urlPatterns = {"/EditarCultivoServlet"})
 public class EditarCultivoServlet extends HttpServlet {
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -20,32 +21,46 @@ public class EditarCultivoServlet extends HttpServlet {
         String fechaCosecha = request.getParameter("fecha_cosecha");
         String ciclo = request.getParameter("ciclo");
         String estado = request.getParameter("estado");
-        
-        // CORRECCIÓN: Usar "trabajadores[]" para que coincida con el formulario JSP
-        String[] trabajadoresIds = request.getParameterValues("trabajadores[]");
+
+        String[] trabajadores = request.getParameterValues("trabajadores[]");
+        String[] productos = request.getParameterValues("productos[]");
+
+        if (fechaCosecha == null || fechaCosecha.trim().isEmpty()) {
+            fechaCosecha = null;
+        }
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
-        
-        // Intentar actualizar los datos básicos del cultivo
-        boolean exito = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
 
-        if (exito) {
+        boolean actualizado = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
+
+        if (actualizado) {
+
             int idCultivo = Integer.parseInt(id);
-            
-            // 1. Limpiamos los trabajadores actuales para actualizar la lista
-            dao.eliminarTrabajadoresCultivo(idCultivo);
-            
-            // 2. Asignamos los nuevos trabajadores seleccionados
-            if (trabajadoresIds != null) {
-                for (String trabajadorId : trabajadoresIds) {
-                    if (trabajadorId != null && !trabajadorId.isEmpty()) {
-                        dao.asignarTrabajador(idCultivo, Integer.parseInt(trabajadorId));
-                    }
+
+            if (trabajadores != null) {
+                dao.eliminarTrabajadoresCultivo(idCultivo);
+
+                for (int i = 0; i < trabajadores.length; i++) {
+                    dao.asignarTrabajador(idCultivo, Integer.parseInt(trabajadores[i]));
                 }
             }
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Detalles_Cultivo.jsp?id=" + id);
+
+            if (productos != null) {
+                dao.eliminarProductosCultivo(idCultivo);
+
+                for (int i = 0; i < productos.length; i++) {
+                    dao.asignarProducto(idCultivo, Integer.parseInt(productos[i]));
+                }
+            }
+
+            response.sendRedirect(request.getContextPath()
+                    + "/public/Administrador/Detalles_Cultivo.jsp?id=" + id);
+
         } else {
-            response.sendRedirect(request.getContextPath() + "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=true");
+
+            response.sendRedirect(request.getContextPath()
+                    + "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=true");
+
         }
     }
 }

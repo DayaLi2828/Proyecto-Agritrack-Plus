@@ -51,6 +51,9 @@
                         <div class="dato__cultivo"><p><strong>Ciclo:</strong> <%= cultivo.get("ciclo") %></p></div>
                         <div class="dato__cultivo"><p><strong>Estado:</strong> <%= cultivo.get("estado") %></p></div>
                     </div>
+                    <div class="fila__cultivo">
+                    <div class="dato__cultivo"><p><strong>Fecha Cosecha:</strong> <%= (cultivo.get("fecha_cosecha") != null) ? cultivo.get("fecha_cosecha") : "Pendiente" %></p></div>
+                </div>
                 </div>
             </section>
 
@@ -67,7 +70,10 @@
                         for (Map<String, String> p : productos) { %>
                         <div class="fila__stock">
                             <div class="item__stock"><p><%= p.get("nombre") %></p></div>
-                            <div class="cantidad__stock"><strong><%= p.get("cantidad") %></strong></div>
+                            <div class="cantidad__stock">
+                                <strong><%= p.get("cantidad") %></strong> 
+                                <span><%= (p.get("unidad_medida") != null) ? p.get("unidad_medida") : "" %></span>
+                            </div>
                         </div>
                     <% } } %>
                 </div>

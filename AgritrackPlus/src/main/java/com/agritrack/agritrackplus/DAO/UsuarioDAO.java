@@ -474,17 +474,7 @@ public class UsuarioDAO {
         return total;
     }
 
-    public int contarCultivosPorRol(int idUsuario, String rol) {
-        String sql = "administrador".equalsIgnoreCase(rol) ? "SELECT COUNT(*) FROM cultivos" : 
-                     "SELECT COUNT(*) FROM supervisor WHERE usuario_id = ?";
-        try (Connection con = Conexion.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            if (!"administrador".equalsIgnoreCase(rol)) ps.setInt(1, idUsuario);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) return rs.getInt(1);
-            }
-        } catch (Exception e) { e.printStackTrace(); }
-        return 0;
-    }
+
 
     public Map<String, Integer> obtenerResumenTareas(int idUsuario) {
         Map<String, Integer> resumen = new HashMap<>();

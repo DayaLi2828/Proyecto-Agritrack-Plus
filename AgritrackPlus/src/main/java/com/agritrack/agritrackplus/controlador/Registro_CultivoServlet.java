@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "RegistroCultivoServlet", urlPatterns = {"/RegistroCultivoServlet"})
+@WebServlet(name = "Registro_CultivoServlet", urlPatterns = {"/Registro_CultivoServlet"})
 public class Registro_CultivoServlet extends HttpServlet {
 
     @Override
