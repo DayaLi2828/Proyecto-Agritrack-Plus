@@ -4,28 +4,25 @@
 
 <%
     UsuarioDAO dao = new UsuarioDAO();
-        List<Map<String, String>> usuarios = dao.listarUsuarios();
+    List<Map<String, String>> usuarios = dao.listarUsuarios();
 
     if (usuarios == null) {
         usuarios = new java.util.ArrayList<>();
     }
 
-        int totalUsuarios = usuarios.size();
-        int totalActivos = 0;
-        int totalInactivos = 0;
+    int totalUsuarios = usuarios.size();
+    int totalActivos = 0;
+    int totalInactivos = 0;
 
     String mensaje = request.getParameter("mensaje");
 
     for (Map<String, String> u : usuarios) {
-
         String estado = u.get("estado");
-
         if ("Activo".equalsIgnoreCase(estado)) {
             totalActivos++;
         } else {
             totalInactivos++;
         }
-
     }
 %>
 
@@ -42,7 +39,7 @@
   <header>
     <a href="Admin.jsp">
       <div class="icono__devolver">
-        <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+        <img src="../../asset/imagenes/devolver.png" id="icono de devolver" alt="Volver">
       </div>
     </a>
     <div class="contenedor__titulo">
@@ -54,18 +51,12 @@
   </header>
 
   <main>
-    <!-- ✅ MENSAJES ÉXITO -->
     <% if ("estado".equals(mensaje)) { %>
-      <div class="alerta-exito">
-         Estado actualizado correctamente
-      </div>
+      <div class="alerta-exito">Estado actualizado correctamente</div>
     <% } else if ("eliminado".equals(mensaje)) { %>
-      <div class="alerta-exito">
-         Usuario eliminado correctamente
-      </div>
+      <div class="alerta-exito">Usuario eliminado correctamente</div>
     <% } %>
 
-    <!-- CONTADORES -->
     <div class="contenedor__tarjetas">
       <div class="tarjeta__contador">
         <h2><%= totalUsuarios %></h2>
@@ -81,16 +72,14 @@
       </div>
     </div>
 
-    <!-- BUSCADOR + BOTÓN -->
     <div class="buscardor__usuario">
       <div class="contenedor__buscar">
-        <input type="text" id="buscador" class="input__buscador" placeholder="Buscar usuario por nombre o número de documento" aria-label="Buscar"/>
+        <input type="text" id="buscador" class="input__buscador" placeholder="Buscar usuario por nombre o documento" aria-label="Buscar"/>
         <img class="icono__buscador" src="../../asset/imagenes/lupa.png" alt="Icono de búsqueda"/>
       </div>
       <a href="Agregar_Usuario.jsp" class="boton">Añadir Usuario</a>
     </div>
 
-    <!-- TABLA  CORREGIDA COMPLETA -->
     <table id="tablaUsuarios">
       <caption>Lista de usuarios</caption>
       <thead>
@@ -108,16 +97,14 @@
         </tr>
       </thead>
       <tbody>
-  <% if (usuarios == null || usuarios.isEmpty()) { %>
+  <% if (usuarios.isEmpty()) { %>
     <tr>
       <td colspan="10" style="text-align:center; padding: 40px; color: #6b7280;">
-        <i class="fas fa-users"></i>
-        No hay usuarios registrados
+        <i class="fas fa-users"></i> No hay usuarios registrados
       </td>
     </tr>
   <% } else { %>
     <% for (Map<String, String> usuario : usuarios) {
-        // Aseguramos que no haya valores nulos para evitar errores de renderizado
         String id = String.valueOf(usuario.get("id"));
         String nombre = usuario.get("nombre") != null ? usuario.get("nombre") : "N/A";
         String doc = usuario.get("documento") != null ? usuario.get("documento") : "N/A";
@@ -125,18 +112,21 @@
         String tel = usuario.get("telefono") != null ? usuario.get("telefono") : "Sin tel";
         String rol = usuario.get("rol") != null ? usuario.get("rol") : "Sin rol";
         String estado = usuario.get("estado") != null ? usuario.get("estado") : "Inactivo";
+        
+        // 1. CORRECCIÓN DE RUTA DE FOTO: Evita parpadeo por rutas nulas o texto "null"
         String fotoRuta = usuario.get("foto");
+        if (fotoRuta == null || fotoRuta.trim().isEmpty() || fotoRuta.equalsIgnoreCase("null")) {
+            fotoRuta = "asset/imagenes/default-avatar.png";
+        }
         boolean esActivo = "Activo".equalsIgnoreCase(estado);
     %>
       <tr>
         <td><strong><%= id %></strong></td>
         <td>
-          <% if (fotoRuta != null && !fotoRuta.trim().isEmpty()) { %>
-            <img src="../../<%= fotoRuta %>" alt="Foto" class="foto-usuario" 
-                 onerror="this.src='../../asset/imagenes/default-avatar.png';">
-          <% } else { %>
-            <div >S/F</div>
-          <% } %>
+          <%-- 2. CORRECCIÓN ONERROR: El this.onerror=null detiene el bucle de parpadeo --%>
+          <img src="../../<%= fotoRuta %>" alt="Foto" class="foto-usuario" 
+               style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"
+               onerror="this.onerror=null; this.src='../../asset/imagenes/default-avatar.png';">
         </td>
         <td><%= nombre %></td>
         <td><%= doc %></td>
@@ -176,14 +166,15 @@
   </main>
 
   <script>
-    // ✅ BUSCADOR MEJORADO (funciona con botones)
-    document.getElementById("buscador").addEventListener("input", function() {
-      let texto = this.value.toLowerCase();
+    // 3. BUSCADOR OPTIMIZADO: Eliminamos cualquier posible conflicto de recarga
+    document.getElementById("buscador").addEventListener("keyup", function() {
+      let texto = this.value.toLowerCase().trim();
       let filas = document.querySelectorAll("#tablaUsuarios tbody tr");
+      
       filas.forEach(function(fila) {
-        let nombre = fila.cells[2] ? fila.cells[2].textContent.toLowerCase() : "";
-        let documento = fila.cells[3] ? fila.cells[3].textContent.toLowerCase() : "";
-        if (nombre.includes(texto) || documento.includes(texto)) {
+        // Buscamos en toda la fila para mayor precisión
+        let contenidoFila = fila.textContent.toLowerCase();
+        if (contenidoFila.includes(texto)) {
           fila.style.display = "";
         } else {
           fila.style.display = "none";

@@ -22,8 +22,9 @@ public class EditarCultivoServlet extends HttpServlet {
         String ciclo = request.getParameter("ciclo");
         String estado = request.getParameter("estado");
 
-        String[] trabajadores = request.getParameterValues("trabajadores[]");
-        String[] productos = request.getParameterValues("productos[]");
+        // Nota: Asegúrate que en tu HTML los select tengan name="trabajadores" y name="productos"
+        String[] trabajadores = request.getParameterValues("trabajadores");
+        String[] productos = request.getParameterValues("productos");
 
         if (fechaCosecha == null || fechaCosecha.trim().isEmpty()) {
             fechaCosecha = null;
@@ -31,25 +32,31 @@ public class EditarCultivoServlet extends HttpServlet {
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
 
+        // 1. Actualizar datos básicos del cultivo
         boolean actualizado = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
 
         if (actualizado) {
-
             int idCultivo = Integer.parseInt(id);
 
+            // 2. Actualizar trabajadores (Borrar y volver a insertar)
             if (trabajadores != null) {
                 dao.eliminarTrabajadoresCultivo(idCultivo);
-
-                for (int i = 0; i < trabajadores.length; i++) {
-                    dao.asignarTrabajador(idCultivo, Integer.parseInt(trabajadores[i]));
+                for (String tId : trabajadores) {
+                    if (tId != null && !tId.isEmpty()) {
+                        dao.asignarTrabajador(idCultivo, Integer.parseInt(tId));
+                    }
                 }
             }
 
+            // 3. Actualizar productos/insumos (Borrar y volver a insertar)
+           // 3. Actualizar productos/insumos (Borrar y volver a insertar)
             if (productos != null) {
                 dao.eliminarProductosCultivo(idCultivo);
-
-                for (int i = 0; i < productos.length; i++) {
-                    dao.asignarProducto(idCultivo, Integer.parseInt(productos[i]));
+                for (String pId : productos) {
+                    if (pId != null && !pId.isEmpty()) {
+                        // USAMOS pId (que viene del for) e idCultivo (que definiste arriba)
+                        dao.asignarProducto(idCultivo, Integer.parseInt(pId));
+                    }
                 }
             }
 
@@ -57,10 +64,8 @@ public class EditarCultivoServlet extends HttpServlet {
                     + "/public/Administrador/Detalles_Cultivo.jsp?id=" + id);
 
         } else {
-
             response.sendRedirect(request.getContextPath()
                     + "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=true");
-
         }
     }
 }

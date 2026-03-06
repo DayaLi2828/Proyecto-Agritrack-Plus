@@ -174,7 +174,6 @@ public class UsuarioDAO {
             cerrar(null, null, conn);
         }
     }
-    
     public List<Map<String, String>> listarUsuarios() {
         List<Map<String, String>> lista = new ArrayList<>();
         Connection conn = null;
@@ -182,19 +181,21 @@ public class UsuarioDAO {
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            // Usamos LEFT JOIN en todas para que si falta un dato, el usuario NO desaparezca
-            String sql = "SELECT DISTINCT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
-                         "COALESCE(f.ruta, 'asset/imagenes/default-avatar.png') AS foto, " +
-                         "COALESCE(c.email, 'Sin correo') AS email, " +
-                         "COALESCE(t.numero, 'Sin teléfono') AS telefono, " +
-                         "COALESCE(r.nombre, 'Sin rol') AS rol " + 
+            // Usamos GROUP BY u.id para que NUNCA se repita un usuario
+            // Usamos MAX o MIN en los COALESCE para traer al menos un dato si existen varios
+            String sql = "SELECT u.id, u.nombre, u.documento, u.direccion, u.estado, " +
+                         "MAX(COALESCE(f.ruta, 'asset/imagenes/default-avatar.png')) AS foto, " +
+                         "MAX(COALESCE(c.email, 'Sin correo')) AS email, " +
+                         "MAX(COALESCE(t.numero, 'Sin teléfono')) AS telefono, " +
+                         "MAX(COALESCE(r.nombre, 'Sin rol')) AS rol " + 
                          "FROM usuarios u " +
                          "LEFT JOIN fotos_usuario f ON u.id = f.usuario_id " +
                          "LEFT JOIN correo c ON u.id = c.usuario_id " +
                          "LEFT JOIN telefono t ON u.id = t.usuario_id " +
                          "LEFT JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
                          "LEFT JOIN roles r ON ru.rol_id = r.id " +
-                         "ORDER BY u.id DESC";
+                         "GROUP BY u.id " +
+                         "ORDER BY u.id ASC"; 
 
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();

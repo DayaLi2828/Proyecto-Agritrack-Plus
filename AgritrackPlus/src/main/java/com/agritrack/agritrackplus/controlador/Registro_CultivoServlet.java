@@ -58,7 +58,7 @@ public class Registro_CultivoServlet extends HttpServlet {
                             if (productoIds[i] != null && !productoIds[i].isEmpty()) {
                                 int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty()) 
                                            ? Integer.parseInt(cantidades[i]) : 1;
-                                dao.asignarProducto(cultivoId, Integer.parseInt(productoIds[i]), cant);
+                                dao.asignarProducto(cultivoId, Integer.parseInt(productoIds[i]));
                             }
                         }
                     }

@@ -1,6 +1,7 @@
 package com.agritrack.agritrackplus.controlador;
 
 import com.agritrack.agritrackplus.DAO.ProductoDAO;
+import com.agritrack.agritrackplus.DAO.Registro_CultivoDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,7 +43,7 @@ public class AgregarProductoServlet extends HttpServlet {
                 fechaVencimiento = null;
             }
 
-            ProductoDAO dao = new ProductoDAO();
+            Registro_CultivoDAO dao = new Registro_CultivoDAO();
             // Llamamos al método sin el parámetro estado
             boolean exito = dao.agregar(nombre, unidadMedida, precio, fechaCompra, fechaVencimiento, tipoProductoId, cantidad);
             
