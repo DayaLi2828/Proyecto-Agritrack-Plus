@@ -67,7 +67,7 @@
         <a href="Usuarios.jsp">Usuarios</a>
       <% } %>
       <a href="Productos.jsp">Inventario</a>
-      <a href="Pagos.jsp">Pagos</a>
+      <a href="Gestion_Pagos.jsp">Pagos</a>
     </nav>
   </aside>
 

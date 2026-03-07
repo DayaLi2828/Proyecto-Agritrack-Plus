@@ -31,7 +31,6 @@
                 <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="logo"/>
             </div>
             <h1 class="titulo">Detalle del Cultivo</h1>
-            <a href="Editar_Cultivo.jsp?id=<%= id %>" class="boton">Editar Cultivo</a>
         </div>
     </header>
 
@@ -92,7 +91,9 @@
                                                    : "Sin supervisor asignado";
                     %>
                     <div class="detalle__responsable">
-                        <h3><%= nombreSupervisor %></h3>
+                        <div class="bloque__supervisor">
+                            <h3><%= nombreSupervisor %></h3>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -344,18 +344,16 @@ public class UsuarioDAO {
         } finally { cerrar(null, null, conn); }
     }
 
-    public boolean actualizarPerfil(int id, String nombre, String documento, String direccion, String pass, String correo, String telefono) {
+    public boolean actualizarPerfil(int id, String nombre, String documento, String direccion, String pass, String correo, String telefono, String nombreFoto) {
         Connection conn = null;
         try {
             conn = Conexion.getConnection();
             conn.setAutoCommit(false);
 
-            String sqlUser;
-            if (pass == null || pass.trim().isEmpty()) {
-                sqlUser = "UPDATE usuarios SET nombre = ?, documento = ?, direccion = ? WHERE id = ?";
-            } else {
-                sqlUser = "UPDATE usuarios SET nombre = ?, documento = ?, direccion = ?, pass = MD5(?) WHERE id = ?";
-            }
+            // 1. Actualizar Tabla Usuarios
+            String sqlUser = (pass == null || pass.trim().isEmpty()) 
+                ? "UPDATE usuarios SET nombre = ?, documento = ?, direccion = ? WHERE id = ?"
+                : "UPDATE usuarios SET nombre = ?, documento = ?, direccion = ?, pass = MD5(?) WHERE id = ?";
 
             try (PreparedStatement ps = conn.prepareStatement(sqlUser)) {
                 ps.setString(1, nombre);
@@ -370,12 +368,26 @@ public class UsuarioDAO {
                 ps.executeUpdate();
             }
 
+            // 2. Actualizar o Insertar Foto (Tabla fotos_usuario)
+            if (nombreFoto != null && !nombreFoto.isEmpty()) {
+                String sqlFoto = "INSERT INTO fotos_usuario (usuario_id, ruta) VALUES (?, ?) " +
+                                 "ON DUPLICATE KEY UPDATE ruta = ?";
+                try (PreparedStatement ps = conn.prepareStatement(sqlFoto)) {
+                    ps.setInt(1, id);
+                    ps.setString(2, nombreFoto);
+                    ps.setString(3, nombreFoto);
+                    ps.executeUpdate();
+                }
+            }
+
+            // 3. Actualizar Correo
             try (PreparedStatement ps = conn.prepareStatement("UPDATE correo SET email = ? WHERE usuario_id = ?")) {
                 ps.setString(1, correo);
                 ps.setInt(2, id);
                 ps.executeUpdate();
             }
 
+            // 4. Actualizar Telefono
             try (PreparedStatement ps = conn.prepareStatement("UPDATE telefono SET numero = ? WHERE usuario_id = ?")) {
                 ps.setString(1, telefono);
                 ps.setInt(2, id);
@@ -392,7 +404,6 @@ public class UsuarioDAO {
             cerrar(null, null, conn);
         }
     }
-
     public Map<String, Integer> obtenerProgresoPorCultivo(int idUsuario) {
         Map<String, Integer> progreso = new HashMap<>();
         String sql = "SELECT nombre_cultivo, " +
@@ -558,5 +569,41 @@ public class UsuarioDAO {
             }
         } catch (Exception e) { e.printStackTrace(); }
         return lista;
+    }
+    
+    public Usuario listarId(int id) {
+        Usuario user = new Usuario();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        // Consulta que une todas tus tablas: usuarios, correo, telefono y fotos
+        String sql = "SELECT u.*, c.email, t.numero AS telefono, f.ruta AS foto " +
+                     "FROM usuarios u " +
+                     "LEFT JOIN correo c ON c.usuario_id = u.id " +
+                     "LEFT JOIN telefono t ON t.usuario_id = u.id " +
+                     "LEFT JOIN fotos_usuario f ON f.usuario_id = u.id " +
+                     "WHERE u.id = ?";
+
+        try {
+            conn = Conexion.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user.setId(rs.getInt("id"));
+                user.setNombre(rs.getString("nombre"));
+                user.setDocumento(rs.getString("documento"));
+                user.setDireccion(rs.getString("direccion"));
+                user.setCorreo(rs.getString("email"));
+                user.setTelefono(rs.getString("telefono"));
+                user.setFoto(rs.getString("foto")); // Aquí sacamos la ruta de la foto
+            }
+        } catch (Exception e) {
+        } finally {
+            cerrar(rs, ps, conn); // Usamos tu método cerrar existente
+        }
+        return user;
     }
 }

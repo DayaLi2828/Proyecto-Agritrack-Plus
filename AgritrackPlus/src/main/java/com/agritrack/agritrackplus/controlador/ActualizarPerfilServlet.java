@@ -1,54 +1,80 @@
 package com.agritrack.agritrackplus.controlador;
 
 import com.agritrack.agritrackplus.DAO.UsuarioDAO;
+import java.io.File;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
 
 @WebServlet(name = "ActualizarPerfilServlet", urlPatterns = {"/ActualizarPerfilServlet"})
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10,      // 10MB
+    maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class ActualizarPerfilServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        // 1. Obtener la sesión para validar el ID del usuario logueado
         HttpSession session = request.getSession();
-        Integer usuarioId = (Integer) session.getAttribute("id_usuario"); 
+        Integer usuarioId = (Integer) session.getAttribute("usuario_id"); 
 
-        // 2. Capturar los datos del formulario de la tarjeta
-        String nombre = request.getParameter("nombre");
-        String documento = request.getParameter("documento");
-        String direccion = request.getParameter("direccion");
-        String correo = request.getParameter("correo");
-        String telefono = request.getParameter("telefono");
-        String nuevaPass = request.getParameter("pass"); // Puede venir vacío
-
-        // 3. Validar que el ID exista (por seguridad)
         if (usuarioId == null) {
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
+        }
+
+        // 1. Capturar parámetros del formulario
+        String nombre = request.getParameter("txtNombre");
+        String correo = request.getParameter("txtCorreo");
+        String telefono = request.getParameter("txtTelefono");
+        String direccion = request.getParameter("txtDireccion");
+        String nuevaPass = request.getParameter("txtPassword");
+        
+        // El documento es necesario para tu método DAO actual
+        // Si no lo tienes en el JSP como input, podrías obtenerlo de la sesión o enviarlo oculto
+        String documento = request.getParameter("documento"); 
+
+        // 2. Procesar la Foto (Guardado físico)
+        Part filePart = request.getPart("fotoPerfil"); 
+        String nombreArchivoFinal = null;
+
+        if (filePart != null && filePart.getSize() > 0) {
+            // Creamos un nombre único para evitar conflictos (ej: perfil_4.jpg)
+            nombreArchivoFinal = "perfil_" + usuarioId + ".jpg";
+            
+            // Definimos la ruta de la carpeta "imagenes" dentro de "asset"
+            // getRealPath extrae la ruta física en el servidor (donde vive tu proyecto desplegado)
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "asset" + File.separator + "imagenes";
+            
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs(); // Crea la carpeta si no existe
+            }
+
+            // Escribimos el archivo en el disco
+            filePart.write(uploadPath + File.separator + nombreArchivoFinal);
         }
 
         UsuarioDAO dao = new UsuarioDAO();
         
-        // 4. Llamar al método en español que creamos en el DAO
-        boolean exito = dao.actualizarPerfil(usuarioId, nombre, documento, direccion, nuevaPass, correo, telefono);
+        // 3. Llamar al DAO
+        // Enviamos 'nombreArchivoFinal' que contiene solo el nombre (ej: "perfil_4.jpg")
+        boolean exito = dao.actualizarPerfil(usuarioId, nombre, documento, direccion, nuevaPass, correo, telefono, nombreArchivoFinal);
 
-        // 5. Redirigir según el resultado
         if (exito) {
-            // Si el nombre cambió, actualizamos también el nombre en la sesión
-            session.setAttribute("nombre_usuario", nombre);
-            
-            // Redirigir a la interfaz que corresponda (Trabajador o Supervisor)
-            // Puedes usar request.getContextPath() para evitar errores de ruta
-            response.sendRedirect(request.getContextPath() + "/public/Trabajador/Trabajador.jsp?update=success");
+            session.setAttribute("usuario_nombre", nombre);
+            response.sendRedirect(request.getContextPath() + "/public/Supervisor/Supervisor.jsp?update=success");
         } else {
-            response.sendRedirect(request.getContextPath() + "/public/Trabajador/Trabajador.jsp?update=error");
+            response.sendRedirect(request.getContextPath() + "/public/Supervisor/Supervisor.jsp?update=error");
         }
     }
 }

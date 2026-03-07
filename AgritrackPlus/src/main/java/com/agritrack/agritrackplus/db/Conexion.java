@@ -21,6 +21,6 @@ public class Conexion {
     }
 
     public static Connection getConnection() throws SQLException {
-        return getConnection(); 
+        return getConexion(); 
     }
 }
