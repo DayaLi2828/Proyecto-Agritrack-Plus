@@ -253,4 +253,22 @@ public class Registro_CultivoDAO {
             } catch (Exception e) { e.printStackTrace(); }
             return lista;
         }
+    public boolean cambiarEstado(int id, String nuevoEstado) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        try {
+            conn = Conexion.getConnection();
+            String sql = "UPDATE cultivos SET estado = ? WHERE id = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, nuevoEstado);
+            ps.setInt(2, id);
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Usa tu método de cerrar conexiones aquí
+            try { if(ps != null) ps.close(); if(conn != null) conn.close(); } catch(Exception ex){}
+        }
+    }
 }

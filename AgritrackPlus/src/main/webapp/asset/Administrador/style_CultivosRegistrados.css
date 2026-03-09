@@ -140,7 +140,29 @@ header {
   align-items: center;
   gap: 10px;
 }
+.alerta-exito {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 15px;
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
+    transition: opacity 0.5s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
 
+/* Colores para el botón toggle según el estado */
+.btn-estado-toggle.activo {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-estado-toggle.inactivo {
+    background-color: #e74c3c;
+    color: white;
+}
 /* --- Botón de Estado (Interactivo) --- */
 
 .form-estado {

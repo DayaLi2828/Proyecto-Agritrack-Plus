@@ -27,6 +27,26 @@
     </header>
 
     <main>
+        <%-- Bloque para mostrar mensajes de confirmación --%>
+    <% 
+        String mensaje = request.getParameter("mensaje");
+        if ("estado".equals(mensaje)) { 
+    %>
+        <div id="alerta-estado" class="alerta-exito">
+            <i class="fas fa-check-circle"></i> ¡Estado del cultivo actualizado con éxito!
+        </div>
+        
+        <script>
+            // Desvanecer la alerta después de 3 segundos
+            setTimeout(() => {
+                const alerta = document.getElementById('alerta-estado');
+                if(alerta) {
+                    alerta.style.opacity = '0';
+                    setTimeout(() => alerta.remove(), 500);
+                }
+            }, 3000);
+        </script>
+    <% } %>
         <div class="buscador__contenedor">
             <input type="text" id="buscador" placeholder=" Buscar cultivo por nombre..."/>
             <select id="filtroEstado">

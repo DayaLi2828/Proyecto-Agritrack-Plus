@@ -341,6 +341,9 @@ tbody tr:hover {
   background: #fef3c7;
   color: #92400e;
 }
+.contenedor__filtros{
+    
+}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {

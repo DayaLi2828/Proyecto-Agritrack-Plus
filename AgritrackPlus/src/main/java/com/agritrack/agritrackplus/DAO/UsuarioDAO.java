@@ -323,25 +323,37 @@ public class UsuarioDAO {
         try {
             conn = Conexion.getConnection();
             conn.setAutoCommit(false);
+
+            // El orden es vital: de las tablas más externas hacia la tabla 'usuarios'
             String[] sqls = {
+                "DELETE FROM supervisor WHERE usuario_id = ?",      // <--- ESTA FALTABA
+                "DELETE FROM pagos WHERE usuario_id = ?",           // <--- ESTA FALTABA
                 "DELETE FROM cultivo_trabajador WHERE usuario_id = ?",
                 "DELETE FROM roles_usuarios WHERE usuario_id = ?",
                 "DELETE FROM correo WHERE usuario_id = ?",
                 "DELETE FROM telefono WHERE usuario_id = ?",
                 "DELETE FROM fotos_usuario WHERE usuario_id = ?",
-                "DELETE FROM usuarios WHERE id = ?"
+                "DELETE FROM usuarios WHERE id = ?"                 // Al final el usuario
             };
+
             for (String sql : sqls) {
                 try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                    ps.setInt(1, usuarioId); ps.executeUpdate();
+                    ps.setInt(1, usuarioId);
+                    ps.executeUpdate();
                 }
             }
+
             conn.commit();
             return true;
         } catch (Exception e) {
-            if (conn != null) try { conn.rollback(); } catch (SQLException ex) {}
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
+            e.printStackTrace(); // Revisa la consola si sale algún error de tabla
             return false;
-        } finally { cerrar(null, null, conn); }
+        } finally {
+            cerrar(null, null, conn);
+        }
     }
 
     public boolean actualizarPerfil(int id, String nombre, String documento, String direccion, String pass, String correo, String telefono, String nombreFoto) {
