@@ -1,6 +1,6 @@
 package com.agritrack.agritrackplus.controlador;
 
-import com.agritrack.agritrackplus.DAO.ProductoDAO; // Cambiado al DAO de productos
+import com.agritrack.agritrackplus.DAO.ProductoDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,17 +15,17 @@ public class AgregarProductoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // Configurar codificación para evitar problemas con tildes o caracteres especiales
         request.setCharacterEncoding("UTF-8");
 
         try {
-            // 1. Obtención de parámetros del formulario
+            // 1. Obtención de parámetros (incluyendo el ID para edición)
+            String idStr = request.getParameter("id"); 
             String nombre = request.getParameter("nombre");
             String unidadMedida = request.getParameter("unidad_medida");
             String precioStr = request.getParameter("precio");
             String fechaCompra = request.getParameter("fecha_compra");
             String fechaVencimiento = request.getParameter("fecha_vencimiento");
-            String tipoProducto = request.getParameter("tipo_producto_id"); // Se asume que es el nombre o ID del tipo
+            String tipoProducto = request.getParameter("tipo_producto_id");
             String cantidadStr = request.getParameter("cantidad");
 
             // 2. Validación de campos obligatorios
@@ -42,26 +42,37 @@ public class AgregarProductoServlet extends HttpServlet {
             double precio = Double.parseDouble(precioStr);
             int cantidad = Integer.parseInt(cantidadStr);
 
-            // Manejo de fecha de vencimiento vacía (para herramientas o productos sin vencimiento)
             if (fechaVencimiento == null || fechaVencimiento.trim().isEmpty()) {
                 fechaVencimiento = null;
             }
 
-            // 4. Uso del DAO correcto para procesar la información
             ProductoDAO dao = new ProductoDAO();
             
-            // Se envía "Activo" como estado por defecto para los nuevos productos
-            boolean exito = dao.insertarProducto(nombre, tipoProducto, unidadMedida, precio, cantidad, fechaCompra, fechaVencimiento, "Activo");
-            
-            // 5. Redirección según el resultado
-            if (exito) {
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Productos.jsp?registro=exitoso");
+            // 4. Lógica de Decisión: ¿Editar o Insertar?
+            if (idStr != null && !idStr.isEmpty()) {
+                // MODO EDICIÓN
+                int id = Integer.parseInt(idStr);
+                int tipoId = Integer.parseInt(tipoProducto);
+                
+                boolean exito = dao.editarProducto(id, nombre, unidadMedida, precio, cantidad, tipoId);
+                
+                if (exito) {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Productos.jsp?actualizacion=exitosa");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Producto.jsp?id=" + id + "&error=true");
+                }
             } else {
-                response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Producto.jsp?error=true");
+                // MODO REGISTRO NUEVO
+                boolean exito = dao.insertarProducto(nombre, tipoProducto, unidadMedida, precio, cantidad, fechaCompra, fechaVencimiento);
+                
+                if (exito) {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Productos.jsp?registro=exitoso");
+                } else {
+                    response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Producto.jsp?error=true");
+                }
             }
             
         } catch (Exception e) {
-            // Log de error en consola para depuración técnica
             e.printStackTrace();
             response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Producto.jsp?error=true");
         }
@@ -70,7 +81,6 @@ public class AgregarProductoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Redirección de seguridad para evitar acceso directo por URL
         response.sendRedirect(request.getContextPath() + "/public/Administrador/Agregar_Producto.jsp");
     }
 }

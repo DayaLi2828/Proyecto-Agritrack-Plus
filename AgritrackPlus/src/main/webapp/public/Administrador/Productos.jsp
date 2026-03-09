@@ -9,7 +9,6 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Gestión de Productos</title>
-    <%-- Mantenemos tu hoja de estilo de cultivos para las tarjetas --%>
     <link rel="stylesheet" href="../../asset/Administrador/style_CultivosRegistrados.css"/>
 </head>
 <body>
@@ -24,13 +23,16 @@
                 <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="Logo Agritrack"/>
             </div>
             <h1 class="titulo">Inventario de Productos</h1>
+                <a href="Agregar_Producto.jsp" class="boton">Añadir Producto</a>
         </div>
     </header>
 
     <main>
-        <%-- Bloque de alertas (opcional, basado en tus parámetros) --%>
+        <%-- Bloque de alertas actualizado para distinguir entre registro y edición --%>
         <% if ("exitoso".equals(request.getParameter("registro"))) { %>
             <div id="alerta-sistema" class="alerta-exito">¡Producto registrado con éxito!</div>
+        <% } else if ("exitosa".equals(request.getParameter("actualizacion"))) { %>
+            <div id="alerta-sistema" class="alerta-exito" >¡Producto actualizado correctamente!</div>
         <% } %>
 
         <div class="buscador__contenedor">
@@ -44,7 +46,6 @@
 
         <div class="contenedor__tarjetas">
             <%
-                // Usamos el DAO que ya corregimos
                 ProductoDAO dao = new ProductoDAO();
                 List<Map<String, String>> productos = dao.listarProductos();
 
@@ -70,17 +71,17 @@
                     
                     <div class="estado-contenedor">
                         <p>Estado:</p>
-                        <%-- Mantenemos tu lógica de botones de estado --%>
-                        <button type="button" class="btn-estado-toggle <%= estado.toLowerCase() %>" style="cursor: default;">
-                            <%= estado %>
-                        </button>
+                        <form action="<%=request.getContextPath()%>/CambiarEstadoProductoServlet" method="post" class="form-estado">
+                            <input type="hidden" name="id" value="<%= id %>">
+                            <input type="hidden" name="estadoActual" value="<%= estado %>">
+                            <button type="submit" class="btn-estado-toggle <%= estado.toLowerCase() %>">
+                                <%= estado %>
+                            </button>
+                        </form>
                     </div>
 
-                    <%-- Contenedor de acciones con el estilo que pediste --%>
                     <div class="acciones-contenedor">
-                        <a href="Editar_Producto.jsp?id=<%= id %>" class="boton__editar">Editar</a>
-                        
-                        <%-- Mantenemos la ruta de tu servlet de eliminar --%>
+                        <a href="Agregar_Producto.jsp?id=<%= id %>" class="boton__editar">Editar</a>                        
                         <form action="<%=request.getContextPath()%>/EliminarProductoServlet" method="post" 
                               onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');" 
                               style="display: contents;">
@@ -97,7 +98,6 @@
     </main>
 
     <script>
-        // Buscador idéntico al de cultivos
         function filtrar(){
             let texto = document.getElementById("buscador").value.toLowerCase();
             let estadoFiltro = document.getElementById("filtroEstado").value.toLowerCase();
@@ -105,7 +105,9 @@
 
             tarjetas.forEach(function(tarjeta){
                 let nombre = tarjeta.querySelector("h3").textContent.toLowerCase();
-                let estadoProd = tarjeta.querySelector(".btn-estado-toggle").textContent.toLowerCase().trim();
+                let estadoBtn = tarjeta.querySelector(".btn-estado-toggle");
+                let estadoProd = estadoBtn ? estadoBtn.textContent.toLowerCase().trim() : "";
+                
                 let coincideNombre = nombre.includes(texto);
                 let coincideEstado = (estadoFiltro === "todos" || estadoProd === estadoFiltro);
 

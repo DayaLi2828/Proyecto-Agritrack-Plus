@@ -48,11 +48,11 @@ SELECT * FROM fotos_usuario;
 -- ===================== CORREO =====================
 CREATE TABLE correo (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  correo VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(50) NOT NULL UNIQUE,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO correo (correo, usuario_id)  VALUES
+INSERT INTO correo (email, usuario_id)  VALUES
 ('lisarazodayana84@gmail.com', 1),
 ('am.gomez@agritrack.com', 2),
 ('j.perez_dav@agritrack.com', 3),
@@ -72,11 +72,11 @@ SELECT * FROM correo;
 -- ===================== TELEFONO =====================
 CREATE TABLE telefono (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  telefono VARCHAR(50) NOT NULL,
+  numero VARCHAR(50) NOT NULL,
   usuario_id INT NOT NULL,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO telefono (telefono, usuario_id) VALUES 
+INSERT INTO telefono (numero, usuario_id) VALUES 
 ('3001234567', 1),
 ('3104758291', 2),
 ('3158294031', 3),
@@ -164,24 +164,25 @@ CREATE TABLE cultivos (
   nombre VARCHAR(50) NOT NULL,
   fecha_siembra DATE NOT NULL,
   fecha_cosecha DATE NULL,
-  ciclo VARCHAR(50) NOT NULL
+  ciclo VARCHAR(50) NOT NULL,
+  estado VARCHAR(20) DEFAULT 'Activo'
 );
-INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo) VALUES 
-('Tomate Chonto', '2026-02-10', NULL, 'Floración'),
-('Cebolla Cabezona', '2026-01-15', NULL, 'Maduración'),
-('Pimentón Rojo', '2026-02-20', NULL, 'Vegetativo'),
-('Papa Pastusa', '2026-01-05', NULL, 'Maduración'),
-('Zanahoria Nantes', '2026-02-25', NULL, 'Vegetativo'),
-('Lechuga Batavia', '2026-02-28', NULL, 'Vegetativo'),
-('Maíz Amarillo', '2026-01-20', NULL, 'Floración'),
-('Frijol Cargamanto', '2026-02-05', NULL, 'Floración'),
-('Arveja Verde', '2026-02-12', NULL, 'Vegetativo'),
-('Cilantro España', '2026-03-01', NULL, 'Vegetativo'),
-('Pepino Cohombro', '2026-02-18', NULL, 'Floración'),
-('Brócoli de Verano', '2026-01-30', NULL, 'Floración'),
-('Espinaca Baby', '2026-03-02', NULL, 'Vegetativo'),
-('Ajo Rosado', '2025-11-20', NULL, 'Maduración'),
-('Remolacha Roja', '2026-02-08', NULL, 'Vegetativo');
+INSERT INTO cultivos (nombre, fecha_siembra, fecha_cosecha, ciclo, estado) VALUES 
+('Tomate Chonto', '2026-02-10', NULL, 'Floración','Activo'),
+('Cebolla Cabezona', '2026-01-15', NULL, 'Maduración','Activo'),
+('Pimentón Rojo', '2026-02-20', NULL, 'Vegetativo','Activo'),
+('Papa Pastusa', '2026-01-05', NULL, 'Maduración','Activo'),
+('Zanahoria Nantes', '2026-02-25', NULL, 'Vegetativo','Activo'),
+('Lechuga Batavia', '2026-02-28', NULL, 'Vegetativo','Activo'),
+('Maíz Amarillo', '2026-01-20', NULL, 'Floración','Activo'),
+('Frijol Cargamanto', '2026-02-05', NULL, 'Floración','Activo'),
+('Arveja Verde', '2026-02-12', NULL, 'Vegetativo','Activo'),
+('Cilantro España', '2026-03-01', NULL, 'Vegetativo','Activo'),
+('Pepino Cohombro', '2026-02-18', NULL, 'Floración','Activo'),
+('Brócoli de Verano', '2026-01-30', NULL, 'Floración','Activo'),
+('Espinaca Baby', '2026-03-02', NULL, 'Vegetativo','Activo'),
+('Ajo Rosado', '2025-11-20', NULL, 'Maduración','Activo'),
+('Remolacha Roja', '2026-02-08', NULL, 'Vegetativo','Activo');
 SELECT * FROM cultivos;
 
 -- =================== CULTIVO TRABAJADOR ==============
@@ -226,7 +227,7 @@ SELECT * FROM tipo_producto;
 CREATE TABLE productos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) NOT NULL,
-  unidad_medida DOUBLE NOT NULL,
+  unidad_medida VARCHAR (50) NOT NULL,
   precio DOUBLE NOT NULL,
   fecha_compra DATE NOT NULL,
   fecha_vencimiento DATE NULL,
@@ -354,3 +355,4 @@ INSERT INTO usuario_tarea (cultivo_id, descripcion_actividad, tarea_id, jornada)
 (14, 'Limpiar área de acopio', 14, 'Tarde'),
 (15, 'Aceitar tijeras y machetes', 15, 'Tarde');
 SELECT * FROM usuario_tarea;
+DESCRIBE telefono;

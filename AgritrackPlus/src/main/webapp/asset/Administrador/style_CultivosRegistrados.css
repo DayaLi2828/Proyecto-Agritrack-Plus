@@ -170,7 +170,30 @@ header {
   filter: brightness(1.1);
   transform: scale(1.05);
 }
+.boton {
+  display: inline-block;       /* permite que <a> se comporte como botón */
+  height: 75px;
+  width: 180px;
+  margin-top: -18px;
+  margin-left: 33px;
+  border-radius: 10px;
+  font-size: 18px;
+  background-color: #059669;
+  border: none;
+  outline: none;
+  color: white;
+  text-align: center;          /* centra el texto */
+  line-height: 75px;           /* centra verticalmente el texto */
+  text-decoration: none;       /* quita subrayado del enlace */
+  font-weight: bold;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 
+.boton:hover {
+  background-color: #047857;
+  cursor: pointer;
+  transform: scale(1.05);      /* efecto de agrandarse al pasar el mouse */
+}
 /* --- Contenedor de Acciones (Botones Inferiores) --- */
 
 .acciones-contenedor {
