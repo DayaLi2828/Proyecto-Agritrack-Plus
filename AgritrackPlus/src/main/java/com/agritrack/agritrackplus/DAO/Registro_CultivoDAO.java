@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Registro_CultivoDAO {
 
@@ -269,6 +271,41 @@ public class Registro_CultivoDAO {
         } finally {
             // Usa tu método de cerrar conexiones aquí
             try { if(ps != null) ps.close(); if(conn != null) conn.close(); } catch(Exception ex){}
+        }
+    }
+    public boolean eliminarCultivo(int cultivoId) {
+        Connection conn = null;
+        try {
+            conn = Conexion.getConnection();
+            conn.setAutoCommit(false); // Iniciar transacción
+
+            // Orden de eliminación para respetar llaves foráneas según tu SQL
+            String[] sqls = {
+                "DELETE FROM supervisor WHERE cultivo_id = ?",
+                "DELETE FROM stock_cultivo WHERE cultivo_id = ?",
+                "DELETE FROM cultivo_trabajador WHERE cultivo_id = ?",
+                "DELETE FROM usuario_tarea WHERE cultivo_id = ?",
+                "DELETE FROM cultivos WHERE id = ?"
+            };
+
+            for (String sql : sqls) {
+                try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                    ps.setInt(1, cultivoId);
+                    ps.executeUpdate();
+                }
+            }
+
+            conn.commit(); // Confirmar cambios
+            return true;
+        } catch (Exception e) {
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            // Usa tu método cerrar o cierra manualmente aquí
+            try { if(conn != null) conn.close(); } catch(Exception ex){}
         }
     }
 }

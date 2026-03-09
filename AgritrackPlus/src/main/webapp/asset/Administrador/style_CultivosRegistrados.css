@@ -7,7 +7,7 @@
 }
 
 body {
-  background: var(--background-main); /* Usando tu variable de gradiente */
+  background: var(--background-main);
   font-family: Arial, sans-serif;
 }
 
@@ -19,7 +19,7 @@ header {
   display: flex;
   align-items: center;
   height: 141px;
-  background-color: var(--background-header); /* Variable de tu header */
+  background-color: var(--background-header);
   border-radius: 15px;
   box-shadow: var(--borde-header);
 }
@@ -60,7 +60,7 @@ header {
 
 .titulo {
   font-size: 34px;
-  color: var(--letra-titulo); /* Blanco para resaltar sobre el header verde */
+  color: var(--letra-titulo);
 }
 
 /* --- Buscador y Filtros --- */
@@ -118,12 +118,11 @@ header {
   width: 350px;
   min-height: 220px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: default; /* Cambiado a default porque ahora hay botones dentro */
 }
 
 .tarjeta__cultivo:hover {
   transform: translateY(-6px);
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 10px 20px rgba(16, 185, 129, 0.2);
 }
 
 .tarjeta__cultivo h3 {
@@ -136,58 +135,35 @@ header {
   font-size: 20px;
   color: var(--color-texto-inputs);
   margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.alerta-exito {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 15px;
-    border: 1px solid #c3e6cb;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: bold;
-    transition: opacity 0.5s ease;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* Colores para el botón toggle según el estado */
-.btn-estado-toggle.activo {
-    background-color: #27ae60;
-    color: white;
-}
+/* --- Estados (Toggle) --- */
 
-.btn-estado-toggle.inactivo {
-    background-color: #e74c3c;
-    color: white;
-}
-/* --- Botón de Estado (Interactivo) --- */
-
-.form-estado {
-  display: inline-block;
+.estado-contenedor {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
 .btn-estado-toggle {
   border: none;
   padding: 6px 16px;
   border-radius: 20px;
-  color: white;
+  color: var(--letra-boton);
   cursor: pointer;
   font-weight: bold;
   font-size: 0.8em;
   text-transform: uppercase;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .btn-estado-toggle.activo {
-  background-color: var(--background-caja-imagen1); /* Tu verde fuerte */
+  background-color: var(--background-caja-imagen1);
 }
 
 .btn-estado-toggle.inactivo {
-  background-color: var(--color-borde-tarea-pendiente); /* Tu naranja/rojo de pendientes */
+  background-color: var(--color-borde-tarea-pendiente);
 }
 
 .btn-estado-toggle:hover {
@@ -195,25 +171,77 @@ header {
   transform: scale(1.05);
 }
 
-/* --- Botón Ver Detalles --- */
+/* --- Contenedor de Acciones (Botones Inferiores) --- */
+
+.acciones-contenedor {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
 
 .boton__ver {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 14px 24px;
+  flex: 1 1 100%; /* El botón "Ver" ocupa todo el ancho arriba */
+  padding: 12px;
   background-color: var(--background-numero);
-  color: white;
-  font-size: 18px;
+  color: var(--letra-boton);
   font-weight: bold;
-  border: none;
   border-radius: 10px;
   text-align: center;
-  cursor: pointer;
   text-decoration: none;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition: background 0.3s;
 }
 
 .boton__ver:hover {
   background-color: var(--color-borde-input-activo);
-  transform: scale(1.05);
+}
+
+.boton__editar {
+  flex: 1;
+  padding: 8px;
+  background-color: var(--color-borde-tarea-pendiente);
+  color: var(--letra-boton);
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.boton__eliminar {
+  flex: 1;
+  padding: 8px;
+  background-color: var(--color-boton-eliminar-tarea);
+  color: var(--color-texto-tarea-pendiente); /* Color de texto de contraste */
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.boton__eliminar:hover {
+  background-color: var(--hover-color-boton-eliminar);
+}
+
+/* --- Alertas del Sistema --- */
+
+.alerta-exito {
+    background-color: var(--color-caja-logo-formularios-y-titulos);
+    color: var(--color-letra-boton-agregar);
+    padding: 15px;
+    border: var(--color-borde-contenedor-padre);
+    border-radius: 8px;
+    margin: 20px auto;
+    width: 90%;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: var(--sombra-tarjetas-usuarios);
+}
+
+.mensaje-vacio {
+    text-align: center;
+    color: var(--color-texto-mensaje-vacio);
+    font-size: 20px;
+    margin-top: 50px;
 }

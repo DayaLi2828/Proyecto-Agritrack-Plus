@@ -28,25 +28,26 @@
 
     <main>
         <%-- Bloque para mostrar mensajes de confirmación --%>
-    <% 
-        String mensaje = request.getParameter("mensaje");
-        if ("estado".equals(mensaje)) { 
-    %>
-        <div id="alerta-estado" class="alerta-exito">
-            <i class="fas fa-check-circle"></i> ¡Estado del cultivo actualizado con éxito!
-        </div>
-        
-        <script>
-            // Desvanecer la alerta después de 3 segundos
-            setTimeout(() => {
-                const alerta = document.getElementById('alerta-estado');
-                if(alerta) {
-                    alerta.style.opacity = '0';
-                    setTimeout(() => alerta.remove(), 500);
-                }
-            }, 3000);
-        </script>
-    <% } %>
+        <% 
+            String mensaje = request.getParameter("mensaje");
+            if ("estado".equals(mensaje) || "eliminado".equals(mensaje)) { 
+                String textoAlerta = "estado".equals(mensaje) ? "¡Estado del cultivo actualizado con éxito!" : "¡Cultivo eliminado correctamente!";
+        %>
+            <div id="alerta-sistema" class="alerta-exito">
+                <i class="fas fa-check-circle"></i> <%= textoAlerta %>
+            </div>
+            
+            <script>
+                setTimeout(() => {
+                    const alerta = document.getElementById('alerta-sistema');
+                    if(alerta) {
+                        alerta.style.opacity = '0';
+                        setTimeout(() => alerta.remove(), 500);
+                    }
+                }, 3000);
+            </script>
+        <% } %>
+
         <div class="buscador__contenedor">
             <input type="text" id="buscador" placeholder=" Buscar cultivo por nombre..."/>
             <select id="filtroEstado">
@@ -62,11 +63,6 @@
                 Registro_CultivoDAO dao = new Registro_CultivoDAO();
                 List<Map<String, String>> cultivos = dao.listarCultivos();
 
-                // Depuración rápida: Esto saldrá en la consola de NetBeans (Output)
-                if (cultivos != null) {
-                    System.out.println("DEBUG: Se encontraron " + cultivos.size() + " cultivos en la base de datos.");
-                }
-
                 if (cultivos == null || cultivos.isEmpty()) {
             %>
                 <div class="mensaje-vacio">
@@ -75,7 +71,6 @@
             <%
                 } else {
                     for (Map<String, String> cultivo : cultivos) {
-                        // Aseguramos que el ID y Nombre no sean nulos para evitar errores visuales
                         String id = (cultivo.get("id") != null) ? cultivo.get("id") : "0";
                         String nombre = (cultivo.get("nombre") != null) ? cultivo.get("nombre") : "Sin nombre";
                         String estado = (cultivo.get("estado") != null) ? cultivo.get("estado") : "Activo";
@@ -98,8 +93,18 @@
                         </form>
                     </div>
 
-                    <a href="Detalles_Cultivo.jsp?id=<%= id %>" class="boton__ver">Ver cultivo</a>
-                    <a href="Editar_Cultivo.jsp?id=<%= id %>" class="boton__editar" style="background:#f39c12; color:white; padding:5px; border-radius:5px; text-decoration:none; display:inline-block; margin-top:5px;">Editar</a>
+                    <%-- CONTENEDOR DE ACCIONES CORREGIDO --%>
+                    <div class="acciones-contenedor">
+                        <a href="Detalles_Cultivo.jsp?id=<%= id %>" class="boton__ver">Ver cultivo</a>
+                        
+                        <a href="Editar_Cultivo.jsp?id=<%= id %>" class="boton__editar">Editar</a>
+                        
+                            <form action="${pageContext.request.contextPath}/EliminarCultivoServlet" method="post"                              onsubmit="return confirm('¿Seguro que deseas eliminar este cultivo?');" 
+                              style="display: contents;">
+                            <input type="hidden" name="id" value="<%= id %>">
+                            <button type="submit" class="boton__eliminar">Eliminar</button>
+                        </form>
+                    </div>
                 </div>
             <%
                     }
