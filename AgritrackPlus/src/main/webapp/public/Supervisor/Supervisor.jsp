@@ -68,11 +68,9 @@
   <aside class="sidebar__barra">
     <nav>
       <a href="Supervisor.jsp">Inicio</a>
-      <a href="../Metodos_Fertlización.jsp">Fertilización</a>
       <a href="../Calendario.jsp">Calendario</a>
-      <a href="Tareas_Asignadas.jsp">Asignar Tareas</a>
+      <a href="Tareas.jsp">Asignar Tareas</a>
       <a href="Cultivos_Asignados.jsp">Mis Cultivos</a>
-      <a href="../Administrador/Productos.jsp">Inventario</a>
     </nav>
   </aside>
 
@@ -108,7 +106,7 @@
         <div class="dashboard-grid">
             <div class="dashboard-card full-width">
                 <div class="card-header">
-                    <i class="fas fa-tasks green-icon"></i>
+                    
                     <h3>Trazabilidad y Estado de Tareas</h3>
                 </div>
                 <div class="card-content chart-container">
@@ -118,7 +116,7 @@
 
             <div class="dashboard-card">
                 <div class="card-header">
-                    <i class="fas fa-leaf green-icon"></i>
+                   
                     <h3>Cumplimiento por Cultivo (% Terminadas)</h3>
                 </div>
                 <div class="card-content chart-container">
@@ -128,7 +126,7 @@
 
             <div class="dashboard-card">
                 <div class="card-header">
-                    <i class="fas fa-chart-pie green-icon"></i>
+                   
                     <h3>Rendimiento Semanal</h3>
                 </div>
                 <div class="card-content chart-container circular-chart">
