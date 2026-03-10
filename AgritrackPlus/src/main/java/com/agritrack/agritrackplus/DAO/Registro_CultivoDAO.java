@@ -115,10 +115,12 @@ public class Registro_CultivoDAO {
     }
 
     public boolean registrarCultivoCompleto(String nombre, String fechaSiembra, String ciclo,
-            int supervisorId, String[] productoIds, String[] cantidades, String[] trabajadoresIds) {
+        int supervisorId, String[] productoIds, String[] cantidades, String[] trabajadoresIds) {
+        Connection conn = null;
         try {
-            Connection conn = Conexion.getConexion();
-            String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, supervisor_id) VALUES (?,?,?,?)";
+            conn = Conexion.getConexion();
+            // 1. Insertar el cultivo principal
+            String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, supervisor_id, estado) VALUES (?,?,?,?,'Activo')";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
@@ -131,31 +133,47 @@ public class Registro_CultivoDAO {
             }
 
             ps.executeUpdate();
+
+            // 2. Obtener el ID generado
             ResultSet rs = ps.getGeneratedKeys();
             int cultivoId = 0;
             if (rs.next()) {
                 cultivoId = rs.getInt(1);
             }
 
-            if (productoIds != null) {
+            // 3. Asignar Productos con su CANTIDAD REAL
+            if (productoIds != null && cultivoId > 0) {
                 for (int i = 0; i < productoIds.length; i++) {
                     if (productoIds[i] != null && !productoIds[i].isEmpty()) {
                         int pId = Integer.parseInt(productoIds[i]);
-                        int cant = (cantidades != null && i < cantidades.length) ? Integer.parseInt(cantidades[i]) : 1;
-                        asignarProducto(cultivoId, pId);
+                        // Usamos la cantidad del array, si no existe ponemos 1
+                        int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty()) 
+                                   ? Integer.parseInt(cantidades[i]) : 1;
+
+                        // Insert directo para asegurar que use la cantidad
+                        String sqlProd = "INSERT INTO stock_cultivo(cultivo_id, producto_id, cantidad) VALUES(?,?,?)";
+                        try (PreparedStatement psProd = conn.prepareStatement(sqlProd)) {
+                            psProd.setInt(1, cultivoId);
+                            psProd.setInt(2, pId);
+                            psProd.setInt(3, cant);
+                            psProd.executeUpdate();
+                        }
                     }
                 }
             }
 
-            if (trabajadoresIds != null) {
+            // 4. Asignar Trabajadores
+            if (trabajadoresIds != null && cultivoId > 0) {
                 for (String tId : trabajadoresIds) {
                     if (tId != null && !tId.isEmpty()) {
                         asignarTrabajador(cultivoId, Integer.parseInt(tId));
                     }
                 }
             }
+
             return true;
         } catch (Exception e) {
+            System.out.println("ERROR EN DAO: " + e.getMessage());
             e.printStackTrace();
             return false;
         }

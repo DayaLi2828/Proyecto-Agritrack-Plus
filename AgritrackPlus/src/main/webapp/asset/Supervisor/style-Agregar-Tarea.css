@@ -47,6 +47,7 @@ header{
   margin-top: 53px;
   display: flex;
   height: 141px;
+  background: var(--background-header);
   box-shadow: var(--borde-header);
 }
 
@@ -94,7 +95,9 @@ main {
   color: var(--color-titulos-tareas);
   margin: 0;
 }
-
+.titulo{
+    color: white;
+}
 .seccion__contenido {
   display: flex;
   flex-direction: column;

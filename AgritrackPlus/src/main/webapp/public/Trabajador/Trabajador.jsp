@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
 <%
     // Protección contra Error 500 por sesión nula
     Integer idUsuario = (Integer) session.getAttribute("usuario_id");
@@ -7,17 +10,47 @@
     
     // Recuperar los datos dinámicos enviados desde el LoginServlet
     Map<String, Integer> datosTareas = (Map<String, Integer>) session.getAttribute("datosGrafico");
+    Map<String, Integer> datosCultivos = (Map<String, Integer>) session.getAttribute("datosCultivos");
+    Map<String, Double> datosPago = (Map<String, Double>) session.getAttribute("datosPago");
     
     if (idUsuario == null || nombreUsuario == null) {
         response.sendRedirect("../../index.jsp");
         return; 
     }
     
-    // Valores por defecto para evitar errores si el mapa es nulo
+    // Valores por defecto para evitar errores si los mapas son nulos
     int completadas = (datosTareas != null && datosTareas.containsKey("Completada")) ? datosTareas.get("Completada") : 0;
     int proceso = (datosTareas != null && datosTareas.containsKey("Proceso")) ? datosTareas.get("Proceso") : 0;
     int pendientes = (datosTareas != null && datosTareas.containsKey("Pendiente")) ? datosTareas.get("Pendiente") : 0;
     int total = completadas + proceso + pendientes;
+
+    // Procesar datos de Cultivos para JavaScript
+    String labelsCultivos = "['Sin Datos']";
+    String valoresCultivos = "[0]";
+    if (datosCultivos != null && !datosCultivos.isEmpty()) {
+        // Creamos los labels formateados para JS: ['Tomate', 'Lechuga']
+        StringBuilder sbLabels = new StringBuilder("[");
+        StringBuilder sbValores = new StringBuilder("[");
+        int i = 0;
+        for (Map.Entry<String, Integer> entry : datosCultivos.entrySet()) {
+            sbLabels.append("'").append(entry.getKey()).append("'");
+            sbValores.append(entry.getValue());
+            if (i < datosCultivos.size() - 1) {
+                sbLabels.append(",");
+                sbValores.append(",");
+            }
+            i++;
+        }
+        sbLabels.append("]");
+        sbValores.append("]");
+        labelsCultivos = sbLabels.toString();
+        valoresCultivos = sbValores.toString();
+    }
+
+    // Procesar datos de Pago
+    double pagado = (datosPago != null && datosPago.containsKey("Pagado")) ? datosPago.get("Pagado") : 0.0;
+    double porPagar = (datosPago != null && datosPago.containsKey("PorPagar")) ? datosPago.get("PorPagar") : 0.0;
+    double montoTotalAcumulado = pagado + porPagar;
 
     String inicial = (!nombreUsuario.isEmpty()) ? nombreUsuario.substring(0, 1).toUpperCase() : "U";
 %>
@@ -33,6 +66,7 @@
 </head>
 <body>
     <header>
+      </a>
         <div class="contenedor__titulo">
             <img class="logo" src="../../asset/imagenes/hoja.png" alt="logo">
             <h1 class="titulo">AGRITRACK<br>PLUS</h1>
@@ -41,10 +75,9 @@
 
     <aside class="sidebar__barra">
         <nav>
-            <a href="#"><i class="fas fa-home"></i> Inicio</a>
-            <a href="#"><i class="fas fa-seedling"></i> Mis Cultivos</a>
-            <a href="Tarea_Trabajador.jsp"><i class="fas fa-tasks"></i> Tareas</a>
-            <a href="#"><i class="fas fa-wallet"></i> Pagos</a>
+            <a href="#">Inicio</a>
+            <a href="">Historial de tareas</a>
+            <a href="Completar_Tareas.jsp">Tareas</a>
         </nav>
     </aside>
 
@@ -94,7 +127,7 @@
                 <div class="donut__wrapper">
                     <canvas id="chartPago"></canvas>
                     <div class="donut__overlay">
-                        <span class="monto__total">$1.2M</span>
+                        <span class="monto__total">$<%= String.format("%,.0f", montoTotalAcumulado) %></span>
                         <span class="monto__label">COP</span>
                     </div>
                 </div>
@@ -122,7 +155,7 @@
     </footer>
 
     <script>
-        // Gráfico 1: Tareas (Usa los datos del Mapa de Java)
+        // Gráfico 1: Tareas
         new Chart(document.getElementById('chartTareas'), {
             type: 'line',
             data: {
@@ -138,29 +171,36 @@
             }
         });
 
-        // Gráfico 2: Cultivos (Estático por ahora hasta tener el DAO de cultivos)
+        // Gráfico 2: Cultivos (DINÁMICO)
         new Chart(document.getElementById('chartCultivos'), {
             type: 'bar',
             data: {
-                labels: ['Tomate', 'Lechuga', 'Zanahoria', 'Pim.'],
+                labels: <%= labelsCultivos %>,
                 datasets: [{
-                    data: [90, 40, 25, 65],
+                    label: '% Cumplimiento',
+                    data: <%= valoresCultivos %>,
                     backgroundColor: ['#065f46', '#a3e635', '#f59e0b', '#10b981']
                 }]
+            },
+            options: {
+                scales: { y: { beginAtZero: true, max: 100 } }
             }
         });
 
-        // Gráfico 3: Pago
+        // Gráfico 3: Pago (DINÁMICO)
         new Chart(document.getElementById('chartPago'), {
             type: 'doughnut',
             data: {
                 labels: ['Pagado', 'Pendiente'],
                 datasets: [{
-                    data: [80, 20],
+                    data: [<%= pagado %>, <%= porPagar %>],
                     backgroundColor: ['#10b981', '#f0fdf4']
                 }]
             },
-            options: { cutout: '80%' }
+            options: { 
+                cutout: '80%',
+                plugins: { legend: { display: false } }
+            }
         });
     </script>
 </body>

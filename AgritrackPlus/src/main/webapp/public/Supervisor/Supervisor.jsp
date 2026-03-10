@@ -70,7 +70,7 @@
       <a href="Supervisor.jsp">Inicio</a>
       <a href="../Calendario.jsp">Calendario</a>
       <a href="Tareas.jsp">Asignar Tareas</a>
-      <a href="Cultivos_Asignados.jsp">Mis Cultivos</a>
+      <a href="Mis_Cultivos.jsp">Mis Cultivos</a>
     </nav>
   </aside>
 

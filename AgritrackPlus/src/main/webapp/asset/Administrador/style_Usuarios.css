@@ -22,9 +22,13 @@ header {
   margin-top: 53px;
   display: flex;
   height: 161px;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+    background: var(--background-header); 
+    box-shadow: var(--borde-header);
+    border-radius:10px;
 }
-
+.titulo{
+    color:white;
+}
 .contenedor__titulo {
   display: flex;
   width: auto;

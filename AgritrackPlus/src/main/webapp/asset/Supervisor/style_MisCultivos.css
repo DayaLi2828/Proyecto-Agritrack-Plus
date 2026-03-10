@@ -1,0 +1,189 @@
+@import url(../utils/global.css);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--background-main);
+}
+
+/******************** HEADER VERDE OSCURO *************************/
+header {
+    width: 96%;
+    margin: 0 auto;
+    margin-top: 53px;
+    display: flex;
+    height: 141px;
+    /* Usamos el verde oscuro de tu sidebar */
+    background: var(--background-header); 
+    box-shadow: var(--borde-header);
+    border-radius: 15px; /* Bordes redondeados para que se vea moderno */
+}
+
+.icono__devolver img {
+    width: 50px;
+    height: 50px;
+    margin-top: 45px;
+    margin-left: 38px;
+    /* Filtro para que el icono se vea blanco sobre el fondo oscuro */
+    filter: brightness(0) invert(1); 
+}
+
+.contenedor__titulo {
+    display: flex;
+    width: auto;
+    gap: 20px;
+    margin-left: 64px;
+    margin-top: 50px;
+}
+.contenedor__logo{
+  background: var(--background--caja-logo);
+  width: 91px;
+  height: 91px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -30px;
+  border-radius: 10px;
+}
+.logo {
+  width: 70px;
+  height: 70px;
+}
+.titulo {
+    font-size: 34px;
+    /* Cambiamos a blanco para que resalte en el header oscuro */
+    color: white; 
+    font-weight: bold;
+}
+
+main {
+    height: auto;
+    padding-top: 50px;
+    padding-bottom: 100px;
+}
+
+/* --- ESTRUCTURA DE TARJETAS DE CULTIVO (MÁS COLOR) --- */
+
+.contenedor__cultivos_grid {
+    width: 90%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 30px;
+}
+
+.contenedor__cultivo_card {
+    width: 100%;
+    min-height: 250px;
+    /* Fondo con un gradiente sutil o color sólido más fuerte */
+    background-color: var(--background-contenedor-padre);
+    /* Borde izquierdo sólido y oscuro para dar jerarquía */
+    border-left: 8px solid var(--color-titulo-admin); 
+    border-top: var(--color-borde-contenedor-padre);
+    border-right: var(--color-borde-contenedor-padre);
+    border-bottom: var(--color-borde-contenedor-padre);
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    box-shadow: var(--sombra-tarjetas-usuarios);
+    transition: transform 0.3s ease;
+}
+
+.contenedor__cultivo_card:hover {
+    transform: translateY(-5px);
+}
+
+.header__cultivo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--color-borde-contadores-tareas);
+    padding-bottom: 15px;
+}
+
+.titulo__nombre_cultivo {
+    /* Verde oscuro de tus títulos */
+    color: var(--color-titulo-admin); 
+    font-size: 30px;
+    margin-left: 10px;
+    font-weight: 800;
+}
+
+.estado__cultivo {
+    /* Usamos el verde fuerte de tus botones */
+    background-color: var(--color-boton-agregar);
+    color: var(--color-letra-boton-agregar);
+    border: solid var(--color-borde-tarea-completa) 2px;
+    padding: 5px 15px;
+    height: auto;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.info__detalle {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.texto__etapa {
+    /* Color de texto más vibrante */
+    color: var(--color-titulo-registro);
+    font-size: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--color-caja-logo-formularios-y-titulos);
+    padding: 10px;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.seccion__personal {
+    margin-top: 20px;
+    /* Fondo verde muy suave para contrastar con los tags */
+    background-color: var(--backgground-contenedor-asignacion); 
+    padding: 18px;
+    border-radius: 10px;
+    border: var(--color-borde-contenedor-asignacion);
+}
+
+.titulo__personal {
+    color: var(--color-titulo-admin);
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.lista__trabajadores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.tag__trabajador {
+    /* Fondo blanco para que resalte sobre el fondo de la sección */
+    background: white; 
+    border: 1px solid var(--color-borde-contadores-tareas);
+    padding: 8px 14px;
+    border-radius: 25px; /* Más redondo para estilo "chip" */
+    font-size: 15px;
+    color: var(--color-texto-contenedor);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+}
+
+.icono__mini {
+    width: 22px;
+    height: 22px;
+}

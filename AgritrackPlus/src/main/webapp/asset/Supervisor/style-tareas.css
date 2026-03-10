@@ -11,39 +11,40 @@ header{
     margin-top: 53px;
     display: flex;
     height: 141px;
-    box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+    background: var(--background-header);
+    box-shadow: var(--borde-header);
 }
 main{
   height: 220vh;
   padding-top: 50px;
 }
 .boton {
-  display: inline-block;       /* permite que <a> se comporte como botón */
+  display: inline-block;
   height: 75px;
   width: 180px;
   margin-top: -18px;
   margin-left: 33px;
   border-radius: 10px;
   font-size: 18px;
-  background-color: #059669;
+  background-color: var(--color-borde-input-activo);
   border: none;
   outline: none;
-  color: white;
-  text-align: center;          /* centra el texto */
-  line-height: 75px;           /* centra verticalmente el texto */
-  text-decoration: none;       /* quita subrayado del enlace */
+  color: var(--letra-boton);
+  text-align: center;
+  line-height: 75px;
+  text-decoration: none;
   font-weight: bold;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .boton:hover {
-  background-color: #047857;
+  background-color: var(--background-header);
   cursor: pointer;
-  transform: scale(1.05);      /* efecto de agrandarse al pasar el mouse */
+  transform: scale(1.05);
 }
 
 body{
-  background: var(--fondo-main);
+  background: var(--background-main);
 }
 
 .titulo{
@@ -65,7 +66,7 @@ margin-top: 50px;
   margin-left: 38px;
 }
 .contenedor__logo{
-  background:var(--background--caja-logo);
+  background: var(--background--caja-logo);
   width: 91px;
   height: 91px;
   display: flex;
@@ -83,7 +84,7 @@ margin-top: 50px;
   height: 230px;
   margin: 71px auto;
   display: flex;
-  background: linear-gradient(to right, #059669, #16a34a);
+  background: var(--background-gradiente-caja-imagen2);
   border-radius: 10px;
 }
 .contenedor__tareas{
@@ -93,20 +94,22 @@ margin-top: 50px;
     display: flex;
     justify-content: space-between;
 }
+.titulo {
+    color: white;
+}
 .logo__tarea{
   margin-top: 60px;
   margin-left: 30px;
-  background-color: #FFFFFF; /* blanco */
-  width: 100px;              /* ancho fijo */
-  height: 100px;             /* alto fijo */
-  display: flex;             /* centra contenido */
+  background-color: var(--background-contadores-tareas);
+  width: 100px;
+  height: 100px;
+  display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;       /* opcional, esquinas redondeadas */
-
+  border-radius: 10px;
 }
 .titulo__cultivo{
-  color: white;
+  color: var(--letra-titulo);
   font-size: 40px;
   margin-top: 60px;
   margin-left: 20px;
@@ -115,7 +118,7 @@ margin-top: 50px;
   background-color: rgba(255, 255, 255, 0.473);
   border-radius: 10px;
   margin-top: 55px;
-  margin-left: 92px;
+  margin-left: 74px;
   width: 14%;
   height: 115px;
 }
@@ -124,49 +127,48 @@ margin-top: 50px;
 #etiquetaCompletada{
   font-size: 25px;
   margin-top: 10px;
-  margin-left: 40px;
+  margin-left: 28px;
 }
 #contadorPendientes,
 #contadorProceso,
 #contadorCompletadas{
   font-size: 40px;
-  color: #064e3b;
+  color: var(--color-numero-contador-tareas);
   margin-top: 10px;
-  margin-left: 84px;
+  margin-left: 76px;
 }
 .cajas__tareas{
-    border: solid #b9fcd9;
-    width: 24%;
+    border: solid var(--color-borde-contadores-tareas);
+    width: 22%;
     border-radius: 10px;
     display: flex;
-
 }
 .logo__total{
-  width: 150px;
-  height: 150px;
+  width: 122px;
+  height: 122px;
   margin-top: 37px;
   margin-left: 37px;
 }
 .cajas__tareas h2{
     margin-top: 71px;
     margin-left: 15px;
-    color: #064e3b;
-    font-size: 88px;
+    color: var(--color-numero-contador-tareas);
+    font-size: 79px;
 }
 .cajas__tareas p{
-    margin-top: 123px;
-    margin-left: 22px;
-    color: #064e3b;
+    margin-top: 165px;
+    margin-left: -107px;
+    color: var(--color-numero-contador-tareas);
     font-size: 24px;
 }
 .caja__segunda{
-    border: solid #ffe1ad;
+    border: solid var(--color-borde-tarea-pendiente);
 }
 .caja__tercera{
-    border:solid  #b9fcd9;
+    border: solid var(--color-borde-contadores-tareas);
 }
 .caja__cuarta{
-    border: solid  #dbeafe;
+    border: solid var(--color-contador-en-proceso);
 }
 .buscardor__tareas{
     width: 50%;
@@ -177,7 +179,6 @@ margin-top: 50px;
 }
 .contenedor__buscar{
     position: relative;
-    /* border: solid #b9fcd9; */
     border-radius: 10px;
     width: 38%;
     height: 55px;
@@ -187,9 +188,9 @@ margin-top: 50px;
 .contenedor__buscar input{
   width: 100%;
   height: 100%;
-  padding-left: 68px; /* espacio para el icono */
+  padding-left: 68px;
   border-radius: 10px;
-  border: 2px solid #b9fcd9;
+  border: var(--color-border-inputs-label);
   outline: none;
   font-size: 16px;
 }
@@ -211,61 +212,61 @@ margin-top: 50px;
     font-size: 18px;
     padding: 17px ;
     border: none;
-    background-color: #b9fcd9;
+    background-color: var(--background-select);
     outline: none;
 }
 
 .contenedores__tareas{
   width: 70%;
-  height: 406px;
-  background-color: white;
-  border: solid #b9fcd9;
+  height: 432px;
+  background-color: var(--background-contenedor-padre);
+  border: var(--color-borde-contenedor-padre);
   margin: 20px auto;
   border-radius: 10px;
   margin-top: 62px;
   padding: 20px;
 }
 .contenedores__tareas h2 {
-  color: #064e3b;
+  color: var(--color-titulos-tareas);
   padding: 20px;
   margin-left: 17px;
 }
 
 .texto__tarea{
-  color: #059669;
+  color: var(--color-texto-contenedor);
   margin-left: 38px;
   padding-bottom: 10px;
   margin-top: 14px;
   font-size: 18px;
 }
 .fecha{
-  color: #059669;
+  color: var(--color-fecha-cultivo);
   margin-left: 38px;
   padding-bottom: 10px;
   margin-top: 14px;
 }
 .estado__pendiente,
 .estado__proceso{
-  background-color: #ffe1ad87;
+  background-color: var(--background-tarea-pendiente);
   width: 95px;
   height: 26px;
   text-align: center;
   border-radius: 5px;
   margin-left: 306px;
   margin-top: -45px;
-  border: solid #fab33a 2px;
-  color: #fab33a;
+  border: solid var(--color-borde-tarea-pendiente) 2px;
+  color: var(--color-texto-tarea-pendiente);
 }
 .estado__proceso{
-  background-color: #dbeafe;
-  border: solid #93c5fd 2px;
-  color: #1d4ed8;
+  background-color: var(--background-boton-cancelar);
+  border: solid var(--color-contador-en-proceso) 2px;
+  color: var(--color-contador-en-proceso);
 }
 
 .contendor__asignaciones{
   width: 95%;
   height: 200px;
-  background-color: #b9fcd96d;
+  background-color: var(--backgground-contenedor-asignacion);
   margin: 20px auto;
   border-radius: 10px;
 
@@ -276,7 +277,7 @@ margin-top: 50px;
 }
 .texto__asignaciones{
   margin-top: 20px;
-  color: #059669;
+  color: var(--color-texto-contenedor);
   font-size: 18px;
 }
 .iconos__asignaciones{
@@ -294,22 +295,22 @@ margin-top: 50px;
 .tarjeta__usuario{
   width: 45%;
   height: 112px;
-  background-color: white;
+  background-color: var(--background-contenedor-padre);
   margin: 20px auto;
   border-radius: 10px;
-  
+  box-shadow: var(--sombra-tarjetas-usuarios);
 }
 .cirulo__perfil{
   width: 40px;
   height: 40px;
   border-radius: 22px;
-  background-color: #059668ce;
+  background-color: var(--color-cirulo-perfil);
   margin-top: 14px;
   margin-left: 14px;
   position: relative;
 }
 .incial__perfil{
-    color: white;
+    color: var(--color-inicial-usuario);
     position: absolute;
     left: 31%;
     bottom: 23%;
@@ -320,34 +321,120 @@ margin-top: 50px;
   }
   h4{
     position: absolute;
-    color: #047857;
+    color: var(--color-titulo-admin);
     left: 13%;
     top: 21px;
   }
   .texto__jornada{
-    color: #059669;
+    color: var(--color-texto-contenedor);
     margin-left: 72px;
     margin-top: -10px;
   }
   .estado{
-  background-color: #ffe1ad87;
+  background-color: var(--background-tarea-pendiente);
   width: 95px;
   height: 26px;
   text-align: center;
   border-radius: 5px;
   margin-left: 18px;
   margin-top: 9px;
-  border: solid #fab33a 2px;
-  color: #fab33a;
+  border: solid var(--color-borde-tarea-pendiente) 2px;
+  color: var(--color-texto-tarea-pendiente);
   }
   .proceso{
-    background-color: #dbeafe;
-    color: #1d4ed8;
+    background-color: var(--background-boton-cancelar);
+    color: var(--color-contador-en-proceso);
     border: none;
-    border: solid 2px #1d4ed8;
+    border: solid 2px var(--color-contador-en-proceso);
   }
   .completada{
-    background-color: #dcfce7;
-    color: #15803d;
-    border: solid 2px ;
+    background-color: var(--color-boton-agregar);
+    color: var(--color-letra-boton-agregar);
+    border: solid 2px var(--color-borde-tarea-completa);
   }
+/* 1. Ajuste de la cajita .boxs (Más pequeña y centrada) */
+.boxs {
+    background-color: rgba(255, 255, 255, 0.473);
+    border-radius: 10px;
+    margin-top: 75px; /* Bajamos un poco más para centrarla visualmente */
+    margin-left: auto; /* Usamos auto para que no dependa solo del margin-left fijo */
+    margin-right: 50px;
+    width: 120px;      /* Tamaño fijo para que sea pequeña y controlada */
+    height: 70px;      /* Altura reducida */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra sutil para profundidad */
+}
+
+/* 2. Estilo para el símbolo "-" */
+.boxs h2 {
+    text-align: center;
+    font-size: 20px;
+    margin: 0;
+    line-height: 1;
+    color: var(--color-numero-contador-tareas);
+}
+
+/* 3. Estilo base para el texto del estado */
+.boxs p {
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+/* 4. Colores DINÁMICOS para el texto (Basados en las clases de tu JSP) */
+
+/* Estado: Pendiente -> Amarillo */
+.texto-estado-pendiente {
+    color: var(--color-borde-tarea-pendiente) !important; 
+}
+
+/* Estado: En Proceso -> Azul */
+.texto-estado-enproceso {
+    color: var(--color-contador-en-proceso) !important;
+}
+
+/* Estado: Completada -> Verde */
+.texto-estado-completada {
+    color: var(--color-letra-boton-agregar) !important;
+}
+
+
+/* Clases dinámicas */
+.estado-pendiente {
+    background-color: var(--background-tarea-pendiente) !important;
+    border: 2px solid var(--color-borde-tarea-pendiente) !important;
+    color: var(--color-texto-tarea-pendiente) !important;
+}
+
+.estado-enproceso {
+    background-color: var(--background-boton-cancelar) !important; 
+    border: 2px solid var(--color-contador-en-proceso) !important;
+    color: var(--color-contador-en-proceso) !important;
+}
+
+.estado-completada {
+    background-color: var(--color-boton-agregar) !important;
+    border: 2px solid var(--color-borde-tarea-completa) !important;
+    color: var(--color-letra-boton-agregar) !important;
+}
+
+.estado {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
+    height: 30px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.estado p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+}

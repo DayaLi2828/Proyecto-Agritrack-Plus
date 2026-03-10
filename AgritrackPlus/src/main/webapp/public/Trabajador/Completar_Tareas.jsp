@@ -8,15 +8,18 @@
   </head>
   <body>
     <header>
+        <a href="Trabajador.jsp">
+        <div class="icono__devolver">
+          <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+        </div>
+      </a>
       <div class="contenedor__titulo">
         <div class="contenedor__logo">
-          <a href="index_Trabajador.html">
             <img
               class="logo"
               src="../../asset/imagenes/hoja (3).png"
               alt="hoja del logo"
             />
-          </a>
         </div>
         <h1 class="titulo">Mis tareas asignadas</h1>
       </div>

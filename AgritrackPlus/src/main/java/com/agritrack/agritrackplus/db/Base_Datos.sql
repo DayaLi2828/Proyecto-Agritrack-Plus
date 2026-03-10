@@ -356,3 +356,9 @@ INSERT INTO usuario_tarea (cultivo_id, descripcion_actividad, tarea_id, jornada)
 (15, 'Aceitar tijeras y machetes', 15, 'Tarde');
 SELECT * FROM usuario_tarea;
 DESCRIBE telefono;
+ALTER TABLE productos ADD COLUMN estado VARCHAR(20) DEFAULT 'Activo';
+ALTER TABLE stock_cultivo DROP FOREIGN KEY stock_cultivo_ibfk_2;
+ALTER TABLE stock_cultivo 
+ADD CONSTRAINT fk_stock_producto 
+FOREIGN KEY (producto_id) REFERENCES productos(id) 
+ON DELETE CASCADE;
