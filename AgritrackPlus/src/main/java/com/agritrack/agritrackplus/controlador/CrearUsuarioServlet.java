@@ -17,6 +17,7 @@ import jakarta.servlet.http.Part;
 @MultipartConfig
 public class CrearUsuarioServlet extends HttpServlet {
 
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -30,14 +31,28 @@ public class CrearUsuarioServlet extends HttpServlet {
         String correo = request.getParameter("correo");
         String telefono = request.getParameter("telefono");
         String rolIdStr = request.getParameter("rol_id");
+        String regexEstricto = "^[\\w.-]+@(gmail\\.com|outlook\\.com|hotmail\\.com)$";
 
+        
+        if (!correo.matches(regexEstricto)) {
+        redirigirConErrores(request, response, "error_correo", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+        return;
+        }
         // --- VALIDACIÓN 1: NOMBRE (Solo letras y espacios) ---
         // Expresión regular: permite letras (con tildes y ñ) y espacios. No permite números.
         if (nombre == null || !nombre.matches("^[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+$")) {
             redirigirConErrores(request, response, "error_nombre", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
-
+        if (documento == null || !documento.matches("\\d{10}")){
+            redirigirConErrores(request, response, "error_doc", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
+        
+        if (telefono == null || !telefono.matches("\\d{10}")){
+            redirigirConErrores(request, response, "error_tel", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
         // --- VALIDACIÓN 2: ROL ---
         int rolId;
         try {
@@ -53,11 +68,22 @@ public class CrearUsuarioServlet extends HttpServlet {
         }
 
         // --- VALIDACIÓN 4: DUPLICADOS ---
+       // Verificar Documento
         if (dao.existeDocumento(documento)) {
-            redirigirConErrores(request, response, "error_duplicado", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            redirigirConErrores(request, response, "error_duplicado_doc", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
+        // Verificar Correo (Necesitas crear este método en tu DAO)
+        if (dao.existeCorreo(correo)) {
+            redirigirConErrores(request, response, "error_duplicado_correo", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
             return;
         }
 
+        // Verificar Teléfono (Necesitas crear este método en tu DAO)
+        if (dao.existeTelefono(telefono)) {
+            redirigirConErrores(request, response, "error_duplicado_tel", nombre, documento, direccion, correo, telefono, rolIdStr, pass);
+            return;
+        }
         // --- PROCESAMIENTO DE FOTO ---
         String nombreFoto = "asset/imagenes/default-avatar.png";
         try {

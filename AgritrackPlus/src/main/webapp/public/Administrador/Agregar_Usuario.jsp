@@ -11,7 +11,7 @@
       usuario = usuarioDAO.obtenerPorId(idUsuario);
   }
   
-  // ✅ RECUPERAR TODOS LOS DATOS (NO SE PIERDEN)
+  //  RECUPERAR TODOS LOS DATOS (NO SE PIERDEN)
   String paramNombre = request.getParameter("nombre");
   String paramDoc = request.getParameter("documento");
   String paramCorreo = request.getParameter("correo");
@@ -20,13 +20,17 @@
   String paramEstado = request.getParameter("estado");
   String paramRol = request.getParameter("rol_id");
   
-  // ✅ ERRORES DEL SERVLET
+  //  ERRORES DEL SERVLET
   String errorDoc = request.getParameter("error_doc");
   String errorTel = request.getParameter("error_tel");
   String errorCorreo = request.getParameter("error_correo");
   String errorNombre = request.getParameter("error_nombre");
   String errorRol = request.getParameter("error_rol");
   String errorDuplicado = request.getParameter("error_duplicado");
+  
+    String errorDuplicadoDoc = request.getParameter("error_duplicado_doc");
+    String errorDuplicadoCorreo = request.getParameter("error_duplicado_correo");
+    String errorDuplicadoTel = request.getParameter("error_duplicado_tel");
 %>
 
 <!DOCTYPE html>
@@ -66,7 +70,7 @@
       <!-- ✅ ALERTA DUPLICADO -->
       <% if ("true".equals(errorDuplicado)) { %>
         <div class="alerta-error">
-          <strong> DOCUMENTO O CORREO YA EXISTE</strong>
+          <strong style="color:#dc3545;"> DOCUMENTO O CORREO YA EXISTE</strong>
         </div>
       <% } %>
 
@@ -76,7 +80,7 @@
 
         <% if (usuario != null) { %>
           <input type="hidden" name="id" value="<%= usuario.get("id") %>">
-          <!-- 🚀 CLAVE: Campo oculto pass vacío para evitar errores en servlet -->
+          <!--  CLAVE: Campo oculto pass vacío para evitar errores en servlet -->
           <input type="hidden" name="pass" value="">
           <input type="hidden" name="estado" value="Activo">
         <% } %>
@@ -109,10 +113,13 @@
             <label> Documento <span style="color:#dc3545;">*</span></label>
             <input type="text" name="documento" placeholder="1234567890" 
                    value="<%= paramDoc != null ? paramDoc : (usuario != null ? usuario.get("documento") : "") %>" required
-                   oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="10">
+                   oninput="this.value=this.value.replace(/[^0-9]/g,'')" maxlength="10" minlength="10">
             <% if ("true".equals(errorDoc)) { %>
               <span class="error-mensaje"> DEBE SER EXACTAMENTE 10 NÚMEROS</span>
             <% } %>
+            <% if ("true".equals(errorDuplicadoDoc)){%>
+            <span class="error-mensaje"style="color: #721c24; background: #f8d7da;"> ESTE DOCUMENTO YA ESTÁ REGISTRADO
+            <%}%>    
           </div>
 
           <!-- DIRECCIÓN -->
@@ -131,6 +138,10 @@
               <% if ("true".equals(errorCorreo)) { %>
                 <span class="error-mensaje">Formato de correo inválido</span>
               <% } %>
+              <% if ("true".equals(errorDuplicadoCorreo)) { %>
+                    <span class="error-mensaje" style="color: #721c24; background: #f8d7da;"> ESTE CORREO YA ESTÁ EN USO</span>
+                <% } %>
+
             </div>
 
             <!-- TELÉFONO -->
@@ -138,10 +149,15 @@
               <label>Teléfono <span style="color:#dc3545;">*</span></label>
               <input type="tel" name="telefono" placeholder="3001234567" maxlength="10"
                      value="<%= paramTel != null ? paramTel : (usuario != null ? usuario.get("telefono") : "") %>" required
-                     oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                     oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+                     autocomplete="tel">
+              
               <% if ("true".equals(errorTel)) { %>
                 <span class="error-mensaje"> DEBE SER EXACTAMENTE 10 NÚMEROS</span>
               <% } %>
+              <% if ("true".equals(errorDuplicadoTel)) { %>
+                <span class="error-mensaje" style="color: #721c24; background: #f8d7da;"> ESTE TELÉFONO YA ESTÁ REGISTRADO</span>
+                <% } %>
             </div>
 
             <!-- FOTO -->
@@ -149,7 +165,6 @@
               <label> Foto</label>
               <div class="custom-file-upload">
                 <label for="imagenInput" class="btn-upload">
-                  <i class="fa-solid fa-cloud-arrow-up"></i> Subir Foto
                 </label>
                 <input type="file" name="foto" id="imagenInput" accept="image/*">
                 <span id="file-name" class="file-name">Ningún archivo seleccionado</span>
@@ -162,7 +177,7 @@
             </div>
           </div>
         </div>
-            
+            <!--CONTRASEÑA--->
         <div class="contendor__cajas">
             <div class="contendor__subtitulo">
                 <h2 class="subtitulo">Seguridad y Acceso</h2>
@@ -171,10 +186,11 @@
             <% if (usuario == null) { %>
                 <div class="campo <%= "true".equals(request.getParameter("error_pass")) ? "campo-error" : "" %>">
                     <label> Contraseña <span style="color:#dc3545;">*</span></label>
-                    <input type="password" name="pass" placeholder="Mínimo 6 caracteres" required>
+                    <input type="password" name="pass" placeholder="Mínimo 6 caracteres" maxlength="15" required>
                     <% if ("true".equals(request.getParameter("error_pass"))) { %>
-                        <span class="error-mensaje"> La contraseña debe tener al menos 6 caracteres</span>
+                        <span class="error-mensaje"> La contraseña debe tener mínimo 6 caracteres y máximo 15</span>
                     <% } %>
+
                 </div>
             <% } else { %>
                 <input type="hidden" name="pass" value=""> 

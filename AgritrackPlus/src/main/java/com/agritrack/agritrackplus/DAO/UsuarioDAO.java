@@ -51,7 +51,23 @@ public class UsuarioDAO {
             cerrar(rs, ps, conn);
         }
     }
+    public boolean existeTelefono(String telefono) {
+        boolean existe = false;
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE telefono = ?";
+        try (Connection con = Conexion.getConnection(); // Ajusta según tu clase de conexión
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
+            ps.setString(1, telefono);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    existe = rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al verificar teléfono: " + e.getMessage());
+        }
+        return existe;
+    }
     private boolean existeCorreo(String correo, int usuarioIdExcluir) {
         Connection conn = null;
         PreparedStatement ps = null;
@@ -90,6 +106,8 @@ public class UsuarioDAO {
     }
 
     public Map<String, Object> validarAcceso(String email, String pass) {
+        System.out.println(email);
+        System.out.println(pass);
         String sql = "SELECT u.id, u.nombre, r.nombre AS rol_nombre " +
                      "FROM correo c " +
                      "JOIN usuarios u ON c.usuario_id = u.id " +

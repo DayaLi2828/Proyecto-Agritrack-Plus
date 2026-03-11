@@ -66,6 +66,7 @@
       <% } %>
       <a href="Productos.jsp">Inventario</a>
       <a href="Gestion_Pagos.jsp">Pagos</a>
+      <a href="Hisrotial_Pagos.jsp">Historial de pagos</a>
     </nav>
   </aside>
 
