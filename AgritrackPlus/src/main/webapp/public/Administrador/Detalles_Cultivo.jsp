@@ -10,6 +10,9 @@
     List<Map<String, String>> productos = dao.obtenerProductosCultivo(Integer.parseInt(id));
     Map<String, String> supervisor = dao.obtenerSupervisorCultivo(Integer.parseInt(id));
     List<Map<String, String>> trabajadores = dao.obtenerTrabajadoresCultivo(Integer.parseInt(id));
+
+    // Validación para evitar el null visual en el estado
+    String estadoCultivo = (cultivo != null && cultivo.get("estado") != null) ? cultivo.get("estado") : "No definido";
 %>
 <!DOCTYPE html>
 <html lang="es">
@@ -48,11 +51,17 @@
                     </div>
                     <div class="fila__cultivo">
                         <div class="dato__cultivo"><p><strong>Ciclo:</strong> <%= cultivo.get("ciclo") %></p></div>
-                        <div class="dato__cultivo"><p><strong>Estado:</strong> <%= cultivo.get("estado") %></p></div>
+                        <div class="dato__cultivo">
+                            <p><strong>Estado:</strong> 
+                                <span class="estado-valor <%= estadoCultivo.equalsIgnoreCase("estado") ? "estado-activo" : "" %>">
+                                    <%= estadoCultivo %>
+                                </span>
+                            </p>
+                        </div>
                     </div>
                     <div class="fila__cultivo">
-                    <div class="dato__cultivo"><p><strong>Fecha Cosecha:</strong> <%= (cultivo.get("fecha_cosecha") != null) ? cultivo.get("fecha_cosecha") : "Pendiente" %></p></div>
-                </div>
+                        <div class="dato__cultivo"><p><strong>Fecha Cosecha:</strong> <%= (cultivo.get("fecha_cosecha") != null) ? cultivo.get("fecha_cosecha") : "Pendiente" %></p></div>
+                    </div>
                 </div>
             </section>
 
@@ -85,7 +94,6 @@
                 </div>
                 <div class="info__admin">
                     <% 
-                        // Validamos si el mapa existe y si contiene el nombre
                         String nombreSupervisor = (supervisor != null && supervisor.containsKey("nombre")) 
                                                    ? supervisor.get("nombre") 
                                                    : "Sin supervisor asignado";

@@ -17,6 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrar Cultivo</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_RegistroCultivos.css">
+  
 </head>
 <body>
   <header>
@@ -41,6 +42,9 @@
       <% } %>
 
     <form class="formulario__registrarcultivo" method="post" action="<%= request.getContextPath() %>/Registro_CultivoServlet">
+        
+        <input type="hidden" name="estado" value="Activo">
+
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -95,7 +99,8 @@
               </div>
               <div class="campo">
                 <label>Cantidad</label>
-                <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
+                <input type="number" name="cantidad_producto" class="input-cantidad" min="0" placeholder="Ingrese la cantidad">
+                <span class="error-alerta">⚠️ No se permiten números negativos</span>
               </div>
             </div>
           </div>
@@ -155,6 +160,31 @@
   </main>
 
   <script>
+    /**
+     * Función para validar que no haya negativos y mostrar alerta visual
+     */
+    function validarCantidad(input) {
+        const alerta = input.nextElementSibling;
+        
+        input.addEventListener('input', function() {
+            if (this.value < 0) {
+                this.value = 0;
+                alerta.style.display = 'block';
+                this.classList.add('input-error');
+            } else {
+                alerta.style.display = 'none';
+                this.classList.remove('input-error');
+            }
+        });
+
+        // Bloquea la tecla física del signo menos
+        input.addEventListener('keydown', function(e) {
+            if (e.key === '-') {
+                e.preventDefault();
+            }
+        });
+    }
+
     function agregarProducto() {
       var opciones = `<option value="">Seleccione...</option>
       <% for (Map<String, String> producto : productos) { %>
@@ -170,12 +200,42 @@
         </div>
         <div class="campo">
           <label>Cantidad</label>
-          <input type="number" name="cantidad_producto" min="1" placeholder="Ingrese la cantidad">
+          <input type="number" name="cantidad_producto" class="input-cantidad" min="0" placeholder="Ingrese la cantidad">
+          <span class="error-alerta">⚠️ No se permiten números negativos</span>
         </div>
         <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
       `;
       document.getElementById("contenedor__productos").appendChild(nuevaFila);
+      
+      // Aplicar la validación al nuevo campo creado
+      validarCantidad(nuevaFila.querySelector('.input-cantidad'));
     }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const inputSiembra = document.getElementById('fecha_siembra');
+
+        // 1. Obtener la fecha de hoy en formato local (Colombia)
+        const hoy = new Date();
+        const anio = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoy.getDate()).padStart(2, '0');
+        
+        const fechaActual = `\${anio}-\${mes}-\${dia}`;
+
+        // 2. Bloquear visualmente el calendario
+        inputSiembra.setAttribute('max', fechaActual);
+
+        // 3. Validación de seguridad fecha
+        inputSiembra.addEventListener('blur', function() {
+            if (this.value > fechaActual) {
+                alert("La fecha de siembra no puede ser mayor a la fecha actual.");
+                this.value = fechaActual;
+            }
+        });
+
+        // 4. Aplicar validación de cantidad a los campos existentes al cargar
+        document.querySelectorAll('.input-cantidad').forEach(validarCantidad);
+    });
   </script>
 </body>
 </html>
