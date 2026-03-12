@@ -237,3 +237,88 @@ input::-webkit-inner-spin-button {
     color: #047857;
     font-weight: 500;
 }
+.factura-pdf {
+    width: 800px;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+}
+.header-pdf {
+    background-color: #047857; 
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+.tabla-pdf {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.tabla-pdf th {
+    background-color: #374151;
+    color: white;
+}
+/*facturas*/
+/* --- Estilos para las tarjetas de tareas (Cajitas) --- */
+.fila__stock {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border-left: 5px solid #047857; /* Verde Agritrack */
+    transition: transform 0.2s ease;
+}
+
+.fila__stock:hover {
+    transform: scale(1.01);
+}
+
+/* Estilos de los textos dentro de la tarjeta */
+.txt-tarea {
+    font-weight: bold;
+    color: #1f2937;
+}
+
+.ayuda-texto {
+    font-size: 0.85rem;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+/* --- Estilos para las etiquetas de Jornada --- */
+.etiqueta-jornada {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Colores dinámicos para las etiquetas */
+.etiqueta-jornada[data-tipo="medio"] {
+    background-color: #3b82f6; /* Azul */
+}
+
+.etiqueta-jornada[data-tipo="completo"] {
+    background-color: #8b5cf6; /* Morado */
+}
+
+/* --- Estilos para la tabla visual de la factura (si usas plantilla HTML) --- */
+.factura-pdf {
+    background: #fff;
+    color: #333;
+    padding: 20px;
+}
+
+.total-pdf {
+    font-weight: bold;
+    color: #047857;
+    font-size: 1.2rem;
+    text-align: right;
+    margin-top: 15px;
+}
