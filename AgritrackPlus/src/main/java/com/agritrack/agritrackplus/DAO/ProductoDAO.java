@@ -28,7 +28,7 @@ public class ProductoDAO {
                 p.put("cantidad", rs.getString("cantidad"));
                 p.put("fecha_compra", rs.getString("fecha_compra"));
                 p.put("fecha_vencimiento", rs.getString("fecha_vencimiento"));
-                p.put("tipo_producto", rs.getString("tipo_nombre"));
+                p.put("tipo_nombre", rs.getString("tipo_nombre"));
 
                 // Ahora lee el estado real de la base de datos
                 p.put("estado", rs.getString("estado")); 

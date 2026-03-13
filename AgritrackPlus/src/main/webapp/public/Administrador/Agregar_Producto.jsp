@@ -22,18 +22,19 @@
   <title><%= esEdicion ? "Editar Producto" : "Añadir Producto" %></title>
   <link rel="stylesheet" href="../../asset/Administrador/style_añadir_producto.css">
 </head>
-<body onload="mostrarFechaVencimiento()"> <header>
-    <a href="Productos.jsp">
-      <div class="icono__devolver">
-        <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
-      </div>
-    </a>
-    <div class="contenedor__titulo">
-      <div class="contenedor__logo">
-        <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
-      </div>
-      <h1 class="titulo"><%= esEdicion ? "Editar Producto" : "Añadir Nuevo Producto" %></h1>
-    </div>
+<body onload="mostrarFechaVencimiento()"> 
+    <header>
+        <a href="Productos.jsp">
+          <div class="icono__devolver">
+            <img src="../../asset/imagenes/devolver.png" id="icono de devolver">
+          </div>
+        </a>
+        <div class="contenedor__titulo">
+          <div class="contenedor__logo">
+            <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo"/>
+          </div>
+          <h1 class="titulo"><%= esEdicion ? "Editar Producto" : "Añadir Nuevo Producto" %></h1>
+        </div>
   </header>
   <main>
     <div class="contenedor__ingreso">
@@ -80,18 +81,19 @@
             </div>
 
             <div class="campo">
-              <label>Precio</label>
-              <input type="number" name="precio" step="0.01" value="<%= esEdicion ? p.get("precio") : "" %>" required>
+                <label>Precio</label>
+                <input type="number" name="precio" id="precio" step="0.01" min="0" 
+                value="<%= esEdicion ? p.get("precio") : "" %>" required>
             </div>
 
             <div class="contenedor__fechas">
               <div class="campo input__fechas">
                 <label>Fecha de compra</label>
-                <input type="date" name="fecha_compra" value="<%= esEdicion ? p.get("fecha_compra") : "" %>" required>
+                <input type="date" name="fecha_compra" id="fecha_compra" value="<%= esEdicion ? p.get("fecha_compra") : "" %>" required>
               </div>
               <div class="campo input__fechas" id="campo__fecha_vencimiento" style="display:none;">
                 <label>Fecha de Vencimiento</label>
-                <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" value="<%= esEdicion ? p.get("fecha_vencimiento") : "" %>">
+               <input type="date" name="fecha_vencimiento" id="fecha_vencimiento" value="<%= esEdicion ? p.get("fecha_vencimiento") : "" %>">
               </div>
             </div>
 
@@ -105,6 +107,63 @@
     </div>
   </main>
       <script>
+           // Se ejecuta cuando carga la página
+    window.onload = function() {
+        configurarRestriccionesFechas();
+        mostrarFechaVencimiento(); // Ejecuta tu función original
+    };
+
+    function configurarRestriccionesFechas() {
+        const inputCompra = document.getElementById("fecha_compra");
+        const inputVencimiento = document.getElementById("fecha_vencimiento");
+        const form = document.querySelector(".form__producto");
+
+        // 1. No permitir que la fecha de compra sea mayor a HOY
+        const hoy = new Date().toISOString().split("T")[0];
+        inputCompra.setAttribute("max", hoy);
+
+        // 2. Cuando cambie la fecha de compra, actualizar el mínimo de vencimiento
+        inputCompra.addEventListener("change", function() {
+            if (this.value) {
+                // La fecha de vencimiento debe ser al menos el día siguiente a la compra
+                let fechaSeleccionada = new Date(this.value);
+                fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
+                
+                let mañanaDeCompra = fechaSeleccionada.toISOString().split("T")[0];
+                inputVencimiento.setAttribute("min", mañanaDeCompra);
+                
+                // Si la fecha de vencimiento ya puesta es menor a la nueva fecha permitida, se borra
+                if (inputVencimiento.value && inputVencimiento.value < mañanaDeCompra) {
+                    inputVencimiento.value = "";
+                }
+            }
+        });
+
+        // 3. Validación final antes de enviar el formulario
+        form.onsubmit = function(e) {
+            const fechaCompra = new Date(inputCompra.value);
+            const fechaVencimiento = new Date(inputVencimiento.value);
+            const hoyDate = new Date();
+            hoyDate.setHours(23, 59, 59, 999); // Ajuste para comparar solo fechas
+
+            // Validar que compra no sea futuro
+            if (fechaCompra > hoyDate) {
+                alert("La fecha de compra no puede ser una fecha futura.");
+                e.preventDefault();
+                return false;
+            }
+
+            // Validar vencimiento (solo si el campo es visible/requerido)
+            if (inputVencimiento.required || document.getElementById("campo__fecha_vencimiento").style.display !== "none") {
+                if (inputVencimiento.value && fechaVencimiento <= fechaCompra) {
+                    alert("La fecha de vencimiento debe ser al menos un día después de la fecha de compra.");
+                    e.preventDefault();
+                    return false;
+                }
+            }
+            return true;
+        };
+    }
         function mostrarFechaVencimiento() {
           let tipo = document.getElementById("tipo_producto").value;
           let campofecha = document.getElementById("campo__fecha_vencimiento");

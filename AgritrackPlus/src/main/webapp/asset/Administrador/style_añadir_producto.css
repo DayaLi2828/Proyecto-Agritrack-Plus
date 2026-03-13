@@ -47,7 +47,12 @@ header{
   margin-top: 53px;
   display: flex;
   height: 141px;
-  box-shadow: 0px 6px 10px rgba(16, 185, 129, 0.3);
+  background-color: var(--background-header);
+  border-radius: 15px;
+  box-shadow: var(--borde-header);
+}
+.titulo{
+    color:white;
 }
 .contenedor__ingreso{
   width: 53%;

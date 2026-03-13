@@ -92,7 +92,7 @@
                   <option value="">Seleccione...</option>
                   <% for (Map<String, String> producto : productos) { %>
                     <option value="<%= producto.get("id") %>">
-                      <%= producto.get("nombre") %> - <%= producto.get("tipo") %>
+                      <%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %>
                     </option>
                   <% } %>
                 </select>
@@ -100,7 +100,6 @@
               <div class="campo">
                 <label>Cantidad</label>
                 <input type="number" name="cantidad_producto" class="input-cantidad" min="0" placeholder="Ingrese la cantidad">
-                <span class="error-alerta">⚠️ No se permiten números negativos</span>
               </div>
             </div>
           </div>
@@ -188,7 +187,7 @@
     function agregarProducto() {
       var opciones = `<option value="">Seleccione...</option>
       <% for (Map<String, String> producto : productos) { %>
-        <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo") %></option>
+        <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %></option>
       <% } %>`;
 
       var nuevaFila = document.createElement("div");
@@ -201,7 +200,8 @@
         <div class="campo">
           <label>Cantidad</label>
           <input type="number" name="cantidad_producto" class="input-cantidad" min="0" placeholder="Ingrese la cantidad">
-          <span class="error-alerta">⚠️ No se permiten números negativos</span>
+          
+          
         </div>
         <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
       `;

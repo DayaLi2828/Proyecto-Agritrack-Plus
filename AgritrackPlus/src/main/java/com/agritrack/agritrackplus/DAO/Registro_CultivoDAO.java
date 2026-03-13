@@ -33,18 +33,27 @@ public class Registro_CultivoDAO {
             return false;
         }
     }
-    public boolean editar(String id, String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado) {
+    public boolean editar(String id, String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado, int supervisor_id) {
         try (Connection conn = Conexion.getConexion()) {
-            String sql = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=? WHERE id=?";
+            String sql = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=? supervisor_id=? WHERE id=?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
             ps.setString(3, (fechaCosecha != null && !fechaCosecha.isEmpty()) ? fechaCosecha : null);
             ps.setString(4, ciclo);
             ps.setString(5, estado);
-            ps.setInt(6, Integer.parseInt(id));
+            
+            if (supervisor_id == 0)
+            {
+                ps.setNull(6, java.sql.Types.INTEGER);
+            }else {
+                ps.setInt (6, supervisor_id);
+            }
+            ps.setInt(7, Integer.parseInt(id));
             return ps.executeUpdate() > 0;
-        } catch (Exception e) { e.printStackTrace(); return false; }
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return false; }
     }
     
     public void eliminarTrabajadoresCultivo(int idCultivo) {
@@ -241,7 +250,7 @@ public class Registro_CultivoDAO {
         Map<String, String> supervisor = new HashMap<>();
         // CORREGIDO: Consulta a la tabla 'supervisor' vinculada con 'usuarios'
         String sql = "SELECT u.nombre FROM usuarios u " +
-                     "JOIN supervisor s ON u.id = s.usuario_id WHERE s.cultivo_id = ?";
+                     "INNER JOIN cultivos c ON u.id = c.supervisor_id WHERE c.id = ?";
         try (Connection conn = Conexion.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -249,7 +258,9 @@ public class Registro_CultivoDAO {
             if (rs.next()) {
                 supervisor.put("nombre", rs.getString("nombre"));
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace(); 
+        }
         return supervisor;
     }
 
@@ -325,5 +336,27 @@ public class Registro_CultivoDAO {
             // Usa tu método cerrar o cierra manualmente aquí
             try { if(conn != null) conn.close(); } catch(Exception ex){}
         }
+    }
+    public Map<String, String> obtenerCultivoPorId(int id) {
+        Map<String, String> cultivo = new HashMap<>();
+        String sql = "SELECT * FROM cultivos WHERE id = ?";
+        try (Connection conn = Conexion.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    cultivo.put("id", String.valueOf(rs.getInt("id")));
+                    cultivo.put("nombre", rs.getString("nombre"));
+                    cultivo.put("fecha_siembra", rs.getString("fecha_siembra"));
+                    cultivo.put("fecha_cosecha", rs.getString("fecha_cosecha"));
+                    cultivo.put("ciclo", rs.getString("ciclo"));
+                    cultivo.put("estado", rs.getString("estado"));
+                    cultivo.put("supervisor_id", String.valueOf(rs.getInt("supervisor_id")));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cultivo;
     }
 }

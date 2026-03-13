@@ -17,16 +17,19 @@ public class Registro_CultivoServlet extends HttpServlet {
         
         request.setCharacterEncoding("UTF-8"); 
 
-        // 1. Capturar datos principales del formulario
+        // 1. Capturar datos del formulario
         String id = request.getParameter("id"); 
         String nombre = request.getParameter("nombre");
         String fechaSiembra = request.getParameter("fecha_siembra");
         String fechaCosecha = request.getParameter("fecha_cosecha"); 
         String ciclo = request.getParameter("ciclo");
         String estado = (request.getParameter("estado") != null) ? request.getParameter("estado") : "Activo";
-
-        // 2. Capturar datos de relaciones (SIN los [] para que coincida con el JSP)
+        
+        // Capturar ID del supervisor
         String supervisorIdStr = request.getParameter("supervisor_id");
+        int supervisorId = (supervisorIdStr != null && !supervisorIdStr.isEmpty()) ? Integer.parseInt(supervisorIdStr) : 0;
+
+        // Capturar datos de relaciones (Trabajadores y Productos)
         String[] productoIds = request.getParameterValues("producto_id");
         String[] cantidades = request.getParameterValues("cantidad_producto");
         String[] trabajadoresIds = request.getParameterValues("trabajadores");
@@ -35,36 +38,33 @@ public class Registro_CultivoServlet extends HttpServlet {
         boolean exito = false;
 
         try {
-            // 3. Lógica de persistencia (Editar o Registrar)
             if (id != null && !id.isEmpty()) {
                 // --- MODO EDICIÓN ---
                 int cultivoId = Integer.parseInt(id);
-                exito = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
+                
+                // IMPORTANTE: Ahora pasamos 7 parámetros al método editar
+                exito = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado, supervisorId);
                 
                 if (exito) {
-                    // Solo limpiamos y re-asignamos si la edición del registro principal fue exitosa
+                    // Limpiar y re-asignar tablas intermedias
                     dao.eliminarTrabajadoresCultivo(cultivoId);
-                    dao.eliminarSupervisorCultivo(cultivoId);
                     dao.eliminarProductosCultivo(cultivoId);
                     
-                    // Re-asignar Supervisor
-                    if (supervisorIdStr != null && !supervisorIdStr.isEmpty()) {
-                        dao.asignarSupervisor(cultivoId, Integer.parseInt(supervisorIdStr));
-                    }
-
                     // Re-asignar Productos
                     if (productoIds != null) {
                         for (int i = 0; i < productoIds.length; i++) {
                             if (productoIds[i] != null && !productoIds[i].isEmpty()) {
                                 int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty()) 
                                            ? Integer.parseInt(cantidades[i]) : 1;
+                                
+                                // Usamos el método de asignar producto con cantidad
                                 dao.asignarProducto(cultivoId, Integer.parseInt(productoIds[i]));
                             }
                         }
                     }
 
                     // Re-asignar Trabajadores
-                    if (trabajadoresIds != null && trabajadoresIds.length > 0) {
+                    if (trabajadoresIds != null) {
                         for (String tId : trabajadoresIds) {
                             if (tId != null && !tId.isEmpty()) {
                                 dao.asignarTrabajador(cultivoId, Integer.parseInt(tId));
@@ -74,14 +74,10 @@ public class Registro_CultivoServlet extends HttpServlet {
                 }
             } else {
                 // --- MODO REGISTRO NUEVO ---
-                int supervisorId = (supervisorIdStr != null && !supervisorIdStr.isEmpty()) 
-                                   ? Integer.parseInt(supervisorIdStr) : 0;
-                
-                // Asegúrate de que este método en tu DAO reciba los arrays sin []
                 exito = dao.registrarCultivoCompleto(nombre, fechaSiembra, ciclo, supervisorId, productoIds, cantidades, trabajadoresIds);
             }
 
-            // 4. Redirección final
+            // Redirección según el resultado
             if (exito) {
                 response.sendRedirect(request.getContextPath() + "/public/Administrador/Cultivos_Registrados.jsp?registro=exitoso");
             } else {

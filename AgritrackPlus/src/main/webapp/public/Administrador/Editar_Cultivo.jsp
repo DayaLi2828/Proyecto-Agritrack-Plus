@@ -4,19 +4,30 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="java.util.List, java.util.Map, java.util.ArrayList" %>
 <%
-    // Recuperación de ID y datos (Lógica necesaria para que el formulario no esté vacío)
+    // 1. Recuperamos el ID de la URL
     String idParam = request.getParameter("id");
     Registro_CultivoDAO dao = new Registro_CultivoDAO();
-    Map<String, String> cultivo = dao.obtenerPorId(idParam);
-    
     UsuarioDAO usuarioDAO = new UsuarioDAO();
-    List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores();
-    List<Map<String, String>> trabajadores = usuarioDAO.listarSoloTrabajadores();
-    
     ProductoDAO productoDAO = new ProductoDAO();
+
+    // 2. Buscamos el cultivo directamente aquí (esto evita el NullPointerException)
+    Map<String, String> cultivo = null;
+    if (idParam != null && !idParam.isEmpty()) {
+        cultivo = dao.obtenerCultivoPorId(Integer.parseInt(idParam));
+    }
+
+    // Si el cultivo no existe, redirigimos para evitar errores en el resto de la página
+    if (cultivo == null) {
+        response.sendRedirect("Cultivos_Registrados.jsp?error=no_encontrado");
+        return; 
+    }
+
+    // 3. Cargamos las listas para los Selects
+    List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores(); 
+    List<Map<String, String>> trabajadores = usuarioDAO.listarSoloTrabajadores();
     List<Map<String, String>> productos = productoDAO.listarProductos();
 
-    // Listas para marcar lo que ya está asignado
+    // 4. Trabajadores y productos ya asignados
     List<Map<String, String>> trabajadoresAsignados = dao.obtenerTrabajadoresCultivo(Integer.parseInt(idParam));
     List<String> idsTrabajadoresAsignados = new ArrayList<>();
     if (trabajadoresAsignados != null) {

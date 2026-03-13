@@ -15,30 +15,36 @@ public class EditarCultivoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        request.setCharacterEncoding("UTF-8");
+
         String id = request.getParameter("id");
         String nombre = request.getParameter("nombre");
         String fechaSiembra = request.getParameter("fecha_siembra");
         String fechaCosecha = request.getParameter("fecha_cosecha");
         String ciclo = request.getParameter("ciclo");
         String estado = request.getParameter("estado");
-
-        // Nota: Asegúrate que en tu HTML los select tengan name="trabajadores" y name="productos"
+        
+        // 1. CAPTURAR EL SUPERVISOR (Esto es lo que faltaba)
+        String supervisorIdStr = request.getParameter("supervisor_id");
+        int supervisorId = (supervisorIdStr != null && !supervisorIdStr.isEmpty()) 
+                           ? Integer.parseInt(supervisorIdStr) : 0;
+        
         String[] trabajadores = request.getParameterValues("trabajadores");
-        String[] productos = request.getParameterValues("productos");
-
+        String[] productos = request.getParameterValues("producto_id");
+        
         if (fechaCosecha == null || fechaCosecha.trim().isEmpty()) {
             fechaCosecha = null;
         }
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
 
-        // 1. Actualizar datos básicos del cultivo
-        boolean actualizado = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado);
+        // 2. ACTUALIZAR LLAMADA AL DAO (Agregamos supervisorId al final)
+        boolean actualizado = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado, supervisorId);
 
         if (actualizado) {
             int idCultivo = Integer.parseInt(id);
 
-            // 2. Actualizar trabajadores (Borrar y volver a insertar)
+            // 3. Actualizar trabajadores
             if (trabajadores != null) {
                 dao.eliminarTrabajadoresCultivo(idCultivo);
                 for (String tId : trabajadores) {
@@ -48,13 +54,11 @@ public class EditarCultivoServlet extends HttpServlet {
                 }
             }
 
-            // 3. Actualizar productos/insumos (Borrar y volver a insertar)
-           // 3. Actualizar productos/insumos (Borrar y volver a insertar)
+            // 4. Actualizar productos
             if (productos != null) {
                 dao.eliminarProductosCultivo(idCultivo);
                 for (String pId : productos) {
                     if (pId != null && !pId.isEmpty()) {
-                        // USAMOS pId (que viene del for) e idCultivo (que definiste arriba)
                         dao.asignarProducto(idCultivo, Integer.parseInt(pId));
                     }
                 }

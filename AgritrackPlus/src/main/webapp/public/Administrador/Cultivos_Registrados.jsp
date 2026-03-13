@@ -97,8 +97,7 @@
                     <div class="acciones-contenedor">
                         <a href="Detalles_Cultivo.jsp?id=<%= id %>" class="boton__ver">Ver cultivo</a>
                         
-                        <a href="Editar_Cultivo.jsp?id=<%= id %>" class="boton__editar">Editar</a>
-                        
+                            <a href="<%= request.getContextPath() %>/CargarCultivoServlet?id=<%= id %>" class="boton__editar">Editar</a>                        
                             <form action="${pageContext.request.contextPath}/EliminarCultivoServlet" method="post"                              onsubmit="return confirm('¿Seguro que deseas eliminar este cultivo?');" 
                               style="display: contents;">
                             <input type="hidden" name="id" value="<%= id %>">
