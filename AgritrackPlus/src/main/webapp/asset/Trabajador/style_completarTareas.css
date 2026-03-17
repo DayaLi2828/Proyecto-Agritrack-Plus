@@ -150,13 +150,19 @@ background-image: url("AgriTrackPlus\asset\imagenes\flecha-hacia-abajo-para-nave
     border: solid var(--color-borde-tarea-completa) 3px;
     border-radius: 10px;
     padding: 3px;
-    background-color: var(--color-nombre-cultivo-caja);
+    background-color: var(--background-tarea-completada);
 }
 .pendiente{
   border: solid var(  --color-borde-tarea-pendiente) 3px;
   border-radius: 10px;
   padding: 5px;
   background-color: var(--background-tarea-pendiente);
+}
+.proceso{
+  border: solid var(  --color-borde-tarea-pendiente) 3px;
+  border-radius: 10px;
+  padding: 5px;
+  background-color: var(--background-tarea-pendiente); 
 }
 .total__tareas,
 .tareas__pendientes,
@@ -186,6 +192,31 @@ background-image: url("AgriTrackPlus\asset\imagenes\flecha-hacia-abajo-para-nave
 }
 .tarea.completadas{
   border: solid var(--color-borde-tarea-completa) 3px;
+}
+/* --- ESTADO: EN PROCESO --- */
+
+.tarea.enproceso {
+    border: solid var(--color-borde-tarea-proceso) 3px !important; /* Borde azul de la variable global */
+    background-color: var(--background-tarea-proceso);               /* Fondo azul muy tenue para diferenciarla */
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);    /* Sombra azulada sutil */
+}
+
+/* 2. Etiqueta de estado (el badge junto al nombre) */
+.estado__tarea.enproceso {
+    border: solid var(--color-borde-tarea-proceso) 3px !important;
+    background-color: #e0f2fe !important;               /* Fondo un poco más fuerte para el badge */
+    color: var(--color-borde-azul) !important;          /* Texto en azul */
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+/* 3. Efecto Hover opcional para la tarea en proceso */
+.tarea.enproceso:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
 }
 .contenedor__subtitulo{
   display: flex;

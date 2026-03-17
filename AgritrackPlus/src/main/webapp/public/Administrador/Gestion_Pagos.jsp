@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Pagos - AgritrackPlus</title>
+    <title>Gestión de Pagos AgritrackPlus</title>
     <link rel="stylesheet" href="../../asset/Administrador/style_Gestion_Pagos.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -116,16 +116,18 @@
 
             tareas.forEach(t => {
                 const jornadaDB = (t.jornada || "").toLowerCase();
+                const estadoDB = (t.estado || "").toLowerCase();
                 const esCompleto = jornadaDB.includes('completo') || jornadaDB.includes('entero');
                 
                 const tipoJornada = esCompleto ? "completo" : "medio";
 
                 const card = document.createElement('div');
+                card.setAttribute('data-estado', estadoDB);
                 card.className = 'fila__stock';
                 card.innerHTML = `
                     <div class="campo">
                         <p class="nombre__trabajador"><strong>Tarea: </strong><span class="txt-tarea">\${t.tarea}</span></p>
-                        <p class="ayuda-texto">Estado: \${t.estado}</p>
+                        <p class="ayuda-texto">Estado: <span class="txt-estado">\${t.estado}</span></p>
                     </div>
                     <div class="campo">
                         <span class="etiqueta-jornada" data-tipo="\${tipoJornada}">
@@ -185,13 +187,28 @@
 
         filas.forEach((fila) => {
             const nombre = fila.querySelector('.txt-tarea').textContent;
+            const estado = fila.getAttribute('data-estado'); 
             const tipo = fila.querySelector('.etiqueta-jornada').getAttribute('data-tipo');
-            const subtotal = (tipo === 'completo') ? vCompleto : vMedio;
+            
+            // 1. Primero definimos la base según el tipo (Ya corregido el orden)
+            let subtotal = (tipo === 'completo') ? vCompleto : vMedio; 
+            
+            // 2. Luego aplicamos el descuento si está en proceso
+            let notaEstado = "";
+            if (estado && estado.includes("proceso")) { 
+                subtotal = subtotal * 0.5;   
+                notaEstado = " (En Proceso - 50%)"; 
+            }
+
+            // 3. Sumamos al total FINAL (Después del descuento)
             totalPagar += subtotal;
 
+            // 4. Dibujamos en el PDF
             doc.setTextColor(31, 41, 55);
-            doc.text(nombre, 25, yPos);
+            // Solo una línea de texto para el nombre
+            doc.text(nombre + notaEstado, 25, yPos);
             doc.text("$" + subtotal.toLocaleString(), 165, yPos);
+            
             yPos += 10;
         });
 
@@ -205,11 +222,19 @@
     }
 
     async function guardarEnBaseDeDatos(nombre, documento, total) {
-        try {
-            await fetch(`guardarPago.jsp?nombre=\${encodeURIComponent(nombre)}&documento=\${documento}&total=\${total}`);
-            console.log("Registro guardado.");
-        } catch (e) { console.error(e); }
+    const criterio = document.getElementById('busquedaTrabajador').value; // Para identificar al trabajador
+    try {
+        // Enviamos el criterio también para que el JSP sepa a qué tareas cambiar el estado
+        const url = `guardarPago.jsp?nombre=${encodeURIComponent(nombre)}&documento=${documento}&total=${total}&criterio=${encodeURIComponent(criterio)}`;
+        await fetch(url);
+        
+        alert("Pago registrado y tareas marcadas como pagadas.");
+        // Opcional: Limpiar la lista de tareas después de pagar
+        document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
+    } catch (e) { 
+        console.error("Error al guardar:", e); 
     }
+}
 
     // Limpiar campos al cargar la página
     window.onload = function() {

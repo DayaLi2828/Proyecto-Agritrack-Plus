@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Conexion {
     // Verifica que tu base de datos en MySQL se llame exactamente "AgritrackPlus"
-    private static final String DB = "jdbc:mysql://localhost:3306/AgritrackPlus?serverTimezone=UTC&useSSL=false";
-    private static final String USER = "root";
-    private static final String PASSWORD = ""; // Si en tu MySQL pusiste clave, escríbela aquí
+    private static final String DB = "jdbc:mysql://localhost:3306/agritrackplus?serverTimezone=UTC&useSSL=false";
+    private static final String USER = "agriplus";
+    private static final String PASSWORD = "test123"; // Si en tu MySQL pusiste clave, escríbela aquí
 
     public static Connection getConexion() throws SQLException {
         try {

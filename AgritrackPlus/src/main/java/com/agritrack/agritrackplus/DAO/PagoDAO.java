@@ -42,48 +42,115 @@ public class PagoDAO {
         return tareas;
     }
     public List<Map<String, String>> buscarHistorialPorTrabajador(String criterio) {
-        List<Map<String, String>> historial = new ArrayList<>();
-        // Ajusta los nombres de las columnas según tu tabla 'pagos' o 'facturas'
-        String sql = "SELECT id_pago, fecha_pago, total_pagado, trabajador_nombre FROM pagos " +
-                     "WHERE trabajador_nombre LIKE ? OR trabajador_doc = ? ORDER BY fecha_pago DESC";
+        List<Map<String, String>> lista = new ArrayList<>();
+        // Unimos pagos con usuarios para traer el nombre del trabajador
+        String sql = "SELECT p.id, p.fecha_pago, p.pago, u.nombre " +
+                     "FROM pagos p " +
+                     "JOIN usuarios u ON p.usuario_id = u.id " +
+                     "WHERE u.nombre LIKE ? OR u.documento LIKE ? " +
+                     "ORDER BY p.id DESC";
 
-        try (Connection con = Conexion.getConnection(); // Usa tu clase Conexion
+        try (Connection con = new Conexion().getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
-            ps.setString(1, "%" + criterio + "%");
-            ps.setString(2, criterio);
+            String busqueda = "%" + criterio + "%";
+            ps.setString(1, busqueda);
+            ps.setString(2, busqueda);
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Map<String, String> f = new HashMap<>();
-                    f.put("id", String.valueOf(rs.getInt("id_pago")));
+                    f.put("id", String.valueOf(rs.getInt("id")));
                     f.put("fecha", rs.getString("fecha_pago"));
-                    f.put("total", String.valueOf(rs.getDouble("total_pagado")));
-                    f.put("trabajador", rs.getString("trabajador_nombre"));
-                    historial.add(f);
+                    f.put("total", String.valueOf(rs.getDouble("pago")));
+                    f.put("trabajador", rs.getString("nombre"));
+                    lista.add(f);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return historial;
+        return lista;
     }
-    public boolean registrarPago(String nombre, String documento, double total) {
-        String sql = "INSERT INTO pagos (trabajador_nombre, trabajador_doc, fecha_pago, total_pagado) VALUES (?, ?, CURDATE(), ?)";
+    public boolean registrarPago(String nombre, String documento, double monto) {
+        // 1. Declaramos la conexión fuera para que sea accesible
+        Connection con = null; 
 
-        try (Connection con = Conexion.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+        // Consulta para obtener el ID
+        String sqlBusqueda = "SELECT id FROM usuarios WHERE nombre = ?";
+        // Consulta para insertar el pago
+        String sqlInsert = "INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES (?, CURDATE(), 'Activo', ?)";
+        // Consulta para actualizar las tareas (LA QUE TE DIO ERROR)
+        String sqlUpdateTareas = "UPDATE tareas SET estado = 'Pagado' WHERE usuario_id = ? AND (estado = 'Completada' OR estado = 'En Proceso')";
 
-            ps.setString(1, nombre);
-            ps.setString(2, documento);
-            ps.setDouble(3, total);
+        try {
+            con = new Conexion().getConexion(); // <--- AQUÍ SE DEFINE 'con'
+            int usuarioId = -1; // <--- AQUÍ SE DEFINE 'usuarioId'
 
-            int filasAfectadas = ps.executeUpdate();
-            return filasAfectadas > 0;
+            // PASO A: Buscar el ID del usuario
+            try (PreparedStatement psBusqueda = con.prepareStatement(sqlBusqueda)) {
+                psBusqueda.setString(1, nombre);
+                try (ResultSet rs = psBusqueda.executeQuery()) {
+                    if (rs.next()) {
+                        usuarioId = rs.getInt("id");
+                    }
+                }
+            }
+
+            if (usuarioId == -1) return false;
+
+            // PASO B: Insertar el registro de pago
+            try (PreparedStatement psInsert = con.prepareStatement(sqlInsert)) {
+                psInsert.setInt(1, usuarioId);
+                psInsert.setDouble(2, monto);
+                psInsert.executeUpdate();
+            }
+
+            // PASO C: Actualizar tareas a 'Pagado' (USANDO LAS VARIABLES YA DEFINIDAS)
+            try (PreparedStatement psUpdate = con.prepareStatement(sqlUpdateTareas)) {
+                psUpdate.setInt(1, usuarioId); // Ahora sí reconoce 'usuarioId'
+                psUpdate.executeUpdate();
+            }
+
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        } finally {
+            // Siempre cerrar la conexión manual si no usas try-with-resources en 'con'
+            if (con != null) try { con.close(); } catch (SQLException e) {}
         }
+    }
+    public List<Map<String, Object>> obtenerHistorialPagos(String criterio) {
+        List<Map<String, Object>> lista = new ArrayList<>();
+        // Buscamos por nombre o documento uniendo con la tabla usuarios
+        String sql = "SELECT p.id, p.fecha_pago, p.pago, p.estado " +
+                     "FROM pagos p " +
+                     "JOIN usuarios u ON p.usuario_id = u.id " +
+                     "WHERE u.nombre LIKE ? OR u.documento LIKE ? " +
+                     "ORDER BY p.fecha_pago DESC";
+
+        try (Connection con = new Conexion().getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            String busqueda = "%" + criterio + "%";
+            ps.setString(1, busqueda);
+            ps.setString(2, busqueda);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, Object> pago = new HashMap<>();
+                    pago.put("id", rs.getInt("id"));
+                    pago.put("fecha", rs.getString("fecha_pago"));
+                    pago.put("total", rs.getDouble("pago"));
+                    pago.put("estado", rs.getString("estado")); // Aquí vendrá 'Activo'
+                    lista.add(pago);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
     }
 }

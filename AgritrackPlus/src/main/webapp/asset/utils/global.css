@@ -32,7 +32,10 @@
   --color-borde-contadores-tareas:#d1fae5;
   --color-borde-tarea-completa:#05553e;
   --color-borde-tarea-pendiente:#f59e0b;
-  --background-tarea-pendiente:#f59f0b98;
+  --background-tarea-proceso: #dbeafe; /* Azul claro para el fondo del contenedor */
+  --color-borde-tarea-proceso: #1d4ed8;  /* Azul oscuro para el borde y texto principal */
+  --background-tarea-pendiente:#fff7ed;
+  --background-tarea-completada: #dcfce7;
   --color-borde-descripcion-tarea:#22c55e9c;
   --background-caja-descripcion-tarea:#ecfdf5;
   --color-borde-izquierdo-estado:#064e3b;

@@ -11,6 +11,25 @@ import java.util.Map;
 
 public class ProductoDAO {
 
+        public boolean agregar(String nombre, String unidadMedida, double precio, String fechaCompra, String fechaVencimiento, int tipoProductoId, int cantidad) {
+        String sql = "INSERT INTO productos(nombre, unidad_medida, precio, fecha_compra, fecha_vencimiento, tipo_producto_id, stock) VALUES(?,?,?,?,?,?,?)";
+        try (Connection conn = com.agritrack.agritrackplus.db.Conexion.getConexion();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            ps.setString(2, unidadMedida);
+            ps.setDouble(3, precio);
+            ps.setString(4, fechaCompra);
+            ps.setString(5, fechaVencimiento); // El servlet ya lo pone como null si viene vacío
+            ps.setInt(6, tipoProductoId);
+            ps.setInt(7, cantidad);
+
+            return ps.executeUpdate() > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public List<Map<String, String>> listarProductos() {
         List<Map<String, String>> lista = new ArrayList<>();
         // Usamos un JOIN para traer el nombre del tipo de producto desde la tabla tipo_producto

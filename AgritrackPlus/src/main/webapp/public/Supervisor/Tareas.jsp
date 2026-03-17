@@ -1,7 +1,19 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.TareaDAO" %>
 <%@ page import="com.agritrack.agritrackplus.modelo.Tarea" %>
 <%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
+    // VALIDACIÃ“N DE SEGURIDAD (Solo Supervisor)
+    HttpSession sesion = request.getSession(false);
+    String nombreUsuario = (sesion != null) ? (String) sesion.getAttribute("usuario_nombre") : null;
+    String rol = (sesion != null) ? (String) sesion.getAttribute("rol") : null;
+    Integer idUsuario = (sesion != null) ? (Integer) sesion.getAttribute("usuario_id") : null;
+
+    if (nombreUsuario == null || !"supervisor".equalsIgnoreCase(rol)) {
+        response.sendRedirect("../../index.jsp?error=acceso_denegado");
+        return;
+    }
+
     TareaDAO dao = new TareaDAO();
     List<Tarea> listaTareas = dao.listarTareas();
 
@@ -24,7 +36,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Tareas - AgritrackPlus</title>
+    <title>GestiÃ³n de Tareas - AgritrackPlus</title>
     <link rel="stylesheet" href="../../asset/Supervisor/style-tareas.css">
 </head>
 <body>
@@ -38,7 +50,7 @@
             <div class="contenedor__logo">
                 <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="hoja del logo" />
             </div>
-            <h1 class="titulo"> Gestión de tareas</h1>
+            <h1 class="titulo"> GestiÃ³n de tareas</h1>
             <a href="Agregar_Tarea.jsp" class="boton">Agregar tarea</a>
         </div>
     </header>
@@ -72,7 +84,7 @@
         <div class="buscardor__tareas">
             <div class="contenedor__buscar">
               <input type="text" id="buscadorInput" class="input__buscador" placeholder="Buscar..." aria-label="Buscar">
-              <img class="icono__buscador" src="../../asset/imagenes/lupa.png" alt="Icono de búsqueda">
+              <img class="icono__buscador" src="../../asset/imagenes/lupa.png" alt="Icono de bÃºsqueda">
             </div>
 
             <select id="filtroEstado" class="select__tareas">
@@ -85,7 +97,6 @@
 
         <% if(listaTareas != null && !listaTareas.isEmpty()) { 
             for(Tarea tarea : listaTareas) { 
-                // Generamos un string limpio para la clase CSS (ej: "enproceso")
                 String claseEstado = tarea.getEstado().toLowerCase().replace(" ", "");
         %>
         
@@ -121,7 +132,6 @@
                   <h4><%= (tarea.getNombreTrabajador() != null) ? tarea.getNombreTrabajador() : "Sin asignar" %></h4>
                   <p class="texto__jornada"><%= tarea.getJornada() %></p>
                   
-                  <%-- Aplicamos la clase de color dinámicamente al div estado --%>
                   <div class="estado estado-<%= claseEstado %>">
                     <p><%= tarea.getEstado() %></p>
                   </div>
@@ -139,7 +149,6 @@
     </main>
 
     <script>
-        // Lógica de búsqueda y filtrado
         const buscador = document.getElementById('buscadorInput');
         const filtro = document.getElementById('filtroEstado');
         const tareasCards = document.querySelectorAll('.contendor__padre');
@@ -163,12 +172,10 @@
         buscador.addEventListener('input', filtrar);
         filtro.addEventListener('change', filtrar);
 
-        // MODIFICACIÓN: Detectar éxito al agregar tarea
         window.onload = function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('status') === 'success') {
-                alert("¡Tarea creada y asignada con éxito!");
-                // Limpia la URL para que el mensaje no salga de nuevo al recargar
+                alert("Â¡Tarea creada y asignada con Ã©xito!");
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
         };

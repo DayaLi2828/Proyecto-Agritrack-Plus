@@ -322,3 +322,33 @@ input::-webkit-inner-spin-button {
     text-align: right;
     margin-top: 15px;
 }
+/* Estilo para el botón de reimprimir */
+.btn-ver-pdf {
+    background-color: #047857; /* Verde esmeralda */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: 600;
+}
+
+.btn-ver-pdf:hover {
+    background-color: #065f46;
+    transform: scale(1.05);
+}
+
+.btn-ver-pdf:active {
+    transform: scale(0.95);
+}
+
+/* Ajuste para que la card se vea mejor */
+.fila__stock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e5e7eb;
+}

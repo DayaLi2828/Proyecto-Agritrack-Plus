@@ -105,6 +105,19 @@ main {
 }
 
 /* ==================== CAMPOS ==================== */
+.campo__error {
+    color: #e53e3e; 
+    font-size: 12px; 
+    margin-top: 4px;
+    display: block; 
+    min-height: 16px;
+}
+.input--invalido { 
+    border-color: #e53e3e !important; 
+}
+.input--valido{ 
+    border-color: #10b981 !important; 
+}
 .campo {
   display: flex;
   flex-direction: column;

@@ -104,6 +104,43 @@ header {
     color: var(--color-subtitulo-cultivos);
     padding: 20px;
 }
+.campo__error { 
+    color: #e53e3e; 
+    font-size: 12px; 
+    margin-top: 4px; 
+    display: block; 
+}
+.contenedor__observacion { 
+    margin-top: 28px; 
+}
+.contenedor__observacion 
+.contenedor__subtitulo { 
+    display:flex; 
+    align-items:center; 
+    gap:10px; 
+    margin-bottom:12px; 
+}
+.textarea__observacion {
+    width: 100%; 
+    min-height: 100px; 
+    padding: 12px;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    font-size: 15px; 
+    resize: vertical; 
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+.textarea__observacion:focus { 
+    outline: none; 
+    border-color: #10b981; 
+}
+.contador__chars { 
+    font-size: 12px; 
+    color: #888; 
+    text-align: right; 
+    margin-top: 4px; 
+}
 .estado__pendiente label,
 .estado__completada label,
 .estado__proceso label{
@@ -118,7 +155,8 @@ header {
 .estado__proceso{
   width: 97%; 
   margin: 16px 20px; /* separación entre bloques */ 
-  padding: 12px 20px; /* espacio interno */ border-radius: 10px;
+  padding: 12px 20px; /* espacio interno */ 
+  border-radius: 10px;
 }
 
 .estado__proceso{

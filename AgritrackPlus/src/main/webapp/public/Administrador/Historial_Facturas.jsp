@@ -80,31 +80,90 @@
                 }
 
                 facturas.forEach(f => {
-                    const card = document.createElement('div');
-                    card.className = 'fila__stock'; // Reutiliza tu CSS de cajitas
-                    
-                    card.innerHTML = `
-                        <div class="campo" style="flex: 2;">
-                            <p class="nombre__trabajador"><strong>Factura #\${f.id}</strong></p>
-                            <p class="ayuda-texto" style="background: #e5e7eb; color: #374151;">Fecha: \${f.fecha}</p>
-                            <p style="margin-top:5px; font-weight:bold; color:#047857;">Total Pagado: $ \${f.total.toLocaleString()}</p>
-                        </div>
-                        <div class="campo" style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
-                            <button class="btn-ver-pdf" onclick="reimprimirFactura(\${f.id})">Reimprimir PDF</button>
-                        </div>
-                    `;
-                    contenedor.appendChild(card);
-                });
+                const card = document.createElement('div');
+                card.className = 'fila__stock';
+
+                // Definimos el estado visual
+                const colorEstado = '#047857';
+                const textoEstado = 'PAGADA';
+
+                card.innerHTML = `
+                    <div class="campo" style="flex: 2;">
+                        <p class="nombre__trabajador"><strong>Factura #\${f.id}</strong></p>
+                        <p class="ayuda-texto" style="background: #e5e7eb; color: #374151;">Fecha: \${f.fecha}</p>
+                        <p style="margin-top:5px; font-weight:bold; color:\${colorEstado};">
+                            Total: $ \${parseFloat(f.total).toLocaleString()} - \${textoEstado}
+                        </p>
+                    </div>
+                    <div class="campo" style="flex: 1; display: flex; justify-content: flex-end; align-items: center;">
+                        <button class="btn-ver-pdf" onclick="reimprimirFactura('\${f.id}', '\${f.total}', '\${f.fecha}')">
+                            Reimprimir PDF
+                        </button>
+                    </div>
+                `;
+                contenedor.appendChild(card);
+            });
 
             } catch (error) {
                 console.error("Error cargando historial:", error);
             }
         }
 
-        function reimprimirFactura(id) {
-            alert("Llamando a la función de generación de PDF para la factura #" + id);
-            // Aquí llamarías a la lógica de jsPDF con los datos guardados de esa factura
-        }
+    function reimprimirFactura(id, total, fecha) {
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Obtenemos el nombre del trabajador que está en el input de búsqueda
+        const trabajador = document.getElementById('inputUsuario').value;
+
+        // --- ENCABEZADO ---
+        doc.setFillColor(4, 120, 87); // Verde Agritrack
+        doc.rect(0, 0, 210, 45, 'F');
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.text("AGRITRACK PLUS", 20, 25);
+        doc.setFontSize(10);
+        doc.text("COPIA DE COMPROBANTE DE PAGO", 20, 35);
+
+        // --- CUERPO ---
+        doc.setTextColor(55, 65, 81);
+        doc.setFontSize(12);
+        doc.text("Información del Registro", 20, 60);
+        
+        doc.setFontSize(10);
+        doc.text("Factura N°: " + id, 20, 70);
+        doc.text("Trabajador: " + trabajador, 20, 77);
+        doc.text("Fecha Original de Pago: " + fecha, 20, 84);
+        doc.text("Estado: PAGADA", 20, 91);
+        
+        // Línea divisoria
+        doc.setLineWidth(0.5);
+        doc.setDrawColor(200, 200, 200);
+        doc.line(20, 100, 190, 100);
+
+        // --- TOTAL ---
+        doc.setFontSize(14);
+        doc.setTextColor(4, 120, 87);
+        const montoFormateado = parseFloat(total).toLocaleString();
+        doc.text("TOTAL PAGADO: $" + montoFormateado, 20, 115);
+
+        // --- NOTA FINAL ---
+        doc.setFontSize(9);
+        doc.setTextColor(100, 100, 100);
+        doc.text("Este documento es una copia fiel generada desde el historial de pagos del sistema.", 20, 140);
+        doc.text("Agritrack Plus - Gestión Agrícola Eficiente", 20, 145);
+
+        // --- DESCARGAR ---
+        doc.save("Factura_Reimpresa_" + id + ".pdf");
+
+    } catch (error) {
+        console.error("Error al generar PDF:", error);
+        alert("No se pudo generar el PDF. Revisa la consola (F12) para más detalles.");
+    }
+}
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </body>
 </html>
