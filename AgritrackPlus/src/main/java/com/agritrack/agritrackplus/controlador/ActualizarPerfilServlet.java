@@ -24,57 +24,66 @@ public class ActualizarPerfilServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         
-        HttpSession session = request.getSession();
-        Integer usuarioId = (Integer) session.getAttribute("usuario_id"); 
-
-        if (usuarioId == null) {
+        // 1. Validar sesión
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("usuario_id") == null) {
             response.sendRedirect(request.getContextPath() + "/index.jsp");
             return;
         }
 
-        // 1. Capturar parámetros del formulario
+        Integer usuarioId = (Integer) session.getAttribute("usuario_id"); 
+        String rolUsuario = (String) session.getAttribute("rol"); 
+
+        // 2. Capturar parámetros del formulario
         String nombre = request.getParameter("txtNombre");
         String correo = request.getParameter("txtCorreo");
         String telefono = request.getParameter("txtTelefono");
         String direccion = request.getParameter("txtDireccion");
         String nuevaPass = request.getParameter("txtPassword");
         
-        // El documento es necesario para tu método DAO actual
-        // Si no lo tienes en el JSP como input, podrías obtenerlo de la sesión o enviarlo oculto
-        String documento = request.getParameter("documento"); 
+        // Es vital que en los JSP tengas el documento como hidden: <input type="hidden" name="txtDocumento" ...>
+        String documento = request.getParameter("txtDocumento"); 
 
-        // 2. Procesar la Foto (Guardado físico)
+        // 3. Procesar la Foto con nombre único (evita problemas de caché)
         Part filePart = request.getPart("fotoPerfil"); 
         String nombreArchivoFinal = null;
 
         if (filePart != null && filePart.getSize() > 0) {
-            // Creamos un nombre único para evitar conflictos (ej: perfil_4.jpg)
-            nombreArchivoFinal = "perfil_" + usuarioId + ".jpg";
+            // Nombre: perfil_ID_MarcaDeTiempo.jpg
+            nombreArchivoFinal = "perfil_" + usuarioId + "_" + System.currentTimeMillis() + ".jpg";
             
-            // Definimos la ruta de la carpeta "imagenes" dentro de "asset"
-            // getRealPath extrae la ruta física en el servidor (donde vive tu proyecto desplegado)
+            // Ruta física en el servidor: /public/asset/imagenes
             String uploadPath = getServletContext().getRealPath("") + File.separator + "asset" + File.separator + "imagenes";
             
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) {
-                uploadDir.mkdirs(); // Crea la carpeta si no existe
+                uploadDir.mkdirs();
             }
 
-            // Escribimos el archivo en el disco
             filePart.write(uploadPath + File.separator + nombreArchivoFinal);
         }
 
+        // 4. Ejecutar actualización en la Base de Datos
         UsuarioDAO dao = new UsuarioDAO();
-        
-        // 3. Llamar al DAO
-        // Enviamos 'nombreArchivoFinal' que contiene solo el nombre (ej: "perfil_4.jpg")
         boolean exito = dao.actualizarPerfil(usuarioId, nombre, documento, direccion, nuevaPass, correo, telefono, nombreArchivoFinal);
 
+        // 5. DETERMINAR RUTA DE REGRESO (Redirección Dinámica)
+        String destino = "Supervisor/Supervisor.jsp"; // Por defecto
+
+        if (rolUsuario != null) {
+            if (rolUsuario.equalsIgnoreCase("administrador")) {
+                destino = "Administrador/Admin.jsp";
+            } else if (rolUsuario.equalsIgnoreCase("trabajador")) {
+                destino = "Trabajador/Trabajador.jsp";
+            }
+        }
+
+        // 6. Respuesta final
         if (exito) {
             session.setAttribute("usuario_nombre", nombre);
-            response.sendRedirect(request.getContextPath() + "/public/Supervisor/Supervisor.jsp?update=success");
+            response.sendRedirect(request.getContextPath() + "/public/" + destino + "?update=success");
         } else {
-            response.sendRedirect(request.getContextPath() + "/public/Supervisor/Supervisor.jsp?update=error");
+            response.sendRedirect(request.getContextPath() + "/public/" + destino + "?update=error");
         }
     }
 }

@@ -72,7 +72,174 @@ header{
     margin-top: 15px;
     font-weight: bold;
 }
+/* --- DISEÑO DE LA TARJETA DE PERFIL (CARD) --- */
+.perfil__card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    padding: 25px;
+    z-index: 2000;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
 
+/* Cuando la tarjeta está activa */
+.perfil__card.activo {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+/* Fondo oscuro detrás de la tarjeta */
+.perfil__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px); /* Efecto de desenfoque */
+    z-index: 1500;
+    display: none;
+}
+
+.perfil__overlay.activo {
+    display: block;
+}
+
+/* Cabecera de la tarjeta */
+.card__edit-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0fdf4;
+    padding-bottom: 10px;
+}
+
+.card__edit-header h3 {
+    color: #065f46;
+    margin: 0;
+}
+
+/* Sección de la foto de perfil circular */
+.seccion__foto-perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#contenedorPreview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #10b981;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    margin-bottom: 10px;
+}
+
+.foto__actual {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.foto__vacia {
+    font-size: 40px;
+    font-weight: bold;
+    color: #6b7280;
+}
+
+.btn-subir-foto {
+    background: #10b981;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-subir-foto:hover {
+    background: #059669;
+}
+
+/* Formulario y Cuadrícula de Campos */
+.grid__campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dos columnas */
+    gap: 15px;
+}
+
+.campo__edicion {
+    display: flex;
+    flex-direction: column;
+}
+
+.campo__edicion label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 5px;
+}
+
+.campo__edicion input {
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.campo__edicion input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+/* Botones de acción */
+.botones__edicion {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.btn-cancelar {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 45%;
+}
+
+.btn-guardar {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 45%;
+    font-weight: bold;
+}
+
+.btn-guardar:hover { 
+    background: #059669; 
+}
+.btn-cancelar:hover {
+    background: #dc2626; 
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }

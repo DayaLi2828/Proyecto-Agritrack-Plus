@@ -25,7 +25,10 @@
 
     <main class="main">
         <div class="contendor">
-            
+            <div class="titulo__seccion">
+                <img src="../../asset/imagenes/usuario(2).png" alt="trabajador">
+                Pago a Trabajadores
+            </div>
             <div class="contendor__cajas">
                 <div class="contendor__subtitulo">
                     <div class="caja__logo">
@@ -83,13 +86,70 @@
                     Generar Factura PDF
                 </button>
             </div>
+            <%-- ===== SECCIÓN PAGO SUPERVISOR ===== --%>
+        <div class="titulo__seccion">
+            <img src="../../asset/imagenes/supervisor.png" alt="supervisor">
+            Pago a Supervisores
         </div>
-    </main>
+                        
+    <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+            <div class="caja__logo">
+                <img class="logo" src="../../asset/imagenes/supervisor.png" alt="supervisor">
+            </div>
+            <h2 class="subtitulo">Pago a Supervisor</h2>
+        </div>
+        <div class="formulario__registrarcultivo">
+            <div class="campo">
+                <label class="nombre__trabajador">Nombre o Documento del Supervisor</label>
+                <input type="text" id="busquedaSupervisor" placeholder="Ej: Pedro Gil o 1077...">
+            </div>
+            <button type="button" class="boton__enviar" onclick="buscarSupervisor()" style="margin-top: 10px; background-color: #047857;">
+                Buscar Supervisor
+            </button>
+        </div>
+    </div>
 
+    <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+            <div class="caja__logo">
+                <img class="logo" src="../../asset/imagenes/stock.png" alt="salario">
+            </div>
+            <h2 class="subtitulo">Salario Semanal Supervisor</h2>
+        </div>
+        <div class="fechas">
+            <div class="campo">
+                <label class="nombre__trabajador">Salario semanal</label>
+                <input type="number" id="salarioSupervisor" placeholder="$ Salario semanal">
+            </div>
+        </div>
+    </div>
+
+    <div class="contendor__cajas">
+        <div class="contendor__subtitulo">
+            <div class="caja__logo">
+                <img class="logo" src="../../asset/imagenes/planta (2).png" alt="info">
+            </div>
+            <h2 class="subtitulo">Información del Supervisor</h2>
+        </div>
+        <div id="infoSupervisor">
+            <div class="info-edicion">
+                Ingrese el nombre del supervisor para continuar.
+            </div>
+        </div>
+        <button type="button" class="boton__enviar" onclick="generarFacturaSupervisorPDF()" style="margin-top: 20px;">
+            Generar Factura PDF Supervisor
+        </button>
+    </div>
+    <%-- ===== FIN SECCIÓN PAGO SUPERVISOR ===== --%>
+        </div>
+
+    </main>
+    
 <script>
-    /**
-     * BUSCA LAS TAREAS
-     */
+    // Variable global para tareas del supervisor
+    let tareasSupervisor = [];
+
     async function buscarActividad() {
         const criterio = document.getElementById('busquedaTrabajador').value;
         const listaResultados = document.getElementById('listaResultados');
@@ -104,13 +164,10 @@
             const response = await fetch(url);
             const tareas = await response.json();
 
-            listaResultados.innerHTML = ""; 
+            listaResultados.innerHTML = "";
 
             if (tareas.length === 0) {
-                listaResultados.innerHTML = `
-                    <div class="info-edicion">
-                        No se encontraron tareas para este usuario.
-                    </div>`;
+                listaResultados.innerHTML = '<div class="info-edicion">No se encontraron tareas para este usuario.</div>';
                 return;
             }
 
@@ -118,23 +175,20 @@
                 const jornadaDB = (t.jornada || "").toLowerCase();
                 const estadoDB = (t.estado || "").toLowerCase();
                 const esCompleto = jornadaDB.includes('completo') || jornadaDB.includes('entero');
-                
                 const tipoJornada = esCompleto ? "completo" : "medio";
 
                 const card = document.createElement('div');
                 card.setAttribute('data-estado', estadoDB);
                 card.className = 'fila__stock';
-                card.innerHTML = `
-                    <div class="campo">
-                        <p class="nombre__trabajador"><strong>Tarea: </strong><span class="txt-tarea">\${t.tarea}</span></p>
-                        <p class="ayuda-texto">Estado: <span class="txt-estado">\${t.estado}</span></p>
-                    </div>
-                    <div class="campo">
-                        <span class="etiqueta-jornada" data-tipo="\${tipoJornada}">
-                            \${t.jornada}
-                        </span>
-                    </div>
-                `;
+                card.innerHTML =
+                    '<div class="campo">' +
+                        '<p class="nombre__trabajador"><strong>Tarea: </strong><span class="txt-tarea">' + t.tarea + '</span></p>' +
+                        '<p class="ayuda-texto">Cultivo: <span class="txt-cultivo">' + (t.cultivo || '') + '</span></p>' +
+                        '<p class="ayuda-texto">Estado: <span class="txt-estado">' + t.estado + '</span></p>' +
+                    '</div>' +
+                    '<div class="campo">' +
+                        '<span class="etiqueta-jornada" data-tipo="' + tipoJornada + '">' + t.jornada + '</span>' +
+                    '</div>';
                 listaResultados.appendChild(card);
             });
 
@@ -144,9 +198,6 @@
         }
     }
 
-    /**
-     * GENERA EL PDF Y GUARDA EN BD
-     */
     function generarFacturaPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
@@ -155,13 +206,12 @@
         const vMedio = parseFloat(document.getElementById('valorMedio').value) || 0;
         const vCompleto = parseFloat(document.getElementById('valorCompleto').value) || 0;
         const filas = document.querySelectorAll('.fila__stock');
-        
+
         if (vMedio <= 0 || vCompleto <= 0 || filas.length === 0) {
             alert("Verifique los valores y que existan tareas en la lista.");
             return;
         }
 
-        // Diseño PDF (Este diseño es interno del archivo generado, no afecta tu web)
         doc.setFillColor(4, 120, 87);
         doc.rect(0, 0, 210, 45, 'F');
         doc.setTextColor(255, 255, 255);
@@ -169,7 +219,6 @@
         doc.text("AGRITRACK PLUS", 20, 25);
         doc.setFontSize(10);
         doc.text("Comprobante de Pago de Jornales", 20, 35);
-
         doc.setTextColor(55, 65, 81);
         doc.setFontSize(11);
         doc.text("Trabajador: " + trabajador, 20, 60);
@@ -181,35 +230,33 @@
         doc.setFillColor(55, 65, 81);
         doc.rect(20, yPos, 170, 8, 'F');
         doc.setTextColor(255, 255, 255);
-        doc.text("Tarea", 25, yPos + 5);
+        doc.setFontSize(10);
+        doc.text("Cultivo - Tarea", 25, yPos + 5);
         doc.text("Monto", 165, yPos + 5);
         yPos += 15;
 
         filas.forEach((fila) => {
-            const nombre = fila.querySelector('.txt-tarea').textContent;
-            const estado = fila.getAttribute('data-estado'); 
-            const tipo = fila.querySelector('.etiqueta-jornada').getAttribute('data-tipo');
-            
-            // 1. Primero definimos la base según el tipo (Ya corregido el orden)
-            let subtotal = (tipo === 'completo') ? vCompleto : vMedio; 
-            
-            // 2. Luego aplicamos el descuento si está en proceso
-            let notaEstado = "";
-            if (estado && estado.includes("proceso")) { 
-                subtotal = subtotal * 0.5;   
-                notaEstado = " (En Proceso - 50%)"; 
-            }
+            const nombreEl = fila.querySelector('.txt-tarea');
+            if (!nombreEl) return;
+            const nombre = nombreEl.textContent;
+            const cultivo = fila.querySelector('.txt-cultivo') ? fila.querySelector('.txt-cultivo').textContent : '';
+            const estado = fila.getAttribute('data-estado');
+            const tipoEl = fila.querySelector('.etiqueta-jornada');
+            const tipo = tipoEl ? tipoEl.getAttribute('data-tipo') : 'medio';
 
-            // 3. Sumamos al total FINAL (Después del descuento)
+            let subtotal = (tipo === 'completo') ? vCompleto : vMedio;
+            let notaEstado = "";
+            if (estado && estado.includes("proceso")) {
+                subtotal = subtotal * 0.5;
+                notaEstado = " (50%)";
+            }
             totalPagar += subtotal;
 
-            // 4. Dibujamos en el PDF
+            doc.setFontSize(11);
             doc.setTextColor(31, 41, 55);
-            // Solo una línea de texto para el nombre
-            doc.text(nombre + notaEstado, 25, yPos);
+            doc.text(cultivo + " - " + nombre + notaEstado, 25, yPos);
             doc.text("$" + subtotal.toLocaleString(), 165, yPos);
-            
-            yPos += 10;
+            yPos += 12;
         });
 
         doc.setFillColor(4, 120, 87);
@@ -217,30 +264,148 @@
         doc.setTextColor(255, 255, 255);
         doc.text("TOTAL A PAGAR: $" + totalPagar.toLocaleString(), 135, yPos + 10);
 
-        guardarEnBaseDeDatos(trabajador, "SN", totalPagar); 
+        guardarEnBaseDeDatos(trabajador, "SN", totalPagar);
         doc.save("Factura_" + trabajador.replace(/\s+/g, '_') + ".pdf");
     }
 
     async function guardarEnBaseDeDatos(nombre, documento, total) {
-    const criterio = document.getElementById('busquedaTrabajador').value; // Para identificar al trabajador
-    try {
-        // Enviamos el criterio también para que el JSP sepa a qué tareas cambiar el estado
-        const url = `guardarPago.jsp?nombre=${encodeURIComponent(nombre)}&documento=${documento}&total=${total}&criterio=${encodeURIComponent(criterio)}`;
-        await fetch(url);
-        
-        alert("Pago registrado y tareas marcadas como pagadas.");
-        // Opcional: Limpiar la lista de tareas después de pagar
-        document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
-    } catch (e) { 
-        console.error("Error al guardar:", e); 
+        const criterio = document.getElementById('busquedaTrabajador').value;
+        try {
+            const url = "guardarPago.jsp?nombre=" + encodeURIComponent(nombre)
+                      + "&documento=" + encodeURIComponent(documento)
+                      + "&total=" + total
+                      + "&criterio=" + encodeURIComponent(criterio);
+            await fetch(url);
+            alert("Pago registrado y tareas marcadas como pagadas.");
+            document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
+        } catch (e) {
+            console.error("Error al guardar:", e);
+        }
     }
-}
 
-    // Limpiar campos al cargar la página
+    async function buscarSupervisor() {
+        const criterio = document.getElementById('busquedaSupervisor').value;
+        const infoDiv = document.getElementById('infoSupervisor');
+        if (!criterio) { alert("Por favor, ingresa el nombre o documento del supervisor."); return; }
+        try {
+            const url = "buscarSupervisor.jsp?criterio=" + encodeURIComponent(criterio);
+            const response = await fetch(url);
+            const data = await response.json();
+            if (!data || data.error) {
+                infoDiv.innerHTML = '<div class="info-edicion">No se encontro ningun supervisor con ese criterio.</div>';
+                tareasSupervisor = [];
+                return;
+            }
+
+            tareasSupervisor = data.tareas || [];
+
+            infoDiv.innerHTML =
+                '<div class="fila__stock">' +
+                    '<div class="campo">' +
+                        '<p class="nombre__trabajador"><strong>Supervisor: </strong>' + data.nombre + '</p>' +
+                        '<p class="ayuda-texto">Cultivos supervisados: ' + data.totalCultivos + '</p>' +
+                    '</div>' +
+                '</div>';
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error al conectar con el servidor.");
+        }
+    }
+
+    function generarFacturaSupervisorPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const supervisor = document.getElementById('busquedaSupervisor').value;
+        const salario = parseFloat(document.getElementById('salarioSupervisor').value) || 0;
+        const infoDiv = document.getElementById('infoSupervisor');
+
+        if (!supervisor) { alert("Primero busca un supervisor."); return; }
+        if (salario <= 0) { alert("Ingresa el salario semanal del supervisor."); return; }
+        if (infoDiv.querySelector('.info-edicion')) { alert("Primero busca y confirma el supervisor."); return; }
+
+        doc.setFillColor(4, 120, 87);
+        doc.rect(0, 0, 210, 45, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
+        doc.text("AGRITRACK PLUS", 20, 25);
+        doc.setFontSize(10);
+        doc.text("Comprobante de Pago - Supervisor", 20, 35);
+        doc.setTextColor(55, 65, 81);
+        doc.setFontSize(11);
+        doc.text("Supervisor: " + supervisor, 20, 60);
+        doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 67);
+
+        let yPos = 82;
+
+        doc.setFillColor(55, 65, 81);
+        doc.rect(20, yPos, 170, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(10);
+        doc.text("Cultivos supervisados", 25, yPos + 5);
+        yPos += 15;
+
+        if (tareasSupervisor && tareasSupervisor.length > 0) {
+            const cultivosVistos = new Set();
+            tareasSupervisor.forEach(t => {
+                if (!cultivosVistos.has(t.cultivo)) {
+                    cultivosVistos.add(t.cultivo);
+                    doc.setFontSize(10);
+                    doc.setTextColor(31, 41, 55);
+                    doc.text("• " + t.cultivo, 25, yPos);
+                    yPos += 10;
+                }
+            });
+        } else {
+            doc.setFontSize(10);
+            doc.setTextColor(100, 100, 100);
+            doc.text("Sin cultivos registrados.", 25, yPos);
+            yPos += 10;
+        }
+
+        yPos += 5;
+        doc.setFillColor(55, 65, 81);
+        doc.rect(20, yPos, 170, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(10);
+        doc.text("Concepto", 25, yPos + 5);
+        doc.text("Monto", 165, yPos + 5);
+        yPos += 15;
+
+        doc.setFontSize(11);
+        doc.setTextColor(31, 41, 55);
+        doc.text("Salario semanal de supervision", 25, yPos);
+        doc.text("$" + salario.toLocaleString(), 165, yPos);
+        yPos += 20;
+
+        doc.setFillColor(4, 120, 87);
+        doc.rect(130, yPos, 60, 15, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.text("TOTAL A PAGAR: $" + salario.toLocaleString(), 135, yPos + 10);
+
+        guardarPagoSupervisor(supervisor, salario);
+        doc.save("Factura_Supervisor_" + supervisor.replace(/\s+/g, '_') + ".pdf");
+    }
+
+    async function guardarPagoSupervisor(nombre, total) {
+        try {
+            const url = "guardarPago.jsp?nombre=" + encodeURIComponent(nombre)
+                      + "&documento=SN"
+                      + "&total=" + total
+                      + "&criterio=" + encodeURIComponent(nombre);
+            await fetch(url);
+            alert("Pago del supervisor registrado correctamente.");
+            document.getElementById('infoSupervisor').innerHTML = '<div class="info-edicion">Pago procesado con exito.</div>';
+            document.getElementById('salarioSupervisor').value = "";
+            document.getElementById('busquedaSupervisor').value = "";
+        } catch (e) { console.error("Error al guardar:", e); }
+    }
+
     window.onload = function() {
         document.getElementById('valorMedio').value = "";
         document.getElementById('valorCompleto').value = "";
         document.getElementById('busquedaTrabajador').value = "";
+        document.getElementById('salarioSupervisor').value = "";
+        document.getElementById('busquedaSupervisor').value = "";
     };
 </script>
 </body>

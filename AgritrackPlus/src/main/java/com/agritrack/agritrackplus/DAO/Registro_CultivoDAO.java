@@ -332,7 +332,8 @@ public class Registro_CultivoDAO {
                     cultivo.put("fecha_cosecha", rs.getString("fecha_cosecha"));
                     cultivo.put("ciclo", rs.getString("ciclo"));
                     cultivo.put("estado", rs.getString("estado"));
-                    cultivo.put("supervisor_id", String.valueOf(rs.getInt("supervisor_id")));
+                    String supId = rs.getString("supervisor_id");
+                    cultivo.put("supervisor_id", supId != null ? supId : "");
                 }
             }
         } catch (Exception e) {

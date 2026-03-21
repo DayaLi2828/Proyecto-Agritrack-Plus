@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +54,25 @@ public class TareaDAO {
         } catch (SQLException e) { e.printStackTrace(); }
         return lista;
     }
-
+    public List<Tarea> listarTrabajadoresPorCultivo(int cultivoId) {
+        List<Tarea> lista = new ArrayList<>();
+        String sql = "SELECT u.id, u.nombre FROM usuarios u " +
+                     "JOIN cultivo_trabajador ct ON u.id = ct.usuario_id " +
+                     "WHERE ct.cultivo_id = ?";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cultivoId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Tarea t = new Tarea();
+                    t.setId(rs.getInt("id"));
+                    t.setNombreTrabajador(rs.getString("nombre"));
+                    lista.add(t);
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return lista;
+    }
     // 3. MÉTODO PARA EL SELECT DE TIPOS DE TAREAS (Catálogo)
     public List<Tarea> listarCatalogoTareas() {
         List<Tarea> lista = new ArrayList<>();
@@ -206,13 +226,13 @@ public class TareaDAO {
         List<Tarea> lista = new ArrayList<>();
         String sql = "SELECT c.id, c.nombre AS cultivo, c.estado, c.ciclo, " +
                      "GROUP_CONCAT(u.nombre SEPARATOR ', ') AS trabajadores " +
-                     "FROM supervisor s " +
-                     "JOIN cultivos c ON s.cultivo_id = c.id " +
+                     "FROM cultivos c " +
                      "LEFT JOIN cultivo_trabajador ct ON c.id = ct.cultivo_id " +
                      "LEFT JOIN usuarios u ON ct.usuario_id = u.id " +
-                     "WHERE s.usuario_id = ? " +
+                     "WHERE c.supervisor_id = ? " +
                      "GROUP BY c.id";
-        try (Connection con = new Conexion().getConexion();
+
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, idSupervisor);
             try (ResultSet rs = ps.executeQuery()) {
@@ -221,12 +241,14 @@ public class TareaDAO {
                     t.setCultivoId(rs.getInt("id"));
                     t.setNombreCultivo(rs.getString("cultivo"));
                     t.setEstado(rs.getString("estado"));
-                    t.setJornada(rs.getString("ciclo")); 
+                    t.setJornada(rs.getString("ciclo"));
                     t.setNombreTrabajador(rs.getString("trabajadores"));
                     lista.add(t);
                 }
             }
-        } catch (SQLException e) { e.printStackTrace(); }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return lista;
     }
 
@@ -297,5 +319,104 @@ public class TareaDAO {
             }
         } catch (SQLException e) { e.printStackTrace(); }
         return resumen;
+    }
+    // GRÁFICO 1: Tareas creadas por día de la semana actual
+    public Map<String, Integer> contarTareasPorDiaSemana(int idSupervisor) {
+        Map<String, Integer> datos = new LinkedHashMap<>();
+        datos.put("Lun", 0); datos.put("Mar", 0); datos.put("Mie", 0);
+        datos.put("Jue", 0); datos.put("Vie", 0); datos.put("Sab", 0);
+        String sql = "SELECT DAYNAME(fecha_creacion) AS dia, COUNT(*) AS total " +
+                     "FROM usuario_tarea ut " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                     "WHERE c.supervisor_id = ? " +
+                     "AND WEEK(fecha_creacion) = WEEK(CURDATE()) " +
+                     "GROUP BY DAYNAME(fecha_creacion)";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idSupervisor);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    String dia = rs.getString("dia");
+                    int total = rs.getInt("total");
+                    if (dia.startsWith("Mon"))    datos.put("Lun", total);
+                    else if (dia.startsWith("Tue")) datos.put("Mar", total);
+                    else if (dia.startsWith("Wed")) datos.put("Mie", total);
+                    else if (dia.startsWith("Thu")) datos.put("Jue", total);
+                    else if (dia.startsWith("Fri")) datos.put("Vie", total);
+                    else if (dia.startsWith("Sat")) datos.put("Sab", total);
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return datos;
+    }
+
+    // GRÁFICO 2: % de tareas completadas por cultivo del supervisor
+    public Map<String, Integer> cumplimientoPorCultivo(int idSupervisor) {
+        Map<String, Integer> datos = new LinkedHashMap<>();
+        String sql = "SELECT c.nombre, " +
+                     "ROUND((SUM(CASE WHEN ut.estado = 'Completada' THEN 1 ELSE 0 END) * 100.0) / COUNT(*)) AS porcentaje " +
+                     "FROM usuario_tarea ut " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                     "WHERE c.supervisor_id = ? " +
+                     "GROUP BY c.id, c.nombre";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idSupervisor);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    datos.put(rs.getString("nombre"), rs.getInt("porcentaje"));
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return datos;
+    }
+
+    // GRÁFICO 3: Distribución de tareas por estado (donut)
+    public Map<String, Integer> rendimientoSemanal(int idSupervisor) {
+        Map<String, Integer> datos = new LinkedHashMap<>();
+        datos.put("Completada", 0);
+        datos.put("En Proceso", 0);
+        datos.put("Pendiente", 0);
+        String sql = "SELECT ut.estado, COUNT(*) AS total " +
+                     "FROM usuario_tarea ut " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                     "WHERE c.supervisor_id = ? " +
+                     "GROUP BY ut.estado";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idSupervisor);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    datos.put(rs.getString("estado"), rs.getInt("total"));
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return datos;
+    }
+    public List<Map<String, String>> buscarTareasPorSupervisor(String criterio) {
+        List<Map<String, String>> lista = new ArrayList<>();
+        String sql = "SELECT c.nombre AS cultivo, t.nombre AS tarea, ut.estado " +
+                     "FROM usuario_tarea ut " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                     "JOIN tareas t ON ut.tarea_id = t.id " +
+                     "JOIN usuarios u ON c.supervisor_id = u.id " +
+                     "WHERE (u.nombre LIKE ? OR u.documento = ?) " +
+                     "AND ut.estado IN ('Completada', 'En Proceso') " +
+                     "ORDER BY c.nombre, t.nombre";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + criterio + "%");
+            ps.setString(2, criterio);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, String> m = new HashMap<>();
+                    m.put("cultivo", rs.getString("cultivo"));
+                    m.put("tarea",   rs.getString("tarea"));
+                    m.put("estado",  rs.getString("estado"));
+                    lista.add(m);
+                }
+            }
+        } catch (SQLException e) { e.printStackTrace(); }
+        return lista;
     }
 }

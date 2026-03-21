@@ -175,7 +175,7 @@
                 <% } %>
             </ul>
         </div>
-
+            <input type="hidden" name="estado" value="<%= cultivo.get("estado") %>">
         <div class="contenedor__boton--enviar">
           <button type="submit" class="boton__enviar">💾 Guardar Cambios</button>
         </div>

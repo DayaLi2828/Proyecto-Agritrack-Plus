@@ -6,41 +6,33 @@ import java.util.*;
 
 public class PagoDAO {
 
-    public List<Map<String, String>> buscarTareasPorTrabajador(String criterio) {
-        List<Map<String, String>> tareas = new ArrayList<>();
-        // Usamos ILIKE o verificamos que el estado sea similar a lo que buscamos
-        // Si quieres permitir 'En Proceso' para el pago del 50%, quita el filtro estricto
-        String sql = "SELECT ut.id, t.nombre AS tarea, ut.estado, ut.jornada " +
+    public List<Map<String, String>> buscarTareasPorSupervisor(String criterio) {
+        List<Map<String, String>> lista = new ArrayList<>();
+        String sql = "SELECT c.nombre AS cultivo, t.nombre AS tarea, ut.estado " +
                      "FROM usuario_tarea ut " +
-                     "JOIN usuarios u ON ut.usuario_id = u.id " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
                      "JOIN tareas t ON ut.tarea_id = t.id " +
+                     "JOIN usuarios u ON c.supervisor_id = u.id " +
                      "WHERE (u.nombre LIKE ? OR u.documento = ?) " +
-                     "AND ut.estado IN ('Completada', 'Completado', 'En Proceso')"; 
-
-        try (Connection conn = Conexion.getConexion();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+                     "AND ut.estado IN ('Completada', 'En Proceso') " +
+                     "ORDER BY c.nombre, t.nombre";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, "%" + criterio + "%");
             ps.setString(2, criterio);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                Map<String, String> tarea = new HashMap<>();
-                tarea.put("id", rs.getString("id"));
-                tarea.put("tarea", rs.getString("tarea"));
-                tarea.put("estado", rs.getString("estado"));
-
-                // Verificación de seguridad para la jornada
-                String jornada = rs.getString("jornada");
-                tarea.put("jornada", (jornada != null) ? jornada : "Medio Dia");
-
-                tareas.add(tarea);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, String> m = new HashMap<>();
+                    m.put("cultivo", rs.getString("cultivo"));
+                    m.put("tarea",   rs.getString("tarea"));
+                    m.put("estado",  rs.getString("estado"));
+                    lista.add(m);
+                }
             }
-        } catch (SQLException e) {
-            System.err.println("Error en PagoDAO: " + e.getMessage());
-        }
-        return tareas;
+        } catch (SQLException e) { e.printStackTrace(); }
+        return lista;
     }
+    
     public List<Map<String, String>> buscarHistorialPorTrabajador(String criterio) {
         List<Map<String, String>> lista = new ArrayList<>();
         // Unimos pagos con usuarios para traer el nombre del trabajador
@@ -81,8 +73,8 @@ public class PagoDAO {
         // Consulta para insertar el pago
         String sqlInsert = "INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES (?, CURDATE(), 'Activo', ?)";
         // Consulta para actualizar las tareas (LA QUE TE DIO ERROR)
-        String sqlUpdateTareas = "UPDATE tareas SET estado = 'Pagado' WHERE usuario_id = ? AND (estado = 'Completada' OR estado = 'En Proceso')";
-
+        String sqlUpdateTareas = "UPDATE usuario_tarea SET estado = 'Pagado' " +
+                         "WHERE usuario_id = ? AND estado IN ('Completada', 'En Proceso')";
         try {
             con = new Conexion().getConexion(); // <--- AQUÍ SE DEFINE 'con'
             int usuarioId = -1; // <--- AQUÍ SE DEFINE 'usuarioId'
@@ -152,5 +144,64 @@ public class PagoDAO {
             e.printStackTrace();
         }
         return lista;
+    }
+    public Map<String, String> buscarSupervisor(String criterio) {
+        Map<String, String> resultado = new HashMap<>();
+        String sql = "SELECT u.nombre, COUNT(c.id) AS totalCultivos " +
+                     "FROM usuarios u " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
+                     "LEFT JOIN cultivos c ON c.supervisor_id = u.id " +
+                     "WHERE r.nombre = 'supervisor' " +
+                     "AND (u.nombre LIKE ? OR u.documento = ?) " +
+                     "GROUP BY u.id, u.nombre " +
+                     "LIMIT 1";
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, "%" + criterio + "%");
+            ps.setString(2, criterio);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    resultado.put("nombre", rs.getString("nombre"));
+                    resultado.put("totalCultivos", String.valueOf(rs.getInt("totalCultivos")));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultado;
+    }
+    public List<Map<String, String>> buscarTareasPorTrabajador(String criterio) {
+        List<Map<String, String>> tareas = new ArrayList<>();
+        String sql = "SELECT ut.id, t.nombre AS tarea, ut.estado, ut.jornada, c.nombre AS cultivo " +
+                     "FROM usuario_tarea ut " +
+                     "JOIN usuarios u ON ut.usuario_id = u.id " +
+                     "JOIN tareas t ON ut.tarea_id = t.id " +
+                     "JOIN cultivos c ON ut.cultivo_id = c.id " +
+                     "WHERE (u.nombre LIKE ? OR u.documento = ?) " +
+                     "AND ut.estado IN ('Completada', 'En Proceso')";
+
+        try (Connection con = Conexion.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setString(1, "%" + criterio + "%");
+            ps.setString(2, criterio);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Map<String, String> tarea = new HashMap<>();
+                    tarea.put("id",      rs.getString("id"));
+                    tarea.put("tarea",   rs.getString("tarea"));
+                    tarea.put("estado",  rs.getString("estado"));
+                    tarea.put("cultivo", rs.getString("cultivo"));
+                    String jornada = rs.getString("jornada");
+                    tarea.put("jornada", (jornada != null) ? jornada : "Medio Dia");
+                    tareas.add(tarea);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error en buscarTareasPorTrabajador: " + e.getMessage());
+        }
+        return tareas;
     }
 }

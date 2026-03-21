@@ -15,7 +15,7 @@
     }
 
     TareaDAO dao = new TareaDAO();
-    List<Tarea> listaCultivos    = dao.listarCultivos();
+    List<Tarea> listaCultivos = dao.listarCultivosPorSupervisor(idUsuario);
     List<Tarea> listaTrabajadores = dao.listarTrabajadores();
     List<Tarea> catalogoTareas   = dao.listarCatalogoTareas();
 %>
@@ -141,7 +141,7 @@
         </form>
     </main>
 
-    <script>
+<script>
         // Fecha mínima = hoy
         document.addEventListener("DOMContentLoaded", function() {
             const inputFecha = document.getElementById('txtFecha');
@@ -185,10 +185,35 @@
             const todosValidos = Object.keys(reglas).map(validarCampo).every(Boolean);
             if (!todosValidos) {
                 e.preventDefault();
-                // Scroll al primer campo con error
                 const primerError = document.querySelector('.input--invalido');
                 if (primerError) primerError.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+        });
+
+        // ← NUEVO: cargar trabajadores según el cultivo seleccionado
+        document.getElementById('cboCultivo').addEventListener('change', function() {
+            const cultivoId = this.value;
+            const selectTrabajador = document.getElementById('cboTrabajador');
+
+            selectTrabajador.innerHTML = '<option value="">Seleccionar...</option>';
+
+            if (!cultivoId) return;
+
+            fetch('../Administrador/getTrabajadoresPorCultivo.jsp?cultivoId=' + cultivoId)
+                .then(response => response.json())
+                .then(trabajadores => {
+                    if (trabajadores.length === 0) {
+                        selectTrabajador.innerHTML = '<option value="">Sin trabajadores asignados</option>';
+                        return;
+                    }
+                    trabajadores.forEach(t => {
+                        const option = document.createElement('option');
+                        option.value = t.id;
+                        option.textContent = t.nombre;
+                        selectTrabajador.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error cargando trabajadores:', error));
         });
     </script>
 </body>

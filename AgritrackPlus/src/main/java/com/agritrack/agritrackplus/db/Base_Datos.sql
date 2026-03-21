@@ -313,22 +313,13 @@ SELECT * FROM supervisor;
 
 -- ===================== PAGOS =====================
 CREATE TABLE pagos (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  usuario_id INT NOT NULL,
-  fecha_pago DATE NOT NULL,
-  estado ENUM('Activo', 'No activo') NOT NULL,
-  pago DOUBLE NOT NULL,
-  FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    fecha_pago DATE NOT NULL,
+    estado ENUM('Activo', 'No activo') NOT NULL,
+    pago DOUBLE NOT NULL,
+    FOREIGN KEY (usuario_id)REFERENCES usuarios (id)
 );
-INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES
-(1, '2026-03-01', 'Activo', 2500000), (2, '2026-03-01', 'Activo', 1200000),
-(3, '2026-03-01', 'Activo', 1200000), (4, '2026-03-01', 'Activo', 1800000),
-(5, '2026-03-01', 'Activo', 1200000), (6, '2026-03-01', 'Activo', 1200000),
-(7, '2026-03-01', 'Activo', 1800000), (8, '2026-03-01', 'Activo', 1200000),
-(9, '2026-03-01', 'Activo', 1200000), (10, '2026-03-01', 'Activo', 2500000),
-(11, '2026-03-01', 'Activo', 1200000), (12, '2026-03-01', 'Activo', 1800000),
-(13, '2026-03-01', 'Activo', 1200000), (14, '2026-03-01', 'Activo', 1200000),
-(15, '2026-03-01', 'Activo', 1800000);
 SELECT * FROM pagos;
 
 -- ===================== TAREAS =====================
@@ -368,26 +359,6 @@ FOREIGN KEY (cultivo_id) REFERENCES cultivos(id),
 FOREIGN KEY (tarea_id) REFERENCES tareas(id),
 FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
-INSERT INTO usuario_tarea (cultivo_id, tarea_id, usuario_id, descripcion_actividad, jornada, estado) VALUES
-(1, 1, 6, 'Supervisión inicial del lote tomate', 'Mañana', 'Completada'),
-(1, 2, 2, 'Fumigación de plaga blanca', 'Mañana', 'En Proceso'),
-(2, 3, 3, 'Poda de mantenimiento cebolla', 'Tarde', 'Pendiente'),
-(3, 4, 4, 'Fertilización foliar pimentón', 'Mañana', 'Pendiente'),
-(4, 5, 5, 'Limpieza de maleza en papa', 'Tarde', 'En Proceso'),
-(5, 6, 6, 'Monitoreo de pulgón en zanahoria', 'Mañana', 'Pendiente'),
-(6, 7, 7, 'Cosecha de lechuga batavia', 'Mañana', 'Completada'),
-(7, 8, 8, 'Arado manual sector maíz', 'Tarde', 'Pendiente'),
-(8, 9, 9, 'Siembra de frijol cargamanto', 'Mañana', 'En Proceso'),
-(9, 10, 10, 'Abono orgánico en arveja', 'Tarde', 'Completada'),
-(10, 11, 11, 'Mantenimiento de riego cilantro', 'Mañana', 'Pendiente'),
-(11, 12, 12, 'Entutorado de pepino', 'Tarde', 'En Proceso'),
-(12, 13, 13, 'Deshije de brócoli', 'Mañana', 'Completada'),
-(13, 14, 14, 'Recolección de plásticos espinaca', 'Tarde', 'Pendiente'),
-(14, 15, 15, 'Afilado de herramienta ajo', 'Mañana', 'Completada'),
--- Tareas adicionales para que algunos tengan más de una
-(1, 4, 2, 'Segunda dosis fertilizante', 'Tarde', 'Pendiente'),
-(2, 5, 3, 'Control manual de malezas', 'Mañana', 'En Proceso'),
-(7, 10, 7, 'Refuerzo de abono en maíz', 'Tarde', 'Pendiente');
 SELECT * FROM usuario_tarea;
 
 DESCRIBE telefono;
@@ -397,7 +368,6 @@ ALTER TABLE stock_cultivo
 ADD CONSTRAINT fk_stock_producto
 FOREIGN KEY (producto_id) REFERENCES productos(id)
 ON DELETE CASCADE;
-USE AgritrackPlus;
 
 -- Agregamos la columna que falta
 ALTER TABLE cultivos ADD COLUMN supervisor_id INT NULL;
@@ -406,3 +376,8 @@ ALTER TABLE cultivos ADD COLUMN supervisor_id INT NULL;
 ALTER TABLE cultivos
 ADD CONSTRAINT fk_cultivo_supervisor
 FOREIGN KEY (supervisor_id) REFERENCES usuarios(id);
+
+ALTER TABLE usuario_tarea ADD COLUMN observacion VARCHAR(300) DEFAULT NULL;
+-- Esto borra ese millón doscientos que te está confundiendo
+TRUNCATE TABLE pagos;
+TRUNCATE TABLE usuario_tarea;

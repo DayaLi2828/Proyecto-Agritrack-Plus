@@ -73,7 +73,7 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 100%;
+    width: 96%;
     margin-top: 40px;
     padding-bottom: 100px;
 }
@@ -109,7 +109,27 @@ header {
     font-size: 26px;
     color: var(--color-subtitulo-cultivos);
 }
+.titulo__seccion {
+    width: 100%;
+    padding: 15px 20px;
+    margin: 20px 0 10px 0;
+    background-color: #047857;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content:center;
+}
 
+.titulo__seccion img {
+    width: 30px;
+    height: 30px;
+    filter: brightness(0) invert(1);
+}
 /* FORMULARIOS */
 .formulario__registrarcultivo input,
 .formulario__registrarcultivo select,

@@ -5,17 +5,16 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-    // Verifica que tu base de datos en MySQL se llame exactamente "AgritrackPlus"
-    private static final String DB = "jdbc:mysql://localhost:3306/agritrackplus?serverTimezone=UTC&useSSL=false";
+    // Se añade allowPublicKeyRetrieval=true para permitir la autenticación segura de MySQL
+    private static final String DB = "jdbc:mysql://localhost:3306/AgritrackPlus?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
     private static final String USER = "agriplus";
-    private static final String PASSWORD = "test123"; // Si en tu MySQL pusiste clave, escríbela aquí
+    private static final String PASSWORD = "#Aprendiz2024";
 
     public static Connection getConexion() throws SQLException {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(DB, USER, PASSWORD);
         } catch (ClassNotFoundException e) {
-            // Convertimos el error de Driver en un error de SQL para no dañar los DAOs
             throw new SQLException("Error: Driver MySQL no encontrado.", e);
         }
     }
