@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Pagos AgritrackPlus</title>
     <link rel="stylesheet" href="../../asset/Administrador/style_Gestion_Pagos.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
@@ -155,7 +156,11 @@
         const listaResultados = document.getElementById('listaResultados');
 
         if (!criterio) {
-            alert("Por favor, ingresa el nombre o documento.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campo requerido',
+                text: 'Por favor, ingresa el nombre o documento.'
+            });
             return;
         }
 
@@ -194,9 +199,12 @@
 
         } catch (error) {
             console.error("Error:", error);
-            alert("Error al conectar con el servidor.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'Error al conectar con el servidor.'
+            });
         }
-    }
 
     function generarFacturaPDF() {
         const { jsPDF } = window.jspdf;
@@ -208,7 +216,11 @@
         const filas = document.querySelectorAll('.fila__stock');
 
         if (vMedio <= 0 || vCompleto <= 0 || filas.length === 0) {
-            alert("Verifique los valores y que existan tareas en la lista.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Datos inválidos',
+                text: 'Verifique los valores y que existan tareas en la lista.'
+            });
             return;
         }
 
@@ -276,8 +288,11 @@
                       + "&total=" + total
                       + "&criterio=" + encodeURIComponent(criterio);
             await fetch(url);
-            alert("Pago registrado y tareas marcadas como pagadas.");
-            document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Proceso exitoso',
+                    text: 'Pago registrado y tareas marcadas como pagadas.'
+                });            document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
         } catch (e) {
             console.error("Error al guardar:", e);
         }
@@ -286,8 +301,14 @@
     async function buscarSupervisor() {
         const criterio = document.getElementById('busquedaSupervisor').value;
         const infoDiv = document.getElementById('infoSupervisor');
-        if (!criterio) { alert("Por favor, ingresa el nombre o documento del supervisor."); return; }
-        try {
+            if (!criterio) { 
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Campo requerido',
+                    text: 'Por favor, ingresa el nombre o documento del supervisor.'
+                });
+                return; 
+            }try {
             const url = "buscarSupervisor.jsp?criterio=" + encodeURIComponent(criterio);
             const response = await fetch(url);
             const data = await response.json();
@@ -308,7 +329,11 @@
                 '</div>';
         } catch (error) {
             console.error("Error:", error);
-            alert("Error al conectar con el servidor.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'Error al conectar con el servidor.'
+            });
         }
     }
 
@@ -319,9 +344,32 @@
         const salario = parseFloat(document.getElementById('salarioSupervisor').value) || 0;
         const infoDiv = document.getElementById('infoSupervisor');
 
-        if (!supervisor) { alert("Primero busca un supervisor."); return; }
-        if (salario <= 0) { alert("Ingresa el salario semanal del supervisor."); return; }
-        if (infoDiv.querySelector('.info-edicion')) { alert("Primero busca y confirma el supervisor."); return; }
+        if (!supervisor) { 
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acción requerida',
+                text: 'Primero busca un supervisor.'
+            });
+            return; 
+        }
+
+        if (salario <= 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Dato inválido',
+                text: 'Ingresa el salario semanal del supervisor.'
+            });
+            return; 
+        }
+
+        if (infoDiv.querySelector('.info-edicion')) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Acción pendiente',
+                text: 'Primero busca y confirma el supervisor.'
+            });
+            return;
+        }
 
         doc.setFillColor(4, 120, 87);
         doc.rect(0, 0, 210, 45, 'F');
@@ -349,8 +397,6 @@
             tareasSupervisor.forEach(t => {
                 if (!cultivosVistos.has(t.cultivo)) {
                     cultivosVistos.add(t.cultivo);
-                    doc.setFontSize(10);
-                    doc.setTextColor(31, 41, 55);
                     doc.text("• " + t.cultivo, 25, yPos);
                     yPos += 10;
                 }
@@ -358,7 +404,7 @@
         } else {
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100);
-            doc.text("Sin cultivos registrados.", 25, yPos);
+            doc.text("Supervisor sin tareas registradas (pago fijo aplicado).", 25, yPos);
             yPos += 10;
         }
 
@@ -393,7 +439,11 @@
                       + "&total=" + total
                       + "&criterio=" + encodeURIComponent(nombre);
             await fetch(url);
-            alert("Pago del supervisor registrado correctamente.");
+            Swal.fire({
+                    icon: 'success',
+                    title: 'Pago registrado',
+                    text: 'Pago del supervisor registrado correctamente.'
+                });            
             document.getElementById('infoSupervisor').innerHTML = '<div class="info-edicion">Pago procesado con exito.</div>';
             document.getElementById('salarioSupervisor').value = "";
             document.getElementById('busquedaSupervisor').value = "";

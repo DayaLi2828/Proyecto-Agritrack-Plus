@@ -35,14 +35,15 @@ public class PagoDAO {
     
     public List<Map<String, String>> buscarHistorialPorTrabajador(String criterio) {
         List<Map<String, String>> lista = new ArrayList<>();
-        // Unimos pagos con usuarios para traer el nombre del trabajador
-        String sql = "SELECT p.id, p.fecha_pago, p.pago, u.nombre " +
+        String sql = "SELECT p.id, p.fecha_pago, p.pago, u.nombre, r.nombre AS rol " +
                      "FROM pagos p " +
                      "JOIN usuarios u ON p.usuario_id = u.id " +
+                     "JOIN roles_usuarios ru ON u.id = ru.usuario_id " +
+                     "JOIN roles r ON ru.rol_id = r.id " +
                      "WHERE u.nombre LIKE ? OR u.documento LIKE ? " +
                      "ORDER BY p.id DESC";
 
-        try (Connection con = new Conexion().getConexion();
+        try (Connection con = Conexion.getConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             String busqueda = "%" + criterio + "%";
@@ -52,10 +53,11 @@ public class PagoDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Map<String, String> f = new HashMap<>();
-                    f.put("id", String.valueOf(rs.getInt("id")));
-                    f.put("fecha", rs.getString("fecha_pago"));
-                    f.put("total", String.valueOf(rs.getDouble("pago")));
+                    f.put("id",         String.valueOf(rs.getInt("id")));
+                    f.put("fecha",      rs.getString("fecha_pago"));
+                    f.put("total",      String.valueOf(rs.getDouble("pago")));
                     f.put("trabajador", rs.getString("nombre"));
+                    f.put("rol",        rs.getString("rol"));
                     lista.add(f);
                 }
             }
