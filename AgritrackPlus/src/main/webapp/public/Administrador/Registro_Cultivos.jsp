@@ -5,7 +5,7 @@
 <%
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores();
-    List<Map<String, String>> trabajadores = usuarioDAO.listarSoloTrabajadores();
+    List<Map<String, String>> trabajadoras = usuarioDAO.listarSoloTrabajadores();
     
     ProductoDAO productoDAO = new ProductoDAO();
     List<Map<String, String>> productos = productoDAO.listarProductos();
@@ -96,7 +96,7 @@
                   <option value="">Seleccione...</option>
                   <% for (Map<String, String> producto : productos) { %>
                     <option value="<%= producto.get("id") %>">
-                      <%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %>
+                      <%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %> - (Cantidad: <%= producto.get("cantidad") %>)
                     </option>
                   <% } %>
                 </select>
@@ -140,10 +140,10 @@
 
           <p>Seleccione los trabajadores que van a laborar en su cultivo:</p>
              <ul class="lista__trabajadores">
-                <% if (trabajadores.isEmpty()) { %>
+                <% if (trabajadoras.isEmpty()) { %>
                     <li>No hay trabajadores activos disponibles.</li>
                 <% } else {
-                    for (Map<String, String> t : trabajadores) { %>
+                    for (Map<String, String> t : trabajadoras) { %>
                     <li>
                         <label>
                             <input type="checkbox" name="trabajadores" value="<%= t.get("id") %>"> 
@@ -167,16 +167,11 @@
      * Función para validar que no haya negativos y mostrar alerta visual
      */
     function validarCantidad(input) {
-        const alerta = input.nextElementSibling;
-        
+        // Se asegura de que exista un elemento para mostrar error si lo necesitas, 
+        // pero mantenemos tu lógica de keydown y valor < 0.
         input.addEventListener('input', function() {
             if (this.value < 0) {
                 this.value = 0;
-                alerta.style.display = 'block';
-                this.classList.add('input-error');
-            } else {
-                alerta.style.display = 'none';
-                this.classList.remove('input-error');
             }
         });
 
@@ -191,7 +186,7 @@
     function agregarProducto() {
       var opciones = `<option value="">Seleccione...</option>
       <% for (Map<String, String> producto : productos) { %>
-        <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %></option>
+        <option value="<%= producto.get("id") %>"><%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %> - (Cantidad: <%= producto.get("cantidad") %>)</option>
       <% } %>`;
 
       var nuevaFila = document.createElement("div");
@@ -204,8 +199,6 @@
         <div class="campo">
           <label>Cantidad</label>
           <input type="number" name="cantidad_producto" class="input-cantidad" min="0" placeholder="Ingrese la cantidad">
-          
-          
         </div>
         <button type="button" class="boton__eliminar__fila" onclick="this.parentElement.remove()">✕ Quitar</button>
       `;
@@ -227,18 +220,21 @@
         const fechaActual = `\${anio}-\${mes}-\${dia}`;
 
         // 2. Bloquear visualmente el calendario
-        inputSiembra.setAttribute('max', fechaActual);
+        if(inputSiembra) {
+            inputSiembra.setAttribute('max', fechaActual);
 
-        // 3. Validación de seguridad fecha
-        inputSiembra.addEventListener('blur', function() {
-            if (this.value > fechaActual) {
-                alert("La fecha de siembra no puede ser mayor a la fecha actual.");
-                this.value = fechaActual;
-            }
-        });
+            // 3. Validación de seguridad fecha
+            inputSiembra.addEventListener('blur', function() {
+                if (this.value > fechaActual) {
+                    alert("La fecha de siembra no puede ser mayor a la fecha actual.");
+                    this.value = fechaActual;
+                }
+            });
+        }
 
         // 4. Aplicar validación de cantidad a los campos existentes al cargar
         document.querySelectorAll('.input-cantidad').forEach(validarCantidad);
+        
         // Alerta: stock insuficiente al intentar registrar
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('error') === 'insuficiente') {
