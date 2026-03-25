@@ -66,56 +66,69 @@ public class PagoDAO {
         }
         return lista;
     }
-    public boolean registrarPago(String nombre, String documento, double monto) {
-        // 1. Declaramos la conexión fuera para que sea accesible
-        Connection con = null; 
+ public boolean registrarPago(String nombre, String documento, double monto) {
+    Connection con = null;
+    String sqlBusqueda = "SELECT id FROM usuarios WHERE documento = ? OR nombre LIKE ?";
+    String sqlInsert = "INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES (?, CURDATE(), 'Activo', ?)";
+    String sqlUpdateTareas = "UPDATE usuario_tarea SET estado = 'Pagado' " +
+                             "WHERE usuario_id = ? AND estado IN ('Completada', 'En Proceso')";
 
-        // Consulta para obtener el ID
-        String sqlBusqueda = "SELECT id FROM usuarios WHERE nombre = ?";
-        // Consulta para insertar el pago
-        String sqlInsert = "INSERT INTO pagos (usuario_id, fecha_pago, estado, pago) VALUES (?, CURDATE(), 'Activo', ?)";
-        // Consulta para actualizar las tareas (LA QUE TE DIO ERROR)
-        String sqlUpdateTareas = "UPDATE usuario_tarea SET estado = 'Pagado' " +
-                         "WHERE usuario_id = ? AND estado IN ('Completada', 'En Proceso')";
-        try {
-            con = new Conexion().getConexion(); // <--- AQUÍ SE DEFINE 'con'
-            int usuarioId = -1; // <--- AQUÍ SE DEFINE 'usuarioId'
+    try {
+        con = com.agritrack.agritrackplus.db.Conexion.getConexion();
+        // 1. IMPORTANTE: Desactivar el autocommit para manejar la transacción manualmente
+        con.setAutoCommit(false); 
 
-            // PASO A: Buscar el ID del usuario
-            try (PreparedStatement psBusqueda = con.prepareStatement(sqlBusqueda)) {
-                psBusqueda.setString(1, nombre);
-                try (ResultSet rs = psBusqueda.executeQuery()) {
-                    if (rs.next()) {
-                        usuarioId = rs.getInt("id");
-                    }
+        int usuarioId = -1;
+
+        // PASO A: Buscar el ID
+        try (PreparedStatement psBusqueda = con.prepareStatement(sqlBusqueda)) {
+            psBusqueda.setString(1, documento.trim());
+            psBusqueda.setString(2, "%" + nombre.trim() + "%");            
+            try (ResultSet rs = psBusqueda.executeQuery()) {
+                if (rs.next()) {
+                    usuarioId = rs.getInt("id");
                 }
             }
+        }
 
-            if (usuarioId == -1) return false;
-
-            // PASO B: Insertar el registro de pago
-            try (PreparedStatement psInsert = con.prepareStatement(sqlInsert)) {
-                psInsert.setInt(1, usuarioId);
-                psInsert.setDouble(2, monto);
-                psInsert.executeUpdate();
-            }
-
-            // PASO C: Actualizar tareas a 'Pagado' (USANDO LAS VARIABLES YA DEFINIDAS)
-            try (PreparedStatement psUpdate = con.prepareStatement(sqlUpdateTareas)) {
-                psUpdate.setInt(1, usuarioId); // Ahora sí reconoce 'usuarioId'
-                psUpdate.executeUpdate();
-            }
-
-            return true;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        // Si no lo encuentra, salimos
+        if (usuarioId == -1) {
             return false;
-        } finally {
-            // Siempre cerrar la conexión manual si no usas try-with-resources en 'con'
-            if (con != null) try { con.close(); } catch (SQLException e) {}
+        }
+
+        // PASO B: Insertar el pago
+        try (PreparedStatement psInsert = con.prepareStatement(sqlInsert)) {
+            psInsert.setInt(1, usuarioId);
+            psInsert.setDouble(2, monto);
+            psInsert.executeUpdate();
+        }
+
+        // PASO C: Marcar tareas como pagadas
+        try (PreparedStatement psUpdate = con.prepareStatement(sqlUpdateTareas)) {
+            psUpdate.setInt(1, usuarioId);
+            psUpdate.executeUpdate();
+        }
+
+        // 2. CONFIRMAR CAMBIOS: Sin esto, los datos NO se guardan en la DB
+        con.commit();
+        return true;
+
+    } catch (SQLException e) {
+        // 3. REVERTIR: Si algo falla (ej. error de red), deshacemos todo para no dejar datos a medias
+        if (con != null) {
+            try { con.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+        }
+        e.printStackTrace();
+        return false;
+    } finally {
+        if (con != null) {
+            try { 
+                con.setAutoCommit(true); // Devolver al estado original
+                con.close(); 
+            } catch (SQLException e) {}
         }
     }
+}
     public List<Map<String, Object>> obtenerHistorialPagos(String criterio) {
         List<Map<String, Object>> lista = new ArrayList<>();
         // Buscamos por nombre o documento uniendo con la tabla usuarios

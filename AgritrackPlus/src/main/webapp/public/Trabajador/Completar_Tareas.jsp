@@ -24,6 +24,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mis tareas asignadas - AgritrackPlus</title>
     <link rel="stylesheet" href="../../asset/Trabajador/style_completarTareas.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <header>
@@ -104,13 +105,23 @@
         buscador.addEventListener('input', filtrar);
         filtro.addEventListener('change', filtrar);
 
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('status') === 'success') {
-                alert("¡Estado de la tarea actualizado con éxito!");
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        };
+       window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    if (urlParams.get('status') === 'success') {
+        Swal.fire({
+            icon: 'success',
+            title: '¡Actualización exitosa!',
+            text: 'El estado de la tarea se ha actualizado correctamente.',
+            confirmButtonColor: '#047857', // Verde esmeralda de tu proyecto
+            timer: 3000, // Se cierra sola tras 3 segundos si el usuario no hace clic
+            timerProgressBar: true
+        }).then(() => {
+            // Limpia la URL (quita el ?status=success)
+            window.history.replaceState({}, document.title, window.location.pathname);
+        });
+    }
+};
     </script>
   </body>
 </html>

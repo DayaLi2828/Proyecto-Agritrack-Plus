@@ -204,7 +204,7 @@
                 title: 'Error de conexión',
                 text: 'Error al conectar con el servidor.'
             });
-        }
+    }   }
 
     function generarFacturaPDF() {
         const { jsPDF } = window.jspdf;
@@ -312,7 +312,8 @@
             const url = "buscarSupervisor.jsp?criterio=" + encodeURIComponent(criterio);
             const response = await fetch(url);
             const data = await response.json();
-            if (!data || data.error) {
+            if (!data || d
+            ata.error) {
                 infoDiv.innerHTML = '<div class="info-edicion">No se encontro ningun supervisor con ese criterio.</div>';
                 tareasSupervisor = [];
                 return;
@@ -344,90 +345,78 @@
         const salario = parseFloat(document.getElementById('salarioSupervisor').value) || 0;
         const infoDiv = document.getElementById('infoSupervisor');
 
-        if (!supervisor) { 
-            Swal.fire({
-                icon: 'warning',
-                title: 'Acción requerida',
-                text: 'Primero busca un supervisor.'
-            });
+        // Validaciones previas
+        if (!supervisor || infoDiv.querySelector('.info-edicion')) { 
+            Swal.fire({ icon: 'warning', title: 'Atención', text: 'Busca y confirma un supervisor primero.' });
             return; 
         }
-
         if (salario <= 0) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Dato inválido',
-                text: 'Ingresa el salario semanal del supervisor.'
-            });
+            Swal.fire({ icon: 'warning', title: 'Dato inválido', text: 'Ingresa el salario semanal.' });
             return; 
         }
 
-        if (infoDiv.querySelector('.info-edicion')) {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Acción pendiente',
-                text: 'Primero busca y confirma el supervisor.'
-            });
-            return;
-        }
-
-        doc.setFillColor(4, 120, 87);
-        doc.rect(0, 0, 210, 45, 'F');
+        // --- DISEÑO DEL ENCABEZADO ---
+        doc.setFillColor(4, 120, 87); // Color verde Agritrack
+        doc.rect(0, 0, 210, 40, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(22);
         doc.text("AGRITRACK PLUS", 20, 25);
         doc.setFontSize(10);
-        doc.text("Comprobante de Pago - Supervisor", 20, 35);
+        doc.text("Comprobante de Pago - Rol Supervisor", 20, 33);
+
+        // Datos del documento
         doc.setTextColor(55, 65, 81);
         doc.setFontSize(11);
-        doc.text("Supervisor: " + supervisor, 20, 60);
-        doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 67);
+        doc.text("Supervisor: " + supervisor, 20, 55);
+        doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 62);
 
-        let yPos = 82;
+        let yPos = 75;
 
+        // --- SECCIÓN DE CULTIVOS SUPERVISADOS ---
         doc.setFillColor(55, 65, 81);
         doc.rect(20, yPos, 170, 8, 'F');
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(10);
-        doc.text("Cultivos supervisados", 25, yPos + 5);
+        doc.text("Lista de Cultivos Supervisados", 25, yPos + 5);
         yPos += 15;
 
+        doc.setTextColor(31, 41, 55);
+
         if (tareasSupervisor && tareasSupervisor.length > 0) {
-            const cultivosVistos = new Set();
-            tareasSupervisor.forEach(t => {
-                if (!cultivosVistos.has(t.cultivo)) {
-                    cultivosVistos.add(t.cultivo);
-                    doc.text("• " + t.cultivo, 25, yPos);
-                    yPos += 10;
-                }
+            // Filtrar cultivos únicos para que no se repitan
+            const cultivosUnicos = [...new Set(tareasSupervisor.map(t => t.cultivo))];
+
+            cultivosUnicos.forEach((nombreCultivo) => {
+                doc.text("• " + (nombreCultivo || "Cultivo no especificado"), 25, yPos);
+                yPos += 10;
+
+                // Control de salto de página
+                if (yPos > 270) { doc.addPage(); yPos = 20; }
             });
         } else {
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100);
-            doc.text("Supervisor sin tareas registradas (pago fijo aplicado).", 25, yPos);
+            doc.text("No se encontraron registros de cultivos específicos.", 25, yPos);
             yPos += 10;
         }
 
-        yPos += 5;
-        doc.setFillColor(55, 65, 81);
-        doc.rect(20, yPos, 170, 8, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(10);
-        doc.text("Concepto", 25, yPos + 5);
-        doc.text("Monto", 165, yPos + 5);
-        yPos += 15;
+        // --- SECCIÓN DE PAGO ---
+        yPos += 10;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(20, yPos, 190, yPos); // Línea divisoria
+        yPos += 10;
 
         doc.setFontSize(11);
         doc.setTextColor(31, 41, 55);
-        doc.text("Salario semanal de supervision", 25, yPos);
-        doc.text("$" + salario.toLocaleString(), 165, yPos);
-        yPos += 20;
+        doc.text("Concepto: Salario de supervisión semanal", 25, yPos);
+        doc.text("$" + salario.toLocaleString(), 160, yPos);
 
+        yPos += 15;
         doc.setFillColor(4, 120, 87);
-        doc.rect(130, yPos, 60, 15, 'F');
+        doc.rect(130, yPos, 60, 12, 'F');
         doc.setTextColor(255, 255, 255);
-        doc.text("TOTAL A PAGAR: $" + salario.toLocaleString(), 135, yPos + 10);
+        doc.text("TOTAL: $" + salario.toLocaleString(), 135, yPos + 8);
 
+        // Guardar en BD y descargar
         guardarPagoSupervisor(supervisor, salario);
         doc.save("Factura_Supervisor_" + supervisor.replace(/\s+/g, '_') + ".pdf");
     }

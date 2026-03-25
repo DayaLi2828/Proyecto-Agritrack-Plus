@@ -378,6 +378,3 @@ ADD CONSTRAINT fk_cultivo_supervisor
 FOREIGN KEY (supervisor_id) REFERENCES usuarios(id);
 
 ALTER TABLE usuario_tarea ADD COLUMN observacion VARCHAR(300) DEFAULT NULL;
--- Esto borra ese millón doscientos que te está confundiendo
-TRUNCATE TABLE pagos;
-TRUNCATE TABLE usuario_tarea;

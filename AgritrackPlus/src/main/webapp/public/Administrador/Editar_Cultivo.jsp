@@ -4,30 +4,25 @@
 <%@ page import="com.agritrack.agritrackplus.DAO.ProductoDAO" %>
 <%@ page import="java.util.List, java.util.Map, java.util.ArrayList" %>
 <%
-    // 1. Recuperamos el ID de la URL
     String idParam = request.getParameter("id");
     Registro_CultivoDAO dao = new Registro_CultivoDAO();
     UsuarioDAO usuarioDAO = new UsuarioDAO();
     ProductoDAO productoDAO = new ProductoDAO();
 
-    // 2. Buscamos el cultivo directamente aquí (esto evita el NullPointerException)
     Map<String, String> cultivo = null;
     if (idParam != null && !idParam.isEmpty()) {
         cultivo = dao.obtenerCultivoPorId(Integer.parseInt(idParam));
     }
 
-    // Si el cultivo no existe, redirigimos para evitar errores en el resto de la página
     if (cultivo == null) {
         response.sendRedirect("Cultivos_Registrados.jsp?error=no_encontrado");
         return; 
     }
 
-    // 3. Cargamos las listas para los Selects
     List<Map<String, String>> supervisores = usuarioDAO.listarSoloSupervisores(); 
     List<Map<String, String>> trabajadores = usuarioDAO.listarSoloTrabajadores();
     List<Map<String, String>> productos = productoDAO.listarProductos();
 
-    // 4. Trabajadores y productos ya asignados
     List<Map<String, String>> trabajadoresAsignados = dao.obtenerTrabajadoresCultivo(Integer.parseInt(idParam));
     List<String> idsTrabajadoresAsignados = new ArrayList<>();
     if (trabajadoresAsignados != null) {
@@ -44,6 +39,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Cultivo</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_RegistroCultivos.css">
+  <!-- SweetAlert2 agregado -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <header>
@@ -116,8 +113,9 @@
                     <label>Producto</label>
                     <select name="producto_id">
                       <% for (Map<String, String> p : productos) { %>
-                        <option value="<%= p.get("id") %>" <%= String.valueOf(p.get("id")).equals(String.valueOf(pa.get("id"))) ? "selected" : "" %>>
-                          <%= p.get("nombre") %> - <%= p.get("tipo") %>
+                        <option value="<%= p.get("id") %>"
+                          <%= String.valueOf(p.get("id")).equals(String.valueOf(pa.get("id"))) ? "selected" : "" %>>
+                          <%= p.get("nombre") %> - <%= p.get("tipo_nombre") %>
                         </option>
                       <% } %>
                     </select>
@@ -163,19 +161,21 @@
           </div>
 
           <p>Seleccione los trabajadores que van a laborar en su cultivo:</p>
-             <ul class="lista__trabajadores">
-                <% for (Map<String, String> t : trabajadores) { %>
-                    <li>
-                        <label>
-                            <input type="checkbox" name="trabajadores" value="<%= t.get("id") %>"
-                                <%= idsTrabajadoresAsignados.contains(String.valueOf(t.get("id"))) ? "checked" : "" %>> 
-                            <%= t.get("nombre") %>
-                        </label>
-                    </li>
-                <% } %>
-            </ul>
+          <ul class="lista__trabajadores">
+            <% for (Map<String, String> t : trabajadores) { %>
+                <li>
+                    <label>
+                        <input type="checkbox" name="trabajadores" value="<%= t.get("id") %>"
+                            <%= idsTrabajadoresAsignados.contains(String.valueOf(t.get("id"))) ? "checked" : "" %>> 
+                        <%= t.get("nombre") %>
+                    </label>
+                </li>
+            <% } %>
+          </ul>
         </div>
-            <input type="hidden" name="estado" value="<%= cultivo.get("estado") %>">
+
+        <input type="hidden" name="estado" value="<%= cultivo.get("estado") %>">
+
         <div class="contenedor__boton--enviar">
           <button type="submit" class="boton__enviar">💾 Guardar Cambios</button>
         </div>
@@ -184,15 +184,38 @@
     </div>
   </main>
 
-    <script>
-        function agregarProducto() {
-        const contenedor = document.getElementById("contenedor__productos");
+  <script>
+    // Alerta de stock insuficiente o error general
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const error = urlParams.get('error');
 
-        // 1. Crear el contenedor principal de la fila
+        if (error === 'insuficiente') {
+            const detalle = urlParams.get('detalle') || '';
+            Swal.fire({
+                icon: 'error',
+                title: 'Stock insuficiente',
+                html: 'No se pudo guardar la edición.<br><br><b>' +
+                      decodeURIComponent(detalle) + '</b>',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Corregir'
+            });
+        } else if (error === 'true' || error === 'excepcion') {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al guardar los cambios. Intenta de nuevo.',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Cerrar'
+            });
+        }
+    });
+
+    function agregarProducto() {
+        const contenedor = document.getElementById("contenedor__productos");
         const nuevaFila = document.createElement("div");
         nuevaFila.classList.add("contenedor__campos", "fila__stock");
 
-        // --- COLUMNA PRODUCTO ---
         const divProducto = document.createElement("div");
         divProducto.classList.add("campo");
 
@@ -207,18 +230,16 @@
         optionDefault.textContent = "Seleccione...";
         selectProducto.appendChild(optionDefault);
 
-        // Llenar opciones desde JSP
         <% for (Map<String, String> producto : productos) { %>
             const opt<%= producto.get("id") %> = document.createElement("option");
             opt<%= producto.get("id") %>.value = "<%= producto.get("id") %>";
-            opt<%= producto.get("id") %>.textContent = "<%= producto.get("nombre") %> - <%= producto.get("tipo") %>";
+            opt<%= producto.get("id") %>.textContent = "<%= producto.get("nombre") %> - <%= producto.get("tipo_nombre") %>";
             selectProducto.appendChild(opt<%= producto.get("id") %>);
         <% } %>
 
         divProducto.appendChild(labelProducto);
         divProducto.appendChild(selectProducto);
 
-        // --- COLUMNA CANTIDAD ---
         const divCantidad = document.createElement("div");
         divCantidad.classList.add("campo");
 
@@ -234,23 +255,17 @@
         divCantidad.appendChild(labelCantidad);
         divCantidad.appendChild(inputCantidad);
 
-        // --- BOTÓN ELIMINAR ---
         const btnEliminar = document.createElement("button");
         btnEliminar.type = "button";
         btnEliminar.classList.add("boton__eliminar__fila");
         btnEliminar.textContent = "✕ Quitar";
-        btnEliminar.onclick = function() {
-            nuevaFila.remove();
-        };
+        btnEliminar.onclick = function() { nuevaFila.remove(); };
 
-        // 2. Armar la estructura final
         nuevaFila.appendChild(divProducto);
         nuevaFila.appendChild(divCantidad);
         nuevaFila.appendChild(btnEliminar);
-
-        // 3. Insertar en el contenedor
         contenedor.appendChild(nuevaFila);
     }
-    </script>
+  </script>
 </body>
 </html>

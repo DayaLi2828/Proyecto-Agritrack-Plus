@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Gestión de Productos</title>
     <link rel="stylesheet" href="../../asset/Administrador/style_CultivosRegistrados.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <header>
@@ -23,18 +24,11 @@
                 <img class="logo" src="../../asset/imagenes/hoja (3).png" alt="Logo Agritrack"/>
             </div>
             <h1 class="titulo">Inventario de Productos</h1>
-                <a href="Agregar_Producto.jsp" class="boton">Añadir Producto</a>
+            <a href="Agregar_Producto.jsp" class="boton">Añadir Producto</a>
         </div>
     </header>
 
     <main>
-        <%-- Bloque de alertas actualizado para distinguir entre registro y edición --%>
-        <% if ("exitoso".equals(request.getParameter("registro"))) { %>
-            <div id="alerta-sistema" class="alerta-exito">¡Producto registrado con éxito!</div>
-        <% } else if ("exitosa".equals(request.getParameter("actualizacion"))) { %>
-            <div id="alerta-sistema" class="alerta-exito" >¡Producto actualizado correctamente!</div>
-        <% } %>
-
         <div class="buscador__contenedor">
             <input type="text" id="buscador" placeholder=" Buscar producto por nombre..."/>
             <select id="filtroEstado">
@@ -82,12 +76,11 @@
 
                     <div class="acciones-contenedor">
                         <a href="Agregar_Producto.jsp?id=<%= id %>" class="boton__editar">Editar</a>                        
-                        <form action="<%=request.getContextPath()%>/EliminarProductoServlet" method="post" 
-                              onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');" 
-                              style="display: contents;">
-                            <input type="hidden" name="id" value="<%= id %>">
-                            <button type="submit" class="boton__eliminar">Eliminar</button>
-                        </form>
+                        
+                        <%-- Botón de eliminación con SweetAlert2 --%>
+                        <button type="button" class="boton__eliminar" onclick="confirmarEliminarProducto('<%= id %>', '<%= nombre %>')">
+                            Eliminar
+                        </button>
                     </div>
                 </div>
             <%
@@ -98,6 +91,65 @@
     </main>
 
     <script>
+        // 1. Alertas de éxito al cargar (Registro / Actualización / Estado)
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const registro = urlParams.get('registro');
+            const actualizacion = urlParams.get('actualizacion');
+            const mensaje = urlParams.get('mensaje');
+
+            let config = {
+                timer: 3000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+                icon: 'success'
+            };
+
+            if (registro === 'exitoso') {
+                Swal.fire({ ...config, title: '¡Producto Registrado!', text: 'Se ha añadido correctamente al inventario.' });
+            } else if (actualizacion === 'exitosa') {
+                Swal.fire({ ...config, title: '¡Actualización Exitosa!', text: 'Los datos del producto han sido modificados.' });
+            } else if (mensaje === 'estado') {
+                Swal.fire({ ...config, title: 'Estado Cambiado', text: 'La disponibilidad del producto ha sido actualizada.', icon: 'info' });
+            } else if (mensaje === 'eliminado') {
+                Swal.fire({ ...config, title: '¡Eliminado!', text: 'El producto se retiró del inventario.' });
+            }
+
+            // Limpiar URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        };
+
+        // 2. Función para confirmar eliminación con SweetAlert2
+        function confirmarEliminarProducto(id, nombre) {
+            Swal.fire({
+                title: '¿Eliminar producto?',
+                text: "Estás por borrar: " + nombre + ". Esta acción es permanente.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Crear y enviar formulario dinámico para POST
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '<%=request.getContextPath()%>/EliminarProductoServlet';
+                    
+                    const inputId = document.createElement('input');
+                    inputId.type = 'hidden';
+                    inputId.name = 'id';
+                    inputId.value = id;
+                    
+                    form.appendChild(inputId);
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+
+        // 3. Buscador y Filtro
         function filtrar(){
             let texto = document.getElementById("buscador").value.toLowerCase();
             let estadoFiltro = document.getElementById("filtroEstado").value.toLowerCase();

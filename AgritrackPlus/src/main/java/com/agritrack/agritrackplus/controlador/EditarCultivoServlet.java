@@ -22,54 +22,49 @@ public class EditarCultivoServlet extends HttpServlet {
         String fechaSiembra = request.getParameter("fecha_siembra");
         String fechaCosecha = request.getParameter("fecha_cosecha");
         String ciclo = request.getParameter("ciclo");
-        String estado = request.getParameter("estado");
-        
-        // 1. CAPTURAR EL SUPERVISOR (Esto es lo que faltaba)
+        String estado = (request.getParameter("estado") != null) ? request.getParameter("estado") : "Activo";
+
         String supervisorIdStr = request.getParameter("supervisor_id");
-        int supervisorId = (supervisorIdStr != null && !supervisorIdStr.isEmpty()) 
+        int supervisorId = (supervisorIdStr != null && !supervisorIdStr.isEmpty())
                            ? Integer.parseInt(supervisorIdStr) : 0;
-        
-        String[] trabajadores = request.getParameterValues("trabajadores");
-        String[] productos = request.getParameterValues("producto_id");
-        
-        if (fechaCosecha == null || fechaCosecha.trim().isEmpty()) {
-            fechaCosecha = null;
-        }
+
+        String[] productoIds = request.getParameterValues("producto_id");
+        String[] cantidades = request.getParameterValues("cantidad_producto");
+        String[] trabajadoresIds = request.getParameterValues("trabajadores");
 
         Registro_CultivoDAO dao = new Registro_CultivoDAO();
 
-        // 2. ACTUALIZAR LLAMADA AL DAO (Agregamos supervisorId al final)
-        boolean actualizado = dao.editar(id, nombre, fechaSiembra, fechaCosecha, ciclo, estado, supervisorId);
+        try {
+            String resultado = dao.editarCultivoCompleto(
+                id, nombre, fechaSiembra, fechaCosecha, ciclo, estado, supervisorId,
+                productoIds, cantidades, trabajadoresIds
+            );
 
-        if (actualizado) {
-            int idCultivo = Integer.parseInt(id);
+            if (resultado.equals("ok")) {
+                response.sendRedirect(request.getContextPath() +
+                    "/public/Administrador/Cultivos_Registrados.jsp?mensaje=actualizado");
 
-            // 3. Actualizar trabajadores
-            if (trabajadores != null) {
-                dao.eliminarTrabajadoresCultivo(idCultivo);
-                for (String tId : trabajadores) {
-                    if (tId != null && !tId.isEmpty()) {
-                        dao.asignarTrabajador(idCultivo, Integer.parseInt(tId));
-                    }
-                }
+            } else if (resultado.startsWith("agotado:")) {
+                String nombresAgotados = resultado.substring("agotado:".length());
+                response.sendRedirect(request.getContextPath() +
+                    "/public/Administrador/Cultivos_Registrados.jsp?mensaje=actualizado&agotado=" +
+                    java.net.URLEncoder.encode(nombresAgotados, "UTF-8"));
+
+            } else if (resultado.startsWith("insuficiente:")) {
+                String detalle = resultado.substring("insuficiente:".length());
+                response.sendRedirect(request.getContextPath() +
+                    "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=insuficiente&detalle=" +
+                    java.net.URLEncoder.encode(detalle, "UTF-8"));
+
+            } else {
+                response.sendRedirect(request.getContextPath() +
+                    "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=true");
             }
 
-            // 4. Actualizar productos
-            if (productos != null) {
-                dao.eliminarProductosCultivo(idCultivo);
-                for (String pId : productos) {
-                    if (pId != null && !pId.isEmpty()) {
-                        dao.asignarProducto(idCultivo, Integer.parseInt(pId));
-                    }
-                }
-            }
-
-            response.sendRedirect(request.getContextPath()
-                    + "/public/Administrador/Detalles_Cultivo.jsp?id=" + id);
-
-        } else {
-            response.sendRedirect(request.getContextPath()
-                    + "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=true");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() +
+                "/public/Administrador/Editar_Cultivo.jsp?id=" + id + "&error=excepcion");
         }
     }
 }

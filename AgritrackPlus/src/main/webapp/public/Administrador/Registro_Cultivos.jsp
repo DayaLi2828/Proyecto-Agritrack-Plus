@@ -17,7 +17,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrar Cultivo</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_RegistroCultivos.css">
-  
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
   <header>
@@ -44,7 +44,11 @@
     <form class="formulario__registrarcultivo" method="post" action="<%= request.getContextPath() %>/Registro_CultivoServlet">
         
         <input type="hidden" name="estado" value="Activo">
-
+        <%-- Campo para modo edición --%>
+        <% String cultivoId = request.getParameter("id"); %>
+        <% if (cultivoId != null && !cultivoId.isEmpty()) { %>
+            <input type="hidden" name="id" value="<%= cultivoId %>">
+        <% } %>
         <div class="contendor__cajas">
           <div class="contendor__subtitulo">
             <div class="caja__logo">
@@ -235,6 +239,19 @@
 
         // 4. Aplicar validación de cantidad a los campos existentes al cargar
         document.querySelectorAll('.input-cantidad').forEach(validarCantidad);
+        // Alerta: stock insuficiente al intentar registrar
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('error') === 'insuficiente') {
+            const detalle = urlParams.get('detalle') || '';
+            Swal.fire({
+                icon: 'error',
+                title: 'Stock insuficiente',
+                html: 'No se pudo registrar el cultivo.<br><br><b>' + 
+                      decodeURIComponent(detalle) + '</b>',
+                confirmButtonColor: '#d33',
+                confirmButtonText: 'Corregir'
+            });
+        }
     });
   </script>
 </body>

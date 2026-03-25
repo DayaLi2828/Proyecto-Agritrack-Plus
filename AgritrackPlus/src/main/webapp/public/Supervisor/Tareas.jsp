@@ -38,6 +38,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Tareas - AgritrackPlus</title>
     <link rel="stylesheet" href="../../asset/Supervisor/style-tareas.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
     <header>
@@ -148,37 +150,45 @@
 
     </main>
 
-    <script>
-        const buscador = document.getElementById('buscadorInput');
-        const filtro = document.getElementById('filtroEstado');
-        const tareasCards = document.querySelectorAll('.contendor__padre');
+<script>
+    const buscador = document.getElementById('buscadorInput');
+    const filtro = document.getElementById('filtroEstado');
+    const tareasCards = document.querySelectorAll('.contendor__padre');
 
-        function filtrar() {
-            const texto = buscador.value.toLowerCase();
-            const estadoSel = filtro.value;
+    function filtrar() {
+        const texto = buscador.value.toLowerCase();
+        const estadoSel = filtro.value;
 
-            tareasCards.forEach(card => {
-                const tituloTarea = card.querySelector('.contenedores__tareas h2').textContent.toLowerCase();
-                const tituloCultivo = card.querySelector('.titulo__cultivo').textContent.toLowerCase();
-                const estadoTarea = card.querySelector('.estado p').textContent.trim();
+        tareasCards.forEach(card => {
+            const tituloTarea = card.querySelector('.contenedores__tareas h2').textContent.toLowerCase();
+            const tituloCultivo = card.querySelector('.titulo__cultivo').textContent.toLowerCase();
+            const estadoTarea = card.querySelector('.estado p').textContent.trim();
 
-                const coincideTexto = tituloTarea.includes(texto) || tituloCultivo.includes(texto);
-                const coincideEstado = estadoSel === 'todas' || estadoTarea === estadoSel;
+            const coincideTexto = tituloTarea.includes(texto) || tituloCultivo.includes(texto);
+            const coincideEstado = estadoSel === 'todas' || estadoTarea === estadoSel;
 
-                card.style.display = (coincideTexto && coincideEstado) ? "" : "none";
+            card.style.display = (coincideTexto && coincideEstado) ? "" : "none";
+        });
+    }
+
+    buscador.addEventListener('input', filtrar);
+    filtro.addEventListener('change', filtrar);
+
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('status') === 'success') {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Proceso exitoso!',
+                text: 'Tarea creada y asignada con éxito.',
+                confirmButtonColor: '#047857'
+            }).then(() => {
+                // Esto limpia la URL después de que el usuario cierra la alerta
+                window.history.replaceState({}, document.title, window.location.pathname);
             });
         }
-
-        buscador.addEventListener('input', filtrar);
-        filtro.addEventListener('change', filtrar);
-
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('status') === 'success') {
-                alert("¡Tarea creada y asignada con éxito!");
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        };
-    </script>
+    };
+</script>
+</script>
 </body>
 </html>

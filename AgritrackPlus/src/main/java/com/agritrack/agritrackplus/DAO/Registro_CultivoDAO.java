@@ -104,24 +104,27 @@ public class Registro_CultivoDAO {
         }
     }
 
-    public boolean registrarCultivoCompleto(String nombre, String fechaSiembra, String ciclo,
+    public String registrarCultivoCompleto(String nombre, String fechaSiembra, String ciclo,
         int supervisorId, String[] productoIds, String[] cantidades, String[] trabajadoresIds) {
+
         Connection conn = null;
+        List<String> productosAgotados = new ArrayList<>();
+
         try {
             conn = Conexion.getConexion();
+            conn.setAutoCommit(false); // Iniciar transacción
+
             // 1. Insertar el cultivo principal
             String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo, supervisor_id, estado) VALUES (?,?,?,?,'Activo')";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, nombre);
             ps.setString(2, fechaSiembra);
             ps.setString(3, ciclo);
-
             if (supervisorId == 0) {
                 ps.setNull(4, java.sql.Types.INTEGER);
             } else {
                 ps.setInt(4, supervisorId);
             }
-
             ps.executeUpdate();
 
             // 2. Obtener el ID generado
@@ -131,22 +134,56 @@ public class Registro_CultivoDAO {
                 cultivoId = rs.getInt(1);
             }
 
-            // 3. Asignar Productos con su CANTIDAD REAL
+            // 3. Asignar Productos, descontar stock y detectar agotados
             if (productoIds != null && cultivoId > 0) {
                 for (int i = 0; i < productoIds.length; i++) {
-                    if (productoIds[i] != null && !productoIds[i].isEmpty()) {
-                        int pId = Integer.parseInt(productoIds[i]);
-                        // Usamos la cantidad del array, si no existe ponemos 1
-                        int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty()) 
-                                   ? Integer.parseInt(cantidades[i]) : 1;
+                    if (productoIds[i] == null || productoIds[i].isEmpty()) continue;
 
-                        // Insert directo para asegurar que use la cantidad
-                        String sqlProd = "INSERT INTO stock_cultivo(cultivo_id, producto_id, cantidad) VALUES(?,?,?)";
-                        try (PreparedStatement psProd = conn.prepareStatement(sqlProd)) {
-                            psProd.setInt(1, cultivoId);
-                            psProd.setInt(2, pId);
-                            psProd.setInt(3, cant);
-                            psProd.executeUpdate();
+                    int pId = Integer.parseInt(productoIds[i]);
+                    int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty())
+                               ? Integer.parseInt(cantidades[i]) : 1;
+
+                    // 3a. Verificar stock disponible
+                    String sqlStock = "SELECT nombre, cantidad FROM productos WHERE id = ?";
+                    try (PreparedStatement psStock = conn.prepareStatement(sqlStock)) {
+                        psStock.setInt(1, pId);
+                        ResultSet rsStock = psStock.executeQuery();
+                        if (rsStock.next()) {
+                            int disponible = rsStock.getInt("cantidad");
+                            String nombreProducto = rsStock.getString("nombre");
+
+                            if (disponible < cant) {
+                                // Stock insuficiente: revertir todo
+                                conn.rollback();
+                                return "insuficiente:" + nombreProducto + " (disponible: " + disponible + ")";
+                            }
+                        }
+                    }
+
+                    // 3b. Insertar en stock_cultivo
+                    String sqlProd = "INSERT INTO stock_cultivo(cultivo_id, producto_id, cantidad) VALUES(?,?,?)";
+                    try (PreparedStatement psProd = conn.prepareStatement(sqlProd)) {
+                        psProd.setInt(1, cultivoId);
+                        psProd.setInt(2, pId);
+                        psProd.setInt(3, cant);
+                        psProd.executeUpdate();
+                    }
+
+                    // 3c. Descontar del inventario
+                    String sqlDescontar = "UPDATE productos SET cantidad = cantidad - ? WHERE id = ?";
+                    try (PreparedStatement psDesc = conn.prepareStatement(sqlDescontar)) {
+                        psDesc.setInt(1, cant);
+                        psDesc.setInt(2, pId);
+                        psDesc.executeUpdate();
+                    }
+
+                    // 3d. Verificar si quedó en 0
+                    String sqlVerificar = "SELECT nombre, cantidad FROM productos WHERE id = ?";
+                    try (PreparedStatement psVer = conn.prepareStatement(sqlVerificar)) {
+                        psVer.setInt(1, pId);
+                        ResultSet rsVer = psVer.executeQuery();
+                        if (rsVer.next() && rsVer.getInt("cantidad") <= 0) {
+                            productosAgotados.add(rsVer.getString("nombre"));
                         }
                     }
                 }
@@ -156,16 +193,34 @@ public class Registro_CultivoDAO {
             if (trabajadoresIds != null && cultivoId > 0) {
                 for (String tId : trabajadoresIds) {
                     if (tId != null && !tId.isEmpty()) {
-                        asignarTrabajador(cultivoId, Integer.parseInt(tId));
+                        String sqlTrab = "INSERT INTO cultivo_trabajador(cultivo_id, usuario_id) VALUES(?,?)";
+                        try (PreparedStatement psTrab = conn.prepareStatement(sqlTrab)) {
+                            psTrab.setInt(1, cultivoId);
+                            psTrab.setInt(2, Integer.parseInt(tId));
+                            psTrab.executeUpdate();
+                        }
                     }
                 }
             }
 
-            return true;
+            conn.commit(); // Confirmar todo
+
+            // 5. Retornar resultado
+            if (!productosAgotados.isEmpty()) {
+                return "agotado:" + String.join(",", productosAgotados);
+            }
+            return "ok";
+
         } catch (Exception e) {
-            System.out.println("ERROR EN DAO: " + e.getMessage());
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
             e.printStackTrace();
-            return false;
+            return "error";
+        } finally {
+            if (conn != null) {
+                try { conn.setAutoCommit(true); conn.close(); } catch (SQLException ex) {}
+            }
         }
     }
 
@@ -209,24 +264,27 @@ public class Registro_CultivoDAO {
    
     public List<Map<String, String>> obtenerProductosCultivo(int id) {
         List<Map<String, String>> lista = new ArrayList<>();
-        // CORREGIDO: Tabla 'stock_cultivo' según tu SQL
-        String sql = "SELECT p.nombre, sc.cantidad, p.unidad_medida FROM productos p " +
-                     "JOIN stock_cultivo sc ON p.id = sc.producto_id WHERE sc.cultivo_id = ?";
+        String sql = "SELECT p.id AS producto_id, p.nombre, sc.cantidad, p.unidad_medida, t.tipo_nombre " +
+                     "FROM productos p " +
+                     "JOIN stock_cultivo sc ON p.id = sc.producto_id " +
+                     "JOIN tipo_producto t ON p.tipo_producto_id = t.id " +
+                     "WHERE sc.cultivo_id = ?";
         try (Connection conn = Conexion.getConexion();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Map<String, String> m = new HashMap<>();
+                m.put("id", rs.getString("producto_id")); // ← alias
                 m.put("nombre", rs.getString("nombre"));
                 m.put("cantidad", rs.getString("cantidad"));
                 m.put("unidad_medida", rs.getString("unidad_medida"));
+                m.put("tipo_nombre", rs.getString("tipo_nombre"));
                 lista.add(m);
             }
         } catch (Exception e) { e.printStackTrace(); }
         return lista;
     }
-
     public Map<String, String> obtenerSupervisorCultivo(int id) {
         Map<String, String> supervisor = new HashMap<>();
         // CORREGIDO: Consulta a la tabla 'supervisor' vinculada con 'usuarios'
@@ -340,5 +398,152 @@ public class Registro_CultivoDAO {
             e.printStackTrace();
         }
         return cultivo;
+    }
+    public String editarCultivoCompleto(String id, String nombre, String fechaSiembra, 
+        String fechaCosecha, String ciclo, String estado, int supervisorId,
+        String[] productoIds, String[] cantidades, String[] trabajadoresIds) {
+
+        Connection conn = null;
+        List<String> productosAgotados = new ArrayList<>();
+        int cultivoId = Integer.parseInt(id);
+
+        try {
+            conn = Conexion.getConexion();
+            conn.setAutoCommit(false);
+
+            // 1. Actualizar datos principales del cultivo
+            String sqlUpdate = "UPDATE cultivos SET nombre=?, fecha_siembra=?, fecha_cosecha=?, ciclo=?, estado=?, supervisor_id=? WHERE id=?";
+            try (PreparedStatement ps = conn.prepareStatement(sqlUpdate)) {
+                ps.setString(1, nombre);
+                ps.setString(2, fechaSiembra);
+                ps.setString(3, (fechaCosecha != null && !fechaCosecha.isEmpty()) ? fechaCosecha : null);
+                ps.setString(4, ciclo);
+                ps.setString(5, estado);
+                if (supervisorId == 0) {
+                    ps.setNull(6, java.sql.Types.INTEGER);
+                } else {
+                    ps.setInt(6, supervisorId);
+                }
+                ps.setInt(7, cultivoId);
+                ps.executeUpdate();
+            }
+
+            // 2. Devolver al inventario las cantidades anteriores del cultivo
+            String sqlRecuperar = "SELECT producto_id, cantidad FROM stock_cultivo WHERE cultivo_id = ?";
+            try (PreparedStatement psRec = conn.prepareStatement(sqlRecuperar)) {
+                psRec.setInt(1, cultivoId);
+                ResultSet rsRec = psRec.executeQuery();
+                while (rsRec.next()) {
+                    int pId = rsRec.getInt("producto_id");
+                    int cantAnterior = rsRec.getInt("cantidad");
+
+                    String sqlDevolver = "UPDATE productos SET cantidad = cantidad + ? WHERE id = ?";
+                    try (PreparedStatement psDev = conn.prepareStatement(sqlDevolver)) {
+                        psDev.setInt(1, cantAnterior);
+                        psDev.setInt(2, pId);
+                        psDev.executeUpdate();
+                    }
+                }
+            }
+
+            // 3. Borrar productos y trabajadores anteriores del cultivo
+            String sqlBorrarProd = "DELETE FROM stock_cultivo WHERE cultivo_id = ?";
+            try (PreparedStatement psBP = conn.prepareStatement(sqlBorrarProd)) {
+                psBP.setInt(1, cultivoId);
+                psBP.executeUpdate();
+            }
+
+            String sqlBorrarTrab = "DELETE FROM cultivo_trabajador WHERE cultivo_id = ?";
+            try (PreparedStatement psBT = conn.prepareStatement(sqlBorrarTrab)) {
+                psBT.setInt(1, cultivoId);
+                psBT.executeUpdate();
+            }
+
+            // 4. Reinsertar productos con nuevas cantidades y descontar stock
+            if (productoIds != null) {
+                for (int i = 0; i < productoIds.length; i++) {
+                    if (productoIds[i] == null || productoIds[i].isEmpty()) continue;
+
+                    int pId = Integer.parseInt(productoIds[i]);
+                    int cant = (cantidades != null && i < cantidades.length && !cantidades[i].isEmpty())
+                               ? Integer.parseInt(cantidades[i]) : 1;
+
+                    // 4a. Verificar stock disponible
+                    String sqlStock = "SELECT nombre, cantidad FROM productos WHERE id = ?";
+                    try (PreparedStatement psStock = conn.prepareStatement(sqlStock)) {
+                        psStock.setInt(1, pId);
+                        ResultSet rsStock = psStock.executeQuery();
+                        if (rsStock.next()) {
+                            int disponible = rsStock.getInt("cantidad");
+                            String nombreProducto = rsStock.getString("nombre");
+
+                            if (disponible < cant) {
+                                conn.rollback(); // Revertir TODO, incluyendo las devoluciones del paso 2
+                                return "insuficiente:" + nombreProducto + " (disponible: " + disponible + ")";
+                            }
+                        }
+                    }
+
+                    // 4b. Insertar en stock_cultivo
+                    String sqlProd = "INSERT INTO stock_cultivo(cultivo_id, producto_id, cantidad) VALUES(?,?,?)";
+                    try (PreparedStatement psProd = conn.prepareStatement(sqlProd)) {
+                        psProd.setInt(1, cultivoId);
+                        psProd.setInt(2, pId);
+                        psProd.setInt(3, cant);
+                        psProd.executeUpdate();
+                    }
+
+                    // 4c. Descontar del inventario
+                    String sqlDescontar = "UPDATE productos SET cantidad = cantidad - ? WHERE id = ?";
+                    try (PreparedStatement psDesc = conn.prepareStatement(sqlDescontar)) {
+                        psDesc.setInt(1, cant);
+                        psDesc.setInt(2, pId);
+                        psDesc.executeUpdate();
+                    }
+
+                    // 4d. Verificar si quedó en 0
+                    String sqlVerificar = "SELECT nombre, cantidad FROM productos WHERE id = ?";
+                    try (PreparedStatement psVer = conn.prepareStatement(sqlVerificar)) {
+                        psVer.setInt(1, pId);
+                        ResultSet rsVer = psVer.executeQuery();
+                        if (rsVer.next() && rsVer.getInt("cantidad") <= 0) {
+                            productosAgotados.add(rsVer.getString("nombre"));
+                        }
+                    }
+                }
+            }
+
+            // 5. Reinsertar trabajadores
+            if (trabajadoresIds != null) {
+                for (String tId : trabajadoresIds) {
+                    if (tId != null && !tId.isEmpty()) {
+                        String sqlTrab = "INSERT INTO cultivo_trabajador(cultivo_id, usuario_id) VALUES(?,?)";
+                        try (PreparedStatement psTrab = conn.prepareStatement(sqlTrab)) {
+                            psTrab.setInt(1, cultivoId);
+                            psTrab.setInt(2, Integer.parseInt(tId));
+                            psTrab.executeUpdate();
+                        }
+                    }
+                }
+            }
+
+            conn.commit();
+
+            if (!productosAgotados.isEmpty()) {
+                return "agotado:" + String.join(",", productosAgotados);
+            }
+            return "ok";
+
+        } catch (Exception e) {
+            if (conn != null) {
+                try { conn.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
+            }
+            e.printStackTrace();
+            return "error";
+        } finally {
+            if (conn != null) {
+                try { conn.setAutoCommit(true); conn.close(); } catch (SQLException ex) {}
+            }
+        }
     }
 }

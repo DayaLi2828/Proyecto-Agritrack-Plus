@@ -71,7 +71,6 @@
   <aside class="sidebar__barra">
     <nav>
       <a href="Admin.jsp">Inicio</a>
-      <a href="../Calendario.jsp">Calendario</a>
       <% if ("administrador".equalsIgnoreCase(rol)) { %>
         <a href="Usuarios.jsp">Usuarios</a>
       <% } %>

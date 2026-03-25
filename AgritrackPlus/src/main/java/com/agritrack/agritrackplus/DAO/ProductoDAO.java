@@ -4,6 +4,7 @@ import com.agritrack.agritrackplus.db.Conexion;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -149,5 +150,55 @@ public class ProductoDAO {
             e.printStackTrace();
         }
         return p;
+    }
+    public String descontarStock(int productoId, double cantidadUsada) {
+        Connection con = null;
+        String mensaje = "ok";
+
+        // Consulta para obtener la cantidad actual
+        String sqlSelect = "SELECT nombre, cantidad FROM productos WHERE id = ?";
+        // Consulta para restar
+        String sqlUpdate = "UPDATE productos SET cantidad = cantidad - ? WHERE id = ?";
+
+        try {
+            con = com.agritrack.agritrackplus.db.Conexion.getConexion();
+
+            // 1. Verificar stock actual
+            try (PreparedStatement psSelect = con.prepareStatement(sqlSelect)) {
+                psSelect.setInt(1, productoId);
+                ResultSet rs = psSelect.executeQuery();
+                if (rs.next()) {
+                    double actual = rs.getDouble("cantidad");
+                    String nombreP = rs.getString("nombre");
+
+                    if (actual < cantidadUsada) {
+                        return "Stock insuficiente de " + nombreP + " (Disponible: " + actual + ")";
+                    }
+                }
+            }
+
+            // 2. Ejecutar la resta
+            try (PreparedStatement psUpdate = con.prepareStatement(sqlUpdate)) {
+                psUpdate.setDouble(1, cantidadUsada);
+                psUpdate.setInt(2, productoId);
+                psUpdate.executeUpdate();
+            }
+
+            // 3. Verificar si quedó en 0 para la alerta
+            try (PreparedStatement psCheck = con.prepareStatement(sqlSelect)) {
+                psCheck.setInt(1, productoId);
+                ResultSet rs2 = psCheck.executeQuery();
+                if (rs2.next() && rs2.getDouble("cantidad") <= 0) {
+                    mensaje = "agotado"; // Indicador para la alerta en el frontend
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "error";
+        } finally {
+            if (con != null) try { con.close(); } catch (SQLException e) {}
+        }
+        return mensaje;
     }
 }

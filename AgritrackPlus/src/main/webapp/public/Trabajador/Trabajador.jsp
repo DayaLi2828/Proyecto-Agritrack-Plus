@@ -127,7 +127,7 @@
                 </div>
             </div>
             <div class="dashboard__card">
-                <h3 class="titulo--grafica">Resumen del Mes</h3>
+                <h3 class="titulo--grafica">Resumen tareas</h3>
                 <div class="mini__stats">
                     <div class="stat__box">
                         <span class="stat__num"><%= total %></span>

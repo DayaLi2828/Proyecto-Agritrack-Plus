@@ -31,7 +31,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gestión de Usuarios</title>
+  <title>Gestión de Usuarios - AgritrackPlus</title>
   <link rel="stylesheet" href="../../asset/Administrador/style_Usuarios.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
@@ -81,7 +81,7 @@
     </div>
 
     <table id="tablaUsuarios">
-      <caption>Lista de usuarios</caption>
+      <caption>Lista de usuarios registrados</caption>
       <thead>
         <tr>
           <th>ID</th>
@@ -113,17 +113,18 @@
         String rol = usuario.get("rol") != null ? usuario.get("rol") : "Sin rol";
         String estado = usuario.get("estado") != null ? usuario.get("estado") : "Inactivo";
         
-        // 1. CORRECCIÓN DE RUTA DE FOTO: Evita parpadeo por rutas nulas o texto "null"
         String fotoRuta = usuario.get("foto");
         if (fotoRuta == null || fotoRuta.trim().isEmpty() || fotoRuta.equalsIgnoreCase("null")) {
             fotoRuta = "asset/imagenes/default-avatar.png";
         }
         boolean esActivo = "Activo".equalsIgnoreCase(estado);
+        
+        // VARIABLE DE CONTROL: Verifica si es administrador
+        boolean esAdmin = "Administrador".equalsIgnoreCase(rol);
     %>
       <tr>
         <td><strong><%= id %></strong></td>
         <td>
-          <%-- 2. CORRECCIÓN ONERROR: El this.onerror=null detiene el bucle de parpadeo --%>
           <img src="../../<%= fotoRuta %>" alt="Foto" class="foto-usuario" 
                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;"
                onerror="this.onerror=null; this.src='../../asset/imagenes/default-avatar.png';">
@@ -134,29 +135,43 @@
         <td><%= correo %></td>
         <td><%= tel %></td>
         <td>
-          <span class="rol-badge <%= "trabajador".equalsIgnoreCase(rol) ? "rol-trabajador" : "rol-supervisor" %>">
+          <span class="rol-badge <%= esAdmin ? "rol-supervisor" : ("trabajador".equalsIgnoreCase(rol) ? "rol-trabajador" : "rol-supervisor") %>">
             <%= rol %>
           </span>
         </td>
         <td>
-          <form method="POST" action="<%= request.getContextPath() %>/CambiarEstadoServlet">
-            <input type="hidden" name="id" value="<%= id %>">
-            <button type="submit" class="btn-estado <%= esActivo ? "btn-activo" : "btn-inactivo" %>">
-              <%= esActivo ? "🟢 ACTIVO" : "🔴 INACTIVO" %>
-            </button>
-          </form>
+          <%-- PROTECCIÓN: Si es Admin, no mostramos el formulario de cambio de estado --%>
+          <% if (!esAdmin) { %>
+            <form method="POST" action="<%= request.getContextPath() %>/CambiarEstadoServlet">
+              <input type="hidden" name="id" value="<%= id %>">
+              <button type="submit" class="btn-estado <%= esActivo ? "btn-activo" : "btn-inactivo" %>">
+                <%= esActivo ? "🟢 ACTIVO" : "🔴 INACTIVO" %>
+              </button>
+            </form>
+          <% } else { %>
+            <span class="btn-estado btn-activo" style="cursor: default; opacity: 0.8; background-color: #059669;">
+               🛡️ SISTEMA
+            </span>
+          <% } %>
         </td>
         <td class="acciones">
-          <a href="Agregar_Usuario.jsp?id=<%= id %>" class="btn-editar">
-            <i class="fas fa-edit"></i> Editar
-          </a>
-          <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" 
-                onsubmit="return confirm('¿Eliminar a <%= nombre %>?')">
-            <input type="hidden" name="id" value="<%= id %>">
-            <button type="submit" class="btn-eliminar">
-              <i class="fas fa-trash"></i> Eliminar
-            </button>
-          </form>
+          <%-- PROTECCIÓN: Si es Admin, ocultamos los botones de editar y eliminar --%>
+          <% if (!esAdmin) { %>
+            <a href="Agregar_Usuario.jsp?id=<%= id %>" class="btn-editar">
+              <i class="fas fa-edit"></i> Editar
+            </a>
+            <form method="POST" action="<%= request.getContextPath() %>/EliminarUsuarioServlet" 
+                  onsubmit="return confirm('¿Eliminar a <%= nombre %>?')">
+              <input type="hidden" name="id" value="<%= id %>">
+              <button type="submit" class="btn-eliminar">
+                <i class="fas fa-trash"></i> Eliminar
+              </button>
+            </form>
+          <% } else { %>
+            <span style="color: #9ca3af; font-style: italic; font-size: 0.85rem;">
+              <i class="fas fa-lock"></i> Protegido
+            </span>
+          <% } %>
         </td>
       </tr>
     <% } %>
@@ -166,13 +181,11 @@
   </main>
 
   <script>
-    // 3. BUSCADOR OPTIMIZADO: Eliminamos cualquier posible conflicto de recarga
     document.getElementById("buscador").addEventListener("keyup", function() {
       let texto = this.value.toLowerCase().trim();
       let filas = document.querySelectorAll("#tablaUsuarios tbody tr");
       
       filas.forEach(function(fila) {
-        // Buscamos en toda la fila para mayor precisión
         let contenidoFila = fila.textContent.toLowerCase();
         if (contenidoFila.includes(texto)) {
           fila.style.display = "";
