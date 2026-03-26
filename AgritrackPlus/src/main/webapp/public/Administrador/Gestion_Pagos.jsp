@@ -198,118 +198,224 @@
             Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Error al conectar con el servidor.' });
         }
     }
+async function buscarSupervisor() {
+    const criterio = document.getElementById('busquedaSupervisor').value;
+    const infoDiv = document.getElementById('infoSupervisor');
 
-    async function buscarSupervisor() {
-        const criterio = document.getElementById('busquedaSupervisor').value;
-        const infoDiv = document.getElementById('infoSupervisor');
-
-        if (!criterio) { 
-            Swal.fire({ icon: 'warning', title: 'Campo requerido', text: 'Por favor, ingresa el nombre o documento.' });
-            return; 
-        }
-
-        try {
-            const url = "buscarSupervisor.jsp?criterio=" + encodeURIComponent(criterio);
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (!data || data.error) {
-                infoDiv.innerHTML = '<div class="info-edicion">No se encontró ningún supervisor con ese criterio.</div>';
-                tareasSupervisor = [];
-                return;
-            }
-
-            tareasSupervisor = data.tareas || [];
-            infoDiv.innerHTML =
-                '<div class="fila__stock">' +
-                    '<div class="campo">' +
-                        '<p class="nombre__trabajador"><strong>Supervisor: </strong>' + data.nombre + '</p>' +
-                        '<p class="ayuda-texto">Cultivos supervisados: ' + data.totalCultivos + '</p>' +
-                    '</div>' +
-                '</div>';
-        } catch (error) {
-            console.error("Error:", error);
-            Swal.fire({ icon: 'error', title: 'Error de conexión', text: 'Error al conectar con el servidor.' });
-        }
+    if (!criterio) { 
+        Swal.fire({ icon: 'warning', title: 'Campo requerido', text: 'Por favor, ingresa el nombre.' });
+        return; 
     }
 
+    try {
+        const url = "buscarSupervisor.jsp?criterio=" + encodeURIComponent(criterio);
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!data || data.error) {
+            infoDiv.innerHTML = '<div class="info-edicion">No se encontró supervisor.</div>';
+            tareasSupervisor = []; // Limpiamos si no hay nada
+            return;
+        }
+
+        // IMPORTANTE: Aquí guardamos los cultivos para que el PDF los vea
+        tareasSupervisor = data.tareas || []; 
+        
+        infoDiv.innerHTML =
+            '<div class="fila__stock">' +
+                '<div class="campo">' +
+                    '<p class="nombre__trabajador"><strong>Supervisor: </strong>' + data.nombre + '</p>' +
+                    '<p class="ayuda-texto">Cultivos supervisados: ' + (tareasSupervisor.length) + '</p>' +
+                '</div>' +
+            '</div>';
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
     // --- FUNCIONES DE PDF (IGUALES A TU LÓGICA ORIGINAL) ---
 
     function generarFacturaPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+
         const trabajador = document.getElementById('busquedaTrabajador').value;
         const vMedio = parseFloat(document.getElementById('valorMedio').value) || 0;
         const vCompleto = parseFloat(document.getElementById('valorCompleto').value) || 0;
         const filas = document.querySelectorAll('.fila__stock');
 
         if (vMedio <= 0 || vCompleto <= 0 || filas.length === 0) {
-            Swal.fire({ icon: 'warning', title: 'Datos inválidos', text: 'Verifique los valores y tareas.' });
+            Swal.fire({
+                icon: 'warning',
+                title: 'Datos inválidos',
+                text: 'Verifique los valores y que existan tareas en la lista.'
+            });
             return;
         }
 
+        // --- DISEÑO RESTAURADO (COMO EN LA IMAGEN ANTERIOR) ---
+        // Rectángulo verde de encabezado (más grande)
         doc.setFillColor(4, 120, 87);
         doc.rect(0, 0, 210, 45, 'F');
         doc.setTextColor(255, 255, 255);
+        doc.setFontSize(22);
         doc.text("AGRITRACK PLUS", 20, 25);
+        doc.setFontSize(10);
+        doc.text("Comprobante de Pago de Jornales", 20, 35);
         doc.setTextColor(55, 65, 81);
+        doc.setFontSize(11);
         doc.text("Trabajador: " + trabajador, 20, 60);
+        doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 67);
 
         let yPos = 85;
         let totalPagar = 0;
+
+        // Encabezado de la tabla de tareas
+        doc.setFillColor(55, 65, 81);
+        doc.rect(20, yPos, 170, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(10);
+        doc.text("Cultivo - Tarea", 25, yPos + 5);
+        doc.text("Monto", 165, yPos + 5);
+        yPos += 15;
+
+        // Detalle de las tareas y cálculo
         filas.forEach((fila) => {
             const nombreEl = fila.querySelector('.txt-tarea');
             if (!nombreEl) return;
+            const nombre = nombreEl.textContent;
+            const cultivo = fila.querySelector('.txt-cultivo') ? fila.querySelector('.txt-cultivo').textContent : '';
+            const estado = fila.getAttribute('data-estado');
             const tipoEl = fila.querySelector('.etiqueta-jornada');
             const tipo = tipoEl ? tipoEl.getAttribute('data-tipo') : 'medio';
+
             let subtotal = (tipo === 'completo') ? vCompleto : vMedio;
+            let notaEstado = "";
+
+            // Validación de pago al 50% si está en proceso
+            if (estado && estado.includes("proceso")) {
+                subtotal = subtotal * 0.5;
+                notaEstado = " (50%)";
+            }
             totalPagar += subtotal;
-            doc.text(nombreEl.textContent, 25, yPos);
+
+            doc.setFontSize(11);
+            doc.setTextColor(31, 41, 55);
+            doc.text(cultivo + " - " + nombre + notaEstado, 25, yPos);
             doc.text("$" + subtotal.toLocaleString(), 165, yPos);
             yPos += 12;
         });
 
-        doc.text("TOTAL: $" + totalPagar.toLocaleString(), 135, yPos + 10);
-        guardarEnBaseDeDatos(trabajador, "SN", totalPagar);
+        // Total a pagar
+        doc.setFillColor(4, 120, 87);
+        doc.rect(130, yPos, 60, 15, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.text("TOTAL A PAGAR: $" + totalPagar.toLocaleString(), 135, yPos + 10);
+
+        // --- GUARDADO DE DATOS (CON CONCATENACIÓN CLÁSICA) ---
+        // Para evitar el error de EL de JSP, usamos la concatenación antigua
+        const url = "guardarPago.jsp?nombre=" + encodeURIComponent(trabajador) + 
+                    "&documento=SN" + 
+                    "&total=" + totalPagar + 
+                    "&criterio=" + encodeURIComponent(trabajador);
+
+        // Llamada asíncrona para guardar el pago
+        fetch(url).then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Proceso exitoso',
+                text: 'Pago registrado y tareas marcadas como pagadas.'
+            });
+            document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado con éxito.</div>';
+        }).catch(error => {
+            console.error("Error al guardar:", error);
+        });
+
+        // Descargar el PDF
         doc.save("Factura_" + trabajador.replace(/\s+/g, '_') + ".pdf");
     }
 
     async function guardarEnBaseDeDatos(nombre, documento, total) {
         const criterio = document.getElementById('busquedaTrabajador').value;
         try {
-            const url = `guardarPago.jsp?nombre=${encodeURIComponent(nombre)}&documento=${encodeURIComponent(documento)}&total=${total}&criterio=${encodeURIComponent(criterio)}`;
+            const url = `guardarPago.jsp?nombre=\${encodeURIComponent(nombre)}&documento=\${encodeURIComponent(documento)}&total=\${total}&criterio=\${encodeURIComponent(criterio)}`;
             await fetch(url);
             Swal.fire({ icon: 'success', title: 'Éxito', text: 'Pago registrado.' });
             document.getElementById('listaResultados').innerHTML = '<div class="info-edicion">Pago procesado.</div>';
         } catch (e) { console.error(e); }
     }
 
-    function generarFacturaSupervisorPDF() {
+function generarFacturaSupervisorPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
+
         const supervisor = document.getElementById('busquedaSupervisor').value;
+        // CORRECCIÓN: Usamos el ID 'salarioSupervisor' que es el que tienes en tu HTML
         const salario = parseFloat(document.getElementById('salarioSupervisor').value) || 0;
 
         if (!supervisor || salario <= 0) {
-            Swal.fire({ icon: 'warning', title: 'Atención', text: 'Verifique supervisor y salario.' });
+            Swal.fire('Atención', 'Verifique el nombre del supervisor y su salario semanal.', 'warning');
             return;
         }
 
+        // --- DISEÑO ORIGINAL (image_d1b346.png) ---
         doc.setFillColor(4, 120, 87);
-        doc.rect(0, 0, 210, 40, 'F');
+        doc.rect(0, 0, 210, 45, 'F');
+        
         doc.setTextColor(255, 255, 255);
-        doc.text("AGRITRACK PLUS - SUPERVISOR", 20, 25);
-        doc.setTextColor(55, 65, 81);
-        doc.text("Supervisor: " + supervisor, 20, 55);
-        doc.text("Total: $" + salario.toLocaleString(), 20, 80);
+        doc.setFontSize(22);
+        doc.text("AGRITRACK PLUS", 20, 25);
+        doc.setFontSize(10);
+        doc.text("Comprobante de Pago - Rol Supervisor", 20, 35);
 
-        guardarPagoSupervisor(supervisor, salario);
-        doc.save("Factura_Supervisor_" + supervisor.replace(/\s+/g, '_') + ".pdf");
+        doc.setTextColor(55, 65, 81);
+        doc.setFontSize(11);
+        doc.text("Supervisor: " + supervisor, 20, 60);
+        doc.text("Fecha: " + new Date().toLocaleDateString(), 20, 67);
+
+        let yPos = 85;
+        doc.setFillColor(55, 65, 81);
+        doc.rect(20, yPos, 170, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.text("Lista de Cultivos Supervisados", 25, yPos + 5);
+        
+        yPos += 15;
+        doc.setTextColor(55, 65, 81);
+        
+        tareasSupervisor.forEach((t) => {
+            doc.text("• " + (t.cultivo || "Cultivo registrado"), 25, yPos);
+            yPos += 10;
+        });
+
+        yPos += 5;
+        doc.setDrawColor(200, 200, 200);
+        doc.line(20, yPos, 190, yPos);
+        yPos += 15;
+
+        doc.text("Concepto: Salario de supervisión semanal", 25, yPos);
+        doc.text("$" + salario.toLocaleString(), 165, yPos);
+
+        yPos += 15;
+        doc.setFillColor(4, 120, 87);
+        doc.rect(130, yPos, 60, 15, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.text("TOTAL: $" + salario.toLocaleString(), 135, yPos + 10);
+
+        // Guardado seguro
+        const url = "guardarPago.jsp?nombre=" + encodeURIComponent(supervisor) + 
+                    "&total=" + salario + "&rol=supervisor";
+        fetch(url);
+
+        doc.save("Comprobante_Supervisor_" + supervisor.replace(/\s+/g, '_') + ".pdf");
+        
+        fetch(url).then(() => {
+        Swal.fire('Éxito', 'Factura generada y pago guardado', 'success');
+    }).catch(err => console.error("Error:", err));
     }
+
 
     async function guardarPagoSupervisor(nombre, total) {
         try {
-            const url = `guardarPago.jsp?nombre=${encodeURIComponent(nombre)}&documento=SN&total=${total}&criterio=${encodeURIComponent(nombre)}`;
+            const url = `guardarPago.jsp?nombre=\${encodeURIComponent(nombre)}&documento=SN&total=\${total}&criterio=\${encodeURIComponent(nombre)}`;
             await fetch(url);
             Swal.fire({ icon: 'success', title: 'Éxito', text: 'Pago supervisor registrado.' });
             document.getElementById('infoSupervisor').innerHTML = '<div class="info-edicion">Pago procesado.</div>';
