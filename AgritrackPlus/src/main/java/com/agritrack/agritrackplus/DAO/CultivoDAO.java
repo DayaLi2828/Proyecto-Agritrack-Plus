@@ -17,7 +17,7 @@ del usuario (administrador o supervisor). Utiliza consultas SQL para interactuar
         List<Map<String, String>> lista = new ArrayList<>();
         
         // Sentencia SQL que selecciona columnas específicas de la tabla "cultivos".
-        String sql = "SELECT id, nombre, fecha_siembra, fecha_cosecha, ciclo FROM cultivos ORDER BY id DESC";
+        String sql = "SELECT id, nombre, fecha_siembra, fecha_cosecha, ciclo FROM cultivos ORDER BY id DESC";//ordenar de menor a mayor
         
         // try-with-resources: abre conexión y asegura que se cierre automáticamente al terminar.
         try (Connection conn = Conexion.getConnection(); // Obtiene conexión a la DB.
@@ -61,7 +61,7 @@ del usuario (administrador o supervisor). Utiliza consultas SQL para interactuar
     // MÉTODO PARA REGISTRAR UN NUEVO CULTIVO
     public boolean registrarCultivo(String nombre, String fechaSiembra, String ciclo) throws SQLException, ClassNotFoundException {
         // Sentencia SQL con parámetros (?) para evitar inyección SQL.
-        String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO cultivos (nombre, fecha_siembra, ciclo) VALUES (?, ?, ?)";//marcadores de posición para los valores que se insertarán en la consulta.
         
         try (Connection conn = Conexion.getConnection(); // Abre conexión.
              PreparedStatement ps = conn.prepareStatement(sql)) { // Prepara sentencia.
