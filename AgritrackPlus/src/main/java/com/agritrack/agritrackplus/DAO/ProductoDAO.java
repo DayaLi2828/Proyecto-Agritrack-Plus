@@ -20,7 +20,7 @@ public class ProductoDAO {
     public boolean agregar(String nombre, String unidadMedida, double precio, String fechaCompra, String fechaVencimiento, int tipoProductoId, int cantidad) {
     // Método para registrar un nuevo producto en el sistema.
 
-        String sql = "INSERT INTO productos(nombre, unidad_medida, precio, fecha_compra, fecha_vencimiento, tipo_producto_id, stock) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO productos(nombre, unidad_medida, precio, fecha_compra, fecha_vencimiento, tipo_producto_id, stock) VALUES(?,?,?,?,?,?,?)";//marcadores de posición de inserción
         // Sentencia SQL para insertar los datos. 
 
         try (Connection conn = com.agritrack.agritrackplus.db.Conexion.getConexion();
