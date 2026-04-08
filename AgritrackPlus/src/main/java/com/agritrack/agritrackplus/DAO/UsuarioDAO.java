@@ -8,6 +8,12 @@ import java.util.HashMap; // Importa HashMap, una implementación de Map que alm
 import java.util.List; // Importa la interfaz List, que define el contrato que debe cumplir cualquier lista (ArrayList, LinkedList, etc.).
 import java.util.Map; // Importa la interfaz Map, que define el contrato para cualquier estructura clave-valor (HashMap, TreeMap, etc.).
 
+/*
+Maneja la autenticación con hash MD5, el registro completo de usuarios distribuyendo datos en varias tablas relacionadas (usuarios, correo, teléfono, roles, fotos), 
+y usa transacciones para garantizar consistencia. Permite listar, editar, activar/desactivar y eliminar usuarios, incluyendo validaciones previas de correo y documento duplicados.
+También provee métodos de consulta específicos por rol: el administrador ve todo, el supervisor solo su área. Incluye utilidades como conteo de usuarios, resumen de tareas por 
+estado y cálculo de progreso por cultivo. Los recursos JDBC siempre se cierran al finalizar, ya sea con try-with-resources o con un método cerrar() en bloques finally.
+*/
 public class UsuarioDAO { // Declara la clase pública 'UsuarioDAO'. El patrón DAO (Data Access Object) 
     //separa la lógica de acceso a la base de datos del resto de la aplicación (Servlets, modelos, etc.).
 

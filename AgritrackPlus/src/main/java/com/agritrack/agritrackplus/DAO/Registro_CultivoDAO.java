@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.sql.Connection;
 import java.sql.SQLException;
-
+/*
+maneja todo lo relacionado con los cultivos en la base de datos: permite crear, editar, consultar y eliminar cultivos, incluyendo la gestión de sus trabajadores,
+productos/insumos y supervisor asignado. Lo más importante es que al registrar o editar un cultivo descuenta automáticamente del inventario los insumos usados, y si
+algo falla revierte todos los cambios para no dejar datos inconsistentes.
+*/
 public class Registro_CultivoDAO {
 
    public boolean editar(String id, String nombre, String fechaSiembra, String fechaCosecha, String ciclo, String estado, int supervisor_id) {

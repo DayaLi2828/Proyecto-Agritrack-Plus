@@ -12,7 +12,12 @@ import java.util.LinkedHashMap;
 
 import java.util.List;
 import java.util.Map;
-
+/*
+Permite listar cultivos, trabajadores y tareas desde catálogos, filtrando por rol, supervisor o cultivo específico. Incluye métodos para crear tareas usando transacciones que 
+garantizan consistencia entre las tablas tareas y usuario_tarea. Permite actualizar el estado de una tareaProvee estadísticas como conteos por estado, porcentajes de 
+cumplimiento por cultivo y resumen de pagos por trabajador. Para el dashboard del supervisor ofrece datos listos para gráficas: tareas por día de la semana, avance por 
+cultivo y distribución por estado. También incluye búsqueda de tareas filtrando por nombre o documento del supervisor responsable.
+*/
 public class TareaDAO {
 
     public TareaDAO() {

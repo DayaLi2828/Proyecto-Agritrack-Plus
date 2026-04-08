@@ -9,7 +9,11 @@ import java.sql.*;
 
 import java.util.*;
 // Carga las estructuras de datos (Listas y Mapas) para organizar la información en memoria.
-
+/*
+Gestiona el acceso a datos relacionados con pagos y tareas agrícolas en una base de datos. Incluye métodos para buscar tareas asignadas a un supervisor o trabajador, 
+registrar pagos y actualizar el estado de las tareas. Utiliza consultas SQL para obtener información de múltiples tablas y maneja transacciones para asegurar la integridad 
+de los datos al registrar pagos. Además, gestiona errores y excepciones para garantizar un funcionamiento robusto.
+*/
 public class PagoDAO {
 // Inicia la clase encargada de transformar registros de la DB en objetos de nómina para Java.
 

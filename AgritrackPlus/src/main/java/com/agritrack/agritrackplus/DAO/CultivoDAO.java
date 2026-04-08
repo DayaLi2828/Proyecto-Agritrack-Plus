@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map; 
 public class CultivoDAO { 
 // Clase DAO (Data Access Object) que encapsula toda la lógica de acceso a datos de la tabla "cultivos".
-
+/*
+Gestiona el acceso a datos de la tabla "cultivos" en una base de datos. Incluye métodos para listar cultivos, registrar un nuevo cultivo y contar cultivos según el rol 
+del usuario (administrador o supervisor). Utiliza consultas SQL para interactuar con la base de datos y emplea técnicas de manejo de excepciones para gestionar errores.    
+*/
     // MÉTODO PARA LISTAR CULTIVOS
     public List<Map<String, String>> listarCultivos() throws SQLException, ClassNotFoundException {
         // Crea una lista vacía que contendrá todos los cultivos en forma de mapas (clave-valor).

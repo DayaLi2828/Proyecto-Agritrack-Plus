@@ -9,7 +9,11 @@ import java.sql.*;
 
 import java.util.*;
 // Importa las utilidades de Java como List, Map, ArrayList y HashMap.
-
+/*
+Gestiona la lógica de acceso a datos para productos en una base de datos. Incluye métodos para agregar, listar, editar, eliminar y buscar productos, así como para manejar 
+el stock de productos (descontar cantidad y cambiar estado). Utiliza JDBC para realizar operaciones SQL, asegurando que las interacciones con la base de datos sean seguras y 
+eficientes. Además, gestiona errores y excepciones adecuadamente, proporcionando mensajes de estado sobre las operaciones realizadas.
+*/
 public class ProductoDAO {
 // Inicia la clase ProductoDAO, encargada de toda la lógica de inventario (CRUD de productos).
 
