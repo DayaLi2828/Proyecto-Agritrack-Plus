@@ -124,20 +124,19 @@
 
         // 2. Cuando cambie la fecha de compra, actualizar el mínimo de vencimiento
         inputCompra.addEventListener("change", function() {
-            if (this.value) {
-                // La fecha de vencimiento debe ser al menos el día siguiente a la compra
-                let fechaSeleccionada = new Date(this.value);
-                fechaSeleccionada.setDate(fechaSeleccionada.getDate() + 1);
-                
-                let mañanaDeCompra = fechaSeleccionada.toISOString().split("T")[0];
-                inputVencimiento.setAttribute("min", mañanaDeCompra);
-                
-                // Si la fecha de vencimiento ya puesta es menor a la nueva fecha permitida, se borra
-                if (inputVencimiento.value && inputVencimiento.value < mañanaDeCompra) {
-                    inputVencimiento.value = "";
-                }
+        if (this.value) {
+            // Parsear la fecha manualmente para evitar problemas de zona horaria
+            const [year, month, day] = this.value.split("-").map(Number);
+            const fechaSeleccionada = new Date(year, month - 1, day + 1);
+
+            const mañanaDeCompra = fechaSeleccionada.toISOString().split("T")[0];
+            inputVencimiento.setAttribute("min", mañanaDeCompra);
+
+            if (inputVencimiento.value && inputVencimiento.value < mañanaDeCompra) {
+                inputVencimiento.value = "";
             }
-        });
+        }
+    });
 
         // 3. Validación final antes de enviar el formulario
         form.onsubmit = function(e) {
